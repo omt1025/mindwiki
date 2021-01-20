@@ -1,30 +1,23 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <TopNavi/>
-      <BottomNavi/>
-      <!-- <router-link to="/main/home">홈</router-link> |
-      <router-link to="/main/search">검색</router-link> |
-      <router-link to="/main/makemind">생성</router-link> |
-      <router-link to="/main/activity">활동</router-link> |
-      <router-link to="/main/mylibrary">내 책장</router-link> -->
-      <v-card>
-        <v-tabs
-          v-model="tab"
-          background-color="primary"
-          dark
-        >
-          <v-tab
-            v-for="item in items"
-            :key="item.tab"
-          >
-            {{ item.tab }}
-          </v-tab>
-        </v-tabs>
-      </v-card>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <TopNavi/>
+    <BottomNavi/>
+    <v-tabs
+    fixed-tabs
+    background-color="primary"
+    dark
+  >
+    <v-tab>
+      <h4>실시간</h4>
+    </v-tab>
+    <v-tab>
+      <h4>관심태그</h4>
+    </v-tab>
+    <v-tab>
+      <h4>My Wiki</h4>
+    </v-tab>
+  </v-tabs>
+  </v-app>
 </template>
 
 <script>
@@ -37,19 +30,11 @@ export default {
     TopNavi,
     BottomNavi
   },
-  data () {
-    return {
-      tab: null,
-      items: [
-        { tab: '실시간'},
-        { tab: '관심 태그'},
-        { tab: 'MyWiki'},
-      ],
-    }
-  },
 }
 </script>
 
 <style>
-
+html, body, .v-application, .v-application--wrap {
+    min-height: -webkit-fill-available;
+  }
 </style>
