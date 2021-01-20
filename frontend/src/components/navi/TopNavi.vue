@@ -14,6 +14,9 @@
 <script>
 export default {
   name: 'TopNavi',
-
 }
 </script>
+
+<style>
+
+</style>
