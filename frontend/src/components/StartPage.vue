@@ -52,7 +52,7 @@
               class="mx-auto ma-6"
               width="350px"
             >
-              <v-btn to="/about" height="50px" width="350px" color="#e8ffc1" align="center" class="font-weight-bold">
+              <v-btn to="/main" height="50px" width="350px" color="#e8ffc1" align="center" class="font-weight-bold">
                 비회원으로 접속하기
               </v-btn>
             </v-card>

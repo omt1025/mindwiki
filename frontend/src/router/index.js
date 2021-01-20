@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Main from '../views/Main.vue'
+import MainHome from '../views/main/MainHome.vue'
+import Search from '../views/main/Search.vue'
+import MakeMind from '../views/main/MakeMind.vue'
+import Activity from '../views/main/Activity.vue'
+import MyLibrary from '../views/main/MyLibrary.vue'
 
 Vue.use(VueRouter)
 
@@ -11,13 +17,35 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/main',
+    name: 'Main',
+    component: Main
+  },
+  {
+    path: '/main/home',
+    name: 'MainHome',
+    component: MainHome
+  },
+  {
+    path: '/main/search',
+    name: 'Search',
+    component: Search
+  },
+  {
+    path: '/main/makemind',
+    name: 'MakeMind',
+    component: MakeMind
+  },
+  {
+    path: '/main/activity',
+    name: 'Activity',
+    component: Activity
+  },
+  {
+    path: '/main/mylibrary',
+    name: 'MyLibrary',
+    component: MyLibrary
+  },
 ]
 
 const router = new VueRouter({
