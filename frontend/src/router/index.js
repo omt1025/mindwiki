@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import store from '@/store';
-import Home from '../views/Home.vue';
-import Main from '../views/Main.vue';
+
 // User
 import Login from '@/views/user/Login.vue';
 // Main
