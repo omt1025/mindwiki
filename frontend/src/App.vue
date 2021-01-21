@@ -2,9 +2,16 @@
   <div id="app">
     <div id="nav">
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import './components/css/style.scss';
+export default {
+  name: 'app',
+};
+</script>
 
 <style lang="scss">
 #app {
