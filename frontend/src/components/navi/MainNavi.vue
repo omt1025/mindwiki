@@ -42,7 +42,7 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            A
+            <Card/>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -74,8 +74,13 @@
 </template>
 
 <script>
+  import Card from "@/components/common/Card.vue"
+  
   export default {
     name: 'MainNavi',
+    components: {
+      Card
+    },
     data () {
       return {
         tab: null,

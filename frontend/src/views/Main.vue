@@ -2,18 +2,6 @@
   <v-app>
     <MainNavi/>
     <BottomNavi/>
-    <!-- <v-tabs
-    fixed-tabs
-    background-color="primary"
-    dark
-  >
-    <v-tab
-      v-for="item in items"
-      :key="item.tab"
-    >
-      {{ item.tab }}
-    </v-tab>
-  </v-tabs> -->
   </v-app>
 </template>
 
@@ -25,18 +13,8 @@ export default {
   name: 'Main',
   components: {
     MainNavi,
-    BottomNavi
+    BottomNavi,
   },
-  // data () {
-  //   return {
-  //     tab: null,
-  //     items: [
-  //       { tab: '실시간' },
-  //       { tab: '관심 태그' },
-  //       { tab: 'MyWiki' },
-  //     ],
-  //   }
-  // },
 }
 </script>
 
