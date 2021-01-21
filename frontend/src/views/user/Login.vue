@@ -8,31 +8,49 @@
               Login
             </span>
 
-            <div class="wrap-input100 validate-input m-b-18" data-validate="Username is reauired">
-              <span class="label-input100" style="float: left">Username</span>
+            <div class="wrap-input100 validate-input m-b-18">
+              <span class="label-input100" style="float: left">Userid</span>
+              <div class="input_icon">
+                <i
+                  class="fa fa-user-o"
+                  aria-hidden="true"
+                  style="font-weight: 800; font-size: 17px;"
+                  id="userid_icon"
+                ></i>
+              </div>
               <input
                 class="input100"
                 type="text"
-                name="username"
-                placeholder="Type your username"
+                id="userid"
+                name="userid"
+                v-model="user.userid"
+                placeholder="아이디를 입력해주세요."
+                @change="changeColor"
               />
-              <span class="focus-input100" data-symbol="&#xf206;"></span>
             </div>
 
             <div class="wrap-input100 validate-input" data-validate="Password is required">
               <span class="label-input100" style="float: left">Password</span>
+              <div class="input_icon">
+                <i
+                  class="fa fa-lock"
+                  aria-hidden="true"
+                  style="font-weight: 800; font-size: 22px;"
+                ></i>
+              </div>
               <input
                 class="input100"
                 type="password"
-                name="pass"
-                placeholder="Type your password"
+                id="userpwd"
+                name="userpwd"
+                v-model="user.userpwd"
+                placeholder="비밀번호를 입력해주세요."
               />
-              <span class="focus-input100" data-symbol="&#xf190;"></span>
             </div>
 
             <div class="text-right p-t-8 p-b-31">
               <a href="#">
-                Forgot password?
+                비밀번호 찾기
               </a>
             </div>
 
@@ -103,8 +121,24 @@ export default {
     KakaoLogin,
     GoogleLogin,
   },
+  data: function() {
+    return {
+      user: {
+        userid: '',
+        userpwd: '',
+      },
+      activeColor: '#a64bf4',
+    };
+  },
   created() {
     this.component = this;
+  },
+  methods: {
+    changeColor() {
+      if (this.user.userid) {
+        console.log('됐나????');
+      }
+    },
   },
 };
 </script>

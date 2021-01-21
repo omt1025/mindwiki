@@ -5,7 +5,16 @@ import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store/index';
 import VueGlide from 'vue-glide-js';
-import 'vue-glide-js/dist/vue-glide.css'
+import 'vue-glide-js/dist/vue-glide.css';
+
+//fort-awesome
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faUserSecret);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
