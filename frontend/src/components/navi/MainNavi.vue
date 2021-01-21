@@ -41,31 +41,19 @@
       </v-tab-item> -->
       <v-tab-item>
         <v-card flat>
-          <v-card-text>
-            <Card/>
-          </v-card-text>
+          <Card/>
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <v-card-title class="headline">
-            두번째
-          </v-card-title>
-          <v-card-text>
-            <p>B</p>
-          </v-card-text>
+          <Card/>
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <v-card-title class="headline">
-            세번째
-          </v-card-title>
-          <v-card-text>
-            <p>C</p>
-          </v-card-text>
+          <Glide/>
         </v-card>
       </v-tab-item>
 
@@ -75,11 +63,13 @@
 
 <script>
   import Card from "@/components/common/Card.vue"
+  import Glide from "@/components/common/Glide.vue"
   
   export default {
     name: 'MainNavi',
     components: {
-      Card
+      Card,
+      Glide
     },
     data () {
       return {
