@@ -12,7 +12,7 @@
             width="350px"
             @click="expand = !expand"
           >
-            <h1>MIND WIKI</h1>
+            <h1 class="login100-form-title">MIND WIKI</h1>
           </v-btn>
 
           <transition name="slide-fade">
@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #bg img {
   position: absolute;
   top: 0;
