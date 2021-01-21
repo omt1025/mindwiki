@@ -10,7 +10,7 @@ import Search from '../views/main/Search.vue'
 import MakeMind from '../views/main/MakeMind.vue'
 import Activity from '../views/main/Activity.vue'
 import MyLibrary from '../views/main/MyLibrary.vue'
-
+import MainMenu from '../components/main/menu/MainMenu.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -48,6 +48,11 @@ const routes = [
     path: '/main/mylibrary',
     name: 'MyLibrary',
     component: MyLibrary
+  },
+  {
+    path: '/main/menu',
+    name: 'MainMenu',
+    component: MainMenu
   },
 ];
 
