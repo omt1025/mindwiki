@@ -7,14 +7,11 @@
     background-color="primary"
     dark
   >
-    <v-tab>
-      <h4>실시간</h4>
-    </v-tab>
-    <v-tab>
-      <h4>관심태그</h4>
-    </v-tab>
-    <v-tab>
-      <h4>My Wiki</h4>
+    <v-tab
+      v-for="item in items"
+      :key="item.tab"
+    >
+      {{ item.tab }}
     </v-tab>
   </v-tabs>
   </v-app>
@@ -29,6 +26,16 @@ export default {
   components: {
     TopNavi,
     BottomNavi
+  },
+  data () {
+    return {
+      tab: null,
+      items: [
+        { tab: '실시간' },
+        { tab: '관심 태그' },
+        { tab: 'MyWiki' },
+      ],
+    }
   },
 }
 </script>
