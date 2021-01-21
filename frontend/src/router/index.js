@@ -4,13 +4,13 @@ import VueRouter from 'vue-router';
 // User
 import Login from '@/views/user/Login2.vue';
 // Main
-import Home from '../views/Home.vue';
-import Main from '../views/Main.vue';
-import Search from '../views/main/Search.vue';
-import MakeMind from '../views/main/MakeMind.vue';
-import Activity from '../views/main/Activity.vue';
-import MyLibrary from '../views/main/MyLibrary.vue';
-
+import Home from '../views/Home.vue'
+import Main from '../views/Main.vue'
+import Search from '../views/main/Search.vue'
+import MakeMind from '../views/main/MakeMind.vue'
+import Activity from '../views/main/Activity.vue'
+import MyLibrary from '../views/main/MyLibrary.vue'
+import MainMenu from '../components/main/menu/MainMenu.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -48,6 +48,11 @@ const routes = [
     path: '/main/mylibrary',
     name: 'MyLibrary',
     component: MyLibrary,
+  },
+  {
+    path: '/main/menu',
+    name: 'MainMenu',
+    component: MainMenu
   },
 ];
 

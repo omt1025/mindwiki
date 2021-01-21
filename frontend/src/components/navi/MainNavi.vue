@@ -91,7 +91,7 @@
     },
     methods: {
       menu: function () {
-        
+        this.$router.push('/main/menu')
       }
     }
   }
