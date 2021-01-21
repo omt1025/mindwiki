@@ -70,7 +70,7 @@ public class LoginController {
 		
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-		//ResponseEntity는 어차피 그 Json으로 반환
+
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
