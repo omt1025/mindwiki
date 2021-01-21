@@ -4,9 +4,16 @@
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import './components/css/style.scss';
+export default {
+  name: 'app',
+};
+</script>
 
 <style lang="scss">
 #app {
