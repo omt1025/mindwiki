@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import store from '@/store;
+// import store from '@/store';
 // User
 import Login from '@/views/user/Login2.vue';
 // Main
