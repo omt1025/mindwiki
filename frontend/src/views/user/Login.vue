@@ -25,7 +25,7 @@
                 name="userid"
                 v-model="user.userid"
                 placeholder="아이디를 입력해주세요."
-                @change="changeColor"
+                @change="changeColor($event)"
               />
             </div>
 
@@ -36,6 +36,7 @@
                   class="fa fa-lock"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 22px;"
+                  id="userpwd_icon"
                 ></i>
               </div>
               <input
@@ -45,6 +46,7 @@
                 name="userpwd"
                 v-model="user.userpwd"
                 placeholder="비밀번호를 입력해주세요."
+                @change="changeColor($event)"
               />
             </div>
 
@@ -127,17 +129,23 @@ export default {
         userid: '',
         userpwd: '',
       },
-      activeColor: '#a64bf4',
     };
   },
   created() {
     this.component = this;
   },
   methods: {
-    changeColor() {
-      if (this.user.userid) {
-        console.log('됐나????');
+    changeColor(event) {
+      const incon_id = event.target.id + '_icon';
+      var icon = document.getElementById(incon_id);
+      console.log(icon);
+      if (event.target.id) {
+        icon.style.color = '#a64bf4';
+      } else if (!event.target.id) {
+        icon.style.color = '#d9d9d9';
       }
+      // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
+      // https://meaningone.tistory.com/318
     },
   },
 };

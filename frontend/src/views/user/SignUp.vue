@@ -15,13 +15,16 @@
                   class="fa fa-user-o"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 17px;"
+                  id="userid_icon"
                 ></i>
               </div>
               <input
                 class="input100"
                 type="text"
-                name="username"
+                name="userid"
+                id="userid"
                 placeholder="아이디를 입력해주세요."
+                @change="changeColor($event)"
               />
             </div>
 
@@ -32,6 +35,7 @@
                   class="fa fa-envelope-o"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 17px;"
+                  id="useremail_icon"
                 ></i>
               </div>
               <input
@@ -39,6 +43,8 @@
                 type="text"
                 name="username"
                 placeholder="이메일을 입력해주세요."
+                id="useremail"
+                @change="changeColor($event)"
               />
             </div>
 
@@ -49,13 +55,16 @@
                   class="fa fa-lock"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 22px;"
+                  id="userpwd_icon"
                 ></i>
               </div>
               <input
                 class="input100"
                 type="password"
-                name="pass"
+                name="userpwd"
+                id="userpwd"
                 placeholder="비밀번호를 입력해주세요."
+                @change="changeColor($event)"
               />
             </div>
 
@@ -66,13 +75,16 @@
                   class="fa fa-lock"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 22px;"
+                  id="userpwd_check_icon"
                 ></i>
               </div>
               <input
                 class="input100"
                 type="password"
-                name="pass_check"
+                name="userpwd_check"
+                id="userpwd_check"
                 placeholder="비밀번호를 다시 입력해주세요."
+                @change="changeColor($event)"
               />
             </div>
 
@@ -138,6 +150,20 @@ export default {
   components: {},
   created() {
     this.component = this;
+  },
+  methods: {
+    changeColor(event) {
+      const incon_id = event.target.id + '_icon';
+      var icon = document.getElementById(incon_id);
+      console.log(icon);
+      if (event.target.id) {
+        icon.style.color = '#a64bf4';
+      } else if (!event.target.id) {
+        icon.style.color = '#d9d9d9';
+      }
+      // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
+      // https://meaningone.tistory.com/318
+    },
   },
 };
 </script>
