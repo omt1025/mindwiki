@@ -63,8 +63,11 @@
             <v-icon>mdi-lock-reset</v-icon>         
               <span >비밀번호 변경</span>
             <v-spacer></v-spacer>
+
+            <v-icon>mdi-arrow-right</v-icon>
             </v-btn>
           </div>
+
           <div class="my-5">
             <v-btn
               color="warning"
@@ -74,7 +77,8 @@
             >
             <v-icon>mdi-trophy</v-icon>           
               <span >업적 관리</span>
-            <v-spacer></v-spacer>        
+            <v-spacer></v-spacer>    
+            <v-icon>mdi-arrow-right</v-icon>    
             </v-btn>
           </div>
 
@@ -116,9 +120,9 @@
             <v-switch
               v-on:click="bellClick = !bellClick"
             ></v-switch>
-            
             </v-btn>
           </div>
+
           <div class="my-5">
             <v-btn
               x-large
@@ -129,11 +133,26 @@
             <v-icon>mdi-saw-blade</v-icon> 
               <span >MIND 관리 및 설정</span>
             <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
             </v-btn>
-          </div>          
+          </div>
+
+          <div class="my-5">
+            <v-btn
+              x-large
+              color="#039BE5"
+              dark
+              width="500px"
+            >
+            <v-icon>mdi-certificate</v-icon> 
+              <span >전문 자격 인증</span>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
+            </v-btn>
+          </div>
+
         </div>
       </v-col>
-
     </v-row>
   </v-container>
   </v-app>
