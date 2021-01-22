@@ -155,10 +155,11 @@ export default {
     changeColor(event) {
       const incon_id = event.target.id + '_icon';
       var icon = document.getElementById(incon_id);
-      console.log(icon);
-      if (event.target.id) {
+
+      if (event.target.value) {
         icon.style.color = '#a64bf4';
-      } else if (!event.target.id) {
+      } else if (!event.target.value) {
+        console.log('지움');
         icon.style.color = '#d9d9d9';
       }
       // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
