@@ -6,11 +6,11 @@
       color="primary"
       dark
     >
-        <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
 
       <v-spacer></v-spacer>
-      <v-toolbar-title class="flex text-center">메뉴</v-toolbar-title>
+      <v-toolbar-title class="flex text-center">검색</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
 
     </v-app-bar>
   </v-app>
@@ -18,9 +18,9 @@
 
 <script>
 export default {
-  name: 'BackPageNavi',
+  name: 'SearchNavi',
   methods: {
-    backPage: function () {
+    menu: function () {
       this.$router.push('/main')
     }
   },
