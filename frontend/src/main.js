@@ -6,6 +6,7 @@ import router from './router';
 import store from './store/index';
 import VueGlide from 'vue-glide-js';
 import 'vue-glide-js/dist/vue-glide.css';
+import * as VeeValidate from 'vee-validate';
 
 //fort-awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -30,5 +31,6 @@ new Vue({
   vuetify,
   router,
   store,
+  VeeValidate,
   render: (h) => h(App),
 }).$mount('#app');

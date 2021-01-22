@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 // User
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
+import ChangePassword from '@/views/user/ChangePassword.vue'
 // Main
 import Home from '../views/Home.vue'
 import Main from '../views/Main.vue'
@@ -67,6 +68,11 @@ const routes = [
     path: '/main/mylibrary/follow',
     name: 'Follow',
     component: Follow
+  },
+  {
+    path: '/main/menu/changepassword',
+    name: 'ChangePassword',
+    component: ChangePassword
   },
 ];
 

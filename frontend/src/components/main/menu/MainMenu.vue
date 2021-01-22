@@ -59,6 +59,7 @@
               color="primary"
               dark
               width="500px"
+              to="/main/menu/changepassword"
             >
             <v-icon>mdi-lock-reset</v-icon>         
               <span >비밀번호 변경</span>
