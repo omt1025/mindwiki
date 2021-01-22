@@ -2,13 +2,13 @@
   <div class="login_back">
     <div class="limiter">
       <div class="container-login100">
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-35">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-35 p-b-35">
           <form class="login100-form validate-form">
-            <span class="login100-form-title p-b-49">
-              Login
+            <span class="login100-form-title p-b-39">
+              SignUp
             </span>
 
-            <div class="wrap-input100 validate-input m-b-18">
+            <div class="wrap-input100 validate-input m-b-18" data-validate="Username is reauired">
               <span class="label-input100" style="float: left">Userid</span>
               <div class="input_icon">
                 <i
@@ -21,15 +21,34 @@
               <input
                 class="input100"
                 type="text"
-                id="userid"
                 name="userid"
-                v-model="user.userid"
+                id="userid"
                 placeholder="아이디를 입력해주세요."
                 @change="changeColor($event)"
               />
             </div>
 
-            <div class="wrap-input100 validate-input" data-validate="Password is required">
+            <div class="wrap-input100 validate-input m-b-18" data-validate="Username is reauired">
+              <span class="label-input100" style="float: left">Email</span>
+              <div class="input_icon">
+                <i
+                  class="fa fa-envelope-o"
+                  aria-hidden="true"
+                  style="font-weight: 800; font-size: 17px;"
+                  id="useremail_icon"
+                ></i>
+              </div>
+              <input
+                class="input100"
+                type="text"
+                name="username"
+                placeholder="이메일을 입력해주세요."
+                id="useremail"
+                @change="changeColor($event)"
+              />
+            </div>
+
+            <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
               <span class="label-input100" style="float: left">Password</span>
               <div class="input_icon">
                 <i
@@ -42,49 +61,60 @@
               <input
                 class="input100"
                 type="password"
-                id="userpwd"
                 name="userpwd"
-                v-model="user.userpwd"
+                id="userpwd"
                 placeholder="비밀번호를 입력해주세요."
                 @change="changeColor($event)"
               />
             </div>
 
-            <div class="text-right p-t-8 p-b-31">
-              <a href="#">
-                비밀번호 찾기
-              </a>
+            <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+              <span class="label-input100" style="float: left">Password Check</span>
+              <div class="input_icon">
+                <i
+                  class="fa fa-lock"
+                  aria-hidden="true"
+                  style="font-weight: 800; font-size: 22px;"
+                  id="userpwd_check_icon"
+                ></i>
+              </div>
+              <input
+                class="input100"
+                type="password"
+                name="userpwd_check"
+                id="userpwd_check"
+                placeholder="비밀번호를 다시 입력해주세요."
+                @change="changeColor($event)"
+              />
             </div>
 
-            <div class="container-login100-form-btn">
+            <div class="wrap-input100 validate-input m-b-18">
+              <span class="label-input100" style="float: left">관심태그 추가</span>
+              <input
+                class="input100"
+                type="password"
+                name="pass_check"
+                placeholder="비밀번호를 다시 입력해주세요."
+              />
+              <span class="focus-input100"></span>
+            </div>
+
+            <div class="container-login100-form-btn p-t-31">
               <div class="wrap-login100-form-btn">
                 <div class="login100-form-bgbtn"></div>
                 <button class="login100-form-btn">
-                  Login
+                  회원가입
                 </button>
               </div>
             </div>
 
-            <div class="txt1 text-center p-t-70 p-b-15">
-              <span>
-                SNS 간편 로그인
-              </span>
-            </div>
-
-            <div class="flex-c-m sns-login">
-              <kakaoLogin :component="component" style="margin-right: 10px" />
-              <GoogleLogin :component="component" />
-            </div>
-
-            <!-- <div class="flex-col-c p-t-155">
+            <div class="flex-col-c p-t-55">
               <span class="txt1 p-b-17">
-                Or Sign Up Using
+                이미 회원이신가요?
               </span>
 
-              <a href="#" class="txt2">
-                Sign Up
-              </a>
-            </div> -->
+              <router-link to="/login" class="txt2">Login</router-link>
+            </div>
           </form>
         </div>
       </div>
@@ -115,22 +145,9 @@
 
 <script>
 import '../../components/css/user.scss';
-import KakaoLogin from '../../components/user/snsLogin/Kakao.vue';
-import GoogleLogin from '../../components/user/snsLogin/Google.vue';
 
 export default {
-  components: {
-    KakaoLogin,
-    GoogleLogin,
-  },
-  data: function() {
-    return {
-      user: {
-        userid: '',
-        userpwd: '',
-      },
-    };
-  },
+  components: {},
   created() {
     this.component = this;
   },

@@ -18,6 +18,7 @@
           <transition name="slide-fade">
             <v-card color="#51dacf" v-if="expand" class="mx-auto ma-6" width="350px">
               <v-btn
+                to="/signup"
                 height="50px"
                 width="350px"
                 color="#51dacf"
