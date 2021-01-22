@@ -9,7 +9,7 @@
         <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
 
       <v-spacer></v-spacer>
-      <v-toolbar-title class="flex text-center">메뉴</v-toolbar-title>
+      <v-toolbar-title class="flex text-center">메시지</v-toolbar-title>
       <v-spacer></v-spacer>
 
     </v-app-bar>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'BackPageNavi',
+  name: 'MessageNavi',
   methods: {
     backPage: function () {
       this.$router.push('/main')

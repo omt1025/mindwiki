@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'BackPageNavi',
+  name: 'PostNavi',
   methods: {
     backPage: function () {
       this.$router.push('/main')
