@@ -11,6 +11,10 @@ import MakeMind from '../views/main/MakeMind.vue'
 import Activity from '../views/main/Activity.vue'
 import MyLibrary from '../views/main/MyLibrary.vue'
 import MainMenu from '../components/main/menu/MainMenu.vue'
+// MyLibrary
+import Followers from '../views/main/mylibrary/Followers.vue'
+import Followings from '../views/main/mylibrary/Followings.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -53,6 +57,16 @@ const routes = [
     path: '/main/menu',
     name: 'MainMenu',
     component: MainMenu
+  },
+  {
+    path: '/main/mylibrary/followers',
+    name: 'Followers',
+    component: Followers
+  },
+  {
+    path: '/main/mylibrary/followings',
+    name: 'Followings',
+    component: Followings
   },
 ];
 
