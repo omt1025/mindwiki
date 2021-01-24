@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 // User
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
+import ChangePassword from '@/views/user/ChangePassword.vue';
 // Main
 import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
@@ -13,8 +14,7 @@ import Activity from '../views/main/Activity.vue';
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
 // MyLibrary
-import Followers from '../views/main/mylibrary/Followers.vue';
-import Followings from '../views/main/mylibrary/Followings.vue';
+import Follow from '../views/main/mylibrary/Follow.vue';
 
 Vue.use(VueRouter);
 
@@ -65,14 +65,14 @@ const routes = [
     component: MainMenu,
   },
   {
-    path: '/main/mylibrary/followers',
-    name: 'Followers',
-    component: Followers,
+    path: '/main/mylibrary/follow',
+    name: 'Follow',
+    component: Follow,
   },
   {
-    path: '/main/mylibrary/followings',
-    name: 'Followings',
-    component: Followings,
+    path: '/main/menu/changepassword',
+    name: 'ChangePassword',
+    component: ChangePassword,
   },
 ];
 
