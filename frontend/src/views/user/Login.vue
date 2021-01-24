@@ -53,9 +53,9 @@
             </div>
 
             <div class="text-right p-t-8 p-b-31">
-              <a href="#">
+              <router-link to="/findpw">
                 비밀번호 찾기
-              </a>
+              </router-link>
             </div>
 
             <div class="container-login100-form-btn">
@@ -133,7 +133,10 @@
 <script>
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import 'v-slim-dialog/dist/v-slim-dialog.css';
+import SlimDialog from 'v-slim-dialog';
 
+Vue.use(SlimDialog);
 Vue.use(VueRouter);
 
 import axios from 'axios';
@@ -180,7 +183,8 @@ export default {
       err &&
         !this.user.userpwd &&
         ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
-      if (!err) alert(msg);
+      // if (!err) alert(msg);
+      if (!err) this.showAlert(msg);
       else this.login();
     },
     // LOGIN 액션 실행
@@ -192,7 +196,7 @@ export default {
       axios.post(`http://localhost:8000/mindwiki/login`, form).then(({ data }) => {
         // alert(data.message);
         if (data.message === 'SUCCESS') this.$router.push('/main');
-        else alert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
+        else this.showAlert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
       });
     },
     // 카카오 로그인
@@ -201,6 +205,14 @@ export default {
         redirectUri: 'http://localhost:8000/mindwiki/oauth',
       };
       window.Kakao.Auth.authorize(params);
+    },
+    // 다이얼로그
+    // https://vuejsexamples.com/slim-dialog-for-vuejs/
+    showAlert(msg) {
+      const options = { title: '로그인 실패', size: 'sm' };
+      this.$dialogs.alert(msg, options).then((res) => {
+        console.log(res); // {ok: true|false|undefined}
+      });
     },
   },
 };

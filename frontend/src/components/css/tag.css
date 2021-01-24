@@ -1,0 +1,22 @@
+.v-input > .v-input__slot {
+  margin-bottom: 0px;
+  background-color: tranparent;
+}
+/* .validate-form
+  .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+  > .v-input__control
+  > .v-input__slot {
+  box-shadow: none;
+  border-bottom: 1px #ccc solid;
+} */
+
+.validate-form
+  .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot,
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  padding: 0 7px;
+}
+/* #d9d9d9 */
+.validate-form .v-text-field__details {
+}
