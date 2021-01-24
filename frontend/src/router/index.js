@@ -5,16 +5,16 @@ import VueRouter from 'vue-router';
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
 // Main
-import Home from '../views/Home.vue'
-import Main from '../views/Main.vue'
-import Search from '../views/main/Search.vue'
-import MakeMind from '../views/main/MakeMind.vue'
-import Activity from '../views/main/Activity.vue'
-import MyLibrary from '../views/main/MyLibrary.vue'
-import MainMenu from '../components/main/menu/MainMenu.vue'
+import Home from '../views/Home.vue';
+import Main from '../views/Main.vue';
+import Search from '../views/main/Search.vue';
+import MakeMind from '../views/main/MakeMind.vue';
+import Activity from '../views/main/Activity.vue';
+import MyLibrary from '../views/main/MyLibrary.vue';
+import MainMenu from '../components/main/menu/MainMenu.vue';
 // MyLibrary
-import Followers from '../views/main/mylibrary/Followers.vue'
-import Followings from '../views/main/mylibrary/Followings.vue'
+import Followers from '../views/main/mylibrary/Followers.vue';
+import Followings from '../views/main/mylibrary/Followings.vue';
 
 Vue.use(VueRouter);
 
@@ -67,12 +67,12 @@ const routes = [
   {
     path: '/main/mylibrary/followers',
     name: 'Followers',
-    component: Followers
+    component: Followers,
   },
   {
     path: '/main/mylibrary/followings',
     name: 'Followings',
-    component: Followings
+    component: Followings,
   },
 ];
 

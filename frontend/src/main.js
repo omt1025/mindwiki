@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import router from './router';
-import store from './store/index';
+import store from './store';
 import VueGlide from 'vue-glide-js';
 import 'vue-glide-js/dist/vue-glide.css';
 
@@ -32,3 +32,5 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+window.Kakao.init('bdcd952db81fedf63f83f013e3bd2e82');

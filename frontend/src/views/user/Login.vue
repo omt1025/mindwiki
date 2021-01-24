@@ -3,7 +3,7 @@
     <div class="limiter">
       <div class="container-login100">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-35">
-          <form class="login100-form validate-form">
+          <div class="login100-form validate-form">
             <span class="login100-form-title p-b-49">
               Login
             </span>
@@ -22,14 +22,15 @@
                 class="input100"
                 type="text"
                 id="userid"
-                name="userid"
+                ref="userid"
                 v-model="user.userid"
                 placeholder="아이디를 입력해주세요."
                 @change="changeColor($event)"
+                @keypress.enter="checkHandler"
               />
             </div>
 
-            <div class="wrap-input100 validate-input" data-validate="Password is required">
+            <div class="wrap-input100 validate-input">
               <span class="label-input100" style="float: left">Password</span>
               <div class="input_icon">
                 <i
@@ -43,10 +44,11 @@
                 class="input100"
                 type="password"
                 id="userpwd"
-                name="userpwd"
+                ref="userpwd"
                 v-model="user.userpwd"
                 placeholder="비밀번호를 입력해주세요."
                 @change="changeColor($event)"
+                @keypress.enter="checkHandler"
               />
             </div>
 
@@ -59,7 +61,7 @@
             <div class="container-login100-form-btn">
               <div class="wrap-login100-form-btn">
                 <div class="login100-form-bgbtn"></div>
-                <button class="login100-form-btn">
+                <button class="login100-form-btn" @click="checkHandler">
                   Login
                 </button>
               </div>
@@ -72,8 +74,23 @@
             </div>
 
             <div class="flex-c-m sns-login">
-              <kakaoLogin :component="component" style="margin-right: 10px" />
-              <GoogleLogin :component="component" />
+              <div @click="loginWithKakao">
+                <kakaoLogin style="margin-right: 10px" />
+              </div>
+              <!-- <router-link
+                :to="
+                  'https:' +
+                    '//accounts.google.com/o/oauth2/v2/auth?' +
+                    'scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&' +
+                    'access_type=online&' +
+                    'include_granted_scopes=true&' +
+                    'response_type=code&' +
+                    'redirect_uri=http%3A//localhost:8000/mindwiki/GoogleOAuth&' +
+                    'client_id=659791765906-faeludmkkn7l8vqlk37pqlhhisu4n1hb.apps.googleusercontent.com'
+                "
+              > -->
+              <GoogleLogin />
+              <!-- </router-link> -->
             </div>
 
             <!-- <div class="flex-col-c p-t-155">
@@ -85,7 +102,7 @@
                 Sign Up
               </a>
             </div> -->
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +131,12 @@
 </style>
 
 <script>
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+Vue.use(VueRouter);
+
+import axios from 'axios';
 import '../../components/css/user.scss';
 import KakaoLogin from '../../components/user/snsLogin/Kakao.vue';
 import GoogleLogin from '../../components/user/snsLogin/Google.vue';
@@ -135,6 +158,7 @@ export default {
     this.component = this;
   },
   methods: {
+    // 아이콘 색 변경 메소드
     changeColor(event) {
       const incon_id = event.target.id + '_icon';
       var icon = document.getElementById(incon_id);
@@ -146,6 +170,37 @@ export default {
       }
       // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
       // https://meaningone.tistory.com/318
+    },
+    // 로그인 input 유효성 검사 메소드
+    checkHandler() {
+      let err = true;
+      let msg = '';
+      !this.user.userid &&
+        ((msg = '아이디를 입력해주세요'), (err = false), this.$refs.userid.focus());
+      err &&
+        !this.user.userpwd &&
+        ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
+      if (!err) alert(msg);
+      else this.login();
+    },
+    // LOGIN 액션 실행
+    login() {
+      let form = new FormData();
+      form.append('id', this.user.userid);
+      form.append('pass', this.user.userpwd);
+
+      axios.post(`http://localhost:8000/mindwiki/login`, form).then(({ data }) => {
+        // alert(data.message);
+        if (data.message === 'SUCCESS') this.$router.push('/main');
+        else alert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
+      });
+    },
+    // 카카오 로그인
+    loginWithKakao() {
+      const params = {
+        redirectUri: 'http://localhost:8000/mindwiki/oauth',
+      };
+      window.Kakao.Auth.authorize(params);
     },
   },
 };
