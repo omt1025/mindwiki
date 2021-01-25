@@ -24,7 +24,7 @@
 
             <!-- 회원일 때 보여줌 -->
             <div class="my-5">
-              <v-btn x-large color="secondary" dark width="500px">
+              <v-btn x-large color="secondary" dark width="500px" @click.native="logout">
                 <v-icon>mdi-logout</v-icon>
                 <span>로그아웃</span>
                 <v-spacer></v-spacer>
@@ -98,6 +98,7 @@
 
 <script>
 import MenuNavi from '@/components/navi/MenuNavi.vue';
+import axios from 'axios';
 
 export default {
   name: 'MainMenu',
@@ -107,6 +108,11 @@ export default {
   data: () => ({
     bellClick: true,
   }),
+  methods: {
+    logout() {
+      axios.post(`http://localhost:8000/mindwiki/mind/logout`)
+    }
+  }
 };
 </script>
 
