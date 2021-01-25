@@ -96,11 +96,15 @@
                 id="no-background-hover"
                 :ripple="false"
               >
-                <v-icon>mdi-bookshelf</v-icon>
+                <v-icon color="green" v-show="!bookshelfClick">mdi-bookshelf</v-icon>
+
+                <v-icon v-show="bookshelfClick">mdi-bookshelf</v-icon>
+                
                 <span>내 책장 공개</span>
                 <v-spacer></v-spacer>
 
                 <v-switch
+                  v-on:click="bookshelfClick = !bookshelfClick"
                   color="green"
                 ></v-switch>
               </v-btn>
@@ -115,7 +119,7 @@
                 id="no-background-hover"
                 :ripple="false"
               >
-                <v-icon v-show="!bellClick">mdi-bell</v-icon>
+                <v-icon color="green" v-show="!bellClick">mdi-bell</v-icon>
 
                 <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
 
@@ -179,6 +183,7 @@ export default {
   },
   data: () => ({
     bellClick: true,
+    bookshelfClick: true,
     color: 'white'
   }),
   methods: {
@@ -197,6 +202,10 @@ span {
 </style>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20KR');
+@import url('https://fonts.googleapis.com/css?family=Poor+Story:400');
+
 #no-background-hover::before {
   background-color: transparent !important;
 }
@@ -204,5 +213,14 @@ span {
   input {
     background: #fff;
   }
+}
+// span {
+//   font-family: "Black Han Sans";
+// }
+// span {
+//   font-family: "Noto Sans KR";
+// }
+span {
+  font-family: "Poor Story";
 }
 </style>

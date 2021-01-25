@@ -19,7 +19,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn icon>
+            <v-btn icon color="green">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 

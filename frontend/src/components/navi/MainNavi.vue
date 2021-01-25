@@ -1,27 +1,19 @@
 <template>
     <v-card>
-    <v-toolbar
-      color="primary"
-      dark
-      flat
-    >
-      
+    <v-toolbar>
       <v-spacer></v-spacer>
-
       <v-toolbar-title>Mind Wiki</v-toolbar-title>
-
       <v-spacer></v-spacer>
       
-
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
-
 
       <template v-slot:extension>
         <v-tabs
           v-model="tab"
           grow
+          color="green"
         >
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+          <v-tabs-slider color="green"></v-tabs-slider>
 
           <v-tab
             v-for="item in items"
@@ -86,3 +78,22 @@
     }
   }
 </script>
+
+<style>
+#text {
+  color: green
+}
+.v-card > .v-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+</style>
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20KR');
+
+.v-tab {
+  font-family: "Noto Sans KR";
+}
+</style>
