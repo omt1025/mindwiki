@@ -9,28 +9,6 @@
             </span>
 
             <div class="wrap-input100 validate-input m-b-18">
-              <span class="label-input100" style="float: left">Userid</span>
-              <div class="input_icon">
-                <i
-                  class="fa fa-user-o"
-                  aria-hidden="true"
-                  style="font-weight: 800; font-size: 17px;"
-                  id="userid_icon"
-                ></i>
-              </div>
-              <input
-                class="input100"
-                type="text"
-                id="userid"
-                ref="userid"
-                v-model="user.userid"
-                placeholder="아이디를 입력해주세요."
-                @change="changeColor($event)"
-                @keypress.enter="checkHandler"
-              />
-            </div>
-
-            <div class="wrap-input100 validate-input m-b-18">
               <span class="label-input100" style="float: left">Email</span>
               <div class="input_icon">
                 <i
@@ -47,6 +25,28 @@
                 id="useremail"
                 ref="useremail"
                 v-model="user.useremail"
+                @change="changeColor($event)"
+                @keypress.enter="checkHandler"
+              />
+            </div>
+
+            <div class="wrap-input100 validate-input m-b-18">
+              <span class="label-input100" style="float: left">Username</span>
+              <div class="input_icon">
+                <i
+                  class="fa fa-user-o"
+                  aria-hidden="true"
+                  style="font-weight: 800; font-size: 17px;"
+                  id="username_icon"
+                ></i>
+              </div>
+              <input
+                class="input100"
+                type="text"
+                id="username"
+                ref="username"
+                v-model="user.username"
+                placeholder="이름을 입력해주세요."
                 @change="changeColor($event)"
                 @keypress.enter="checkHandler"
               />
@@ -195,7 +195,7 @@ export default {
       chips: ['싸피', 'ssafy'],
       // items: ['Streaming', 'Eating'],
       user: {
-        userid: '',
+        username: '',
         useremail: '',
         userpwd: '',
         userpwd_check: '',
@@ -225,11 +225,11 @@ export default {
     checkHandler() {
       let err = true;
       let msg = '';
-      !this.user.userid &&
-        ((msg = '아이디를 입력해주세요'), (err = false), this.$refs.userid.focus());
-      err &&
-        !this.user.useremail &&
+      !this.user.useremail &&
         ((msg = '이메일을 입력해주세요'), (err = false), this.$refs.useremail.focus());
+      err &&
+        !this.user.username &&
+        ((msg = '이름을 입력해주세요'), (err = false), this.$refs.username.focus());
       err &&
         !this.user.userpwd &&
         ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
@@ -259,7 +259,7 @@ export default {
     },
     // 다이얼로그
     showAlert(msg) {
-      const options = { title: '로그인 실패', size: 'sm' };
+      const options = { title: '회원가입 실패', size: 'sm' };
       this.$dialogs.alert(msg, options).then((res) => {
         console.log(res); // {ok: true|false|undefined}
       });

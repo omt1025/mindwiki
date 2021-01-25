@@ -9,10 +9,10 @@
             </span>
 
             <div class="wrap-input100 validate-input m-b-18">
-              <span class="label-input100" style="float: left">Userid</span>
+              <span class="label-input100" style="float: left">Email</span>
               <div class="input_icon">
                 <i
-                  class="fa fa-user-o"
+                  class="fa fa-envelope-o"
                   aria-hidden="true"
                   style="font-weight: 800; font-size: 17px;"
                   id="userid_icon"
@@ -24,7 +24,7 @@
                 id="userid"
                 ref="userid"
                 v-model="user.userid"
-                placeholder="아이디를 입력해주세요."
+                placeholder="이메일을 입력해주세요."
                 @change="changeColor($event)"
                 @keypress.enter="checkHandler"
               />
@@ -179,7 +179,7 @@ export default {
       let err = true;
       let msg = '';
       !this.user.userid &&
-        ((msg = '아이디를 입력해주세요'), (err = false), this.$refs.userid.focus());
+        ((msg = '이메일을 입력해주세요'), (err = false), this.$refs.userid.focus());
       err &&
         !this.user.userpwd &&
         ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
@@ -196,7 +196,7 @@ export default {
       axios.post(`http://localhost:8000/mindwiki/login`, form).then(({ data }) => {
         // alert(data.message);
         if (data.message === 'SUCCESS') this.$router.push('/main');
-        else this.showAlert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
+        else this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
       });
     },
     // 카카오 로그인
