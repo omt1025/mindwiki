@@ -1,7 +1,8 @@
-<template lang="html">
-  <div class="centerx icons-example">
+<template>
+  <div id="app">
     <v-container>
-      <vs-input icon="search" placeholder="Search" @keypress.enter="onInputKeyword" type="text"/>
+      <input class="fas fa-search" placeholder="검색" @keypress.enter="onInputKeyword" type="text"/>
+      <v-icon>mdi-magnify</v-icon>
     </v-container>
   </div>
 </template>
