@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+  <v-card>
     <v-toolbar
       color="primary"
       dark
