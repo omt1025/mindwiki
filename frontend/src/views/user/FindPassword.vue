@@ -24,7 +24,7 @@
                 id="useremail"
                 ref="useremail"
                 v-model="user.useremail"
-                placeholder="아이디를 입력해주세요."
+                placeholder="이메일을 입력해주세요."
                 @change="changeColor($event)"
                 @keypress.enter="checkHandler"
               />
