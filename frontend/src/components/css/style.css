@@ -729,9 +729,9 @@ p {
   min-height: 100vh;
 }
 
-.container > div {
+/* .container > div {
   padding-top: 80px;
-}
+} */
 
 .container > div.tab_wrap {
   padding-top: 50px;

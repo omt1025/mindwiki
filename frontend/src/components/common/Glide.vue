@@ -2,10 +2,7 @@
   <div id="app">
     <h2>좋아요</h2>
     <vue-glide v-model="active1">
-      <vue-glide-slide
-        v-for="card in cards1"
-        :key="card.title"
-      >
+      <vue-glide-slide v-for="card in cards1" :key="card.title">
         <v-row dense>
           <v-col>
             <v-card>
@@ -38,13 +35,10 @@
         </v-row>
       </vue-glide-slide>
     </vue-glide>
-    <hr>
+    <hr />
     <h2>팔로우</h2>
     <vue-glide v-model="active2">
-      <vue-glide-slide
-        v-for="card in cards2"
-        :key="card.title"
-      >
+      <vue-glide-slide v-for="card in cards2" :key="card.title">
         <v-row dense>
           <v-col>
             <v-card>
@@ -81,31 +75,41 @@
 </template>
 
 <script>
-import { Glide, GlideSlide } from 'vue-glide-js'
+import { Glide, GlideSlide } from 'vue-glide-js';
 
 export default {
-  name: "Glide",
+  name: 'Glide',
   components: {
     [Glide.name]: Glide,
-    [GlideSlide.name]: GlideSlide
+    [GlideSlide.name]: GlideSlide,
   },
   data: () => ({
     active1: 0,
     active2: 0,
     cards1: [
       { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 12 },
+      {
+        title: 'Favorite road trips',
+        src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg',
+        flex: 12,
+      },
       { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 12 },
     ],
     cards2: [
       { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 12 },
+      {
+        title: 'Favorite road trips',
+        src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg',
+        flex: 12,
+      },
       { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 12 },
     ],
   }),
-}
+};
 </script>
 
-<style>
-
+<style scoped>
+h2 {
+  margin: 15px 0px 15px 0;
+}
 </style>

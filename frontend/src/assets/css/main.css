@@ -515,3 +515,7 @@ iframe {
     padding-right: 15px;
   }
 }
+
+.container--fluid {
+  background-color: #f1f5f8;
+}

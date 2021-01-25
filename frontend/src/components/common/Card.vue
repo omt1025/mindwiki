@@ -1,11 +1,7 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-col
-        v-for="card in cards"
-        :key="card.title"
-        :cols="card.flex"
-      >
+      <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
           <v-img
             :src="card.src"
@@ -39,17 +35,19 @@
 
 <script>
 export default {
-  name: "Card",
+  name: 'Card',
   data: () => ({
     cards: [
       { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 12 },
+      {
+        title: 'Favorite road trips',
+        src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg',
+        flex: 12,
+      },
       { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 12 },
     ],
   }),
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

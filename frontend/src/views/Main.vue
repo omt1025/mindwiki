@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <MainNavi/>
-    <BottomNavi/>
+    <MainNavi />
+    <BottomNavi />
   </v-app>
 </template>
 
 <script>
-import MainNavi from '@/components/navi/MainNavi.vue'
-import BottomNavi from '@/components/navi/BottomNavi.vue'
+import MainNavi from '@/components/navi/MainNavi.vue';
+import BottomNavi from '@/components/navi/BottomNavi.vue';
 
 export default {
   name: 'Main',
@@ -15,13 +15,16 @@ export default {
     MainNavi,
     BottomNavi,
   },
-}
+};
 </script>
 
 <style>
-html, body, .v-application, .v-application--wrap {
-    min-height: -webkit-fill-available;
-  }
+html,
+body,
+.v-application,
+.v-application--wrap {
+  min-height: -webkit-fill-available;
+}
 #nav {
   padding: 0;
 }

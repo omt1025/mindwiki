@@ -1,32 +1,18 @@
 <template>
   <v-card>
-    <v-toolbar
-      color="primary"
-      dark
-      flat
-    >
-      
+    <v-toolbar>
       <v-spacer></v-spacer>
-
-      <v-toolbar-title>Activity</v-toolbar-title>
-
+      <!-- <v-toolbar-title>Mind Wiki</v-toolbar-title> -->
+      <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
-      
 
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
 
-
       <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          grow
-        >
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+        <v-tabs v-model="tab" grow color="#a64bf4">
+          <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
-          <v-tab
-            v-for="item in items"
-            :key="item"
-          >
+          <v-tab v-for="item in items" :key="item">
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -36,40 +22,37 @@
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <v-card flat>
-          <ActivityList/>
+          <ActivityList />
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <ActivityList/>
+          <ActivityList />
         </v-card>
       </v-tab-item>
-
     </v-tabs-items>
   </v-card>
 </template>
 
 <script>
-import ActivityList from "@/components/common/ActivityList.vue"
+import ActivityList from '@/components/common/ActivityList.vue';
 
 export default {
   name: 'ActivityNavi',
   components: {
-    ActivityList
+    ActivityList,
   },
-  data () {
+  data() {
     return {
       tab: null,
-      items: [
-        '알림', '메세지'
-      ],
-    }
+      items: ['알림', '메세지'],
+    };
   },
   methods: {
-    menu: function () {
-      this.$router.push('/main')
-    }
+    menu: function() {
+      this.$router.push('/main');
+    },
   },
-}
+};
 </script>

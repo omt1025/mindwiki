@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-bottom-navigation v-model="value" color="green" shift fixed justify="space" height="58.44px">
+    <v-bottom-navigation v-model="value" color="#a64bf4" grow shift fixed>
       <v-btn>
         <span>홈</span>
         <v-icon>mdi-home-outline</v-icon>
@@ -37,3 +37,18 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+.v-item-group.v-bottom-navigation .v-btn {
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  flex: 0 1 auto;
+  font-size: 0.75rem;
+  height: inherit;
+  max-height: 168px;
+  min-width: auto;
+  position: relative;
+  text-transform: none;
+}
+</style>

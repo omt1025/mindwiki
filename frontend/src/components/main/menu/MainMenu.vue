@@ -1,25 +1,25 @@
 <template>
-  <v-app v-bind:style="{ backgroundColor : color }">
+  <v-app>
     <MenuNavi />
-    <v-container fluid class="pa-0" >
+    <v-container fluid class="pa-0">
       <v-row align="center">
         <v-col cols="12" sm="6">
           <div class="text-center">
             <!-- 비회원일 때 보여줌 -->
 
-              <v-btn
-                x-large
-                width="500px"
-                to="/login"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-login</v-icon>
-                <span>로그인</span>
-                <v-spacer></v-spacer>
-              </v-btn>
+            <v-btn
+              x-large
+              width="500px"
+              to="/login"
+              depressed
+              color="white"
+              id="no-background-hover"
+              :ripple="false"
+            >
+              <v-icon>mdi-login</v-icon>
+              <span>로그인</span>
+              <v-spacer></v-spacer>
+            </v-btn>
 
             <div class="my-5">
               <v-btn
@@ -99,14 +99,11 @@
                 <v-icon color="green" v-show="!bookshelfClick">mdi-bookshelf</v-icon>
 
                 <v-icon v-show="bookshelfClick">mdi-bookshelf</v-icon>
-                
+
                 <span>내 책장 공개</span>
                 <v-spacer></v-spacer>
 
-                <v-switch
-                  v-on:click="bookshelfClick = !bookshelfClick"
-                  color="green"
-                ></v-switch>
+                <v-switch v-on:click="bookshelfClick = !bookshelfClick" color="green"></v-switch>
               </v-btn>
             </div>
 
@@ -126,10 +123,7 @@
                 <span>푸시 알림 설정</span>
                 <v-spacer></v-spacer>
 
-                <v-switch
-                  v-on:click="bellClick = !bellClick"
-                  color="green"
-                  ></v-switch>
+                <v-switch v-on:click="bellClick = !bellClick" color="green"></v-switch>
               </v-btn>
             </div>
 
@@ -157,13 +151,12 @@
                 color="white"
                 id="no-background-hover"
                 :ripple="false"
-                >
+              >
                 <v-icon>mdi-certificate</v-icon>
                 <span>전문 자격 인증</span>
                 <v-spacer></v-spacer>
                 <v-icon>mdi-arrow-right</v-icon>
               </v-btn>
-
             </div>
           </div>
         </v-col>
@@ -184,13 +177,13 @@ export default {
   data: () => ({
     bellClick: true,
     bookshelfClick: true,
-    color: 'white'
+    color: 'white',
   }),
   methods: {
     logout() {
-      axios.post(`http://localhost:8000/mindwiki/mind/logout`)
-    }
-  }
+      axios.post(`http://localhost:8000/mindwiki/mind/logout`);
+    },
+  },
 };
 </script>
 
@@ -221,6 +214,12 @@ span {
 //   font-family: "Noto Sans KR";
 // }
 span {
-  font-family: "Poor Story";
+  font-family: 'Poor Story';
+}
+</style>
+
+<style scoped>
+.container--fluid {
+  background-color: white;
 }
 </style>
