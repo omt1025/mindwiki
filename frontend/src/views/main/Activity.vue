@@ -1,10 +1,20 @@
 <template>
-  <h1>활동 알림</h1>
+  <v-app>
+    <ActivityNavi/>
+    <BottomNavi/>
+  </v-app>
 </template>
 
 <script>
-export default {
+import ActivityNavi from '@/components/navi/ActivityNavi.vue'
+import BottomNavi from '@/components/navi/BottomNavi.vue'
 
+export default {
+  name: 'Search',
+  components: {
+    ActivityNavi,
+    BottomNavi,
+  },
 }
 </script>
 
