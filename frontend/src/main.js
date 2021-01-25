@@ -13,6 +13,10 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+//mindmap
+import Mindmap from 'vue-mindmap'
+import 'vue-mindmap/dist/vue-mindmap.css'
+
 library.add(faUserSecret);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -22,6 +26,9 @@ Vue.config.productionTip = false;
 // Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueGlide);
+Vue.use(Mindmap);
+
+Vue.config.productionTip = false
 // const router = new VueRouter({
 //   routes,
 // });

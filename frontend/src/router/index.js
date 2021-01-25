@@ -16,6 +16,8 @@ import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
 // MyLibrary
 import Follow from '../views/main/mylibrary/Follow.vue';
+// MindMap
+import MindMapDetail from '../views/MindMapDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -79,6 +81,11 @@ const routes = [
     path: '/main/menu/changepassword',
     name: 'ChangePassword',
     component: ChangePassword,
+  },
+  {
+    path: '/main/mindmapdetail',
+    name: 'MindMapDetail',
+    component: MindMapDetail,
   },
 ];
 
