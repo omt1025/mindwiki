@@ -3,8 +3,8 @@
     <v-app-bar
       shift
       fixed
-      color="primary"
-      dark
+      height="58.44px"
+      elevation="1"
     >
         <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
 
