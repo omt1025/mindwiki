@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
       <!-- <v-toolbar-title>Mind Wiki</v-toolbar-title> -->
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>

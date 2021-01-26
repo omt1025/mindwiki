@@ -28,7 +28,7 @@
 
       <v-tab-item>
         <v-card flat>
-          <ActivityList />
+          <ActivityMessage />
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -37,11 +37,13 @@
 
 <script>
 import ActivityList from '@/components/common/ActivityList.vue';
+import ActivityMessage from '@/components/common/ActivityMessage.vue';
 
 export default {
   name: 'ActivityNavi',
   components: {
     ActivityList,
+    ActivityMessage,
   },
   data() {
     return {
