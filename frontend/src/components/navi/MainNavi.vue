@@ -20,26 +20,21 @@
     </v-toolbar>
 
     <v-tabs-items v-model="tab">
-      <!-- <v-tab-item
-        v-for="item in items"
-        :key="item"
-      >
-      </v-tab-item> -->
       <v-tab-item>
         <v-card flat>
-          <Card />
+          <LivePopularMind />
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <Card />
+          <FavoriteMind />
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <Glide />
+          <MyWiki />
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -47,14 +42,16 @@
 </template>
 
 <script>
-import Card from '@/components/common/Card.vue';
-import Glide from '@/components/common/Glide.vue';
+import LivePopularMind from '@/components/main/home/LivePopularMind.vue';
+import FavoriteMind from '@/components/main/home/FavoriteMind.vue';
+import MyWiki from '@/components/main/home/MyWiki.vue';
 
 export default {
   name: 'MainNavi',
   components: {
-    Card,
-    Glide,
+    LivePopularMind,
+    FavoriteMind,
+    MyWiki,
   },
   data() {
     return {
