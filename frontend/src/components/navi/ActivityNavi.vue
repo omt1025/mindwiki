@@ -58,3 +58,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.v-sheet.v-card:not(.v-sheet--outlined) {
+  box-shadow: none;
+}
+</style>
