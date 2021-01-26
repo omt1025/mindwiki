@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <h2>좋아요</h2>
+    <div id="subheadder">
+      <h3>좋아요</h3>
+    </div>
+    
     <vue-glide v-model="active1">
       <vue-glide-slide v-for="card in cards1" :key="card.title">
         <v-row dense>
@@ -35,8 +38,10 @@
         </v-row>
       </vue-glide-slide>
     </vue-glide>
-    <hr />
-    <h2>팔로우</h2>
+
+    <div id="subheadder">
+      <h3>팔로우</h3>
+    </div>
     <vue-glide v-model="active2">
       <vue-glide-slide v-for="card in cards2" :key="card.title">
         <v-row dense>
@@ -87,13 +92,13 @@ export default {
     active1: 0,
     active2: 0,
     cards1: [
-      { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
+      { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 6 },
       {
         title: 'Favorite road trips',
         src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg',
-        flex: 12,
+        flex: 6,
       },
-      { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 12 },
+      { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 8 },
     ],
     cards2: [
       { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
@@ -108,8 +113,9 @@ export default {
 };
 </script>
 
-<style scoped>
-h2 {
-  margin: 15px 0px 15px 0;
+<style>
+#subheadder {
+  text-align: left;
+  padding: 22px 30px;
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
   <v-app>
-    <MainNavi />
-    <BottomNavi />
+    <div>
+      <MainNavi />
+      <BottomNavi />
+    </div>
+    <div>
+    </div>
   </v-app>
 </template>
 

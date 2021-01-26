@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row dense>
+    <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
           <v-img
@@ -50,4 +50,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+  #list {
+    padding: 5px;
+    margin-bottom: 50px;
+  }
+</style>
