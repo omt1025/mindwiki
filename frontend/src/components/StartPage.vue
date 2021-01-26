@@ -1,64 +1,68 @@
 <template>
   <div id="bg">
-    <!-- <img src="../assets/vertical.png" alt=""> -->
+    <img src="../assets/images/user/bg-01.jpg" alt="">
+    
     <v-app>
       <v-row justify="center" align="center" style="min-height: 160px;">
         <v-col class="shrink">
-          <v-btn
-            rounded
-            class="ma-5"
-            color="#0278ae"
-            height="200px"
-            width="350px"
-            @click="expand = !expand"
-          >
-            <h1 class="login100-form-title">MIND WIKI</h1>
-          </v-btn>
 
+          <v-img
+            id="logo"
+            src="../assets/images/test_logo.png"
+            @click="expand = !expand"
+            class="ma-8"
+            ></v-img>
+
+          <div id="bt">
           <transition name="slide-fade">
-            <v-card color="#51dacf" v-if="expand" class="mx-auto ma-6" width="350px">
               <v-btn
+                v-if="expand"
                 to="/signup"
                 height="50px"
-                width="350px"
-                color="#51dacf"
-                align="center"
-                class="font-weight-bold"
+                width="300px"
+                class="fb-btn font-weight-bold mx-auto ma-4"
+                :ripple="false"
+                id="no-background-hover"
+                color="#ffffffbb"
+                rounded
               >
                 회원가입
               </v-btn>
-            </v-card>
           </transition>
 
           <transition name="slide-fade2">
-            <v-card color="#9ef5cf" v-if="expand" class="mx-auto ma-6" width="350px">
               <v-btn
+                v-if="expand"
                 @click="goLogin"
                 height="50px"
-                width="350px"
-                color="#9ef5cf"
-                align="center"
-                class="font-weight-bold"
+                width="300px"
+                class="font-weight-bold mx-auto ma-4"
+                :ripple="false"
+                id="no-background-hover"
+                color="#ffffffbb"
+                rounded
               >
                 로그인
               </v-btn>
-            </v-card>
           </transition>
 
           <transition name="slide-fade3">
-            <v-card color="#e8ffc1" v-if="expand" class="mx-auto ma-6" width="350px">
               <v-btn
+                v-if="expand"
                 to="/main"
                 height="50px"
-                width="350px"
-                color="#e8ffc1"
-                align="center"
-                class="font-weight-bold"
+                width="300px"
+                class="font-weight-bold mx-auto ma-4"
+                :ripple="false"
+                id="no-background-hover"
+                color="#ffffffbb"
+                rounded
               >
                 비회원으로 접속하기
               </v-btn>
-            </v-card>
           </transition>
+
+          </div>
         </v-col>
       </v-row>
     </v-app>
@@ -86,13 +90,31 @@ export default {
 
 <style scoped>
 #bg img {
-  position: absolute;
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 375px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  min-width: 100%;
+}
+#logo {
+  top: 200px;
+}
+#bt {
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 500px;
 }
 
 .slide-fade-enter-active {
@@ -127,5 +149,17 @@ export default {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(30px);
   opacity: 0;
+}
+</style>
+
+<style lang="scss">
+#no-background-hover::before {
+  background-color: transparent !important;
+}
+</style>
+
+<style>
+.fb-btn.v-btn--outlined {
+  border: thin solid
 }
 </style>
