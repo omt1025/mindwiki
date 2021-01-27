@@ -1,18 +1,22 @@
 <template>
-  <v-list three-line>
+  <v-list two-line>
     <template v-for="(item, index) in items">
       <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
 
-      <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+      <v-divider v-else-if="item.divider" :key="index"></v-divider>
 
       <v-list-item v-else :key="item.title">
-        <v-list-item-avatar>
-          <v-img :src="item.avatar"></v-img>
-        </v-list-item-avatar>
+        <v-list-item-action></v-list-item-action>
+
+        <v-list-item-icon>
+          <v-icon v-html="item.icon"></v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-action></v-list-item-action>
 
         <v-list-item-content>
           <v-list-item-title v-html="item.title"></v-list-item-title>
-          <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+          <v-list-item-subtitle v-html="item.subtitle" class="subtitle"></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -21,53 +25,60 @@
 
 <script>
 export default {
-  name: 'ActivityList',
+  name: 'ActivityMessage',
 
   data: () => ({
     items: [
-      { header: 'Today' },
+      { header: '오늘 알림' },
       {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Brunch this weekend?',
-        subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
+        icon: 'mdi-heart',
+        title: 'giga님이 회원님의 게시물을 좋아합니다.',
+        subtitle: `52분 전`,
       },
-      { divider: true, inset: true },
       {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
+        icon: 'mdi-message-text',
+        title:
+          'popo님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 이렇게 생각할수도 있겠네요</span>',
+        subtitle: `10시간`,
       },
-      { divider: true, inset: true },
+
+      { header: '이전 알림' },
       {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Oui oui',
-        subtitle:
-          '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
+        icon: 'mdi-message-text',
+        title:
+          'zolryu님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 퍼가요^^</span>',
+        subtitle: '2021-01-20',
       },
-      { divider: true, inset: true },
       {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Birthday gift',
-        subtitle:
-          '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
+        icon: 'mdi-heart',
+        title: 'hei님이 회원님의 게시물을 좋아합니다',
+        subtitle: '2021-01-15',
       },
-      { divider: true, inset: true },
       {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-        title: 'Recipe to try',
-        subtitle:
-          '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-      },
-      { divider: true, inset: true },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-        title: 'Recipe',
-        subtitle:
-          '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+        icon: 'mdi-message-text',
+        title:
+          'mola님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 헉, 펜트하우스 넘나 존잼이죠!!</span>',
+        subtitle: '2021-01-04',
       },
     ],
   }),
 };
 </script>
 
-<style></style>
+<style scoped>
+.v-list-item__title {
+  text-align: left;
+}
+.v-list--three-line .v-list-item,
+.v-list-item--three-line {
+  min-height: auto;
+}
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+  margin-right: 0px;
+}
+.subtitle {
+  text-align: left;
+  margin-top: 6px;
+}
+</style>
