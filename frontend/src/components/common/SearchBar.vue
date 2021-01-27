@@ -4,7 +4,7 @@
   >
     <v-toolbar>
       <v-spacer></v-spacer>
-      <v-toolbar-title>검색</v-toolbar-title>
+      <v-toolbar-title>검색아아아아앙</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
     </v-toolbar>
