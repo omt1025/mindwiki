@@ -28,7 +28,7 @@ export default {
 .v-toolbar__title {
   font-family: 'Fredoka One';
 }
-.v-toolbar__title {
-  font-family: 'Black Han Sans';
-}
+// .v-toolbar__title {
+//   font-family: 'Black Han Sans';
+// }
 </style>
