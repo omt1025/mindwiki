@@ -1,17 +1,17 @@
 <template>
   <v-app>
     <v-bottom-navigation v-model="value" color="#a64bf4" grow shift fixed>
-      <v-btn>
+      <v-btn to="/main/home">
         <span>홈</span>
         <v-icon>mdi-home-outline</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn to="/main/search">
         <span>검색</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn to="/main/MindMapDetail">
         <span>생성</span>
         <v-icon>mdi-head-plus-outline</v-icon>
       </v-btn>
@@ -21,7 +21,7 @@
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn to="/main/mylibrary">
         <span>내 책장</span>
         <v-icon>mdi-bookshelf</v-icon>
       </v-btn>
