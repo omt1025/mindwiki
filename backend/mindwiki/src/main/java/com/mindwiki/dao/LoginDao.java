@@ -9,6 +9,6 @@ import com.mindwiki.model.MemberDto;
 @Repository
 public interface LoginDao {
 
-	String login(MemberDto member) throws SQLException;
+	MemberDto login(MemberDto member) throws SQLException;
 	
 }
