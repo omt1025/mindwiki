@@ -8,18 +8,18 @@
 
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
 
-      <template v-slot:extension>
-        <v-tabs v-model="tab" grow color="#a64bf4" id="topnavi">
+      <template v-if="bottomNav === 'home'" v-slot:extension>
+        <v-tabs v-model="homeTab" grow color="#a64bf4" id="topnavi">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
-          <v-tab v-for="item in items" :key="item">
+          <v-tab v-for="item in items" :key="item" @click="setTab">
             {{ item }}
           </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
 
-    <v-tabs-items v-model="tab">
+    <!-- <v-tabs-items v-if="bottomNav === 'home'" v-model="tab">
       <v-tab-item>
         <v-card flat>
           <LivePopularMind />
@@ -37,31 +37,33 @@
           <MyWiki />
         </v-card>
       </v-tab-item>
-    </v-tabs-items>
+    </v-tabs-items> -->
   </v-card>
 </template>
 
 <script>
-import LivePopularMind from '@/components/main/home/LivePopularMind.vue';
-import FavoriteMind from '@/components/main/home/FavoriteMind.vue';
-import MyWiki from '@/components/main/home/MyWiki.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'TopNavigation',
-  components: {
-    LivePopularMind,
-    FavoriteMind,
-    MyWiki,
+  components: {},
+  computed: {
+    ...mapGetters(['bottomNav']),
   },
   data() {
     return {
-      tab: null,
+      homeTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
     };
   },
   methods: {
     menu: function() {
       this.$router.push('/main/menu');
+    },
+    setTab() {
+      console.log(this.homeTab);
+      this.$store.dispatch('setHomeTab', this.homeTab);
+      console.log('store getter : ' + this.$store.getters.homeTab);
     },
   },
 };
@@ -79,6 +81,9 @@ export default {
 }
 #topnavi {
   box-shadow: none;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 #navi_shadow {
   box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 3%), 0px 4px 5px 0px rgb(0 0 0 / 3%),

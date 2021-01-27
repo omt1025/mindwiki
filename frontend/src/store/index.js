@@ -1,37 +1,51 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import getters from './getters';
-import actions from './actions';
-import mutations from './mutations';
 // import axios from 'axios';
-// import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
 // const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
-const state = {
-  isUser: false,
-};
+// const state = {
+//   isUser: false,
+// };
 
 export default new Vuex.Store({
-  state,
-  mutations,
-  getters,
-  actions,
+  // 여러 컴포넌트에 공유되는 데이터
+  state: {
+    bottomNav: 'home',
+    homeTab: '0',
+  },
+  // 연산된 state값을 접근
+  getters: {
+    bottomNav(state) {
+      return state.bottomNav;
+    },
+    homeTab(state) {
+      return state.homeTab;
+    },
+  },
+  plugins: [createPersistedState()],
+  // state값을 변경하는 이벤트 로직/메서드
+  mutations: {
+    setBottomNav(state, nav) {
+      state.bottomNav = nav;
+    },
+    setHomeTab(state, tab) {
+      state.homeTab = tab;
+    },
+  },
+  // 비동기처리 로직을 선언하는 메서드
+  actions: {
+    setBottomNav(context, nav) {
+      context.commit('setBottomNav', nav);
+    },
+    setHomeTab(context, tab) {
+      context.commit('setHomeTab', tab);
+    },
+  },
 
-  // state: {
-  //   accessToken: null,
-  //   userId: null,
-  //   userName: null,
-  //   boards: [],
-  //   board: {},
-  //   notices: [],
-  //   notice: {},
-  //   schools: [],
-  //   estates: [],
-  //   hospitals: [],
-  // },
   // getters: {
   //   getAccessToken(state) {
   //     state.accessToken = localStorage.getItem('access_token');

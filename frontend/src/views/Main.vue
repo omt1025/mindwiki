@@ -2,8 +2,8 @@
   <v-app>
     <div>
       <top-navigation></top-navigation>
-      <!-- <MainNavi /> -->
-      <BottomNavi />
+      <main-home v-if="bottomNav === 'home'"></main-home>
+      <bottom-navi></bottom-navi>
     </div>
     <div></div>
   </v-app>
@@ -11,15 +11,21 @@
 
 <script>
 // import MainNavi from '@/components/navi/MainNavi.vue';
-import BottomNavi from '@/components/navi/BottomNavi.vue';
 import TopNavigation from '../components/navi/TopNavigation.vue';
+import MainHome from '../components/main/home/MainHome.vue';
+import BottomNavi from '../components/navi/BottomNavi.vue';
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Main',
   components: {
-    // MainNavi,
-    BottomNavi,
     TopNavigation,
+    MainHome,
+    BottomNavi,
+  },
+  computed: {
+    ...mapGetters(['bottomNav']),
   },
 };
 </script>

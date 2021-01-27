@@ -1,28 +1,29 @@
 <template>
   <v-app>
     <v-bottom-navigation v-model="value" color="#a64bf4" grow shift fixed>
-      <v-btn to="/main/home">
+      <v-btn value="home" @click="setState($event)">
         <span>홈</span>
         <v-icon>mdi-home-outline</v-icon>
       </v-btn>
 
-      <v-btn to="/main/search">
+      <v-btn value="search" @click="setState($event)">
         <span>검색</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn to="/main/MindMapDetail">
+      <!-- to="/main/MindMapDetail" -->
+      <v-btn value="mindmap" @click="setState($event)">
         <span>생성</span>
         <v-icon>mdi-head-plus-outline</v-icon>
       </v-btn>
 
-      <v-btn to="/main/activity">
+      <v-btn value="activity" @click="setState($event)">
         <span>활동</span>
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
-
-      <v-btn to="/main/mylibrary">
-        <span>내 책장</span>
+      <!-- to="/main/mylibrary" -->
+      <v-btn value="profile" @click="setState($event)">
+        <span>프로필</span>
         <v-icon>mdi-bookshelf</v-icon>
       </v-btn>
     </v-bottom-navigation>
@@ -30,11 +31,23 @@
 </template>
 
 <script>
+// created() {
+
+// },
 export default {
   name: 'BottomNavi',
-  data: () => ({
-    value: 0,
-  }),
+  data() {
+    return {
+      value: '',
+    };
+  },
+  methods: {
+    setState() {
+      // console.log(this.value);
+      this.$store.dispatch('setBottomNav', this.value);
+      // console.log('store getter : ' + this.$store.getters.bottomNav);
+    },
+  },
 };
 </script>
 
