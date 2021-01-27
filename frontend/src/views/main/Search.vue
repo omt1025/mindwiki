@@ -1,23 +1,17 @@
 <template>
   <div>
-    <SearchNavi/>
-    <v-container>
-      <SearchBar @input-change="onInputChange" />
-    </v-container>
-    
+    <SearchBar @input-change="onInputChange" />
     <BottomNavi/>
-  </div>
+</div>
 </template>
 
 <script>
 import SearchBar from '@/components/common/SearchBar.vue'
-import SearchNavi from '@/components/navi/SearchNavi.vue'
 import BottomNavi from '@/components/navi/BottomNavi.vue'
 
 export default {
   name: 'Search',
   components: {
-    SearchNavi,
     BottomNavi,
     SearchBar
   },
