@@ -1,16 +1,16 @@
 <template>
   <v-app>
-    <div v-if="homeTab == 0">
+    <div v-if="mainTab == 0">
       <v-card flat>
         <LivePopularMind />
       </v-card>
     </div>
-    <div v-if="homeTab == 1">
+    <div v-if="mainTab == 1">
       <v-card flat>
         <FavoriteMind />
       </v-card>
     </div>
-    <div v-if="homeTab == 2">
+    <div v-if="mainTab == 2">
       <v-card flat>
         <MyWiki />
       </v-card>
@@ -65,7 +65,7 @@ export default {
     MyWiki,
   },
   computed: {
-    ...mapGetters(['homeTab']),
+    ...mapGetters(['mainTab']),
   },
   data() {
     return {

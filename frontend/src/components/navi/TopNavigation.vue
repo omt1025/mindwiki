@@ -1,15 +1,14 @@
 <template>
   <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
-      <!-- <v-spacer></v-spacer> -->
-      <!-- <v-toolbar-title>Mind Wiki</v-toolbar-title> -->
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
 
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
 
+      <!-- 홈 Tab -->
       <template v-if="bottomNav === 'home'" v-slot:extension>
-        <v-tabs v-model="homeTab" grow color="#a64bf4" id="topnavi">
+        <v-tabs v-model="mainTab" grow color="#a64bf4" id="topnavi">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
           <v-tab v-for="item in items" :key="item" @click="setTab">
@@ -17,27 +16,24 @@
           </v-tab>
         </v-tabs>
       </template>
+
+      <!-- 검색 Tab -->
+
+      <!-- 마인드 생성 Tab -->
+
+      <!-- 활동 Tab -->
+      <template v-else-if="bottomNav === 'activity'" v-slot:extension>
+        <v-tabs v-model="mainTab" grow color="#a64bf4">
+          <v-tabs-slider color="#a64bf4"></v-tabs-slider>
+
+          <v-tab v-for="item in activity_items" :key="item" @click="setTab">
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+      </template>
+
+      <!-- 프로필 Tab -->
     </v-toolbar>
-
-    <!-- <v-tabs-items v-if="bottomNav === 'home'" v-model="tab">
-      <v-tab-item>
-        <v-card flat>
-          <LivePopularMind />
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <FavoriteMind />
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <MyWiki />
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items> -->
   </v-card>
 </template>
 
@@ -52,8 +48,9 @@ export default {
   },
   data() {
     return {
-      homeTab: '0',
+      mainTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
+      activity_items: ['알림', '메세지'],
     };
   },
   methods: {
@@ -61,9 +58,9 @@ export default {
       this.$router.push('/main/menu');
     },
     setTab() {
-      console.log(this.homeTab);
-      this.$store.dispatch('setHomeTab', this.homeTab);
-      console.log('store getter : ' + this.$store.getters.homeTab);
+      console.log(this.mainTab);
+      this.$store.dispatch('setMainTab', this.mainTab);
+      console.log('store getter : ' + this.$store.getters.mainTab);
     },
   },
 };

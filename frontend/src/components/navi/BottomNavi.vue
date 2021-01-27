@@ -46,6 +46,8 @@ export default {
       // console.log(this.value);
       this.$store.dispatch('setBottomNav', this.value);
       // console.log('store getter : ' + this.$store.getters.bottomNav);
+
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
     },
   },
 };

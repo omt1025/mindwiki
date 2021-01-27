@@ -15,15 +15,15 @@ export default new Vuex.Store({
   // 여러 컴포넌트에 공유되는 데이터
   state: {
     bottomNav: 'home',
-    homeTab: '0',
+    mainTab: '0',
   },
   // 연산된 state값을 접근
   getters: {
     bottomNav(state) {
       return state.bottomNav;
     },
-    homeTab(state) {
-      return state.homeTab;
+    mainTab(state) {
+      return state.mainTab;
     },
   },
   plugins: [createPersistedState()],
@@ -32,8 +32,8 @@ export default new Vuex.Store({
     setBottomNav(state, nav) {
       state.bottomNav = nav;
     },
-    setHomeTab(state, tab) {
-      state.homeTab = tab;
+    setMainTab(state, tab) {
+      state.mainTab = tab;
     },
   },
   // 비동기처리 로직을 선언하는 메서드
@@ -41,8 +41,8 @@ export default new Vuex.Store({
     setBottomNav(context, nav) {
       context.commit('setBottomNav', nav);
     },
-    setHomeTab(context, tab) {
-      context.commit('setHomeTab', tab);
+    setMainTab(context, tab) {
+      context.commit('setMainTab', tab);
     },
   },
 

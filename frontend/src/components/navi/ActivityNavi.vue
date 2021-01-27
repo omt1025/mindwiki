@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import ActivityList from '@/components/common/ActivityList.vue';
-import ActivityMessage from '@/components/common/ActivityMessage.vue';
+import ActivityList from '@/components/main/activity/ActivityList.vue';
+import ActivityMessage from '@/components/main/activity/ActivityMessage.vue';
 
 export default {
   name: 'ActivityNavi',
