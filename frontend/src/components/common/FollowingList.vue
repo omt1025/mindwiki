@@ -33,6 +33,7 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </v-list-item-icon>
+        
       </v-list-item>
     </template>
   </div>
