@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.mindwiki.model.MemberDto;
 import com.mindwiki.service.LoginService;
 
 
 @CrossOrigin("*")
 @RestController
-@Controller
+@RequestMapping("/mindwiki")
 public class LoginController {
 
+	
 	@Autowired
 	private LoginService loginSvc;
-	 
+	
 	
 	
 	@PostMapping("/login")
@@ -44,18 +48,21 @@ public class LoginController {
 		
 	
 		
-		temp_mem.setIdentification(id);
+		temp_mem.setEmail(id);
 		temp_mem.setPassword(pw);
 		
-		String svcResult;
+		MemberDto memberDto=null;
 		
 		
 		
 		try {
-			svcResult = loginSvc.login(temp_mem);
+			memberDto = loginSvc.login(temp_mem);
 			
-			if(svcResult.equals("OK")) {//로그인성공
+			if(memberDto!=null) {//로그인성공
 				resultMap.put("message", "SUCCESS");
+				
+				hs.setAttribute("sessionGen", "exist");
+				hs.setAttribute("id_auth", memberDto.getEmail());
 				status=HttpStatus.ACCEPTED;
 			}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
@@ -67,7 +74,7 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
-		
+		//여
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
 
@@ -75,6 +82,37 @@ public class LoginController {
 	}
 	
 	
+	@PostMapping("/mind/logout")
+	public ResponseEntity<Map<String, Object>> login(HttpSession hs){
+		
+	
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		System.out.println(hs.getAttribute("id_auth"));
+		
+		hs.invalidate();
+		
+		resultMap.put("message", "logout되었습니다.");
+				
+		status=HttpStatus.ACCEPTED;
+		
+		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
+	
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
+	
+	
+	@PostMapping("/sessionCheck")
+	public String sessionCheck(HttpSession hs) {
+		
+		System.out.println("세션내용"+hs.getAttribute("sessionGen"));
+	
+		String result=(String)hs.getAttribute("sessionGen");
+		
+		return result;
+	}
 	
 	
 }

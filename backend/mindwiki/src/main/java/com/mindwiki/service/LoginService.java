@@ -7,7 +7,7 @@ import com.mindwiki.model.MemberDto;
 public interface LoginService {
 
 	
-	String login(MemberDto member) throws SQLException;
+	MemberDto login(MemberDto member) throws SQLException;
 	
 	
 }

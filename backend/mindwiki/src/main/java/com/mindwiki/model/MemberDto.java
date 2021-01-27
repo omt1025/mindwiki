@@ -16,6 +16,7 @@ public class MemberDto {
 	
 	
 	
+	
 	public int getProfileId() {
 		return ProfileId;
 	}

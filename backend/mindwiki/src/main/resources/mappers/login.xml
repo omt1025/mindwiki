@@ -4,8 +4,9 @@
 
 <mapper namespace="com.mindwiki.dao.LoginDao">
 
-	<select id="login" resultType="String">
-	select password from profile where identification=#{identification}
+	<select id="login" resultType="com.mindwiki.model.MemberDto">
+	select * from profile where email=#{email}
 	</select>
+	
 	
 </mapper>

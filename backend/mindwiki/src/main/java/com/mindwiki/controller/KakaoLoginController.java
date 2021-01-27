@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -30,31 +32,34 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+//여긴 rest controller 굳이 해줄 필요가 없다 하지만 , 세션같은 거를 넣어놔서 세션이 존재할때, 뷰의 첫 페이지에 이름이랑 메일을 띄워야함
+//It`s not a rest controller
 
 @CrossOrigin("*")
 @Controller
+@RequestMapping("/mindwiki")
 public class KakaoLoginController {
 	private final static String REST_API_KEY = "0530ead261a6f23c9a61fdba73622fb7";
 	private final static String REDIRECT_URI = "http://localhost:8000/mindwiki/oauth";
 	
 	
 	@RequestMapping(value = "/oauth")
-	public String kakaoLogin(@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
+	public String kakaoLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
 
 		
 		  final String RequestUrl = "https://kauth.kakao.com/oauth/token";
 	      final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 	      postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
-	      postParams.add(new BasicNameValuePair("client_id", REST_API_KEY)); 
-	      postParams.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI));                                                               
-	      postParams.add(new BasicNameValuePair("code", authorizationToken)); 
+	      postParams.add(new BasicNameValuePair("client_id", REST_API_KEY)); // REST API KEY
+	      postParams.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI)); // 리다이렉트 URI                                                              
+	      postParams.add(new BasicNameValuePair("code", authorizationToken)); // 로그인 과정중 얻은 code 값
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpPost post = new HttpPost(RequestUrl);
 	      JsonNode returnNode = null;
 	      try {
 	         post.setEntity(new UrlEncodedFormEntity(postParams));
 	         final HttpResponse response = client.execute(post);
-
+	
 	         ObjectMapper mapper = new ObjectMapper();
 	         returnNode = mapper.readTree(response.getEntity().getContent());
 	      } catch (UnsupportedEncodingException e) {
@@ -64,23 +69,27 @@ public class KakaoLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-
+	         // clear resources
 	      }
 	      
 	      
 
 	      
-
-	      JsonNode result = getUserInfo(returnNode);
+	   //   System.out.println(returnNode);
+	      String emailResult = getUserInfo(returnNode);
 	      
+	      if(emailResult!=null) {
+	    	  
+	    	  hs.setAttribute("sessionGen", "exist");
+	    	  hs.setAttribute("id_auth",emailResult);
+	      }
 	      
-	      
-	      return "redirect:http://localhost:8080/";
+	      return "redirect:http://localhost:8000/";//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
 	
 	
 	
-	public JsonNode getUserInfo(JsonNode kakao_access_Json) {
+	public String getUserInfo(JsonNode kakao_access_Json) {
 		
 		
 		JsonNode accessToken = kakao_access_Json.get("access_token");
@@ -89,12 +98,12 @@ public class KakaoLoginController {
 		final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpPost post = new HttpPost(RequestUrl);
-
+	      // add header
 	      post.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnNode = null;
 	      try {
 	         final HttpResponse response = client.execute(post);
-
+	 
 	         ObjectMapper mapper = new ObjectMapper();
 	         returnNode = mapper.readTree(response.getEntity().getContent());
 	      } catch (ClientProtocolException e) {
@@ -102,13 +111,11 @@ public class KakaoLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-
+	  
 	      }
-	    
 
 		String kakao_email = null;
 		String kakao_name = null;
-		
 
 		JsonNode profile = returnNode.path("properties");
 		JsonNode kakao_account = returnNode.path("kakao_account");
@@ -117,11 +124,15 @@ public class KakaoLoginController {
 		
 	  	System.out.println(kakao_email);
 	  	System.out.println(kakao_name);
+	  	
+	 
+	  	
+	  	
 	
 	  	
 	  	System.out.println(accessToken);
 	  	
-		return null;
+		return kakao_email;
 		
 	}
 
