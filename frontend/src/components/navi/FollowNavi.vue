@@ -1,27 +1,16 @@
 <template>
   <v-card>
-    <v-toolbar
-      color="primary"
-      dark
-      flat
-    >
-      
+    <v-toolbar>
       <v-spacer></v-spacer>
-
-      <v-toolbar-title>Follow</v-toolbar-title>
-
+      <!-- <v-toolbar-title>Follow</v-toolbar-title> -->
+      <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
       
-
       <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
 
-
       <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          grow
-        >
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+        <v-tabs v-model="tab" grow color="#a64bf4">
+          <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
           <v-tab
             v-for="item in items"
@@ -36,13 +25,13 @@
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <v-card flat>
-          <FollowList/>
+          <FollowerList/>
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat>
-          <FollowList/>
+          <FollowingList/>
         </v-card>
       </v-tab-item>
 
@@ -51,12 +40,14 @@
 </template>
 
 <script>
-  import FollowList from "@/components/common/FollowList.vue"
+  import FollowerList from "@/components/common/FollowerList.vue"
+  import FollowingList from "@/components/common/FollowingList.vue"
   
   export default {
     name: 'FollowNavi',
     components: {
-      FollowList,
+      FollowerList,
+      FollowingList,
     },
     data () {
       return {
@@ -73,3 +64,8 @@
     }
   }
 </script>
+<style scoped>
+.v-sheet.v-card:not(.v-sheet--outlined) {
+  box-shadow: none;
+}
+</style>
