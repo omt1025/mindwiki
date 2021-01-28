@@ -1,28 +1,28 @@
 <template>
   <v-app>
     <v-bottom-navigation v-model="value" color="#a64bf4" grow shift fixed>
-      <v-btn value="home" @click="setState($event)">
+      <v-btn value="home" @click="setState('home')">
         <span>홈</span>
         <v-icon>mdi-home-outline</v-icon>
       </v-btn>
 
-      <v-btn value="search" @click="setState($event)">
+      <v-btn value="search" @click="setState('search')">
         <span>검색</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
       <!-- to="/main/MindMapDetail" -->
-      <v-btn value="mindmap" @click="setState($event)">
+      <v-btn value="mindmap" @click="setState('mindmap')">
         <span>생성</span>
         <v-icon>mdi-head-plus-outline</v-icon>
       </v-btn>
 
-      <v-btn value="activity" @click="setState($event)">
+      <v-btn value="activity" @click="setState('activity')">
         <span>활동</span>
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
       <!-- to="/main/mylibrary" -->
-      <v-btn value="profile" @click="setState($event)">
+      <v-btn value="profile" @click="setState('profile')">
         <span>프로필</span>
         <v-icon>mdi-bookshelf</v-icon>
       </v-btn>
@@ -42,7 +42,8 @@ export default {
     };
   },
   methods: {
-    setState() {
+    setState(value) {
+      this.value = value;
       // console.log(this.value);
       this.$store.dispatch('setBottomNav', this.value);
       // console.log('store getter : ' + this.$store.getters.bottomNav);
