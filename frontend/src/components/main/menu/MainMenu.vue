@@ -6,7 +6,7 @@
         <v-col cols="12" sm="6">
           <div class="text-center">
             <!-- 비회원일 때 보여줌 -->
-
+          <div class="my-5">
             <v-btn
               x-large
               width="500px"
@@ -20,7 +20,7 @@
               <span>로그인</span>
               <v-spacer></v-spacer>
             </v-btn>
-
+            </div>
             <div class="my-5">
               <v-btn
                 x-large
@@ -36,7 +36,7 @@
               </v-btn>
             </div>
             <!--  -->
-
+            
             <!-- 회원일 때 보여줌 -->
             <div class="my-5">
               <v-btn
@@ -158,6 +158,21 @@
                 <v-icon>mdi-arrow-right</v-icon>
               </v-btn>
             </div>
+
+            <!-- dd -->
+            <form v-on:submit.prevent="submitForm">
+              <div>
+                <label for="id">Email:</label>
+                <input id="id" type="text" v-model="id" />
+              </div>
+              <div>
+                <label for="pass">PW:</label>
+                <input id="pass" type="password" v-model="pass"  />
+              </div>
+              <button type="submit">login</button>
+            </form>
+
+
           </div>
         </v-col>
       </v-row>
@@ -178,10 +193,24 @@ export default {
     bellClick: true,
     bookshelfClick: true,
     color: 'white',
+    logoutcheck: '',
   }),
   methods: {
     logout() {
       axios.post(`http://localhost:8000/mindwiki/mind/logout`);
+      this.$router.push('/login')
+    },
+    submitForm:function(){
+      let form = new FormData()
+      form.append('id', this.id) 
+      form.append('pass',this.pass)
+      
+
+  axios.post(`http://localhost:8000/mindwiki/login`,form).then(({ data }) => {
+  
+  alert(data.message);
+  
+});
     },
   },
 };

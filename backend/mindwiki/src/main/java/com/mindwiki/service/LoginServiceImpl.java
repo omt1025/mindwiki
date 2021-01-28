@@ -17,17 +17,22 @@ public class LoginServiceImpl implements LoginService{
 	
 	
 	@Override
-	public String login(MemberDto member) throws SQLException {
+	public MemberDto login(MemberDto member) throws SQLException {
 		String result=null;
 		String pass=member.getPassword();
-		String pw=session.getMapper(LoginDao.class).login(member);
+		member=session.getMapper(LoginDao.class).login(member);
+
 		
 		
-		if(pass.equals(pw)) {
-			result="OK";
-			return result;
+		if(pass.equals(member.getPassword())) {
+			
+			return member;
+		}else {
+			
+			return null;
+			
 		}
-		return null;
+		
 	}
 
 }
