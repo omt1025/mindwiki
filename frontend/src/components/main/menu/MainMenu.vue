@@ -159,20 +159,6 @@
               </v-btn>
             </div>
 
-            <!-- dd -->
-            <form v-on:submit.prevent="submitForm">
-              <div>
-                <label for="id">Email:</label>
-                <input id="id" type="text" v-model="id" />
-              </div>
-              <div>
-                <label for="pass">PW:</label>
-                <input id="pass" type="password" v-model="pass"  />
-              </div>
-              <button type="submit">login</button>
-            </form>
-
-
           </div>
         </v-col>
       </v-row>
@@ -199,18 +185,6 @@ export default {
     logout() {
       axios.post(`http://localhost:8000/mindwiki/mind/logout`);
       this.$router.push('/login')
-    },
-    submitForm:function(){
-      let form = new FormData()
-      form.append('id', this.id) 
-      form.append('pass',this.pass)
-      
-
-  axios.post(`http://localhost:8000/mindwiki/login`,form).then(({ data }) => {
-  
-  alert(data.message);
-  
-});
     },
   },
 };
