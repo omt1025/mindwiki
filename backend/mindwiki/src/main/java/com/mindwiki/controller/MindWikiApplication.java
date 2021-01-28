@@ -14,6 +14,4 @@ public class MindWikiApplication {
 		SpringApplication.run(MindWikiApplication.class, args);
 	}
 
-	
-
 }

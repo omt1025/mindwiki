@@ -1,5 +1,6 @@
 package com.mindwiki.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mindwiki.model.MemberDto;
+import com.mindwiki.service.JwtService;
 import com.mindwiki.service.LoginService;
 
 
@@ -33,7 +35,8 @@ public class LoginController {
 	@Autowired
 	private LoginService loginSvc;
 	
-	
+	@Autowired
+	private JwtService jwtSvc;
 	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(HttpSession hs,
@@ -59,10 +62,10 @@ public class LoginController {
 			memberDto = loginSvc.login(temp_mem);
 			
 			if(memberDto!=null) {//로그인성공
-				resultMap.put("message", "SUCCESS");
-				
-				hs.setAttribute("sessionGen", "exist");
-				hs.setAttribute("id_auth", memberDto.getEmail());
+				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
+				resultMap.put("message", jwt);
+				//hs.setAttribute("sessionGen", "exist");
+				//hs.setAttribute("jwt", jwt);
 				status=HttpStatus.ACCEPTED;
 			}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
@@ -74,10 +77,11 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
-		//여
+		
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-
+		//ResponseEntity는 어차피 그 Json으로 반환
+		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
@@ -88,30 +92,36 @@ public class LoginController {
 	
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		System.out.println(hs.getAttribute("id_auth"));
-		
+	
 		hs.invalidate();
 		
-		resultMap.put("message", "logout되었습니다.");
+	
 				
 		status=HttpStatus.ACCEPTED;
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-	
+		//ResponseEntity는 어차피 그 Json으로 반환
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	
+
+	@PostMapping("/jwtCheck")
+	public Map<String,Object> sessionCheck(HttpSession hs,@RequestParam(value="jwt", required=false) String jwt) {
+		Map<String,Object> claims=new HashMap<>();
 	
-	
-	@PostMapping("/sessionCheck")
-	public String sessionCheck(HttpSession hs) {
 		
-		System.out.println("세션내용"+hs.getAttribute("sessionGen"));
-	
-		String result=(String)hs.getAttribute("sessionGen");
 		
-		return result;
+		try {
+			
+			claims=jwtSvc.verifyJWT(jwt);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		return claims;
 	}
 	
 	

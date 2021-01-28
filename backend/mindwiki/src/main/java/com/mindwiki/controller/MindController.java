@@ -1,5 +1,6 @@
 package com.mindwiki.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mindwiki.model.MemberDto;
 import com.mindwiki.model.MindDto;
+import com.mindwiki.service.JwtService;
 import com.mindwiki.service.MindService;
 
 @CrossOrigin("*")
@@ -35,12 +37,16 @@ public class MindController {
 	@Autowired
 	private MindService mindSvc;
 	
+	@Autowired
+	private JwtService jwtSvc;
+	
 	@PostMapping("/mind")
 	public ResponseEntity<Map<String, Object>> make(HttpSession hs,
+			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="hashtag", required=false) String hashtag,
 			@RequestParam(value="subject", required=false) String subject,
-			@RequestParam(value="explanation", required=false) String explanation){
+			@RequestParam(value="explanation", required=false) String explanation) throws UnsupportedEncodingException{
 		
 		String admin=(String) hs.getAttribute("id_auth");
 		
@@ -49,7 +55,7 @@ public class MindController {
 		Map<String, Object> resultMap = new HashMap<>();
 		
 		try {
-			if(admin!=null) {
+			if(jwtSvc.verifyJWT(jwt)!=null) {
 			mindSvc.make(mind);
 			resultMap.put("message", "마인드가 등록되었습니다.");
 			System.out.println("등록됨");
@@ -59,23 +65,26 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-			//returnMessage="마인드 등록 실패!";
+	
 		}
 	
 		
 		System.out.println("일단 mind controller");
 
-	
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	//comment0126 수정해야함
 	@PutMapping("/mind/read/{no}/comment")public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException{
 		
-	
+		//1번 mymind 불러오기
+		//2번 
+		
+		
+		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -86,15 +95,19 @@ public class MindController {
 	@GetMapping("/mind/read/{no}")
 	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
-	
+		//System.out.println(mindSvc.readByMindID(no)); 이거해주면 중복실행되서 2씩 카운트됨
 		
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no),HttpStatus.OK);
 	}
 	
-
+	//mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException{
 		
-	
+		//1번 mymind 불러오기
+		//2번 
+		
+		
+		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -135,7 +148,7 @@ public class MindController {
 	
 		
 
-
+		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		
 		

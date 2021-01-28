@@ -1,11 +1,16 @@
 <template>
   <v-app>
     <MenuNavi />
-    <v-container fluid class="pa-0">
+
       <v-row align="center">
-        <v-col cols="12" sm="6">
-          <div class="text-center">
-            <!-- 비회원일 때 보여줌 -->
+        <v-col>
+            <div class="my-5">
+            >
+            <span></span>
+            <v-spacer></v-spacer>
+            </div>
+
+          <!-- 비회원일 때 보여줌 -->
           <div class="my-5">
             <v-btn
               x-large
@@ -64,10 +69,10 @@
                 :ripple="false"
               >
                 <v-icon>mdi-lock-reset</v-icon>
-                <span>비밀번호 변경</span>
+                <span id="sp">비밀번호 변경</span>
                 <v-spacer></v-spacer>
-
                 <v-icon>mdi-arrow-right</v-icon>
+                <v-spacer></v-spacer>
               </v-btn>
             </div>
 
@@ -81,9 +86,10 @@
                 :ripple="false"
               >
                 <v-icon>mdi-trophy</v-icon>
-                <span>업적 관리</span>
+                <span id="sp1">업적 관리</span>
                 <v-spacer></v-spacer>
                 <v-icon>mdi-arrow-right</v-icon>
+                <v-spacer></v-spacer>
               </v-btn>
             </div>
 
@@ -96,14 +102,15 @@
                 id="no-background-hover"
                 :ripple="false"
               >
-                <v-icon color="green" v-show="!bookshelfClick">mdi-bookshelf</v-icon>
+                <v-icon color="#E040FB" v-show="!accountClick">mdi-account</v-icon>
 
-                <v-icon v-show="bookshelfClick">mdi-bookshelf</v-icon>
+                <v-icon v-show="accountClick">mdi-account</v-icon>
 
-                <span>내 책장 공개</span>
+                <span id="sp2">프로필 공개</span>
+                <v-spacer></v-spacer>
+                <v-switch v-on:click="accountClick = !accountClick" color="#E040FB"></v-switch>
                 <v-spacer></v-spacer>
 
-                <v-switch v-on:click="bookshelfClick = !bookshelfClick" color="green"></v-switch>
               </v-btn>
             </div>
 
@@ -116,14 +123,15 @@
                 id="no-background-hover"
                 :ripple="false"
               >
-                <v-icon color="green" v-show="!bellClick">mdi-bell</v-icon>
+                <v-icon color="#E040FB" v-show="!bellClick">mdi-bell</v-icon>
 
                 <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
 
-                <span>푸시 알림 설정</span>
+                <span id="sp3">푸시 알림 설정</span>
+                <v-spacer></v-spacer>
+                <v-switch v-on:click="bellClick = !bellClick" color="#E040FB"></v-switch>
                 <v-spacer></v-spacer>
 
-                <v-switch v-on:click="bellClick = !bellClick" color="green"></v-switch>
               </v-btn>
             </div>
 
@@ -137,9 +145,10 @@
                 :ripple="false"
               >
                 <v-icon>mdi-saw-blade</v-icon>
-                <span>MIND 관리 및 설정</span>
+                <span id="sp4">MIND 관리 및 설정</span>
                 <v-spacer></v-spacer>
                 <v-icon>mdi-arrow-right</v-icon>
+                <v-spacer></v-spacer>
               </v-btn>
             </div>
 
@@ -153,30 +162,16 @@
                 :ripple="false"
               >
                 <v-icon>mdi-certificate</v-icon>
-                <span>전문 자격 인증</span>
+                <span id="sp5">전문 자격 인증</span>
                 <v-spacer></v-spacer>
                 <v-icon>mdi-arrow-right</v-icon>
+                <v-spacer></v-spacer>
               </v-btn>
             </div>
 
-            <!-- dd -->
-            <form v-on:submit.prevent="submitForm">
-              <div>
-                <label for="id">Email:</label>
-                <input id="id" type="text" v-model="id" />
-              </div>
-              <div>
-                <label for="pass">PW:</label>
-                <input id="pass" type="password" v-model="pass"  />
-              </div>
-              <button type="submit">login</button>
-            </form>
 
-
-          </div>
         </v-col>
       </v-row>
-    </v-container>
   </v-app>
 </template>
 
@@ -191,7 +186,7 @@ export default {
   },
   data: () => ({
     bellClick: true,
-    bookshelfClick: true,
+    accountClick: true,
     color: 'white',
     logoutcheck: '',
   }),
@@ -200,26 +195,35 @@ export default {
       axios.post(`http://localhost:8000/mindwiki/mind/logout`);
       this.$router.push('/login')
     },
-    submitForm:function(){
-      let form = new FormData()
-      form.append('id', this.id) 
-      form.append('pass',this.pass)
-      
-
-  axios.post(`http://localhost:8000/mindwiki/login`,form).then(({ data }) => {
-  
-  alert(data.message);
-  
-});
-    },
   },
 };
 </script>
 
 <style scoped>
+.container--fluid {
+  background-color: white;
+}
 span {
   display: block;
   margin-left: 20px;
+}
+#sp {
+  margin-right: 40px;
+}
+#sp1 {
+  margin-right: 68px;
+}
+#sp2 {
+  margin-right: 42px;
+}
+#sp3 {
+  margin-right: 22px;
+}
+#sp4 {
+  margin-right: 5px;
+}
+#sp5 {
+  margin-right: 32px;
 }
 </style>
 
@@ -247,8 +251,4 @@ span {
 }
 </style>
 
-<style scoped>
-.container--fluid {
-  background-color: white;
-}
-</style>
+

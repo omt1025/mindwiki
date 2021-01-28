@@ -22,6 +22,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,17 +33,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindwiki.model.OauthDto;
+import com.mindwiki.service.JwtService;
 
 @CrossOrigin("*")
 @Controller
 @RequestMapping("/mindwiki")
 public class GoogleLoginController {
-
+	OauthDto oauth=new OauthDto();
 	private final static String CLIENT_ID = "659791765906-faeludmkkn7l8vqlk37pqlhhisu4n1hb.apps.googleusercontent.com";
 	private final static String CLIENT_SECRET = "wIZsG63vDx-o1lJbZW-5Kp_N";
 	private final static String REDIRECT_URI = "http://localhost:8000/mindwiki/GoogleOAuth";
 
-	
+	@Autowired
+	private JwtService jwtSvc;
 	
 	@RequestMapping(value = "/GoogleOAuth")
 	public String GoogleLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
@@ -74,41 +78,35 @@ public class GoogleLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-	       
+	         // clear resources
 	      }
 	      
 	      
 
-	
-	      String emailResult = getUserInfo(returnJson);
-	      if(emailResult!=null) {
-	    	  
-		  		hs.setAttribute("sessionGen", "exist");
-		  		hs.setAttribute("id_auth",emailResult );
-		  	}
-	      
-	      
-	      return "redirect:http://localhost:8000/";
+	     
+
+	      String jwt = getUserInfo(returnJson);
+
+	      return "redirect:"+"http://localhost:8080/?jwt="+jwt;//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
 
 
 	private String getUserInfo(JsonNode GoogleRequestJson) {
-
+		String jwt=null;
 		
 		JsonNode accessToken = GoogleRequestJson.get("access_token");
-		
 	
 		  final String RequestUrl ="https://www.googleapis.com/oauth2/v1/userinfo?alt=json";		  
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpGet get = new HttpGet(RequestUrl);
 	      
-	   
+	  
 	      get.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnJson = null;
 	      try {
-	    	
-	         final HttpResponse response = client.execute(get);
 	    
+	         final HttpResponse response = client.execute(get);
+	         // JSON 형태 반환값 처리
 	     
 	         ObjectMapper mapper = new ObjectMapper();
 	         returnJson = mapper.readTree(response.getEntity().getContent());
@@ -117,9 +115,9 @@ public class GoogleLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-
+	         // clear resources
 	      }
-      
+//	      
 	      
 	      String Google_email = null;
 	      String Google_name = null;
@@ -127,9 +125,15 @@ public class GoogleLoginController {
 	      Google_name = returnJson.path("name").asText();
 	      System.out.println(Google_email);
 	      System.out.println(Google_name);
-
+	     // System.out.println(returnJson);
+//	      
+	      if(Google_email!=null) {
+	    	  
+	      jwt=jwtSvc.createToken("userInfo", Google_email,Google_name);
+	
 	      
-	      return Google_email;
+	      }
+	      return jwt;
 	}
 	
 	
