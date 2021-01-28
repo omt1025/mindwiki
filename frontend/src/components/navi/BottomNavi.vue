@@ -24,7 +24,7 @@
       <!-- to="/main/mylibrary" -->
       <v-btn value="profile" @click="setState('profile')">
         <span>프로필</span>
-        <v-icon>mdi-bookshelf</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </v-app>
