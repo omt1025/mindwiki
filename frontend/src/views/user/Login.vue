@@ -198,6 +198,9 @@ export default {
         if (data.message === 'SUCCESS') this.$router.push('/main');
         else this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
       });
+
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
     },
     // 카카오 로그인
     loginWithKakao() {

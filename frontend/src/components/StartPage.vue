@@ -48,7 +48,6 @@
             <transition name="slide-fade3">
               <v-btn
                 v-if="expand"
-                to="/main"
                 height="50px"
                 width="300px"
                 class="font-weight-bold mx-auto ma-4"
@@ -56,6 +55,7 @@
                 id="no-background-hover"
                 color="#ffffffbb"
                 rounded
+                @click="goMain"
               >
                 비회원으로 접속하기
               </v-btn>
@@ -81,6 +81,11 @@ export default {
   methods: {
     goLogin() {
       this.$router.push('/login');
+    },
+    goMain() {
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$router.push('/main');
     },
   },
 };

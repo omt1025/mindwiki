@@ -53,9 +53,9 @@ export default {
     },
     setTab(index) {
       this.mainTab = index;
-      console.log(this.mainTab);
+      // console.log(this.mainTab);
       this.$store.dispatch('setMainTab', this.mainTab);
-      console.log('store getter : ' + this.$store.getters.mainTab);
+      // console.log('store getter : ' + this.$store.getters.mainTab);
     },
   },
 };
