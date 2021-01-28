@@ -11,7 +11,7 @@
         <v-tabs v-model="mainTab" grow color="#a64bf4" id="topnavi">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
-          <v-tab v-for="item in items" :key="item" @click="setTab">
+          <v-tab v-for="(item, index) in items" :key="item" @click="setTab(index)">
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -22,7 +22,7 @@
         <v-tabs v-model="mainTab" grow color="#a64bf4">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
-          <v-tab v-for="item in activity_items" :key="item" @click="setTab">
+          <v-tab v-for="(item, index) in activity_items" :key="item" @click="setTab(index)">
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -51,7 +51,8 @@ export default {
     menu: function() {
       this.$router.push('/main/menu');
     },
-    setTab() {
+    setTab(index) {
+      this.mainTab = index;
       console.log(this.mainTab);
       this.$store.dispatch('setMainTab', this.mainTab);
       console.log('store getter : ' + this.$store.getters.mainTab);
