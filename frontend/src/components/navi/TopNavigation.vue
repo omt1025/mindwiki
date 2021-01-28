@@ -17,10 +17,6 @@
         </v-tabs>
       </template>
 
-      <!-- 검색 Tab -->
-
-      <!-- 마인드 생성 Tab -->
-
       <!-- 활동 Tab -->
       <template v-else-if="bottomNav === 'activity'" v-slot:extension>
         <v-tabs v-model="mainTab" grow color="#a64bf4">
@@ -31,8 +27,6 @@
           </v-tab>
         </v-tabs>
       </template>
-
-      <!-- 프로필 Tab -->
     </v-toolbar>
   </v-card>
 </template>

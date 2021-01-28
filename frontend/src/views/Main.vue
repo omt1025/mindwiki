@@ -2,8 +2,12 @@
   <v-app>
     <div>
       <top-navigation></top-navigation>
+
       <main-home v-if="bottomNav === 'home'"></main-home>
+      <search-bar v-else-if="bottomNav === 'search'"></search-bar>
       <main-activity v-else-if="bottomNav === 'activity'"></main-activity>
+      <mind-map-detail v-else-if="bottomNav === 'mindmap'"></mind-map-detail>
+
       <bottom-navi></bottom-navi>
     </div>
     <div></div>
@@ -18,6 +22,8 @@ import BottomNavi from '../components/navi/BottomNavi.vue';
 
 import { mapGetters } from 'vuex';
 import MainActivity from '../components/main/activity/MainActivity.vue';
+import SearchBar from '../components/common/SearchBar.vue';
+import MindMapDetail from './MindMapDetail.vue';
 
 export default {
   name: 'Main',
@@ -26,7 +32,10 @@ export default {
     MainHome,
     BottomNavi,
     MainActivity,
+    SearchBar,
+    MindMapDetail,
   },
+
   computed: {
     ...mapGetters(['bottomNav']),
   },

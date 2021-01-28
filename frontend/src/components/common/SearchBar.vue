@@ -1,14 +1,5 @@
 <template>
-  <v-card
-    flat
-  >
-    <v-toolbar>
-      <v-spacer></v-spacer>
-      <v-toolbar-title>검색</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
-    </v-toolbar>
-
+  <v-card flat>
     <v-card-text>
       <v-form>
         <v-container>
@@ -20,7 +11,7 @@
                 placeholder="검색"
                 type="text"
                 @keypress.enter="onInputKeyword"
-                >
+              >
                 <template v-slot:append>
                   <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
                 </template>
@@ -37,17 +28,15 @@
 export default {
   name: 'SearchBar',
   methods: {
-    onInputKeyword: function (event) {
-      this.$emit('input-change', event.target.value)
-      console.log('ok')
+    onInputKeyword: function(event) {
+      this.$emit('input-change', event.target.value);
+      console.log('ok');
     },
     menu: function() {
-      this.$router.push('/main/search')
-    }
+      this.$router.push('/main/search');
+    },
   },
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
