@@ -21,6 +21,20 @@
 
 	
 	<dependencies>	
+	<!-- xml이랑 매핑 해주는 artifactID -->
+	  <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <!-- jwt생성해주는 maven -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        
+        
 	<!-- 톰캣배포용 -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
