@@ -1,20 +1,19 @@
 <template>
   <div id="bg">
-    <img src="../assets/images/user/bg-01.jpg" alt="">
-    
+    <img src="../assets/images/user/bg-01.jpg" alt="" />
+
     <v-app>
       <v-row justify="center" align="center" style="min-height: 160px;">
         <v-col class="shrink">
-
           <v-img
             id="logo"
-            src="../assets/images/test_logo.png"
+            src="../assets/images/mindwiki_logo-01.png"
             @click="expand = !expand"
             class="ma-8"
-            ></v-img>
+          ></v-img>
 
           <div id="bt">
-          <transition name="slide-fade">
+            <transition name="slide-fade">
               <v-btn
                 v-if="expand"
                 to="/signup"
@@ -28,9 +27,9 @@
               >
                 회원가입
               </v-btn>
-          </transition>
+            </transition>
 
-          <transition name="slide-fade2">
+            <transition name="slide-fade2">
               <v-btn
                 v-if="expand"
                 @click="goLogin"
@@ -44,9 +43,9 @@
               >
                 로그인
               </v-btn>
-          </transition>
+            </transition>
 
-          <transition name="slide-fade3">
+            <transition name="slide-fade3">
               <v-btn
                 v-if="expand"
                 to="/main"
@@ -60,8 +59,7 @@
               >
                 비회원으로 접속하기
               </v-btn>
-          </transition>
-
+            </transition>
           </div>
         </v-col>
       </v-row>
@@ -107,7 +105,6 @@ export default {
   top: 200px;
 }
 #bt {
-
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
@@ -160,6 +157,6 @@ export default {
 
 <style>
 .fb-btn.v-btn--outlined {
-  border: thin solid
+  border: thin solid;
 }
 </style>
