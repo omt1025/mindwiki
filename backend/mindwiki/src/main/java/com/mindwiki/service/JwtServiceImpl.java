@@ -41,21 +41,23 @@ public class JwtServiceImpl implements JwtService {
 	 
 	Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 	
-
+	 //최초 로그인시에 생성해서 프론트에서 localstorage나 쿠키에 저장을 해준다.
 	   @Override
 	    public String createToken(String subject, String email, String nickName) {
 		   
-
+		   //Header 부분 설정
 	        Map<String, Object> headers = new HashMap<>();
 	        headers.put("typ", "JWT");
 	        headers.put("alg", "HS256");
 
-
+	        //payload 부분 설정
 	        Map<String, Object> payloads = new HashMap<>();
-
+	        //여기서 dao로 불러와서 payloads에 삽입
 	        payloads.put("email", email);
 	        payloads.put("nickName", nickName);
 	        
+
+	        Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 
 	        Date ext = new Date(); // 토큰 만료 시간
 	        ext.setTime(ext.getTime() + expiredTime);
@@ -69,12 +71,12 @@ public class JwtServiceImpl implements JwtService {
 	                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes()) // HS256과 Key로 Sign
 	                .compact(); // 토큰 생성
 
-	        return jwt;
+	        return jwt;//jwt생성된것임 따로 세션이나 저장할 필요없음
 	
 	    }
 
 
-	//토큰 검증
+	 //토큰 검증
 	@Override
     public Map<String, Object> verifyJWT(String jwt) throws UnsupportedEncodingException {
         Map<String, Object> claimMap = null;
@@ -90,15 +92,17 @@ public class JwtServiceImpl implements JwtService {
 
             claimMap = claims;
 
+            //Date expiration = claims.get("exp", Date.class);
+            //String data = claims.get("data", String.class);
             
-        } catch (ExpiredJwtException e) { 
+        } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             System.out.println(e);
             
-        } catch (Exception e) { 
+        } catch (Exception e) { // 그외 에러났을 경우
             System.out.println(e);
            
         }
-        return claimMap;
+        return claimMap;//토큰이 검증되면, map을 가져다가 쓸수있음 claim은 map으로 이루어져있음
     }
 
 
@@ -110,7 +114,6 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 
-	
 	 
 
 }

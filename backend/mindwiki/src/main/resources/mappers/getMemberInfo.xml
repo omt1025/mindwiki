@@ -4,7 +4,7 @@
 
 <mapper namespace="com.mindwiki.dao.MemberInfoDao">
 
-	<select id="takeMemberInfo" resultType="com.mindwiki.model.MemberDto">
+	<select id="takeMemberInfo" resultType="com.mindwiki.model.ProfileDto">
 	select * from profile where email=#{email}
 	</select>
 	

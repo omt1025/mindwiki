@@ -83,11 +83,9 @@ public class GoogleLoginController {
 	      
 	      
 
-	     
-
+	
 	      String jwt = getUserInfo(returnJson);//사실 jwt를 return해주지않아도 생성된 것임
 
-	      
 	      
 	      return "redirect:"+"http://localhost:8080/?jwt="+jwt;//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
@@ -102,13 +100,13 @@ public class GoogleLoginController {
 		  final String RequestUrl ="https://www.googleapis.com/oauth2/v1/userinfo?alt=json";		  
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpGet get = new HttpGet(RequestUrl);
-	    
+	      
 	      get.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnJson = null;
 	      try {
-	    	 
+	    	  //여기서 requesturl + header값을 보내면. response로 받아온다. 받아온것을 json으로 또 처리한다.
 	         final HttpResponse response = client.execute(get);
-	       
+	         // JSON 형태 반환값 처리
 	     
 	         ObjectMapper mapper = new ObjectMapper();
 	         returnJson = mapper.readTree(response.getEntity().getContent());
@@ -127,12 +125,12 @@ public class GoogleLoginController {
 	      Google_name = returnJson.path("name").asText();
 	      System.out.println(Google_email);
 	      System.out.println(Google_name);
-	
+	     // System.out.println(returnJson);
 //	      
 	      if(Google_email!=null) {
 	    	  
 	      jwt=jwtSvc.createToken("userInfo", Google_email,Google_name);
-	     
+	      //만들어주면 알아서 서버에 저장됨
 	      
 	      }
 	      return jwt;

@@ -1,6 +1,7 @@
 package com.mindwiki.controller;
 
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,8 +37,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
-
-
 
 @CrossOrigin("*")
 @Controller
@@ -79,8 +78,9 @@ public class KakaoLoginController {
 	      
 	      
 
+//	      OauthDto oauth=null;
+	   //   System.out.println(returnNode);
 	      String jwt = getUserInfo(returnNode);//jwt를 리턴해주지 않아도 생성된것임
-	      
 
 	      
 	      return "redirect:"+"http://localhost:8080/?jwt="+jwt;//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
@@ -97,12 +97,12 @@ public class KakaoLoginController {
 		final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpPost post = new HttpPost(RequestUrl);
-	    
+	      // add header
 	      post.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnNode = null;
 	      try {
 	         final HttpResponse response = client.execute(post);
-	     
+	         // JSON 형태 반환값 처리
 	         ObjectMapper mapper = new ObjectMapper();
 	         returnNode = mapper.readTree(response.getEntity().getContent());
 	      } catch (ClientProtocolException e) {
@@ -110,17 +110,17 @@ public class KakaoLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-	    
+	         // clear resources
 	      }
 	    
 	      
 	      
 	      
-	
+	  //    System.out.println(returnNode);
 		String kakao_email = null;
 		String kakao_name = null;
 		
-	
+	// 카카오에서, docs바탕으로 user info 얻어오기
 		JsonNode profile = returnNode.path("properties");
 		JsonNode kakao_account = returnNode.path("kakao_account");
 		kakao_email = kakao_account.path("email").asText();
@@ -133,9 +133,10 @@ public class KakaoLoginController {
 	  	 if(kakao_email!=null) {
 	    	  
 		      jwt = jwtSvc.createToken("userInfo", kakao_email,kakao_name);
-		 
+		      //만들어주면 알아서 서버에저장됨
 		      
 		      }
+	  	
 	  
 	  	
 	  	System.out.println(accessToken);

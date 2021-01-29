@@ -43,8 +43,7 @@ public class MindController {
 	//현재페이지를 스크랩함
 	@PostMapping("/mind/read/{no}/scrap")
 	public ResponseEntity<Map<String, Object>> scrap(){
-		
-	
+
 		
 		return null;
 	}
@@ -83,22 +82,29 @@ public class MindController {
 		
 		System.out.println("일단 mind controller");
 
-		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
+	//comment0126 수정해야함
+	@PutMapping("/mind/read/{no}/comment")public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException{
+	
+		System.out.println(mindSvc.read());
+		
+		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
+		
+	}
 	
 	
 	@GetMapping("/mind/read/{no}")
 	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
-		
+
 		
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no),HttpStatus.OK);
 	}
 	
 	//mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException{
+		
 	
 		System.out.println(mindSvc.read());
 		
@@ -139,6 +145,10 @@ public class MindController {
 		}
 	
 		
+
+
+
+		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		
 		
@@ -154,6 +164,8 @@ public class MindController {
 		Map<String,Object> resultMap = new HashMap<>();
 		HttpStatus status=null;
 		
+		//1번 mymind 불러오기
+		//2번 
 		MindDto mind=new MindDto();
 		mind.setMindID(no);
 		System.out.println("삭제번호 "+no);

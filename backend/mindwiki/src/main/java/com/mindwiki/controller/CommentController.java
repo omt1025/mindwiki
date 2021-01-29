@@ -52,14 +52,16 @@ public class CommentController {
 		Map<String, Object> resultMap = new HashMap<>();
 		int MindID=no;
 		
-		claims=jwtSvc.verifyJWT(jwt);
-		String email=(String) claims.get("email");
-		System.out.println("이메일 jwt에서 검증후 잘가져왔는지" +email);
+		
 		HttpStatus status=null;
 		
+
 		try {
 			if(jwtSvc.verifyJWT(jwt)!=null) {
-	
+			
+			claims=jwtSvc.verifyJWT(jwt);
+			String email=(String) claims.get("email");
+			System.out.println("이메일 jwt에서 검증후 잘가져왔는지" +email);
 			CommentDto comment =new CommentDto(MindID,data,email);
 			commentSvc.make(comment);//comment 생성
 			resultMap.put("message", "comment가 등록되었습니다.");
@@ -70,10 +72,10 @@ public class CommentController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-			
+			// TODO Auto-generated catch block
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-			
+			//returnMessage="코멘트 등록 실패!";
 		}
 	
 		
@@ -87,10 +89,8 @@ public class CommentController {
 	//Comment read 해당되는 MindIDno에 있는 모든 것을 불러온다.
 		@GetMapping("/mind/{no}/comment/read")public ResponseEntity<List<CommentDto>> read(@PathVariable int no) throws SQLException{
 			
-		
 			int MindID=no;
-	
-	
+			
 			System.out.println(commentSvc.read(MindID));
 			
 			return new ResponseEntity<List<CommentDto>>(commentSvc.read(MindID), HttpStatus.OK);
@@ -132,7 +132,7 @@ public class CommentController {
 				// TODO Auto-generated catch block
 				status=HttpStatus.INTERNAL_SERVER_ERROR;
 				e.printStackTrace();
-			
+				//returnMessage="마인드 등록 실패!";
 			}
 		
 		
@@ -158,8 +158,11 @@ public class CommentController {
 			String email=(String) claims.get("email");
 			HttpStatus status=null;
 			
+			//1번 mymind 불러오기
+			//2번 
 			CommentDto comment =new CommentDto(MindID,commentID,data,email);
-		
+			//이 생성자로 인해comment id가 제대로 전달됨
+			
 			
 			try {
 				commentSvc.deleteByCommentID(comment);

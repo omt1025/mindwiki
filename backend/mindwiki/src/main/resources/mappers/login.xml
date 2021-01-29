@@ -4,7 +4,7 @@
 
 <mapper namespace="com.mindwiki.dao.LoginDao">
 
-	<select id="login" resultType="com.mindwiki.model.MemberDto">
+	<select id="login" resultType="com.mindwiki.model.ProfileDto">
 	select * from profile where email=#{email}
 	</select>
 	
