@@ -2,12 +2,12 @@ package com.mindwiki.service;
 
 import java.sql.SQLException;
 
-import com.mindwiki.model.MemberDto;
+import com.mindwiki.model.ProfileDto;
 
 public interface LoginService {
 
 	
-	MemberDto login(MemberDto member) throws SQLException;
+	ProfileDto login(ProfileDto member) throws SQLException;
 	
 	
 }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.mindwiki.model.MemberDto;
+import com.mindwiki.model.ProfileDto;
 import com.mindwiki.service.JwtService;
 import com.mindwiki.service.LoginService;
 
@@ -46,7 +46,7 @@ public class LoginController {
 		System.out.println("일단 login controller");
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		MemberDto temp_mem=new MemberDto();
+		ProfileDto temp_mem=new ProfileDto();
 		
 		
 	
@@ -54,7 +54,7 @@ public class LoginController {
 		temp_mem.setEmail(id);
 		temp_mem.setPassword(pw);
 		
-		MemberDto memberDto=null;
+		ProfileDto memberDto=null;
 		
 		
 		
@@ -64,8 +64,7 @@ public class LoginController {
 			if(memberDto!=null) {//로그인성공
 				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
 				resultMap.put("message", jwt);
-				//hs.setAttribute("sessionGen", "exist");
-				//hs.setAttribute("jwt", jwt);
+				
 				status=HttpStatus.ACCEPTED;
 			}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
@@ -80,7 +79,7 @@ public class LoginController {
 		
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-		//ResponseEntity는 어차피 그 Json으로 반환
+	
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
@@ -93,30 +92,32 @@ public class LoginController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 	
+		
 		hs.invalidate();
 		
-	
+		
 				
 		status=HttpStatus.ACCEPTED;
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-		//ResponseEntity는 어차피 그 Json으로 반환
+	
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	
-
+	
+	//jwt를 요청하면 추가정보를 얻을 수 있음
 	@PostMapping("/jwtCheck")
 	public Map<String,Object> sessionCheck(HttpSession hs,@RequestParam(value="jwt", required=false) String jwt) {
 		Map<String,Object> claims=new HashMap<>();
-	
+		
 		
 		
 		try {
 			
 			claims=jwtSvc.verifyJWT(jwt);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	

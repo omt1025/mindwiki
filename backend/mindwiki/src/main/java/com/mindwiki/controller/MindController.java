@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import com.mindwiki.model.MemberDto;
+import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.MindDto;
 import com.mindwiki.service.JwtService;
 import com.mindwiki.service.MindService;
@@ -39,6 +39,15 @@ public class MindController {
 	
 	@Autowired
 	private JwtService jwtSvc;
+	
+	//현재페이지를 스크랩함
+	@PostMapping("/mind/read/{no}/scrap")
+	public ResponseEntity<Map<String, Object>> scrap(){
+		
+	
+		
+		return null;
+	}
 	
 	@PostMapping("/mind")
 	public ResponseEntity<Map<String, Object>> make(HttpSession hs,
@@ -65,10 +74,10 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-		
+			// TODO Auto-generated catch block
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-	
+			//returnMessage="마인드 등록 실패!";
 		}
 	
 		
@@ -77,37 +86,20 @@ public class MindController {
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	//comment0126 수정해야함
-	@PutMapping("/mind/read/{no}/comment")public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException{
-		
-		//1번 mymind 불러오기
-		//2번 
-		
-		
-		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
-		System.out.println(mindSvc.read());
-		
-		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
-		
-	}
+
 	
 	
 	@GetMapping("/mind/read/{no}")
 	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
-		//System.out.println(mindSvc.readByMindID(no)); 이거해주면 중복실행되서 2씩 카운트됨
+		
 		
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no),HttpStatus.OK);
 	}
 	
 	//mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException{
-		
-		//1번 mymind 불러오기
-		//2번 
-		
-		
-		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
+	
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -147,8 +139,6 @@ public class MindController {
 		}
 	
 		
-
-		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		
 		
@@ -164,8 +154,6 @@ public class MindController {
 		Map<String,Object> resultMap = new HashMap<>();
 		HttpStatus status=null;
 		
-		//1번 mymind 불러오기
-		//2번 
 		MindDto mind=new MindDto();
 		mind.setMindID(no);
 		System.out.println("삭제번호 "+no);

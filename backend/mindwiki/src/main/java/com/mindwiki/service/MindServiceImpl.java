@@ -21,6 +21,7 @@ public class MindServiceImpl implements MindService {
 	public void make(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).make(mind);
 		
+		
 	}
 
 	@Override
