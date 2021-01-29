@@ -20,6 +20,7 @@ public class MindDto {
 	private int scrapCnt;
 	private String comment;
 	private int likeCnt;
+	
 	private int nodeCnt;
 	private int NodeListID;
 	private int TimeTagID;

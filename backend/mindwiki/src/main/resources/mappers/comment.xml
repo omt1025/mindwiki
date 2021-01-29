@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mindwiki.dao.CommentDao">
+	<insert id="make">
+	insert into comment (MindID, data, email, createTime) values (#{MindID},#{data},#{email}, now())
+	</insert>
+
+	<select id="read" resultType="com.mindwiki.model.CommentDto">
+		select * from comment where MindID=#{MindID}
+	</select>
+	
+	<update id="updateByCommentID">
+		update comment set data=#{data}, createTime=now() where CommentID=#{CommentID}
+	</update>
+	
+	<delete id="deleteByCommentID">
+	delete from comment where CommentID=#{CommentID}
+	</delete>
+	
+
+	
+</mapper>

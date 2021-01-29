@@ -1,6 +1,8 @@
 package com.mindwiki.model;
 
-public class MemberDto {
+
+//데이터로 치면 profile
+public class ProfileDto {
 
 	private int ProfileId;
 	String identification;
