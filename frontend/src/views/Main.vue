@@ -1,39 +1,42 @@
 <template>
   <v-app>
     <div>
-      <top-navigation></top-navigation>
+      <top-navi></top-navi>
 
       <main-home v-if="bottomNav === 'home'"></main-home>
-      <search-bar v-else-if="bottomNav === 'search'"></search-bar>
+      <main-search v-else-if="bottomNav === 'search'"></main-search>
       <main-activity v-else-if="bottomNav === 'activity'"></main-activity>
       <mind-map-detail v-else-if="bottomNav === 'mindmap'"></mind-map-detail>
+      <main-profile v-else-if="bottomNav === 'profile'"></main-profile>
 
-      <bottom-navi></bottom-navi>
+      <bottom-navi v-if="bottomNav !== 'follow'"></bottom-navi>
     </div>
     <div></div>
   </v-app>
 </template>
 
 <script>
-// import MainNavi from '@/components/navi/MainNavi.vue';
-import TopNavigation from '../components/navi/TopNavigation.vue';
+import TopNavi from '../components/navi/TopNavi.vue';
 import MainHome from '../components/main/home/MainHome.vue';
 import BottomNavi from '../components/navi/BottomNavi.vue';
 
-import { mapGetters } from 'vuex';
 import MainActivity from '../components/main/activity/MainActivity.vue';
-import SearchBar from '../components/common/SearchBar.vue';
 import MindMapDetail from './MindMapDetail.vue';
+import MainSearch from '../components/main/search/MainSearch.vue';
+import MainProfile from '../components/main/profile/MainProfile.vue';
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Main',
   components: {
-    TopNavigation,
+    TopNavi,
     MainHome,
     BottomNavi,
     MainActivity,
-    SearchBar,
+    MainProfile,
     MindMapDetail,
+    MainSearch,
   },
 
   computed: {

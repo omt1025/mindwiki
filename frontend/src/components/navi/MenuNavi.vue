@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar shift fixed height="58.44px" elevation="1" color="#fff">
+    <v-toolbar id="navi_shadow">
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
 
       <v-spacer></v-spacer>
       <v-toolbar-title class="flex text-center" font-family>메뉴</v-toolbar-title>
       <v-spacer></v-spacer>
-    </v-app-bar>
+    </v-toolbar>
   </v-app>
 </template>
 
@@ -15,6 +15,8 @@ export default {
   name: 'BackPageNavi',
   methods: {
     backPage: function() {
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
       this.$router.push('/main');
     },
   },

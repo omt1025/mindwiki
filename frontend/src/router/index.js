@@ -9,9 +9,9 @@ import FindPW from '@/views/user/FindPassword.vue';
 // Main
 import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
-import Search from '../views/main/Search.vue';
+
 import MakeMind from '../views/main/MakeMind.vue';
-import Activity from '../views/main/Activity.vue';
+
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
 // MyLibrary
@@ -47,21 +47,13 @@ const routes = [
     name: 'Main',
     component: Main,
   },
-  {
-    path: '/main/search',
-    name: 'Search',
-    component: Search,
-  },
+
   {
     path: '/main/makemind',
     name: 'MakeMind',
     component: MakeMind,
   },
-  {
-    path: '/main/activity',
-    name: 'Activity',
-    component: Activity,
-  },
+
   {
     path: '/main/mylibrary',
     name: 'MyLibrary',

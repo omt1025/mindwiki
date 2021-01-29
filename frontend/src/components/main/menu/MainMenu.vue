@@ -2,176 +2,171 @@
   <v-app>
     <MenuNavi />
 
-      <v-row align="center">
-        <v-col>
-            <div class="my-5">
-            >
-            <span></span>
+    <v-row align="center">
+      <v-col>
+        <div class="my-5">
+          <span></span>
+          <v-spacer></v-spacer>
+        </div>
+
+        <!-- 비회원일 때 보여줌 -->
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            to="/login"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-login</v-icon>
+            <span>로그인</span>
             <v-spacer></v-spacer>
-            </div>
+          </v-btn>
+        </div>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-account-plus</v-icon>
+            <span>회원가입</span>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
+        <!--  -->
 
-          <!-- 비회원일 때 보여줌 -->
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              to="/login"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-login</v-icon>
-              <span>로그인</span>
-              <v-spacer></v-spacer>
-            </v-btn>
-            </div>
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-account-plus</v-icon>
-                <span>회원가입</span>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
-            <!--  -->
-            
-            <!-- 회원일 때 보여줌 -->
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                @click.native="logout"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-logout</v-icon>
-                <span>로그아웃</span>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                to="/main/menu/changepassword"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-lock-reset</v-icon>
-                <span id="sp">비밀번호 변경</span>
-                <v-spacer></v-spacer>
-                <v-icon>mdi-arrow-right</v-icon>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
+        <!-- 회원일 때 보여줌 -->
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            @click.native="logout"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-logout</v-icon>
+            <span>로그아웃</span>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            to="/main/menu/changepassword"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-lock-reset</v-icon>
+            <span id="sp">비밀번호 변경</span>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
 
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-trophy</v-icon>
-                <span id="sp1">업적 관리</span>
-                <v-spacer></v-spacer>
-                <v-icon>mdi-arrow-right</v-icon>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-trophy</v-icon>
+            <span id="sp1">업적 관리</span>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
 
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon color="#E040FB" v-show="!accountClick">mdi-account</v-icon>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon color="#E040FB" v-show="!accountClick">mdi-account</v-icon>
 
-                <v-icon v-show="accountClick">mdi-account</v-icon>
+            <v-icon v-show="accountClick">mdi-account</v-icon>
 
-                <span id="sp2">프로필 공개</span>
-                <v-spacer></v-spacer>
-                <v-switch v-on:click="accountClick = !accountClick" color="#E040FB"></v-switch>
-                <v-spacer></v-spacer>
+            <span id="sp2">프로필 공개</span>
+            <v-spacer></v-spacer>
+            <v-switch v-on:click="accountClick = !accountClick" color="#E040FB"></v-switch>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
 
-              </v-btn>
-            </div>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon color="#E040FB" v-show="!bellClick">mdi-bell</v-icon>
 
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon color="#E040FB" v-show="!bellClick">mdi-bell</v-icon>
+            <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
 
-                <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
+            <span id="sp3">푸시 알림 설정</span>
+            <v-spacer></v-spacer>
+            <v-switch v-on:click="bellClick = !bellClick" color="#E040FB"></v-switch>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
 
-                <span id="sp3">푸시 알림 설정</span>
-                <v-spacer></v-spacer>
-                <v-switch v-on:click="bellClick = !bellClick" color="#E040FB"></v-switch>
-                <v-spacer></v-spacer>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-saw-blade</v-icon>
+            <span id="sp4">MIND 관리 및 설정</span>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
 
-              </v-btn>
-            </div>
-
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-saw-blade</v-icon>
-                <span id="sp4">MIND 관리 및 설정</span>
-                <v-spacer></v-spacer>
-                <v-icon>mdi-arrow-right</v-icon>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
-
-            <div class="my-5">
-              <v-btn
-                x-large
-                width="500px"
-                depressed
-                color="white"
-                id="no-background-hover"
-                :ripple="false"
-              >
-                <v-icon>mdi-certificate</v-icon>
-                <span id="sp5">전문 자격 인증</span>
-                <v-spacer></v-spacer>
-                <v-icon>mdi-arrow-right</v-icon>
-                <v-spacer></v-spacer>
-              </v-btn>
-            </div>
-
-
-        </v-col>
-      </v-row>
+        <div class="my-5">
+          <v-btn
+            x-large
+            width="500px"
+            depressed
+            color="white"
+            id="no-background-hover"
+            :ripple="false"
+          >
+            <v-icon>mdi-certificate</v-icon>
+            <span id="sp5">전문 자격 인증</span>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right</v-icon>
+            <v-spacer></v-spacer>
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
@@ -193,7 +188,7 @@ export default {
   methods: {
     logout() {
       axios.post(`http://localhost:8000/mindwiki/mind/logout`);
-      this.$router.push('/login')
+      this.$router.push('/login');
     },
   },
 };
@@ -250,5 +245,3 @@ span {
   font-family: 'Poor Story';
 }
 </style>
-
-

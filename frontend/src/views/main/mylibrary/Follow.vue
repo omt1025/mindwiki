@@ -1,23 +1,18 @@
 <template>
   <v-app>
-    <FollowNavi/>
-    <BottomNavi/>
+    <FollowNavi />
   </v-app>
 </template>
 
 <script>
-import FollowNavi from '@/components/navi/FollowNavi.vue'
-import BottomNavi from '@/components/navi/BottomNavi.vue'
+import FollowNavi from '@/components/navi/FollowNavi.vue';
 
-  export default {
-    name: "Followers",
-    components: {
-      FollowNavi,
-      BottomNavi
-    },
-  }
+export default {
+  name: 'Followers',
+  components: {
+    FollowNavi,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
