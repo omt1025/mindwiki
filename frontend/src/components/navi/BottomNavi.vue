@@ -12,15 +12,16 @@
       </v-btn>
 
       <!-- to="/main/MindMapDetail" -->
-      <v-btn value="mindmap" @click="setState('mindmap')">
-        <span>생성</span>
-        <v-icon>mdi-head-plus-outline</v-icon>
-      </v-btn>
+        <v-btn value="mindmap" @click="setState('mindmap')">
+          <span>생성</span>
+          <v-icon>mdi-head-plus-outline</v-icon>
+        </v-btn>
 
       <v-btn value="activity" @click="setState('activity')">
         <span>활동</span>
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
+      
       <!-- to="/main/mylibrary" -->
       <v-btn value="profile" @click="setState('profile')">
         <span>프로필</span>
