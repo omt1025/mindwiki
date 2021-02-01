@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mindwiki.dao.MindDao">
+
+	<select id="read" resultType="com.mindwiki.model.MindDto">
+		select * from mind
+	</select>
+	
+	
+	<select id="readByMindID" resultType="com.mindwiki.model.MindDto">
+		select * from mind where mindID=#{mindID}
+	</select>
+	
+	<update id="updateViewCnt" >
+		update mind
+		set viewCnt = viewCnt + 1
+		where mindID = #{mindID}
+	</update>
+	
+	
+	<update id="updateByMindID">
+		update mind set title=#{title}, subject=#{subject}, hashtag=#{hashtag}, explanation=#{explanation} where MindID=#{MindID}
+	</update>
+	
+	<delete id="deleteByMindID">
+	delete from mind where MindID=#{MindID}
+	</delete>
+	
+	<insert id="make">
+	insert into mind (admin, title, subject, hashtag, explanation,initCreateTime) values (#{admin}, #{title}, #{subject}, #{hashtag}, #{explanation}, now())
+	</insert>
+	
+</mapper>
