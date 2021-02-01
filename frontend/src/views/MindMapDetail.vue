@@ -2,7 +2,6 @@
   <div id="app">
     <v-app-bar id="navi_shadow" shift fixed color="white" light>
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
-<<<<<<< HEAD
     </v-app-bar>
     <mindmap :nodes="nodes" :connections="connections" :editable="true" />
   
@@ -126,15 +125,6 @@
         </v-card>
       </v-dialog>
     </v-row>
-=======
-
-      <v-spacer></v-spacer>
-      <v-toolbar-title class="flex text-center">마인드맵 생성</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
-
-    <mindmap :nodes="nodes" :connections="connections" :editable="true" />
->>>>>>> 88d38f4b327992dc240831aaf827e8354cef5cbc
   </div>
 </template>
 
@@ -144,7 +134,6 @@ import map from '../map.js';
 export default {
   name: 'app',
   components: {},
-<<<<<<< HEAD
   data: () => ({
     dialog: false,
     ...map,
@@ -161,11 +150,6 @@ export default {
       target: '',
     }
   }),
-=======
-  data() {
-    return { ...map };
-  },
->>>>>>> 88d38f4b327992dc240831aaf827e8354cef5cbc
 };
 </script>
 
