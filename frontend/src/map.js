@@ -202,8 +202,13 @@ export default {
     }
   },
   {
+<<<<<<< HEAD
     'source': 'python',
     'target': 'help',
+=======
+    'source': 'help',
+    'target': 'python',
+>>>>>>> 88d38f4b327992dc240831aaf827e8354cef5cbc
     'curve': {
       'x': -78.1206,
       'y': -114.714
