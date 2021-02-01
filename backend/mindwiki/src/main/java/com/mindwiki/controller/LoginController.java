@@ -63,8 +63,9 @@ public class LoginController {
 			
 			if(memberDto!=null) {//로그인성공
 				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
-				resultMap.put("message", jwt);
-	
+				resultMap.put("message", "SUCCESS");
+				resultMap.put("jwt", jwt);
+		
 				status=HttpStatus.ACCEPTED;
 			}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
