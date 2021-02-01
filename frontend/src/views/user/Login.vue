@@ -139,10 +139,12 @@ import SlimDialog from 'v-slim-dialog';
 Vue.use(SlimDialog);
 Vue.use(VueRouter);
 
-import axios from 'axios';
+// import axios from 'axios';
 import '../../components/css/user.scss';
 import KakaoLogin from '../../components/user/snsLogin/Kakao.vue';
 import GoogleLogin from '../../components/user/snsLogin/Google.vue';
+
+// import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -155,11 +157,15 @@ export default {
         userid: '',
         userpwd: '',
       },
+      message: '',
     };
   },
   created() {
     this.component = this;
   },
+  //  computed: {
+  //   ...mapGetters(['message']),
+  // },
   methods: {
     // 아이콘 색 변경 메소드
     changeColor(event) {
@@ -174,6 +180,7 @@ export default {
       // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
       // https://meaningone.tistory.com/318
     },
+
     // 로그인 input 유효성 검사 메소드
     checkHandler() {
       let err = true;
@@ -187,21 +194,35 @@ export default {
       if (!err) this.showAlert(msg);
       else this.login();
     },
+
     // LOGIN 액션 실행
     login() {
       let form = new FormData();
       form.append('id', this.user.userid);
       form.append('pass', this.user.userpwd);
 
-      axios.post(`http://localhost:8000/mindwiki/login`, form).then(({ data }) => {
-        // alert(data.message);
-        if (data.message === 'SUCCESS') this.$router.push('/main');
-        else this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
-      });
+      // 서버와 통신(axios)을 해 토큰값을 얻어야 하므로 Actions를 호출.
+      this.$store
+        .dispatch('LOGIN', form)
+        .then(() => {
+          this.message = this.$store.getters.getMessage;
 
-      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+          if (this.message === 'SUCCESS') {
+            this.$store.dispatch('setMessage', null);
+            this.$router.push(`/main`);
+            this.$router.go(this.$router.currentRoute);
+          } else {
+            this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
+          }
+        })
+        .catch(({ message }) => (this.msg = message));
+
+      // 탭 초기화(재사용 위해)
+      this.message = '';
+      this.$store.dispatch('setMainTab', 0);
       this.$store.dispatch('setBottomNav', 'home');
     },
+
     // 카카오 로그인
     loginWithKakao() {
       const params = {
@@ -209,6 +230,7 @@ export default {
       };
       window.Kakao.Auth.authorize(params);
     },
+
     // 다이얼로그
     // https://vuejsexamples.com/slim-dialog-for-vuejs/
     showAlert(msg) {

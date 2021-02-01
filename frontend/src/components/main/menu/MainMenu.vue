@@ -172,7 +172,7 @@
 
 <script>
 import MenuNavi from '@/components/navi/MenuNavi.vue';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'MainMenu',
@@ -187,8 +187,9 @@ export default {
   }),
   methods: {
     logout() {
-      axios.post(`http://localhost:8000/mindwiki/mind/logout`);
-      this.$router.push('/login');
+      this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
+      // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
+      // this.$router.push('/login');
     },
   },
 };
