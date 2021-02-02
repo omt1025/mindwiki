@@ -78,6 +78,10 @@ export default {
     expand2: false,
     show: false,
   }),
+  created() {
+    console.log(this.$route.query.jwt);
+    localStorage.setItem('jwt', this.$route.query.jwt);
+  },
   methods: {
     goLogin() {
       this.$router.push('/login');
