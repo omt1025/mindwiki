@@ -8,5 +8,4 @@
 	select * from profile where email=#{email}
 	</select>
 	
-	
 </mapper>
