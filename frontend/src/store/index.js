@@ -23,7 +23,7 @@ export default new Vuex.Store({
   getters: {
     getJWT(state) {
       state.jwt = localStorage.getItem('jwt');
-      axios.defaults.headers.common['jwt'] = state.jwt;
+      // axios.defaults.headers.common['jwt'] = state.jwt;
       return state.jwt;
     },
     getMessage(state) {
@@ -60,8 +60,23 @@ export default new Vuex.Store({
       state.userId = null;
       state.nickName = null;
     },
+    setJWT(state, jwt) {
+      var decodedJWT = jwt_decode(jwt);
+      state.userId = decodedJWT['email'];
+      state.nickName = decodedJWT['nickName'];
+
+      localStorage.setItem('jwt', jwt);
+      localStorage.setItem('user-id', state.userId);
+      localStorage.setItem('user-nickname', state.nickName);
+    },
     setMessage(state, value) {
       state.message = value;
+    },
+    setUserId(state, value) {
+      state.userId = value;
+    },
+    setNickName(state, value) {
+      state.nickName = value;
     },
     setBottomNav(state, nav) {
       state.bottomNav = nav;
@@ -99,6 +114,9 @@ export default new Vuex.Store({
       localStorage.removeItem('user-id');
       localStorage.removeItem('user-nickname');
       context.commit('LOGOUT');
+    },
+    setJWT(context, jwt) {
+      context.commit('setJWT', jwt);
     },
     setMessage(context, value) {
       context.commit('setMessage', value);

@@ -161,5 +161,36 @@ public class ProfileController {
 		return new ResponseEntity<ProfileResultDto>(result, status);
 	}
 	
+	// TODO
+	@PostMapping("/getProfile")
+	public ResponseEntity<ProfileDto> getProfile(HttpSession session,
+			@RequestParam(value="email", required=false) String email){
+		System.out.println("ProfileController] /profile/getProfile");
+		System.out.println("email: " + email); 
+		
+		ProfileDto profileDto = new ProfileDto();
+		profileDto.setEmail(email);
+		
+		HttpStatus status = null;
+		ProfileDto returnProfile = new ProfileDto();
+		ProfileResultDto result = new ProfileResultDto();
+		
+		try {
+			result = profileService.exist(profileDto);
+			if(result.getResult()==SUCCESS) {
+				returnProfile = profileService.getProfile(profileDto);
+				status = HttpStatus.ACCEPTED;
+			}else {
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		}catch(SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+		System.out.println(" status: " + status.toString());
+		return new ResponseEntity<ProfileDto>(returnProfile, status);
+	}
+	
 
 }

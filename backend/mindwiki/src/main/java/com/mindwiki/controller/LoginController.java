@@ -62,7 +62,7 @@ public class LoginController {
 			memberDto = loginSvc.login(temp_mem);
 			
 			if(memberDto!=null) {//로그인성공
-				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
+				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(), memberDto.getNickName());
 				resultMap.put("message", "SUCCESS");
 				resultMap.put("jwt", jwt);
 		

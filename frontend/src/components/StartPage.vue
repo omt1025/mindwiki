@@ -79,8 +79,13 @@ export default {
     show: false,
   }),
   created() {
-    console.log(this.$route.query.jwt);
-    localStorage.setItem('jwt', this.$route.query.jwt);
+    // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우 => main페이지로 이동
+    if (this.$route.query.jwt !== undefined) {
+      var jwt = this.$route.query.jwt;
+      this.$store.dispatch('setJWT', jwt);
+      // console.log('jwt저장 확인 : ' + this.$store.getters.getJWT);
+      this.$router.push('/main');
+    }
   },
   methods: {
     goLogin() {
