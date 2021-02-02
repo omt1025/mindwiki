@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app>
     <v-app-bar id="navi_shadow" shift fixed color="white" light>
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
     </v-app-bar>
@@ -125,7 +125,7 @@
         </v-card>
       </v-dialog>
     </v-row>
-  </div>
+  </v-app>
 </template>
 
 <script>
