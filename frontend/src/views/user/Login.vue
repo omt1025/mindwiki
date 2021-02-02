@@ -74,10 +74,13 @@
             </div>
 
             <div class="flex-c-m sns-login">
+              <!-- 카카오 로그인 -->
               <div @click="loginWithKakao">
                 <kakaoLogin style="margin-right: 10px" />
               </div>
-              <!-- <router-link
+
+              <!-- 구글 로그인 -->
+              <router-link
                 :to="
                   'https:' +
                     '//accounts.google.com/o/oauth2/v2/auth?' +
@@ -88,20 +91,10 @@
                     'redirect_uri=http%3A//localhost:8000/mindwiki/GoogleOAuth&' +
                     'client_id=659791765906-faeludmkkn7l8vqlk37pqlhhisu4n1hb.apps.googleusercontent.com'
                 "
-              > -->
-              <GoogleLogin />
-              <!-- </router-link> -->
+              >
+                <GoogleLogin />
+              </router-link>
             </div>
-
-            <!-- <div class="flex-col-c p-t-155">
-              <span class="txt1 p-b-17">
-                Or Sign Up Using
-              </span>
-
-              <a href="#" class="txt2">
-                Sign Up
-              </a>
-            </div> -->
           </div>
         </div>
       </div>
