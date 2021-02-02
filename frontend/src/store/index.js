@@ -84,6 +84,9 @@ export default new Vuex.Store({
     setMainTab(state, tab) {
       state.mainTab = tab;
     },
+    // makeMindMap(state) {
+    //   state.makeMindMap = 
+    // }
   },
 
   // 비동기처리 로직을 선언하는 메서드
@@ -129,8 +132,7 @@ export default new Vuex.Store({
     },
     makeMindMap(context, mind) {
       return axios.post(`${SERVER_URL}/mind`, mind).then((response) => {
-        context.commit('makeMindMap', response.data);
-        this.state.message = `${response.data['message']}`;
+        context.commit('setMessage', response.data['message']);
       });
     }
   },
