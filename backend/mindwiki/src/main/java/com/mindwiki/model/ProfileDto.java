@@ -19,7 +19,32 @@ public class ProfileDto {
 		
 	String hashtag; // 추가.
 	
+	public ProfileDto() {
+		super();
+	}
 	
+	
+	
+	public ProfileDto(String password, String email, String realName, String hashtag) {
+		super();
+		this.password = password;
+		this.email = email;
+		this.realName = realName;
+		this.hashtag = hashtag;
+	}
+	
+	
+	
+	
+	public ProfileDto(String password, String email) {
+		super();
+		this.password = password;
+		this.email = email;
+	}
+
+
+
+
 	public int getProfileId() {
 		return ProfileId;
 	}
