@@ -89,11 +89,6 @@
               </v-col>
             </v-row>
           </v-container>
-            <small>container 크기 줄여야함</small>
-        </v-card-text>
-        
-        <v-divider></v-divider>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -111,6 +106,11 @@
           </v-btn>
 
         </v-card-actions>
+            <small>container 크기 줄여야함</small>
+        </v-card-text>
+        
+        <v-divider></v-divider>
+
       </v-card>
     </v-container>
   </v-app>
@@ -150,21 +150,62 @@ export default {
         !this.newmind.subject &&
         ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
       err &&
-        !this.newmind.userpwd &&
-        ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
+        !this.newmind.explanation &&
+        ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
       // if (!err) alert(msg);
       if (!err) this.showAlert(msg);
       else this.makemindmap();
     },
     // 마인드맵 생성 요청
     makemindmap() {
-      
-    }
-  },
-  // 관심태그 삭제
-  remove(item) {
-    this.chips.splice(this.chips.indexOf(item), 1);
-    this.chips = [...this.chips];
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('title', this.newmind.title);
+      form.append('subject', this.newmind.subject);
+      form.append('explanation', this.newmind.explanation);
+      form.append('hashtag', this.chips);
+      // Actions를 호출
+      this.$store
+        .dispatch('makeMindMap', form)
+        .then(() => {
+          this.message = this.$store.getters.getMessage;
+
+          if (this.message === 'SUCCESS') {
+            this.$store.dispatch('setMessage', null);
+            this.$router.push(`/main`);
+            this.$router.go(this.$router.currentRoute);
+          } else {
+            this.showConfirm('로그인이 필요합니다.');
+          }
+        })
+        .catch(({ message }) => (this.msg = message));
+
+      // 탭 초기화(재사용 위해)
+      this.message = '';
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
+    },
+    // 관심태그 삭제
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1);
+      this.chips = [...this.chips];
+    },
+
+    // 다이얼로그
+    showAlert(msg) {
+      const options = { title: '알림', size: 'sm' };
+      this.$dialogs.alert(msg, options).then((res) => {
+        console.log(res); // {ok: true|false|undefined}
+      });
+    },
+    
+    showConfirm(msg) {
+      const options = {title: '알림', cancelLabel: 'No'}
+      this.$dialogs.confirm(msg, options)
+      .then(res => {
+        console.log(res) // {ok: true|false|undefined}
+      })
+    },
   }
 };
 </script>
@@ -192,6 +233,6 @@ export default {
   left: 40px;
 }
 .container {
-  max-height: 500px;
+  max-height: 200px;
 }
 </style>

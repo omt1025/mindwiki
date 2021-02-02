@@ -109,6 +109,12 @@ export default new Vuex.Store({
     setMainTab(context, tab) {
       context.commit('setMainTab', tab);
     },
+    makeMindMap(context, mind) {
+      return axios.post(`${SERVER_URL}/mind`, mind).then((response) => {
+        context.commit('makeMindMap', response.data);
+        this.state.message = `${response.data['message']}`;
+      });
+    }
   },
 
   // getters: {
