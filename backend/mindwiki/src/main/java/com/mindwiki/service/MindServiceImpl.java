@@ -21,7 +21,6 @@ public class MindServiceImpl implements MindService {
 	public void make(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).make(mind);
 		
-		
 	}
 
 	@Override
@@ -30,9 +29,9 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public MindDto readByMindID(int no) throws SQLException { //여기가 service의 interface readbymindID
+	public MindDto readByMindID(int no) throws SQLException { 
 		session.getMapper(MindDao.class).updateViewCnt(no);
-		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
+		return session.getMapper(MindDao.class).readByMindID(no);
 		
 	}
 
@@ -47,5 +46,18 @@ public class MindServiceImpl implements MindService {
 		session.getMapper(MindDao.class).deleteByMindID(mind);
 		
 	}
+
+	@Override
+	public void scrap(MindDto mind) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MindDto> readByEmail(String email) throws SQLException {
+		return session.getMapper(MindDao.class).readByEmail(email);
+	}
+
+
 	
 }

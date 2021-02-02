@@ -20,7 +20,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-      
+   
         super.onStartup(servletContext);
 
         // This will set to use COOKIE only
@@ -28,7 +28,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
             .setSessionTrackingModes(
                 Collections.singleton(SessionTrackingMode.COOKIE)
         );
-      
+   
         SessionCookieConfig sessionCookieConfig=
                 servletContext.getSessionCookieConfig();
         sessionCookieConfig.setHttpOnly(true);

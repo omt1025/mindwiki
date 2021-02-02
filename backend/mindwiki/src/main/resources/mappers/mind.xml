@@ -8,6 +8,10 @@
 		select * from mind
 	</select>
 	
+	<select id="readByEmail" resultType="com.mindwiki.model.MindDto">
+		select * from mind where admin=#{email}
+	</select>
+	
 	
 	<select id="readByMindID" resultType="com.mindwiki.model.MindDto">
 		select * from mind where mindID=#{mindID}
@@ -30,6 +34,10 @@
 	
 	<insert id="make">
 	insert into mind (admin, title, subject, hashtag, explanation,initCreateTime) values (#{admin}, #{title}, #{subject}, #{hashtag}, #{explanation}, now())
+	</insert>
+	
+	<insert id="scrap">
+	insert into cover (MindID) values (#{MindID})
 	</insert>
 	
 </mapper>

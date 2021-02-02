@@ -30,13 +30,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
 
-@CrossOrigin("*")
+import io.swagger.annotations.Api;
+
+
+
+//@CrossOrigin("*")
 @Controller
 @RequestMapping("/mindwiki")
 public class GoogleLoginController {
@@ -49,7 +54,7 @@ public class GoogleLoginController {
 	private JwtService jwtSvc;
 	
 	@RequestMapping(value = "/GoogleOAuth")
-	public String GoogleLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
+	public RedirectView GoogleLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
 
 		System.out.println("code"+authorizationToken);
 		
@@ -83,11 +88,13 @@ public class GoogleLoginController {
 	      
 	      
 
-	
+	     
+	  
 	      String jwt = getUserInfo(returnJson);//사실 jwt를 return해주지않아도 생성된 것임
 
 	      
-	      return "redirect:"+"http://localhost:8080/?jwt="+jwt;//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
+	   
+	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
 
 
@@ -96,15 +103,16 @@ public class GoogleLoginController {
 		
 		JsonNode accessToken = GoogleRequestJson.get("access_token");
 		
-		//&자 앞에서 안끊어주면 illegal 오류남
+	
 		  final String RequestUrl ="https://www.googleapis.com/oauth2/v1/userinfo?alt=json";		  
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpGet get = new HttpGet(RequestUrl);
 	      
+	
 	      get.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnJson = null;
 	      try {
-	    	  //여기서 requesturl + header값을 보내면. response로 받아온다. 받아온것을 json으로 또 처리한다.
+	    
 	         final HttpResponse response = client.execute(get);
 	         // JSON 형태 반환값 처리
 	     
@@ -117,7 +125,7 @@ public class GoogleLoginController {
 	      } finally {
 	         // clear resources
 	      }
-//	      
+     
 	      
 	      String Google_email = null;
 	      String Google_name = null;
@@ -126,11 +134,11 @@ public class GoogleLoginController {
 	      System.out.println(Google_email);
 	      System.out.println(Google_name);
 	     // System.out.println(returnJson);
-//	      
+    
 	      if(Google_email!=null) {
 	    	  
 	      jwt=jwtSvc.createToken("userInfo", Google_email,Google_name);
-	      //만들어주면 알아서 서버에 저장됨
+	  
 	      
 	      }
 	      return jwt;

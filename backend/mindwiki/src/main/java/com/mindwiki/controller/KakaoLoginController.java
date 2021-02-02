@@ -1,7 +1,6 @@
 package com.mindwiki.controller;
 
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,13 +31,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
 
-@CrossOrigin("*")
+
+
 @Controller
 @RequestMapping("/mindwiki")
 public class KakaoLoginController {
@@ -48,7 +49,7 @@ public class KakaoLoginController {
 	@Autowired
 	private JwtService jwtSvc;
 	@RequestMapping(value = "/oauth")
-	public String kakaoLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
+	public RedirectView kakaoLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
 		
 		
 		  final String RequestUrl = "https://kauth.kakao.com/oauth/token";
@@ -76,14 +77,12 @@ public class KakaoLoginController {
 	         // clear resources
 	      }
 	      
-	      
 
-//	      OauthDto oauth=null;
-	   //   System.out.println(returnNode);
 	      String jwt = getUserInfo(returnNode);//jwt를 리턴해주지 않아도 생성된것임
+	      
 
 	      
-	      return "redirect:"+"http://localhost:8080/?jwt="+jwt;//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
+	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
 	
 	
@@ -133,11 +132,12 @@ public class KakaoLoginController {
 	  	 if(kakao_email!=null) {
 	    	  
 		      jwt = jwtSvc.createToken("userInfo", kakao_email,kakao_name);
-		      //만들어주면 알아서 서버에저장됨
+		      
 		      
 		      }
 	  	
-	  
+	  	
+	
 	  	
 	  	System.out.println(accessToken);
 	  	
