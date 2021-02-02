@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-container>
-    <mindmap :nodes="nodes" :connections="connections" :editable="true" />
+    <!-- <mindmap :nodes="nodes" :connections="connections" :editable="true" /> -->
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -120,7 +120,7 @@
 <script>
 // import axios from 'axios'
 
-import map from '../map.js';
+// import map from '../map.js';
 
 export default {
   name: 'MindMapDetail',
@@ -130,7 +130,7 @@ export default {
     menu: false,
     chips: ['여행지', '음식', 'SNOW'],
     interest: {},
-    ...map,
+    // ...map,
     title: '',
     url: '',
     category: '',
