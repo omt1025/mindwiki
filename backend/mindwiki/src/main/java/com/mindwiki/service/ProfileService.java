@@ -1,0 +1,13 @@
+package com.mindwiki.service;
+
+import java.sql.SQLException;
+
+import com.mindwiki.model.ProfileDto;
+import com.mindwiki.model.ProfileResultDto;
+
+public interface ProfileService {
+	public ProfileResultDto register(ProfileDto dto) throws SQLException;
+	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException;
+	public ProfileResultDto changePassword(ProfileDto dto, String newPassword) throws SQLException;
+	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException;
+}

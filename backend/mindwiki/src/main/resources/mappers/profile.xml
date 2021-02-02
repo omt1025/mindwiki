@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mindwiki.dao.ProfileDao">
+
+	<!-- TODO: hashtag column 추가 후 nickName->hashtag -->
+	<insert id="register" parameterType="com.mindwiki.model.ProfileDto">
+		INSERT INTO profile (email, password, realName, nickName)
+					VALUES  (#{email}, #{password}, #{realName}, #{hashtag} )
+	</insert>
+	
+	<delete id="withdrawal" parameterType="com.mindwiki.model.ProfileDto">
+		DELETE FROM profile
+		WHERE email=#{email}
+	</delete>
+	
+	<select id="getPassword" resultType="string" parameterType="com.mindwiki.model.ProfileDto">
+		SELECT *
+		FROM profile
+		WHERE email=#{email}
+	</select>
+	
+	<update id="updatePassword" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET password=#{password}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updateProfile" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}
+		WHERE email=#{email}
+	</update>
+	
+		
+</mapper>
