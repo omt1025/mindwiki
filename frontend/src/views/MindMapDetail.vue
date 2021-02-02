@@ -4,29 +4,65 @@
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
     </v-app-bar>
     <mindmap :nodes="nodes" :connections="connections" :editable="true" />
-  
-    <v-row justify="center">
-      <v-dialog
-        v-model="dialog"
-        persistent
-        max-width="600px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-card-text style="height: 100px; position: relative">
-            <v-fab-transition>
-              <v-btn
-                color="purple"
-                dark
-                absolute
-                top
-                right
-                fab
-                v-bind="attrs"
-                v-on="on"
+    <v-menu
+      v-model="menu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+      offset-x
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="purple"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          fab
+          small
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title>
+          <span class="headline">마인드맵 생성</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="제목"
+                  required
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                  label="주제"
+                  required
+                ></v-text-field>
+              </v-col>
+
+              <div>
+                <p class="interestTagTitle">해시태그 설정</p>
+              </div>
+
+              <v-combobox
+                append-icon
+                flat
+                v-model="chips"
+                chips
+                clearable
+                label="Your favorite hobbies"
+                multiple
+                no-filter
+                solo
+                id="combobox"
               >
                 <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </v-fab-transition>
+              </v-combobox>
+            </v-row>
           </v-card-text>
         </template>
         <v-card>
@@ -135,7 +171,10 @@ export default {
   name: 'app',
   components: {},
   data: () => ({
-    dialog: false,
+    fav: true,
+    menu: false,
+    chips: ['여행지', '음식', 'SNOW'],
+    interest: {},
     ...map,
     newnode: {
       text: '',
@@ -148,7 +187,7 @@ export default {
     newconnection: {
       source: '',
       target: '',
-    }
+    },  
   }),
 };
 </script>
@@ -157,4 +196,26 @@ export default {
 #app {
   background-color: #f1f5f8;
 }
+.interestTagTitle {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5;
+  padding-left: 7px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 7px;
+}
 </style>
+
+<style>
+.mindmap-svg {
+  position: fixed;
+  top: -50px;
+  left: 40px;
+}
+.container {
+  max-height: 500px;
+}
+</style>
+

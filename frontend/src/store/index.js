@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-// import VueJwtDecode from 'vue-jwt-decode';
+import jwt_decode from 'jwt-decode';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -13,8 +13,8 @@ export default new Vuex.Store({
   state: {
     jwt: null,
     message: null, // action응답을 vue로 건내줄때 사용
-    // userId: null,
-    // userNickName: null,
+    userId: null,
+    nickName: null,
     bottomNav: 'home',
     mainTab: '0',
   },
@@ -29,12 +29,12 @@ export default new Vuex.Store({
     getMessage(state) {
       return state.message;
     },
-    // getUserId() {
-    //   return localStorage.getItem('user-id');
-    // },
-    // getUserNickName() {
-    //   return localStorage.getItem('user-nickname');
-    // },
+    getUserId() {
+      return localStorage.getItem('user-id');
+    },
+    getNickName() {
+      return localStorage.getItem('user-nickname');
+    },
     bottomNav(state) {
       return state.bottomNav;
     },
@@ -50,13 +50,15 @@ export default new Vuex.Store({
     LOGIN(state, payload) {
       state.jwt = payload['jwt'];
       state.message = payload['message'];
-      // state.userId = payload['user-id'];
-      // state.userNickName = payload['user-nickname'];
+
+      var decodedJWT = jwt_decode(state.jwt);
+      state.userId = decodedJWT['email'];
+      state.nickName = decodedJWT['nickName'];
     },
     LOGOUT(state) {
       state.jwt = null;
-      // state.userId = null;
-      // state.userName = null;
+      state.userId = null;
+      state.nickName = null;
     },
     setMessage(state, value) {
       state.message = value;
@@ -75,14 +77,15 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/login`, user).then((response) => {
         context.commit('LOGIN', response.data);
         let token = `${response.data['jwt']}`;
-        // var decodeJWT = VueJwtDecode.decode(token);
-        // console.log(decodeJWT.payload['email']);
-        // let id = `${response.data['user-id']}`;
-        // let name = `${response.data['user-name']}`;
+
+        var decodedJWT = jwt_decode(token);
+        let userId = decodedJWT['email'];
+        let nickName = decodedJWT['nickName'];
+        // console.log(decodedJWT['nickName']);
 
         localStorage.setItem('jwt', token);
-        // localStorage.setItem('user-id', id);
-        // localStorage.setItem('user-name', name);
+        localStorage.setItem('user-id', userId);
+        localStorage.setItem('user-nickname', nickName);
 
         axios.defaults.headers.common['jwt'] = token;
         this.state.jwt = token;
@@ -93,8 +96,8 @@ export default new Vuex.Store({
       axios.defaults.headers.common['jwt'] = undefined;
       this.state.jwt = null;
       localStorage.removeItem('jwt');
-      // localStorage.removeItem('user-id');
-      // localStorage.removeItem('user-name');
+      localStorage.removeItem('user-id');
+      localStorage.removeItem('user-nickname');
       context.commit('LOGOUT');
     },
     setMessage(context, value) {
