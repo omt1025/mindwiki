@@ -72,6 +72,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 		return resultDto;
 	}
+	
+	@Override
+	public ProfileResultDto getProfile(ProfileDto profileDto) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	// TODO
 	// email 중복 검사
@@ -107,5 +113,7 @@ public class ProfileServiceImpl implements ProfileService {
 			return true;
 		return false;
 	}
+
+
 
 }

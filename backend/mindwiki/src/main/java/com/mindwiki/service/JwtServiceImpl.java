@@ -41,7 +41,6 @@ public class JwtServiceImpl implements JwtService {
 	 
 	Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 	
-	 //최초 로그인시에 생성해서 프론트에서 localstorage나 쿠키에 저장을 해준다.
 	   @Override
 	    public String createToken(String subject, String email, String nickName) {
 		   
@@ -57,7 +56,6 @@ public class JwtServiceImpl implements JwtService {
 	        payloads.put("nickName", nickName);
 	        
 
-	        Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 
 	        Date ext = new Date(); // 토큰 만료 시간
 	        ext.setTime(ext.getTime() + expiredTime);
@@ -92,8 +90,7 @@ public class JwtServiceImpl implements JwtService {
 
             claimMap = claims;
 
-            //Date expiration = claims.get("exp", Date.class);
-            //String data = claims.get("data", String.class);
+         
             
         } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             System.out.println(e);
@@ -102,7 +99,7 @@ public class JwtServiceImpl implements JwtService {
             System.out.println(e);
            
         }
-        return claimMap;//토큰이 검증되면, map을 가져다가 쓸수있음 claim은 map으로 이루어져있음
+        return claimMap;
     }
 
 
@@ -112,6 +109,7 @@ public class JwtServiceImpl implements JwtService {
 		member=session.getMapper(MemberInfoDao.class).login(email);//sql실행한 뒤에 member
 		return member;
 	}
+
 
 
 	 

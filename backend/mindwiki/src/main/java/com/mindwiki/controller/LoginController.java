@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.filechooser.FileSystemView;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ import com.mindwiki.service.JwtService;
 import com.mindwiki.service.LoginService;
 
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/mindwiki")
 public class LoginController {
@@ -38,6 +39,7 @@ public class LoginController {
 	@Autowired
 	private JwtService jwtSvc;
 	
+
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(HttpSession hs,
 			@RequestParam(value="id", required=false) String id,
@@ -62,10 +64,12 @@ public class LoginController {
 			memberDto = loginSvc.login(temp_mem);
 			
 			if(memberDto!=null) {//로그인성공
+				System.out.println(System.getProperty("user.dir"));
 				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
 				resultMap.put("message", "SUCCESS");
 				resultMap.put("jwt", jwt);
-		
+				//hs.setAttribute("sessionGen", "exist");
+				//hs.setAttribute("jwt", jwt);
 				status=HttpStatus.ACCEPTED;
 			}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
@@ -85,25 +89,7 @@ public class LoginController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	
-	@PostMapping("/mind/logout")
-	public ResponseEntity<Map<String, Object>> login(HttpSession hs){
-		
-	
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		//System.out.println(hs.getAttribute("id_auth"));
-		
-		hs.invalidate();
-		
-		//resultMap.put("message", "logout되었습니다.");
-				
-		status=HttpStatus.ACCEPTED;
-		
-		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
-		//ResponseEntity는 어차피 그 Json으로 반환
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
+
 	
 	
 	
@@ -111,7 +97,7 @@ public class LoginController {
 	@PostMapping("/jwtCheck")
 	public Map<String,Object> sessionCheck(HttpSession hs,@RequestParam(value="jwt", required=false) String jwt) {
 		Map<String,Object> claims=new HashMap<>();
-
+	
 		
 		
 		try {
@@ -121,8 +107,7 @@ public class LoginController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
+	
 		
 		return claims;
 	}

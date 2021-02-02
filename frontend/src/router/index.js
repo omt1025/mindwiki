@@ -17,7 +17,8 @@ import MainMenu from '../components/main/menu/MainMenu.vue';
 // MyLibrary
 import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
-import MindMapDetail from '../views/MindMapDetail.vue';
+import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
+import MyMindList from '../views/mindmap/MyMindList.vue';
 
 Vue.use(VueRouter);
 
@@ -75,9 +76,14 @@ const routes = [
     component: ChangePassword,
   },
   {
-    path: '/main/mindmapdetail',
+    path: '/main/mindmap/mindmapdetail',
     name: 'MindMapDetail',
     component: MindMapDetail,
+  },
+  {
+    path: '/main/mindmap/mymindList',
+    name: 'MyMindList',
+    component: MyMindList,
   },
 ];
 

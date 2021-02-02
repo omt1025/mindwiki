@@ -17,13 +17,14 @@ export default new Vuex.Store({
     nickName: null,
     bottomNav: 'home',
     mainTab: '0',
+    mindlist: null
   },
 
   // 연산된 state값을 접근
   getters: {
     getJWT(state) {
       state.jwt = localStorage.getItem('jwt');
-      axios.defaults.headers.common['jwt'] = state.jwt;
+      // axios.defaults.headers.common['jwt'] = state.jwt;
       return state.jwt;
     },
     getMessage(state) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     mainTab(state) {
       return state.mainTab;
     },
+    getMindList(state) {
+      return state.mindlist;
+    }
   },
 
   plugins: [createPersistedState()],
@@ -60,14 +64,32 @@ export default new Vuex.Store({
       state.userId = null;
       state.nickName = null;
     },
+    setJWT(state, jwt) {
+      var decodedJWT = jwt_decode(jwt);
+      state.userId = decodedJWT['email'];
+      state.nickName = decodedJWT['nickName'];
+
+      localStorage.setItem('jwt', jwt);
+      localStorage.setItem('user-id', state.userId);
+      localStorage.setItem('user-nickname', state.nickName);
+    },
     setMessage(state, value) {
       state.message = value;
+    },
+    setUserId(state, value) {
+      state.userId = value;
+    },
+    setNickName(state, value) {
+      state.nickName = value;
     },
     setBottomNav(state, nav) {
       state.bottomNav = nav;
     },
     setMainTab(state, tab) {
       state.mainTab = tab;
+    },
+    readMyMindMap(state, value) {
+      state.mindlist = value;
     },
   },
 
@@ -100,6 +122,9 @@ export default new Vuex.Store({
       localStorage.removeItem('user-nickname');
       context.commit('LOGOUT');
     },
+    setJWT(context, jwt) {
+      context.commit('setJWT', jwt);
+    },
     setMessage(context, value) {
       context.commit('setMessage', value);
     },
@@ -108,6 +133,16 @@ export default new Vuex.Store({
     },
     setMainTab(context, tab) {
       context.commit('setMainTab', tab);
+    },
+    makeMindMap(context, mind) {
+      return axios.post(`${SERVER_URL}/mind`, mind).then((response) => {
+        context.commit('setMessage', response.data['message']);
+      });
+    },
+    readMyMindMap(context, user) {
+      return axios.get(`${SERVER_URL}/mind/list`, user).then((response) => {
+        context.commit('readMyMindMap', response.data);
+      });
     },
   },
 

@@ -18,5 +18,6 @@ public interface MindDao {
 	void updateByMindID(MindDto mind) throws SQLException;
 	void deleteByMindID(MindDto mind) throws SQLException;
 	void updateViewCnt(int no) throws SQLException;
-	
+	void scrap(MindDto mind) throws SQLException;
+	public List<MindDto> readByEmail(String email) throws SQLException;
 }
