@@ -12,4 +12,8 @@ public interface MindService {
 	public MindDto readByMindID(int no) throws SQLException;
 	void update(MindDto mind) throws SQLException;
 	void delete(MindDto mind) throws SQLException;
+	void scrap(MindDto mind) throws SQLException;
+	public List<MindDto> readByEmail(String email) throws SQLException;
+	
+	
 }

@@ -29,21 +29,29 @@ public class MindDto {
 	private String subject; //이거 추가됨 //db에는 alter table로 추가해줬음
 	private String explanation;//이거도 추가됨
 	
+	
+	
+	
+	
 	public String getSubject() {
 		return subject;
 	}
+
 
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 
+
 	public String getExplanation() {
 		return explanation;
 	}
 
+
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
+
 
 	public void setInitCreateTime(Date initCreateTime) {
 		this.initCreateTime = initCreateTime;
@@ -61,6 +69,7 @@ public class MindDto {
 		this.explanation = explanation;
 	}
 	
+	
 	public MindDto(int MindID, String title, String hashtag, String subject, String explanation) {
 		super();
 		this.MindID=MindID;
@@ -69,6 +78,8 @@ public class MindDto {
 		this.subject = subject;
 		this.explanation = explanation;
 	}
+
+
 	
 	public int getMindID() {
 		return MindID;

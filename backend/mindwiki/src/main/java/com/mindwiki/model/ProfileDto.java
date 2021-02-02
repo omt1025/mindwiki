@@ -1,10 +1,11 @@
 package com.mindwiki.model;
 
+
 //데이터로 치면 profile
 public class ProfileDto {
 
 	private int ProfileId;
-	String identification; // 추후 제거
+	String identification;
 	String password;
 	String email;
 	String phoneNumber;
@@ -15,32 +16,9 @@ public class ProfileDto {
 	int AchievementsID;
 	int ExpertID;
 	
+		
 	String hashtag; // 추가.
-
-	public ProfileDto() {
-		super();
-	};
 	
-	public ProfileDto(String email, String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
-	
-	public ProfileDto(String email, String password, String realName, String nickName) {
-		super();
-		this.password = password;
-		this.email = email;
-		this.realName = realName;
-		this.nickName = nickName;
-	}
-	
-	public String getHashtag() {
-		return hashtag;
-	}
-	public void setHashtag(String hashtag) {
-		this.hashtag = hashtag;
-	}
 	
 	public int getProfileId() {
 		return ProfileId;
