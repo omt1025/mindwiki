@@ -1,13 +1,6 @@
 <template>
   <v-app>
     <v-container>
-    <mindmap :nodes="nodes" :connections="connections" :editable="true" />
-    <v-menu
-      v-model="menu"
-      :close-on-content-click="false"
-      :nudge-width="200"
-      offset-x
-    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="purple"
@@ -32,6 +25,9 @@
                 <v-text-field
                   label="제목"
                   required
+                  id="title"
+                  ref="title"
+                  v-model="newmind.title"
                   @keypress.enter="checkHandler"
                   type="text"
                 ></v-text-field>
@@ -41,9 +37,9 @@
                 <v-text-field
                   label="주제"
                   required
-                  id="title"
-                  ref="title"
-                  v-model="title"
+                  id="subject"
+                  ref="subject"
+                  v-model="newmind.subject"
                   @keypress.enter="checkHandler"
                   type="text"
                 ></v-text-field>
@@ -71,7 +67,7 @@
                     :input-value="selected"
                     close
                     class="ma-2"
-                    color="orange"
+                    color="purple"
                     text-color="white"
                     @click="select"
                     @click:close="remove(item)"
@@ -86,6 +82,9 @@
                 <v-text-field
                   label="설명"
                   single-line
+                  id="explanation"
+                  ref="explanation"
+                  v-model="newmind.explanation"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -106,37 +105,36 @@
 
           <v-btn
             text
+            @click="checkHandler"
           >
             OK
           </v-btn>
 
         </v-card-actions>
       </v-card>
-    </v-menu>
     </v-container>
   </v-app>
 </template>
 
 <script>
-// import axios from 'axios'
-
-import map from '../map.js';
-
 export default {
-  name: 'MindMapDetail',
+  name: 'MakeMind',
   components: {},
   data: () => ({
     fav: true,
     menu: false,
     chips: ['여행지', '음식', 'SNOW'],
     interest: {},
-    ...map,
-    title: '',
-    url: '',
-    category: '',
-    color: '',
-    fx: '',
-    fy: '',
+    newmind: {
+      title: '',
+      subject: '',
+      url: '',
+      category: '',
+      color: '',
+      fx: '',
+      fy: '',
+      explanation: '',
+    },
     newconnection: {
       source: '',
       target: '',
@@ -144,7 +142,23 @@ export default {
   }),
   methods: {
     checkHandler() {
-      console(this.title)
+      let err = true;
+      let msg = '';
+      !this.newmind.title &&
+        ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
+      err &&
+        !this.newmind.subject &&
+        ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
+      err &&
+        !this.newmind.userpwd &&
+        ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
+      // if (!err) alert(msg);
+      if (!err) this.showAlert(msg);
+      else this.makemindmap();
+    },
+    // 마인드맵 생성 요청
+    makemindmap() {
+      
     }
   },
   // 관심태그 삭제
