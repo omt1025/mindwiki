@@ -202,8 +202,8 @@ export default {
     }
   },
   {
-    'source': 'help',
-    'target': 'python',
+    'source': 'python',
+    'target': 'help',
     'curve': {
       'x': -78.1206,
       'y': -114.714
