@@ -10,7 +10,8 @@
         </div>
 
         <!-- 비회원일 때 보여줌 -->
-        <div v-bind:jwt="jwt" v-if="jwt!='undefined'">
+        <div v-bind:jwt="jwt" v-if="jwt=='undefined'">
+        <!-- <div v-if="getJWT!='undefined'"> -->
           <div class="my-5">
             <v-btn
               x-large
@@ -178,7 +179,7 @@
               :ripple="false"
             >
               <v-icon>mdi-account-remove</v-icon>
-              <span>회원탙퇴</span>
+              <span>회원탈퇴</span>
               <v-spacer></v-spacer>
             </v-btn>
           </div>
@@ -203,6 +204,7 @@ export default {
     color: 'white',
     logoutcheck: '',
     jwt:localStorage.getItem('jwt'),
+    // jwt:getJWT,
   }),
   methods: {
     logout() {
