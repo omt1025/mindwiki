@@ -4,10 +4,12 @@
       <div class="container-login100">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-35">
           <div class="login100-form validate-form">
+            <!-- title -->
             <span class="login100-form-title p-b-49">
               Login
             </span>
 
+            <!-- email input -->
             <div class="wrap-input100 validate-input m-b-18">
               <span class="label-input100" style="float: left">Email</span>
               <div class="input_icon">
@@ -30,6 +32,7 @@
               />
             </div>
 
+            <!-- password input -->
             <div class="wrap-input100 validate-input">
               <span class="label-input100" style="float: left">Password</span>
               <div class="input_icon">
@@ -52,12 +55,15 @@
               />
             </div>
 
+            <!-- 비밀번호찾기 button -->
             <div class="text-right p-t-8 p-b-31">
               <router-link to="/findpw">
                 비밀번호 찾기
               </router-link>
             </div>
 
+            <!-- 로그인 button -->
+            <!-- checkHandler에서 유효성검사 후, login메소드에서 로그인 처리 시도 -->
             <div class="container-login100-form-btn">
               <div class="wrap-login100-form-btn">
                 <div class="login100-form-bgbtn"></div>
@@ -67,12 +73,14 @@
               </div>
             </div>
 
+            <!-- SNS 로그인 text -->
             <div class="txt1 text-center p-t-70 p-b-15">
               <span>
                 SNS 간편 로그인
               </span>
             </div>
 
+            <!-- SNS 로그인 buttons -->
             <div class="flex-c-m sns-login">
               <!-- 카카오 로그인 -->
               <div @click="loginWithKakao">
@@ -132,65 +140,69 @@ import SlimDialog from 'v-slim-dialog';
 Vue.use(SlimDialog);
 Vue.use(VueRouter);
 
-// import axios from 'axios';
 import '../../components/css/user.scss';
 import KakaoLogin from '../../components/user/snsLogin/Kakao.vue';
 import GoogleLogin from '../../components/user/snsLogin/Google.vue';
-
-// import { mapGetters } from 'vuex';
 
 export default {
   components: {
     KakaoLogin,
     GoogleLogin,
   },
+
   data: function() {
     return {
+      // user : id와 pass의 input에 입력된 값을 바인딩
       user: {
         userid: '',
         userpwd: '',
       },
-      message: '',
+      message: '', // 오류 받아 올 변수
     };
   },
+
   created() {
     this.component = this;
   },
-  //  computed: {
-  //   ...mapGetters(['message']),
-  // },
+
   methods: {
-    // 아이콘 색 변경 메소드
+    // 아이콘 색 변경 메소드[YJS]
+    // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
+    // https://meaningone.tistory.com/318
     changeColor(event) {
       const incon_id = event.target.id + '_icon';
       var icon = document.getElementById(incon_id);
-      // console.log(icon);
+
+      // input에 값이 입력 된 경우, 아이콘을 보라색으로
       if (event.target.value) {
         icon.style.color = '#a64bf4';
       } else if (!event.target.value) {
+        // input에 값이 없는 경우, 아이콘을 원래 색으로
         icon.style.color = '#d9d9d9';
       }
-      // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
-      // https://meaningone.tistory.com/318
     },
 
-    // 로그인 input 유효성 검사 메소드
+    // 로그인 input 유효성 검사 메소드[YJS]
     checkHandler() {
-      let err = true;
-      let msg = '';
+      let err = true; // 에러 확인 변수
+      let msg = ''; // 다이얼로그에 띄울 메세지
+
+      // 아이디 input이 공백인 경우
       !this.user.userid &&
         ((msg = '이메일을 입력해주세요'), (err = false), this.$refs.userid.focus());
+
+      // 비밀번호 input이 공백인 경우
       err &&
         !this.user.userpwd &&
         ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
-      // if (!err) alert(msg);
+
       if (!err) this.showAlert(msg);
-      else this.login();
+      else this.login(); // 아이디와 비밀번호가 공백이 아니면, 로그인처리
     },
 
-    // LOGIN 액션 실행
+    // LOGIN 액션 실행[YJS]
     login() {
-      let form = new FormData();
+      let form = new FormData(); // form : axios통신 할 값을 넣어 전달
       form.append('id', this.user.userid);
       form.append('pass', this.user.userpwd);
 
@@ -200,11 +212,13 @@ export default {
         .then(() => {
           this.message = this.$store.getters.getMessage;
 
+          // 로그인 성공
           if (this.message === 'SUCCESS') {
-            this.$store.dispatch('setMessage', null);
-            this.$router.push(`/main`);
+            this.$store.dispatch('setMessage', null); // message 재사용 위해
+            this.$router.push(`/main`); // main페이지로 이동
             this.$router.go(this.$router.currentRoute);
           } else {
+            // 로그인 실패 : 다이얼로그 띄우기
             this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
           }
         })
@@ -216,7 +230,7 @@ export default {
       this.$store.dispatch('setBottomNav', 'home');
     },
 
-    // 카카오 로그인
+    // 카카오 로그인[YJS]
     loginWithKakao() {
       const params = {
         redirectUri: 'http://localhost:8000/mindwiki/oauth',
@@ -224,7 +238,7 @@ export default {
       window.Kakao.Auth.authorize(params);
     },
 
-    // 다이얼로그
+    // 다이얼로그[YJS]
     // https://vuejsexamples.com/slim-dialog-for-vuejs/
     showAlert(msg) {
       const options = { title: '로그인 실패', size: 'sm' };
