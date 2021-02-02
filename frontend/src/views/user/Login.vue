@@ -1,4 +1,11 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : SNS 로그인 JWT저장
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-02
+ -->
+
   <div class="login_back">
     <div class="limiter">
       <div class="container-login100">
@@ -88,8 +95,8 @@
               </div>
 
               <!-- 구글 로그인 -->
-              <router-link
-                :to="
+              <a
+                :href="
                   'https:' +
                     '//accounts.google.com/o/oauth2/v2/auth?' +
                     'scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&' +
@@ -101,7 +108,7 @@
                 "
               >
                 <GoogleLogin />
-              </router-link>
+              </a>
             </div>
           </div>
         </div>
