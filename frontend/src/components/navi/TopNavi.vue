@@ -85,6 +85,11 @@ export default {
   box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 3%), 0px 4px 5px 0px rgb(0 0 0 / 3%),
     0px 1px 10px 0px rgb(0 0 0 / 3%);
 }
+/* .v-card__text {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+} */
 </style>
 
 <style lang="scss">

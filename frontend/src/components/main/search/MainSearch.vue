@@ -7,9 +7,6 @@
       v-model="search"
     ></v-text-field>
 
-    <!-- <p>{{ search }}</p> -->
-    <!-- <p>{{ searchHandler }}</p> -->
-
     <template v-for="item in searchHandler">
       <v-list-item
         :key="item.id"
