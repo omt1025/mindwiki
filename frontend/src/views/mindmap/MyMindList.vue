@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-btn @click="readmymindmap">임시</v-btn>
+    <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
@@ -41,16 +41,20 @@ export default {
     cards: "",
   }),
   methods: {
+    // 자신이 만들었던 마인드맵을 호출
     readmymindmap() {
       let form = new FormData();
       form.append("jwt", this.$store.getters.getJWT);
 
       this.$store.dispatch("readMyMindMap", form).then(() => {
-        this.card = this.$store.getters.getMessage;
-        console.log(this.card);
+        this.cards = this.$store.getters.getMessage;
       });
     },
   },
+  // 페이지가 로드되면 실행되도록
+  created: function () {
+    this.readmymindmap()
+  }
 };
 </script>
 
