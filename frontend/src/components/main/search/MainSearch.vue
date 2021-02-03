@@ -3,9 +3,21 @@
     <v-text-field
       type="search"
       class="search"
-      placeholder="type here..."
+      placeholder="검색"
+      outlined
       v-model="search"
-    ></v-text-field>
+      @keypress.enter="onInputKeyword"
+    >
+      <template v-slot:append>
+        <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
+      </template>
+    </v-text-field>
+
+    <!-- 프로필 검색  -->
+    <v-list-item-content>
+      <div class="questrial caption font-weight-bold blue--text">프로필 검색</div>
+    </v-list-item-content>
+
 
     <template v-for="item in searchHandler">
       <v-list-item
@@ -17,18 +29,33 @@
             :src="item.avatar"
           ></v-img>
         </v-list-item-avatar>
-
         <v-list-item-content>
           <v-list-item-title v-text="item.name"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
+
+    <v-divider></v-divider>
+    <!-- 마인드맵 제목 검색 -->
+    <v-list-item-content>
+      <div class="questrial caption font-weight-bold blue--text">제목 검색</div>
+    </v-list-item-content>
+
+    <v-divider></v-divider>
+
+    <!-- 마인드맵 해시태그 검색 -->
+    <v-list-item-content>
+      <div class="questrial caption font-weight-bold blue--text">해시태그 검색</div>
+    </v-list-item-content>
+
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { persons } from '@/data/data';
+
+
 
 export default {
   components: {
@@ -52,8 +79,14 @@ export default {
   },
   created() {
     this.data = persons;
-    // console.log(this.data);
   },
+  methods: {
+    onInputKeyword: function(event) {
+      this.$emit('input-change', event.target.value);
+    }
+  },
+
+
 };
 </script>
 
