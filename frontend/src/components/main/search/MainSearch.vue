@@ -3,7 +3,6 @@
     <!-- 프로필 검색을 눌렀을 때 -->
     <div v-if="mainTab == 0">
       <v-card flat>
-        <ProfileList />
       </v-card>
     </div>
     
@@ -22,13 +21,13 @@
 </template>
 
 <script>
-import ProfileList from '@/components/common/ProfileList.vue'
+
 
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    ProfileList,
+
   },
   computed: {
     ...mapGetters(['mainTab']),
