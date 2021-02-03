@@ -1,10 +1,19 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : SNS 로그인 JWT 받아오면 메인화면으로 이동시키기
+    * 생성일자 : 2021-01-20
+    * 최종수정일자 : 2021-02-03
+ -->
+
   <div id="bg">
+    <!-- 그라데이션 배경 -->
     <img src="../assets/images/user/bg-01.jpg" alt="" />
 
     <v-app>
       <v-row justify="center" align="center" style="min-height: 160px;">
         <v-col class="shrink">
+          <!-- 마인드위키 로고 -->
           <v-img
             id="logo"
             src="../assets/images/mindwiki_logo-01.png"
@@ -13,6 +22,7 @@
           ></v-img>
 
           <div id="bt">
+            <!-- 회원가입 button -->
             <transition name="slide-fade">
               <v-btn
                 v-if="expand"
@@ -29,6 +39,7 @@
               </v-btn>
             </transition>
 
+            <!-- 로그인 button -->
             <transition name="slide-fade2">
               <v-btn
                 v-if="expand"
@@ -45,6 +56,8 @@
               </v-btn>
             </transition>
 
+            <!-- 비회원 접속 button -->
+            <!-- 비회원일 경우, 메인화면으로 바로 이동가능 하지만 주요 서비스 이용 불가 -->
             <transition name="slide-fade3">
               <v-btn
                 v-if="expand"
@@ -79,7 +92,7 @@ export default {
     show: false,
   }),
   created() {
-    // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우 => main페이지로 이동
+    // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우 => main페이지로 이동[YJS]
     if (this.$route.query.jwt !== undefined) {
       var jwt = this.$route.query.jwt;
       this.$store.dispatch('setJWT', jwt);
@@ -88,9 +101,11 @@ export default {
     }
   },
   methods: {
+    // 로그인 페이지로 이동
     goLogin() {
       this.$router.push('/login');
     },
+    // 메인화면으로 이동
     goMain() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
@@ -101,6 +116,8 @@ export default {
 </script>
 
 <style scoped>
+/* StartPage_css[HYH] */
+
 #bg img {
   /* Set rules to fill background */
   min-height: 100%;
@@ -128,6 +145,7 @@ export default {
   top: 500px;
 }
 
+/* 슬라이드 버튼[HYH] */
 .slide-fade-enter-active {
   transition: all 1s ease;
 }
@@ -170,6 +188,7 @@ export default {
 </style>
 
 <style>
+/* 선만 있는 버튼[HYH] */
 .fb-btn.v-btn--outlined {
   border: thin solid;
 }
