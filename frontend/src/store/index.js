@@ -136,8 +136,8 @@ export default new Vuex.Store({
       });
     },
     readMyMindMap(context, jwt) {
-      return axios.post('mind/list', jwt).then((response) => {
-        context.commit('setMessage', response.data['message']);
+      return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
+        context.commit('setMessage', response.data);
       });
     },
   },
