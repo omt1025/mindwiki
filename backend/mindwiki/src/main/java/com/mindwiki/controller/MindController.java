@@ -108,7 +108,9 @@ public class MindController {
 			@RequestParam(value="subject", required=false) String subject,
 			@RequestParam(value="explanation", required=false) String explanation) throws UnsupportedEncodingException{
 		
-		String admin=(String) hs.getAttribute("id_auth");
+		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+		  
+		String admin=(String) claimMap.get("email");
 		
 		MindDto mind = new MindDto(admin, title, hashtag, subject, explanation);
 		HttpStatus status=null;
