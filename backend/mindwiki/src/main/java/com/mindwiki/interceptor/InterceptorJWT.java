@@ -29,7 +29,10 @@ public class InterceptorJWT implements HandlerInterceptor{
 		
 		
 		final String token = request.getParameter("jwt");
-		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		 
 		
 		System.out.println("토큰값 넘어오는지 "+token);
 		if(token != null && jwtService.verifyJWT(token)!=null){
@@ -37,6 +40,7 @@ public class InterceptorJWT implements HandlerInterceptor{
 			return true;
 		}else{
 			logger.info("토큰 사용 불가능 : {}", token);
+			response.getWriter().write("{\"message\":\"FAIL\"}");
 			System.out.println("문제있음");
 		}
 		return false;

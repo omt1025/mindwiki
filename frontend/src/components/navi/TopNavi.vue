@@ -1,5 +1,5 @@
 <template>
-  <v-card id="topnavi" v-if="bottomNav !== 'search'">
+  <v-card id="topnavi">
     <v-toolbar id="navi_shadow" >
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
@@ -29,66 +29,6 @@
       </template>
     </v-toolbar>
   </v-card>
-
-  <!-- 검색 Tab -->
-  <v-card v-else>
-    <v-toolbar id="navi_shadow" >
-      <v-card-text>
-        <v-form>
-          <!-- 프로필 검색 탭 눌렀을 때 -->
-          <v-text-field
-            v-if="this.mainTab === 0"
-            outlined
-            clearable
-            placeholder="프로필 검색"
-            type="text"
-            v-model="search"
-          >
-            <template v-slot:append>
-              <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
-            </template>
-          </v-text-field>
-
-          <!-- 타이틀 검색 탭 눌렀을 때 -->
-          <v-text-field
-            v-else-if="this.mainTab === 1"
-            outlined
-            clearable
-            placeholder="타이틀 검색"
-            type="text"
-            v-model="search"
-          >
-            <template v-slot:append>
-              <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
-            </template>
-          </v-text-field>
-
-          <!-- 해시태그 검색 탭 눌렀을 때 -->
-          <v-text-field
-            v-else
-            outlined
-            clearable
-            placeholder="해시태그 검색"
-            type="text"
-            v-model="search"
-          >
-            <template v-slot:append>
-              <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
-            </template>
-          </v-text-field>
-        </v-form>
-      </v-card-text>
-
-      <template v-slot:extension>
-        <v-tabs v-model="mainTab" grow color="#a64bf4">
-          <v-tabs-slider color="#a64bf4"></v-tabs-slider>
-          <v-tab v-for="(item, index) in search_items" :key="item" @click="setTab(index)">
-            {{ item }}
-          </v-tab>
-        </v-tabs>
-      </template>
-    </v-toolbar>
-  </v-card>
 </template>
 
 <script>
@@ -105,7 +45,6 @@ export default {
       mainTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
       activity_items: ['알림', '메세지'],
-      search_items: ['프로필', '타이틀', '해시태그'],
     };
   },
   methods: {
