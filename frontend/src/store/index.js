@@ -172,8 +172,8 @@ export default new Vuex.Store({
     },
     // 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
-      return axios.post('mind/list', jwt).then((response) => {
-        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
+        context.commit('setMessage', response.data); // 응답을 message에 저장
       });
     },
   },
