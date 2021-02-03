@@ -17,7 +17,6 @@ export default new Vuex.Store({
     nickName: null,
     bottomNav: 'home',
     mainTab: '0',
-    mindlist: null
   },
 
   // 연산된 state값을 접근
@@ -42,9 +41,6 @@ export default new Vuex.Store({
     mainTab(state) {
       return state.mainTab;
     },
-    getMindList(state) {
-      return state.mindlist;
-    }
   },
 
   plugins: [createPersistedState()],
@@ -88,8 +84,8 @@ export default new Vuex.Store({
     setMainTab(state, tab) {
       state.mainTab = tab;
     },
-    readMyMindMap(state, value) {
-      state.mindlist = value;
+    readMyMindMap(state, list) {
+      state.mindlist = list;
     },
   },
 
@@ -139,9 +135,9 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data['message']);
       });
     },
-    readMyMindMap(context, user) {
-      return axios.get(`${SERVER_URL}/mind/list`, user).then((response) => {
-        context.commit('readMyMindMap', response.data);
+    readMyMindMap(context, jwt) {
+      return axios.post('mind/list', jwt).then((response) => {
+        context.commit('setMessage', response.data['message']);
       });
     },
   },

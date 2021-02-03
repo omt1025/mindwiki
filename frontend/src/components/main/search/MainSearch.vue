@@ -1,29 +1,34 @@
 <template>
   <v-app>
-    <!-- 프로필 검색을 눌렀을 때 -->
-    <div v-if="mainTab == 0">
-      <v-card flat>
-      </v-card>
-    </div>
-    
-    <!-- 타이틀 검색을 눌렀을 때 -->
-    <div v-if="mainTab == 1">
-      <v-card flat>
-      </v-card>
-    </div>
-    
-    <!-- 해시태그 검색을 눌렀을 때 -->
-    <div v-if="mainTab == 2">
-      <v-card flat>
-      </v-card>
-    </div>
+    <v-text-field
+      type="search"
+      class="search"
+      placeholder="type here..."
+      v-model="search"
+    ></v-text-field>
+
+    <template v-for="item in searchHandler">
+      <v-list-item
+        :key="item.id"
+      >
+        <v-list-item-avatar>
+          <v-img
+            :alt="`${item.name} avatar`"
+            :src="item.avatar"
+          ></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title v-text="item.name"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </template>
   </v-app>
 </template>
 
 <script>
-
-
 import { mapGetters } from 'vuex';
+import { persons } from '@/data/data';
 
 export default {
   components: {
@@ -31,14 +36,42 @@ export default {
   },
   computed: {
     ...mapGetters(['mainTab']),
+    searchHandler() {
+      return this.data.filter(elem => {
+        return elem.name.toLowerCase().includes(this.search.toLowerCase());
+        // return elem.name
+
+      });
+    }
   },
   data() {
     return {
-      tab: null,
-      items: ['프로필', '타이틀', '해시태그'],
+      search: '',
+      data: []
     };
+  },
+  created() {
+    this.data = persons;
+    // console.log(this.data);
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.v-list-item__title {
+  text-align: left;
+}
+.subtitle {
+  text-align: left;
+  margin-top: 6px;
+}
+.v-list-item__content {
+  padding: 11px 0;
+}
+hr {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  margin-left: 1.1rem;
+  margin-right: 1.1rem;
+}
+</style>

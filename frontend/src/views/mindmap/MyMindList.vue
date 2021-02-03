@@ -36,28 +36,27 @@
 
 <script>
 export default {
-  name: 'FavoriteMind',
+  name: "FavoriteMind",
   data: () => ({
-    cards: ''
+    cards: "",
   }),
   methods: {
-    readmymindmap () {
-      const user = this.$store.getters.getJWT
+    readmymindmap() {
+      let form = new FormData();
+      form.append("jwt", this.$store.getters.getJWT);
 
-      this.$store
-        .dispatch('readMyMindMap', user)
-        .then(() => {
-          this.card = this.$store.getters.getMindList
-          console.log(this.card)
-        })
-    }
-  }
+      this.$store.dispatch("readMyMindMap", form).then(() => {
+        this.card = this.$store.getters.getMessage;
+        console.log(this.card);
+      });
+    },
+  },
 };
 </script>
 
 <style>
-  #list {
-    padding: 5px;
-    margin-bottom: 50px;
-  }
+#list {
+  padding: 5px;
+  margin-bottom: 50px;
+}
 </style>
