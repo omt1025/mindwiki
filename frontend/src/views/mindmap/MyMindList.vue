@@ -53,7 +53,6 @@ export default {
     },
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: no}});
-      this.$router.push('/main/mindmap/mindmapdetail');
     }
   },
   // 페이지가 로드되면 실행되도록
