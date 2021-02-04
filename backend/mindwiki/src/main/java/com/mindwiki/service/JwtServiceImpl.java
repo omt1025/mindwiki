@@ -41,6 +41,7 @@ public class JwtServiceImpl implements JwtService {
 	 
 	Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 	
+	 //최초 로그인시에 생성해서 프론트에서 localstorage나 쿠키에 저장을 해준다.
 	   @Override
 	    public String createToken(String subject, String email, String nickName) {
 		   
@@ -56,6 +57,7 @@ public class JwtServiceImpl implements JwtService {
 	        payloads.put("nickName", nickName);
 	        
 
+	        Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 
 	        Date ext = new Date(); // 토큰 만료 시간
 	        ext.setTime(ext.getTime() + expiredTime);
@@ -74,6 +76,8 @@ public class JwtServiceImpl implements JwtService {
 	    }
 
 
+	//프론트 측에서 request할때 토큰을 보내고 이 함수를 통해서, 검증이 되면 가능하다.
+	   //이걸 인터셉터로 처리하면 더좋다.
 	 //토큰 검증
 	@Override
     public Map<String, Object> verifyJWT(String jwt) throws UnsupportedEncodingException {
@@ -90,7 +94,8 @@ public class JwtServiceImpl implements JwtService {
 
             claimMap = claims;
 
-         
+            //Date expiration = claims.get("exp", Date.class);
+            //String data = claims.get("data", String.class);
             
         } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             System.out.println(e);
@@ -99,7 +104,7 @@ public class JwtServiceImpl implements JwtService {
             System.out.println(e);
            
         }
-        return claimMap;
+        return claimMap;//토큰이 검증되면, map을 가져다가 쓸수있음 claim은 map으로 이루어져있음
     }
 
 
@@ -111,7 +116,25 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 
+//	@Override
+//	public String oauthCheck(OauthDto Oauth) {
+//		// TODO Auto-generated method stub
+//		if(Oauth.getCheck()==1) {
+//			this.createToken("user", email, nickName);
+//		}else {
+//			
+//		}
+//		return null;
+//	}    
 
+//https://devkingdom.tistory.com/113
+	   //스프링 jwt 생성 & 복호화
+
+	   
+	   //https://bamdule.tistory.com/123
+	   //이게 존나 깔끔함
+
+	
 	 
 
 }

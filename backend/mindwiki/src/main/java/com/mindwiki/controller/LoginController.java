@@ -89,7 +89,7 @@ public class LoginController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-
+	
 	
 	
 	
@@ -97,7 +97,8 @@ public class LoginController {
 	@PostMapping("/jwtCheck")
 	public Map<String,Object> sessionCheck(HttpSession hs,@RequestParam(value="jwt", required=false) String jwt) {
 		Map<String,Object> claims=new HashMap<>();
-	
+		//System.out.println("세션내용"+hs.getAttribute("sessionGen"));
+		//request를 따로 써줘야 hs를 null로 안가지고 오고, 값을 그대로 들고올 수 있음
 		
 		
 		try {
@@ -107,7 +108,7 @@ public class LoginController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+		
 		
 		return claims;
 	}

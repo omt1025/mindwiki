@@ -88,12 +88,12 @@ public class GoogleLoginController {
 	      
 	      
 
-	     
-	  
+
 	      String jwt = getUserInfo(returnJson);//사실 jwt를 return해주지않아도 생성된 것임
 
 	      
-	   
+	      
+	    
 	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
 
@@ -103,12 +103,11 @@ public class GoogleLoginController {
 		
 		JsonNode accessToken = GoogleRequestJson.get("access_token");
 		
-	
+		//&자 앞에서 안끊어주면 illegal 오류남
 		  final String RequestUrl ="https://www.googleapis.com/oauth2/v1/userinfo?alt=json";		  
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpGet get = new HttpGet(RequestUrl);
-	      
-	
+	 
 	      get.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnJson = null;
 	      try {
@@ -123,9 +122,9 @@ public class GoogleLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-	         // clear resources
+	  
 	      }
-     
+    
 	      
 	      String Google_email = null;
 	      String Google_name = null;
@@ -133,12 +132,11 @@ public class GoogleLoginController {
 	      Google_name = returnJson.path("name").asText();
 	      System.out.println(Google_email);
 	      System.out.println(Google_name);
-	     // System.out.println(returnJson);
-    
+	
 	      if(Google_email!=null) {
 	    	  
 	      jwt=jwtSvc.createToken("userInfo", Google_email,Google_name);
-	  
+	      //만들어주면 알아서 서버에 저장됨
 	      
 	      }
 	      return jwt;

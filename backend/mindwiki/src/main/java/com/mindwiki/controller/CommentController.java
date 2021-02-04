@@ -59,7 +59,7 @@ public class CommentController {
 		
 		HttpStatus status=null;
 		
-	//	MemberDto isMember=new MemberDto(); 이건 나중에 필요할듯 일단 save
+
 		try {
 			if(jwtSvc.verifyJWT(jwt)!=null) {
 		
@@ -76,22 +76,18 @@ public class CommentController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-			//returnMessage="코멘트 등록 실패!";
+		
 		}
 	
 		
 		System.out.println("일단 comment controller");
 
-		//System.out.println(tagNames);
+		
 		
 	
-		//System.out.println(tagNames);//getparams 여러개 //#이걸로 토큰 구분
-		
-		
-		//System.out.println();message
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
@@ -99,12 +95,11 @@ public class CommentController {
 	
 	
 	
-	//Comment read 해당되는 MindIDno에 있는 모든 것을 불러온다.
+	//Comment read 해당되는 MindIDto에 있는 모든 것을 불러온다.
 		@ApiOperation(value = "해당마인드 댓글 전부 불러오기", notes = "댓글 정보를 읽어온다. List로 받아온다.", response = List.class)
 		@GetMapping("/mind/{no}/comment/read")public ResponseEntity<List<CommentDto>> read(@PathVariable int no) throws SQLException{
 			
-			//1번 mymind 불러오기
-			//2번 
+	
 			int MindID=no;
 			
 			//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
@@ -156,14 +151,6 @@ public class CommentController {
 		
 			
 
-
-			//System.out.println(tagNames);
-			
-		
-			//System.out.println(tagNames);//getparams 여러개 //#이걸로 토큰 구분
-			
-			
-			//System.out.println();message
 			
 			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			
@@ -186,9 +173,7 @@ public class CommentController {
 			claims=jwtSvc.verifyJWT(jwt);
 			String email=(String) claims.get("email");
 			HttpStatus status=null;
-			
-			//1번 mymind 불러오기
-			//2번 
+		
 			CommentDto comment =new CommentDto(MindID,commentID,data,email);
 			//이 생성자로 인해comment id가 제대로 전달됨
 			

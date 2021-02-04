@@ -6,7 +6,7 @@ public class MindDto {
 
 	private int MindID;
 	private String admin;
-	private Date initCreateTime;
+	private String initCreateTime;
 	private String title;
 	private String hashtag;
 	private int hashtagCnt;
@@ -53,7 +53,7 @@ public class MindDto {
 	}
 
 
-	public void setInitCreateTime(Date initCreateTime) {
+	public void setInitCreateTime(String initCreateTime) {
 		this.initCreateTime = initCreateTime;
 	}
 
@@ -80,7 +80,9 @@ public class MindDto {
 	}
 
 
-	
+	public String getInitCreateTime() {
+		return initCreateTime;
+	}
 	public int getMindID() {
 		return MindID;
 	}

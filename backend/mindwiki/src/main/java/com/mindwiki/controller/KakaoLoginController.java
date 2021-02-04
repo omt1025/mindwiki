@@ -1,5 +1,8 @@
 package com.mindwiki.controller;
 
+//로그인을 하고 메인페이지로 리턴이 되면 리다이렉트 된 후이니까 created axios로 값을 확인하고, 서버쪽에서는 intercepter로 해도되고
+//확인을 하고 세션을 끊어줘도 되고 아예 flag 01로나눠서 1이면 토큰을 주고 0으로 만들어도된다.
+//리다이렉트시 값을 전달하면서 created로 받아서 세션이 존재하나 확인할 수 있도록함
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,8 +41,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
 
+//여긴 rest controller 굳이 해줄 필요가 없다 하지만 , 세션같은 거를 넣어놔서 세션이 존재할때, 뷰의 첫 페이지에 이름이랑 메일을 띄워야함
+//It`s not a rest controller
 
-
+//@CrossOrigin("*")
 @Controller
 @RequestMapping("/mindwiki")
 public class KakaoLoginController {
@@ -77,10 +82,11 @@ public class KakaoLoginController {
 	         // clear resources
 	      }
 	      
-
-	      String jwt = getUserInfo(returnNode);//jwt를 리턴해주지 않아도 생성된것임
 	      
 
+	      String jwt = getUserInfo(returnNode);//jwt를 리턴해주지 않아도 생성된것임
+
+	 
 	      
 	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
@@ -109,13 +115,13 @@ public class KakaoLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-	         // clear resources
+	        
 	      }
 	    
 	      
 	      
 	      
-	  //    System.out.println(returnNode);
+	
 		String kakao_email = null;
 		String kakao_name = null;
 		
@@ -132,12 +138,10 @@ public class KakaoLoginController {
 	  	 if(kakao_email!=null) {
 	    	  
 		      jwt = jwtSvc.createToken("userInfo", kakao_email,kakao_name);
-		      
+		      //만들어주면 알아서 서버에저장됨
 		      
 		      }
-	  	
-	  	
-	
+	  
 	  	
 	  	System.out.println(accessToken);
 	  	
