@@ -38,11 +38,11 @@ export default new Vuex.Store({
       return state.message;
     },
     // 접속중인 email 리턴
-    getUserId() {
+    userId() {
       return localStorage.getItem('user-id');
     },
     // 접속중인 nickname 리턴
-    getNickName() {
+    nickName() {
       return localStorage.getItem('user-nickname');
     },
     // 선택되어있는 하단 바 리턴

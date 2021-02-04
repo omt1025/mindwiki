@@ -4,7 +4,7 @@
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
 
       <v-spacer></v-spacer>
-      <v-toolbar-title class="flex text-center" font-family>팔로우목록</v-toolbar-title>
+      <v-toolbar-title class="flex text-center">{{ nickName }}</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <template v-slot:extension>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import FollowerList from '@/components/common/FollowerList.vue';
 import FollowingList from '@/components/common/FollowingList.vue';
 
@@ -43,6 +44,9 @@ export default {
   components: {
     FollowerList,
     FollowingList,
+  },
+  computed: {
+    ...mapGetters(['nickName', 'userId']),
   },
   data() {
     return {
