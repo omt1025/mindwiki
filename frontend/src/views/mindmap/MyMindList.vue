@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : SNS 로그인 JWT저장
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-02
+  -->
   <v-container fluid>
     <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
     <v-row dense id="list">

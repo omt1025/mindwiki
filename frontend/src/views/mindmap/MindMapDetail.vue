@@ -2,6 +2,8 @@
   <v-app>
     <v-container>
       <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn>
+      <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn>
+      <v-btn @click="deletemind($route.params.no)">삭제 임시</v-btn>
       <!-- <mindmap :nodes="nodes" :connections="connections" :editable="true" /> -->
       <v-menu
         v-model="menu"
@@ -120,26 +122,6 @@ export default {
     nodes: [],
     connections: [],
 
-    // 노드에 들어갈 폼
-    nodeform: {
-      'text': '',
-      'note': '',
-      'url': '',
-      'fx': 176.083777747024,
-      'fy': -625.1641376795345,
-      'nodes': [],
-      'category': '',
-      'color': ''
-    },
-    connectionform: {
-      'source': '',
-      'target': '',
-      'curve': {
-        'x': -238.287,
-        'y': -54.4818
-      }
-    },
-
     chips: ["여행지", "음식", "SNOW"],
     interest: {},
     // ...map,
@@ -167,7 +149,19 @@ export default {
         this.mindmap = this.$store.getters.getMessage;
         console.log(this.mindmap)
       })
-    }
+    },
+    updatemind() {
+
+    },
+    deletemind(no) {
+      let form = new FormData();
+      form.append("jwt", this.$store.getters.getJWT);
+      form.append("no", no)
+      
+      this.$store.dispatch("deleteMind", form).then(() =>{
+        this.$router.push('/main/mindmap/mymindlist')
+      })
+    },
   },
   // 관심태그 삭제
   remove(item) {

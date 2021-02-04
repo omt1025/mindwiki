@@ -19,7 +19,7 @@ export default {
       this.$router.push('/main/mylibrary/follow');
     },
     goMind() {
-      this.$router.push('/main/mindmap/mymindList');
+      this.$router.push('/main/mindmap/mymindlist');
     },
   },
 };

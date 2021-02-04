@@ -2,7 +2,7 @@
  * 작성자 : 서울2반 4팀 오민택
  * 내용 : 마인드맵 리스트 불러오기 관련 메소드
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-03
+ * 최종수정일자 : 2021-02-04
  */
 
 import Vue from 'vue';
@@ -177,6 +177,18 @@ export default new Vuex.Store({
       const jwt = user.get("jwt")
       
       return axios.get(`${SERVER_URL}/mind/read/${user.get("no")}`, {
+        params: { "jwt": jwt }
+        }).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
+    // 마인드맵 수정[OMT]
+
+    // 마인드맵 제거[OMT]
+    deleteMind(context, user) {
+      const jwt = user.get("jwt")
+
+      return axios.delete(`${SERVER_URL}/mind/delete/${user.get("no")}`, {
         params: { "jwt": jwt }
         }).then((response) => {
         context.commit('setMessage', response.data);
