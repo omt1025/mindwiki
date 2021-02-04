@@ -9,6 +9,7 @@
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
+            @click="clickParams(card.mindID)"
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
@@ -50,6 +51,10 @@ export default {
         this.cards = this.$store.getters.getMessage;
       });
     },
+    clickParams(no) {
+      this.$router.push({name: 'MindMapDetail', params: {no: no}});
+      this.$router.push('/main/mindmap/mindmapdetail');
+    }
   },
   // 페이지가 로드되면 실행되도록
   created: function () {

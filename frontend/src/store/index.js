@@ -108,10 +108,6 @@ export default new Vuex.Store({
     setMainTab(state, tab) {
       state.mainTab = tab;
     },
-    // 마인드맵 리스트 읽어오기[OMT]
-    readMyMindMap(state, list) {
-      state.mindlist = list;
-    },
   },
 
   // 비동기처리 로직을 선언하는 메서드
@@ -176,5 +172,15 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data); // 응답을 message에 저장
       });
     },
+    // 상세 마인드맵 페이지에서 마인드맵 불러오기[OMT]
+    readMindDetail(context, user) {
+      const jwt = user.get("jwt")
+      
+      return axios.get(`${SERVER_URL}/mind/read/${user.get("no")}`, {
+        params: { "jwt": jwt }
+        }).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    }
   },
 });
