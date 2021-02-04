@@ -79,9 +79,10 @@ const routes = [
     path: '/main/mindmap/mindmapdetail',
     name: 'MindMapDetail',
     component: MindMapDetail,
+    props: true
   },
   {
-    path: '/main/mindmap/mymindList',
+    path: '/main/mindmap/mymindlist',
     name: 'MyMindList',
     component: MyMindList,
   },

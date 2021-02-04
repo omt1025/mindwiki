@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-container>
+      <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn>
       <!-- <mindmap :nodes="nodes" :connections="connections" :editable="true" /> -->
       <v-menu
         v-model="menu"
@@ -114,6 +115,31 @@ export default {
   data: () => ({
     fav: true,
     menu: false,
+    // 마인드맵 생성에 필요한 요소
+    mindmap: "",
+    nodes: [],
+    connections: [],
+
+    // 노드에 들어갈 폼
+    nodeform: {
+      'text': '',
+      'note': '',
+      'url': '',
+      'fx': 176.083777747024,
+      'fy': -625.1641376795345,
+      'nodes': [],
+      'category': '',
+      'color': ''
+    },
+    connectionform: {
+      'source': '',
+      'target': '',
+      'curve': {
+        'x': -238.287,
+        'y': -54.4818
+      }
+    },
+
     chips: ["여행지", "음식", "SNOW"],
     interest: {},
     // ...map,
@@ -132,6 +158,16 @@ export default {
     checkHandler() {
       console(this.title);
     },
+    readminddetail(no) {
+      let form = new FormData();
+      form.append("jwt", this.$store.getters.getJWT);
+      form.append("no", no)
+      
+      this.$store.dispatch("readMindDetail", form).then(() =>{
+        this.mindmap = this.$store.getters.getMessage;
+        console.log(this.mindmap)
+      })
+    }
   },
   // 관심태그 삭제
   remove(item) {
