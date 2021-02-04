@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- 검색 도구 -->
     <v-text-field
       type="search"
       class="search"
@@ -13,61 +14,65 @@
       </template>
     </v-text-field>
 
-    <!-- 프로필 검색  -->
+    <!-- 프로필 검색 -->
     <v-list-item-content>
-      <div class="questrial caption font-weight-bold blue--text">프로필 검색</div>
+      <div class="caption purple--text">프로필 검색</div>
     </v-list-item-content>
 
+    <!-- 프로필 슬라이드 -->
+    <template>
+      <v-sheet class="mx-auto" max-width="375">
+        <v-slide-group
+          multiple
+        >
+          <v-slide-item
+            v-for="item in searchHandler"
+            :key="item.id"
+          >
+            <v-list-item id="v-list-item">
+            <v-list-item-avatar color="purple">
+              <v-img
+                :alt="`${item.name} avatar`"
+                :src="item.avatar"
+              ></v-img>
+            </v-list-item-avatar>
 
-    <template v-for="item in searchHandler">
-      <v-list-item
-        :key="item.id"
-      >
-        <v-list-item-avatar>
-          <v-img
-            :alt="`${item.name} avatar`"
-            :src="item.avatar"
-          ></v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title v-text="item.name"></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+            <v-list-item-subtitle id="subtitle" v-text="item.name"></v-list-item-subtitle>
+            
+            </v-list-item>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
     </template>
 
     <v-divider></v-divider>
     <!-- 마인드맵 제목 검색 -->
     <v-list-item-content>
-      <div class="questrial caption font-weight-bold blue--text">제목 검색</div>
+      <div class="caption purple--text">제목 검색</div>
     </v-list-item-content>
 
     <v-divider></v-divider>
 
     <!-- 마인드맵 해시태그 검색 -->
     <v-list-item-content>
-      <div class="questrial caption font-weight-bold blue--text">해시태그 검색</div>
+      <div class="caption purple--text">해시태그 검색</div>
     </v-list-item-content>
 
   </v-app>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { persons } from '@/data/data';
-
-
 
 export default {
   components: {
 
   },
   computed: {
-    ...mapGetters(['mainTab']),
     searchHandler() {
       return this.data.filter(elem => {
         return elem.name.toLowerCase().includes(this.search.toLowerCase());
         // return elem.name
-
       });
     }
   },
@@ -85,8 +90,6 @@ export default {
       this.$emit('input-change', event.target.value);
     }
   },
-
-
 };
 </script>
 
@@ -106,5 +109,20 @@ hr {
   margin-bottom: 0.4rem;
   margin-left: 1.1rem;
   margin-right: 1.1rem;
+}
+#v-list-item {
+  height: 80px;
+}
+#subtitle {
+  position: fixed;
+  bottom: 0px;
+}
+</style>
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Sunflower:wght@300&display=swap" rel="stylesheet');
+
+#subtitle {
+  font-family: 'Noto Sans KR';
 }
 </style>

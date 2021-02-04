@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : SNS 로그인 JWT저장
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-02
+  -->
   <v-container fluid>
     <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
     <v-row dense id="list">
@@ -9,6 +15,7 @@
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
+            @click="clickParams(card.mindID)"
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
@@ -50,6 +57,9 @@ export default {
         this.cards = this.$store.getters.getMessage;
       });
     },
+    clickParams(no) {
+      this.$router.push({name: 'MindMapDetail', params: {no: no}});
+    }
   },
   // 페이지가 로드되면 실행되도록
   created: function () {

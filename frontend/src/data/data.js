@@ -23,5 +23,15 @@ export const persons = [
     id: 5,
     name: '황윤호',
     avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
+  },
+  {
+    id: 6,
+    name: '페이커',
+    avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+  },
+  {
+    id: 7,
+    name: '손흥민',
+    avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
   },  
 ]
