@@ -10,16 +10,24 @@
 					VALUES  (#{email}, #{password}, #{realName}, #{hashtag} )
 	</insert>
 	
+	<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
+		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email}) as success;
+	</select>
+	
+	<select id="checkPassword" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
+		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email} AND password=#{password} ))
+	</select>
+	
 	<delete id="withdrawal" parameterType="com.mindwiki.model.ProfileDto">
 		DELETE FROM profile
 		WHERE email=#{email}
 	</delete>
 	
-	<select id="getPassword" resultType="string" parameterType="com.mindwiki.model.ProfileDto">
-		SELECT *
-		FROM profile
-		WHERE email=#{email}
-	</select>
+<!-- 	<select id="getPassword" resultType="string" parameterType="com.mindwiki.model.ProfileDto"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM profile -->
+<!-- 		WHERE email=#{email} -->
+<!-- 	</select> -->
 	
 	<update id="updatePassword" parameterType="com.mindwiki.model.ProfileDto">
 		UPDATE profile
@@ -32,6 +40,13 @@
 		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}
 		WHERE email=#{email}
 	</update>
+	
+	<select id="getProfileID" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
+		SELECT ProfileID
+		FROM profile
+		WHERE email=#{email}
+	</select>
+	
 	
 		
 </mapper>

@@ -1,13 +1,13 @@
 package com.mindwiki.model;
 
 public class ProfileResultDto {
-	private int result;
+	private String result;
 
-	public int getResult() {
+	public String getResult() {
 		return result;
 	}
 
-	public void setResult(int result) {
+	public void setResult(String result) {
 		this.result = result;
 	}
 

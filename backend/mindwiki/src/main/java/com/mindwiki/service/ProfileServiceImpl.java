@@ -23,6 +23,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public ProfileResultDto register(ProfileDto dto) throws SQLException {
+<<<<<<< Updated upstream
 		ProfileResultDto resultDto = new ProfileResultDto();
 
 		if (successRegister(dto)) {
@@ -45,19 +46,67 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 
 		return resultDto;
+=======
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(profileMapper.sameEmailCnt(dto)!=0) {
+			result.setResult("REGISTER_FAIL_ALREADY_EXISTS_EMAIL");
+			return result;
+		}
+		
+		if(profileMapper.register(dto)!=SUCCESS) {
+			result.setResult("REGISTER_FAIL_SERVER_ERROR");
+			return result;
+		}
+		
+		result.setResult("SUCCESS");
+		return result;
+	}
+	
+
+	@Override
+	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException {
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(profileMapper.checkPassword(dto)!=SUCCESS) {
+			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
+			System.out.println("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
+			return result;
+		}
+		
+		if(profileMapper.withdrawal(dto)!=SUCCESS) {
+			System.out.println("WITHDRAWAL_FAIL_SERVER_ERROR");
+			result.setResult("WITHDRAWAL_FAIL_SERVER_ERROR");
+			return result;
+		}
+		
+		System.out.println("SUCCESS");
+		result.setResult("SUCCESS");
+		return result;
+>>>>>>> Stashed changes
 	}
 
 	@Override
 	public ProfileResultDto changePassword(ProfileDto dto, String newPassword) throws SQLException {
-		ProfileResultDto resultDto = new ProfileResultDto();
-
-		if (successChangePassword(dto, newPassword)) {
-			resultDto.setResult(SUCCESS);
-		} else {
-			resultDto.setResult(FAIL);
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(profileMapper.checkPassword(dto)!=SUCCESS) {
+			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
+			System.out.println("CHANGE_PASSWORD_FAIL_INCORRECT_PASSWORD");
+			return result;
 		}
-
-		return resultDto;
+		
+		if(profileMapper.updatePassword(dto)!=1) {
+			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
+			System.out.println("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
+			return result;
+		}
+		
+		result.setResult("SUCCESS");
+		return result;
 	}
 
 	@Override
@@ -65,28 +114,16 @@ public class ProfileServiceImpl implements ProfileService {
 		ProfileResultDto resultDto = new ProfileResultDto();
 
 		if (successChangeProfile(dto)) {
-			resultDto.setResult(SUCCESS);
+			resultDto.setResult("SUCCESS");
 		} else {
-			resultDto.setResult(FAIL);
+			resultDto.setResult("FAIL");
 		}
-
 		return resultDto;
 	}
 
 	@Override
 	public ProfileDto getProfile(ProfileDto profileDto) throws SQLException {
 		return null;
-	}
-
-	// TODO
-	// email 중복 검사
-	// bookshelf 생성
-	// mymindbook, scrapmindbook 생성
-	// book 생성
-	private boolean successRegister(ProfileDto dto) throws SQLException {
-		if (session.getMapper(ProfileDao.class).register(dto) == 1)
-			return true;
-		return false;
 	}
 
 	// TODO
