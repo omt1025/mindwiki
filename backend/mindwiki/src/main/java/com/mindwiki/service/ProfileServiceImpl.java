@@ -23,30 +23,6 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public ProfileResultDto register(ProfileDto dto) throws SQLException {
-<<<<<<< Updated upstream
-		ProfileResultDto resultDto = new ProfileResultDto();
-
-		if (successRegister(dto)) {
-			resultDto.setResult(SUCCESS);
-		} else {
-			resultDto.setResult(FAIL);
-		}
-
-		return resultDto;
-	}
-
-	@Override
-	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException {
-		ProfileResultDto resultDto = new ProfileResultDto();
-
-		if (successWithdrawal(dto)) {
-			resultDto.setResult(SUCCESS);
-		} else {
-			resultDto.setResult(FAIL);
-		}
-
-		return resultDto;
-=======
 		ProfileResultDto result = new ProfileResultDto();
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
@@ -85,7 +61,6 @@ public class ProfileServiceImpl implements ProfileService {
 		System.out.println("SUCCESS");
 		result.setResult("SUCCESS");
 		return result;
->>>>>>> Stashed changes
 	}
 
 	@Override
