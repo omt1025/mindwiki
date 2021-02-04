@@ -181,7 +181,7 @@ public class MindController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+		
 		System.out.println(mindSvc.readByEmail(email));
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(email), HttpStatus.OK);
