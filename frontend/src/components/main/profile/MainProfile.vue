@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 프로필화면 UI제작-1차
+    * 내용 : 프로필화면 UI제작-2차
     * 생성일자 : 2021-02-04
-    * 최종수정일자 : 2021-02-04
+    * 최종수정일자 : 2021-02-05
  -->
 
   <div class="profile_info">
@@ -28,14 +28,14 @@
           <div class="user-num" @click="goMind">
             <w-card-title class="card-title">게시물</w-card-title>
             <w-card-description class="card-description">
-              139
+              {{ myMindList.length }}
             </w-card-description>
           </div>
           <!-- 스크랩한 게시물 수 -->
           <div class="user-num">
             <w-card-title class="card-title">스크랩</w-card-title>
             <w-card-description class="card-description">
-              203
+              {{ scrapList.length }}
             </w-card-description>
           </div>
           <!-- 본인을 팔로워한 사람 수 -->
@@ -61,24 +61,82 @@
           </div>
         </w-card-body>
       </w-card>
+
+      <!-- 내가 작성한 MIND목록 -->
+      <div class="mymind_list p-t-60 p-b-20">
+        <div class="txt2 p-t-15 p-b-15">
+          <span>내 MIND</span>
+        </div>
+        <mind-list :mindlist="myMindList"></mind-list>
+      </div>
+
+      <!-- 내가 스크랩한 MIND목록 -->
+      <div class="mymind_list p-t-20 p-b-50">
+        <div class="txt2 p-t-2 p-b-15">
+          <span>스크랩 MIND</span>
+        </div>
+        <mind-list :mindlist="this.scrapList"></mind-list>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import MindList from './MindList.vue';
 
 export default {
+  components: { MindList },
+  data: function() {
+    return {
+      myMindList: {}, // 내 MIND
+      // 스크랩 MIND기능 미 구현으로 임시로 데이터 박아두기...[YJS]
+      scrapList: [
+        {
+          title: '스타벅스 MD',
+          hashtag: '크리스마스md, 벚꽃md, 새해md',
+          thumbnail:
+            'https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile3.uf.tistory.com%2Fimage%2F99A2DB485C6639A328054E',
+        },
+        {
+          title: '꽃보다남자',
+          hashtag: '구준표,신화그룹,잔디세탁',
+          thumbnail:
+            'https://t1.daumcdn.net/liveboard/cineplay/7d6049e657b44cf2bc1b4f5a02540ff5.JPG',
+        },
+        {
+          title: '다꾸',
+          hashtag: '컨페티,씰스,인스',
+          thumbnail: 'http://weekly.chosun.com/up_fd/wc_news/2123/bimg_org/2123_74_01.jpg',
+        },
+      ], // 스크랩 MIND
+    };
+  },
   computed: {
     ...mapGetters(['nickName', 'userId']),
   },
+  created() {},
+  mounted() {
+    // 내 마인드맵 리스트 불러오기
+    this.readmymindmap();
+  },
   methods: {
+    // 팔로워 보기
     goFollow() {
       this.$store.dispatch('setBottomNav', 'follow');
       this.$router.push('/main/mylibrary/follow');
     },
     goMind() {
       this.$router.push('/main/mindmap/mymindlist');
+    },
+    // 내 마인드 리스트 조회
+    readmymindmap() {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+
+      this.$store.dispatch('readMyMindMap', form).then(() => {
+        this.myMindList = this.$store.getters.mindList; // 응답 결과 저장된 마인드를 자식 컴포넌트에 전달
+      });
     },
   },
 };
@@ -87,10 +145,10 @@ export default {
 <style scoped>
 .profile_info {
   background-image: url(../../../assets/images/profile/hero_mini.svg);
-  min-height: 1000px;
+  min-height: auto;
   min-width: 375px;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   position: relative;
   /* object-position: bottom; */
 }
@@ -132,5 +190,11 @@ export default {
 .card-description {
   text-align: center;
   /* margin: auto !important; */
+}
+.txt2 {
+  text-align: left;
+  margin-left: 20px;
+  font-family: Poppins-Medium;
+  font-size: 1.1rem !important;
 }
 </style>
