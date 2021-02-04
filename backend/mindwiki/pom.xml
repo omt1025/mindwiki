@@ -123,6 +123,16 @@
             <artifactId>spring-boot-starter-web-services</artifactId>
 </dependency>
 
+<!-- 아파치의 common io 사진을 바이트로 변환시켜줌-->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.4</version>
+</dependency>
+
+
+
+
 	</dependencies>
 
 

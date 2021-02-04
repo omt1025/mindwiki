@@ -1,5 +1,9 @@
 package com.mindwiki.config;
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : swagger
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +44,7 @@ public class SwaggerConfiguration {
 	
 	private Predicate<String> postPaths() {
 		return PathSelectors.any();
-//		return or(regex("/user/.*"), regex("/article/.*"), regex("/memo/.*"));
-//		return regex("/admin/.*");
+
 	}
 
 	private ApiInfo apiInfo() {
