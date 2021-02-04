@@ -4,6 +4,11 @@ package com.mindwiki.controller;
 //확인을 하고 세션을 끊어줘도 되고 아예 flag 01로나눠서 1이면 토큰을 주고 0으로 만들어도된다.
 //리다이렉트시 값을 전달하면서 created로 받아서 세션이 존재하나 확인할 수 있도록함
 
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 댓글 CRUD
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +45,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : kakao Oauth & jwt
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 //여긴 rest controller 굳이 해줄 필요가 없다 하지만 , 세션같은 거를 넣어놔서 세션이 존재할때, 뷰의 첫 페이지에 이름이랑 메일을 띄워야함
 //It`s not a rest controller
 

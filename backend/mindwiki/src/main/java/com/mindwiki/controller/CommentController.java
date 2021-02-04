@@ -31,6 +31,13 @@ import io.swagger.annotations.Api;
 
 import io.swagger.annotations.ApiOperation;
 
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 댓글 CRUD
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
+
+
 @Api("CommentController V1")
 @RestController
 @RequestMapping("/mindwiki")

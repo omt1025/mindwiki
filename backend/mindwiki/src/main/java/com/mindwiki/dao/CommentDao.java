@@ -6,7 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mindwiki.model.CommentDto;
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : comment Dao mapping to mapper
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 @Repository
 public interface CommentDao {
 //comment CRUD

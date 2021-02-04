@@ -1,5 +1,10 @@
 package com.mindwiki.controller;
 
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 기본 로그인 & jwt 발급
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;

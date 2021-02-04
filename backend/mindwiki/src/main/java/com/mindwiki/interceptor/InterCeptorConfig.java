@@ -1,6 +1,10 @@
 package com.mindwiki.interceptor;
 
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : InterCeptor 관리
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;

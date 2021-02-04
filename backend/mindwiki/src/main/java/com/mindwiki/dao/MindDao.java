@@ -9,7 +9,11 @@ import com.mindwiki.model.LikeDto;
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ScrapDto;
 
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : mind dao
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 
 @Repository
 public interface MindDao {
