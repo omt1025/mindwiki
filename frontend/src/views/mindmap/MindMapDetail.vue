@@ -249,7 +249,7 @@ export default {
       form.append('title', this.title);
       form.append('subject', this.subject);
       form.append('explanation', this.explanation);
-      form.append('hashtag', this.chips);
+      
       form.append("MindID", no);
       console.log(no)
       this.$store.dispatch("updateMind", form).then(() =>{
