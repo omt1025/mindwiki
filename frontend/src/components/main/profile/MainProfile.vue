@@ -178,7 +178,7 @@ export default {
 /* 게시물 수 들어있는 card */
 .user-num {
   display: inline-block;
-  margin-left: 12px;
+  margin-left: 6px;
   margin-right: 12px;
 }
 /* 게시물, 스크랩, 팔로워, 팔로잉 title */
@@ -197,4 +197,8 @@ export default {
   font-family: Poppins-Medium;
   font-size: 1.1rem !important;
 }
+.card-body {
+  padding: 1rem;
+}
+
 </style>

@@ -149,7 +149,7 @@ export default {
     // 임시로 쓸 더미 데이터
     nodes: [
       {
-        'text': '주제',
+        'text': '중간발표',
         'url': '',
         'fx': -13.916222252976013,
         'fy': -659.1641376795345,
@@ -180,7 +180,7 @@ export default {
     ],
     connections: [
       {
-        'source': '주제',
+        'source': '중간발표',
         'target': 'SNOW',
         'curve': {
           'x': -43.5535,
@@ -188,7 +188,7 @@ export default {
         }
       },
       {
-        'source': '주제',
+        'source': '중간발표',
         'target': '여행지',
         'curve': {
           'x': -78.1206,
@@ -196,7 +196,7 @@ export default {
         }
       },
       {
-        'source': '주제',
+        'source': '중간발표',
         'target': '음식',
         'curve': {
           'x': 29.6649,
