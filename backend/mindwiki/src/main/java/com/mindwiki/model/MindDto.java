@@ -1,12 +1,16 @@
 package com.mindwiki.model;
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 마인드 Dto
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.util.Date;
 
 public class MindDto {
 
 	private int MindID;
 	private String admin;
-	private Date initCreateTime;
+	private String initCreateTime;
 	private String title;
 	private String hashtag;
 	private int hashtagCnt;
@@ -53,7 +57,7 @@ public class MindDto {
 	}
 
 
-	public void setInitCreateTime(Date initCreateTime) {
+	public void setInitCreateTime(String initCreateTime) {
 		this.initCreateTime = initCreateTime;
 	}
 
@@ -80,7 +84,9 @@ public class MindDto {
 	}
 
 
-	
+	public String getInitCreateTime() {
+		return initCreateTime;
+	}
 	public int getMindID() {
 		return MindID;
 	}

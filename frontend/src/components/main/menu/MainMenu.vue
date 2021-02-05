@@ -10,8 +10,8 @@
         </div>
 
         <!-- 비회원일 때 보여줌 -->
-        <div v-bind:jwt="jwt" v-if="jwt=='undefined'">
-        <!-- <div v-if="getJWT!='undefined'"> -->
+        <div v-bind:jwt="jwt" v-if="jwt == 'undefined'">
+          <!-- <div v-if="getJWT!='undefined'"> -->
           <div class="my-5">
             <v-btn
               x-large
@@ -203,7 +203,7 @@ export default {
     accountClick: true,
     color: 'white',
     logoutcheck: '',
-    jwt:localStorage.getItem('jwt'),
+    jwt: localStorage.getItem('jwt'),
     // jwt:getJWT,
   }),
   methods: {
@@ -244,7 +244,7 @@ span {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
 @import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20KR');
 @import url('https://fonts.googleapis.com/css?family=Poor+Story:400');

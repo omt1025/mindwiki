@@ -1,8 +1,8 @@
 /*
- * 작성자 : 서울2반 4팀 오민택
- * 내용 : 마인드맵 리스트 불러오기 관련 메소드
+ * 작성자 : 서울2반 4팀 윤지선
+ * 내용 : 프로필에서 사용할 마인드맵 리스트 불러오기
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-04
+ * 최종수정일자 : 2021-02-05
  */
 
 import Vue from 'vue';
@@ -24,6 +24,7 @@ export default new Vuex.Store({
     nickName: null, // JWT 속 nickname
     bottomNav: 'home', // 하단 바 현재 위치
     mainTab: '0', // 상단 탭 현재 위치
+    mindList: [], // 프로필 내 마인드리스트목록
   },
 
   // 연산된 state값을 접근
@@ -38,11 +39,11 @@ export default new Vuex.Store({
       return state.message;
     },
     // 접속중인 email 리턴
-    getUserId() {
+    userId() {
       return localStorage.getItem('user-id');
     },
     // 접속중인 nickname 리턴
-    getNickName() {
+    nickName() {
       return localStorage.getItem('user-nickname');
     },
     // 선택되어있는 하단 바 리턴
@@ -52,6 +53,10 @@ export default new Vuex.Store({
     // 선택되어있는 상단 탭 리턴
     mainTab(state) {
       return state.mainTab;
+    },
+    // 프로필 : 내 마인드리스트 리턴
+    mindList(state) {
+      return state.mindList;
     },
   },
 
@@ -107,6 +112,10 @@ export default new Vuex.Store({
     // 상단 탭 변경[YJS]
     setMainTab(state, tab) {
       state.mainTab = tab;
+    },
+    // 프로필 마인드리스트[YJS]
+    setMindList(state, mindList) {
+      state.mindList = mindList;
     },
   },
 
@@ -170,17 +179,22 @@ export default new Vuex.Store({
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
         context.commit('setMessage', response.data); // 응답을 message에 저장
+
+        // 메소드는 겹치는데, 혹시 몰라서, 따로 만들었음.. 후에 조정 필요
+        context.commit('setMindList', response.data); // my_mindList불러오기위해[YJS]
       });
     },
     // 상세 마인드맵 페이지에서 마인드맵 불러오기[OMT]
     readMindDetail(context, user) {
-      const jwt = user.get("jwt")
-      
-      return axios.get(`${SERVER_URL}/mind/read/${user.get("no")}`, {
-        params: { "jwt": jwt }
-        }).then((response) => {
-        context.commit('setMessage', response.data);
-      })
+      const jwt = user.get('jwt');
+
+      return axios
+        .get(`${SERVER_URL}/mind/read/${user.get('no')}`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
@@ -191,13 +205,15 @@ export default new Vuex.Store({
     },
     // 마인드맵 제거[OMT]
     deleteMind(context, user) {
-      const jwt = user.get("jwt")
+      const jwt = user.get('jwt');
 
-      return axios.delete(`${SERVER_URL}/mind/delete/${user.get("no")}`, {
-        params: { "jwt": jwt }
-        }).then((response) => {
-        context.commit('setMessage', response.data);
-      })
-    }
+      return axios
+        .delete(`${SERVER_URL}/mind/delete/${user.get('no')}`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
   },
 });

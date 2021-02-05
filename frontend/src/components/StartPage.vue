@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : SNS 로그인 JWT 받아오면 메인화면으로 이동시키기
+    * 내용 : 버튼 글씨 회색으로 style 추가
     * 생성일자 : 2021-01-20
-    * 최종수정일자 : 2021-02-03
+    * 최종수정일자 : 2021-02-04
  -->
 
   <div id="bg">
@@ -87,9 +87,7 @@ export default {
   components: {},
 
   data: () => ({
-    expand: false,
-    expand2: false,
-    show: false,
+    expand: false, // 슬라이드 효과에 사용
   }),
   created() {
     // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우 => main페이지로 이동[YJS]
@@ -178,6 +176,10 @@ export default {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(30px);
   opacity: 0;
+}
+/* 버튼 글씨 회색[YJS] */
+.theme--light .v-btn {
+  color: rgba(61, 61, 61, 0.87) !important;
 }
 </style>
 

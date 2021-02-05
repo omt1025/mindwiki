@@ -1,5 +1,9 @@
 package com.mindwiki.service;
-
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : mind service implementation
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.mindwiki.dao.LoginDao;
 import com.mindwiki.dao.MindDao;
+import com.mindwiki.model.LikeDto;
 import com.mindwiki.model.MindDto;
+import com.mindwiki.model.ScrapDto;
 
 @Service
 public class MindServiceImpl implements MindService {
@@ -47,15 +53,36 @@ public class MindServiceImpl implements MindService {
 		
 	}
 
-	@Override
-	public void scrap(MindDto mind) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public List<MindDto> readByEmail(String email) throws SQLException {
 		return session.getMapper(MindDao.class).readByEmail(email);
+	}
+
+
+	@Override
+	public void scrap(int no,String email) throws SQLException {
+		session.getMapper(MindDao.class).scrap(no, email);
+		
+	}
+	
+	@Override
+	public void like(int no, String email) throws SQLException {
+		session.getMapper(MindDao.class).like(no, email);
+		
+	}
+
+	@Override
+	public List<ScrapDto> scrapRead(String email) throws SQLException {
+		
+		return session.getMapper(MindDao.class).scrapRead(email); 
+	}
+
+	@Override
+	public List<LikeDto> likeRead(String email) throws SQLException {
+		
+		return session.getMapper(MindDao.class).likeRead(email);
+		
 	}
 
 
