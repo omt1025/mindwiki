@@ -199,7 +199,7 @@ export default new Vuex.Store({
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
       console.log(mind.get("jwt"))
-      return axios.put(`/mind/update`, mind).then((response) => {
+      return axios.put(`${SERVER_URL}/mind/update`, mind).then((response) => {
         context.commit('setMessage', response.data);
       })
     },
