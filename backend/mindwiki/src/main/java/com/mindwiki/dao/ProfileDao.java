@@ -16,7 +16,6 @@ public interface ProfileDao {
 	
 	public int getProfileID(ProfileDto dto) throws SQLException;
 	
-	
 	public int updatePassword(ProfileDto dto) throws SQLException;
 	public int updateProfile(ProfileDto dto) throws SQLException;
 	

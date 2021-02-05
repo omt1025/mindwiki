@@ -26,7 +26,7 @@ import com.mindwiki.service.ProfileService;
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
-
+	
 	@Autowired
 	private ProfileService profileService;
 	
@@ -46,16 +46,16 @@ public class ProfileController {
 	public ResponseEntity<Map<String, Object>> register(HttpSession session,
 			@RequestParam(value="email", required=false) String email,
 			@RequestParam(value="password", required=false) String password,
-			@RequestParam(value="realName", required=false) String realName,
+			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
 		System.out.println("ProfileController] /profile/register ");
 		System.out.println("email: " + email + ", password: " + password 
-				+ ", realName: " + realName + ", hashtag: " + hashtag);
+				+ ", nickName: " + nickName + ", hashtag: " + hashtag);
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
 		profileDto.setPassword(password);
-		profileDto.setRealName(realName);
+		profileDto.setNickName(nickName);
 		profileDto.setHashtag(hashtag);
 
 		Map<String, Object> result = new HashMap<>();
