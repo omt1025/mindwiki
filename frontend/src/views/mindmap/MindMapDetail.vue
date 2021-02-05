@@ -1,10 +1,16 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 상세 마인드맵 페이지 제작
+    * 생성일자 : 2021-02-03
+    * 최종수정일자 : 2021-02-04
+  -->
   <v-app>
     <v-container>
-      <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn>
-      <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn>
-      <v-btn @click="deletemind($route.params.no)">삭제 임시</v-btn>
-      <!-- <mindmap :nodes="nodes" :connections="connections" :editable="true" /> -->
+      <!-- 마인드맵 api 사용 -->
+      <mindmap :nodes="nodes" :connections="connections" :editable="true" />
+      
+      <!-- 노드 추가 버튼 구현 -->
       <v-menu
         v-model="menu"
         :close-on-content-click="false"
@@ -12,14 +18,19 @@
         offset-x
       >
         <template v-slot:activator="{ on, attrs }">
+          <!-- 임시로 버튼 제작 -->
+          <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn>
+          <!-- <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn> -->
+          <v-btn @click="deletemind($route.params.no)">삭제 임시</v-btn>
+          
           <v-btn color="purple" dark v-bind="attrs" v-on="on" fab small>
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
-
+        <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
         <v-card>
           <v-card-title>
-            <span class="headline">마인드맵 생성</span>
+            <span class="headline">마인드맵 수정</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -28,6 +39,9 @@
                   <v-text-field
                     label="제목"
                     required
+                    id="title"
+                    ref="title"
+                    v-model="title"
                     @keypress.enter="checkHandler"
                     type="text"
                   ></v-text-field>
@@ -37,9 +51,9 @@
                   <v-text-field
                     label="주제"
                     required
-                    id="title"
-                    ref="title"
-                    v-model="title"
+                    id="subject"
+                    ref="subject"
+                    v-model="subject"
                     @keypress.enter="checkHandler"
                     type="text"
                   ></v-text-field>
@@ -81,7 +95,13 @@
                 </v-combobox>
 
                 <v-col cols="12">
-                  <v-text-field label="설명" single-line></v-text-field>
+                  <v-text-field 
+                  label="설명" 
+                  single-line
+                  id="explanation"
+                  ref="explanation"
+                  v-model="explanation"
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
@@ -96,7 +116,10 @@
               Cancel
             </v-btn>
 
-            <v-btn text>
+            <v-btn 
+            text
+            @click="checkHandler"
+            >
               OK
             </v-btn>
           </v-card-actions>
@@ -107,8 +130,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
-
 // import map from '../map.js';
 
 export default {
@@ -119,40 +140,117 @@ export default {
     menu: false,
     // 마인드맵 생성에 필요한 요소
     mindmap: "",
-    nodes: [],
-    connections: [],
-
-    chips: ["여행지", "음식", "SNOW"],
-    interest: {},
+    // 임시로 쓸 더미 데이터
+    nodes: [
+      {
+        'text': '주제',
+        'url': '',
+        'fx': -13.916222252976013,
+        'fy': -659.1641376795345,
+        'nodes': [],
+      },
+      {
+        'text': '여행지',
+        'url': '',
+        'fx': 15.3247731601375,
+        'fy': -964.73700786748157,
+        'nodes': []
+      },
+      {
+      'text': '음식',
+      'url': '',
+      'fx': 355.7839253819375,
+      'fy': -455.5539283546699,
+      'nodes': []
+      },
+      {
+      'text': 'SNOW',
+      'note': 'hihi',
+      'url': '',
+      'fx': -98.5231997717085,
+      'fy': -355.07462866512333,
+      'nodes': []
+      },
+    ],
+    connections: [
+      {
+        'source': '주제',
+        'target': 'SNOW',
+        'curve': {
+          'x': -43.5535,
+          'y': 299.545
+        }
+      },
+      {
+        'source': '주제',
+        'target': '여행지',
+        'curve': {
+          'x': -78.1206,
+          'y': -114.714
+        }
+      },
+      {
+        'source': '주제',
+        'target': '음식',
+        'curve': {
+          'x': 29.6649,
+          'y': 80.1111
+        }
+      },
+    ],
+    chips: [],
     // ...map,
     title: "",
-    url: "",
-    category: "",
-    color: "",
-    fx: "",
-    fy: "",
-    newconnection: {
-      source: "",
-      target: "",
-    },
+    subject: "",
+    explanation: "",
   }),
   methods: {
     checkHandler() {
-      console(this.title);
+      let err = true;
+      let msg = '';
+      !this.title &&
+        ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
+      err &&
+        !this.subject &&
+        ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
+      err &&
+        !this.explanation &&
+        ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
+      // if (!err) alert(msg);
+      if (!err) this.showAlert(msg);
+      else this.updatemind();
     },
+    // 서버로부터 마인드맵 데이터를 받아오는 함수
     readminddetail(no) {
+      // jwt와 마인드 번호를 form에 담아서 보내야 함
       let form = new FormData();
       form.append("jwt", this.$store.getters.getJWT);
       form.append("no", no)
-      
+      // actions의 readMindDetail 함수 실행
       this.$store.dispatch("readMindDetail", form).then(() =>{
         this.mindmap = this.$store.getters.getMessage;
         console.log(this.mindmap)
+        this.title = this.mindmap.title
+        this.explanation = this.mindmap.explanation
+        this.chips = this.mindmap.chips
+        this.subject = this.mindmap.subject
       })
     },
-    updatemind() {
-
+    // 마인드맵 수정 함수
+    updatemind(no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('title', this.title);
+      form.append('subject', this.subject);
+      form.append('explanation', this.explanation);
+      form.append('hashtag', this.chips);
+      form.append("MindID", no);
+      
+      this.$store.dispatch("updateMind", form).then(() =>{
+        this.showConfirm('수정이 완료되었습니다.');  
+      })
     },
+    // 마인드맵 제거 함수
     deletemind(no) {
       let form = new FormData();
       form.append("jwt", this.$store.getters.getJWT);
@@ -162,12 +260,22 @@ export default {
         this.$router.push('/main/mindmap/mymindlist')
       })
     },
+    // 관심태그 삭제
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1);
+      this.chips = [...this.chips];
+    },
+    // 다이얼로그
+    showAlert(msg) {
+      const options = { title: '알림', size: 'sm' };
+      this.$dialogs.alert(msg, options).then((res) => {
+        console.log(res);
+      });
+    },
   },
-  // 관심태그 삭제
-  remove(item) {
-    this.chips.splice(this.chips.indexOf(item), 1);
-    this.chips = [...this.chips];
-  },
+  // created: function () {
+  //   this.readminddetail()
+  // }
 };
 </script>
 

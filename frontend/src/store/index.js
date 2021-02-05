@@ -183,7 +183,12 @@ export default new Vuex.Store({
       })
     },
     // 마인드맵 수정[OMT]
-
+    updateMind(context, mind) {
+      console.log(mind.get("jwt"))
+      return axios.put(`/mind/update`, mind).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
     // 마인드맵 제거[OMT]
     deleteMind(context, user) {
       const jwt = user.get("jwt")

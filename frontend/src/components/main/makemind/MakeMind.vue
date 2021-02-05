@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 마인드맵 생성 컴포넌트 제작
+    * 생성일자 : 2021-02-02
+    * 최종수정일자 : 2021-02-04
+  -->
   <v-app>
     <v-container>
       <template v-slot:activator="{ on, attrs }">
@@ -172,18 +178,14 @@ export default {
 
           if (this.message === 'SUCCESS') {
             this.$store.dispatch('setMessage', null);
-            this.$router.push(`/main`);
+            // 생성 후 내 마인드 리스트 페이지로 이동
+            this.$router.push('/main/mindmap/mymindlist');
             this.$router.go(this.$router.currentRoute);
           } else {
             this.showConfirm('로그인이 필요합니다.');
           }
         })
         .catch(({ message }) => (this.msg = message));
-
-      // 탭 초기화(재사용 위해)
-      this.message = '';
-      this.$store.dispatch('setMainTab', 0);
-      this.$store.dispatch('setBottomNav', 'home');
     },
     // 관심태그 삭제
     remove(item) {
@@ -191,19 +193,19 @@ export default {
       this.chips = [...this.chips];
     },
 
-    // 다이얼로그
+    // 다이얼로그 1
     showAlert(msg) {
       const options = { title: '알림', size: 'sm' };
       this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res); // {ok: true|false|undefined}
+        console.log(res);
       });
     },
-    
+    // 다이얼로그 2
     showConfirm(msg) {
       const options = {title: '알림', cancelLabel: 'No'}
       this.$dialogs.confirm(msg, options)
       .then(res => {
-        console.log(res) // {ok: true|false|undefined}
+        console.log(res)
       })
     },
   }
