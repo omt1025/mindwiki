@@ -19,7 +19,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <!-- 임시로 버튼 제작 -->
-          <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn>
+          <!-- <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn> -->
           <!-- <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn> -->
           <v-btn @click="deletemind($route.params.no)">삭제 임시</v-btn>
           
@@ -135,6 +135,12 @@
 export default {
   name: "MindMapDetail",
   components: {},
+  props: {
+    no: {
+      type: Number,
+      default: 0
+    }
+  },
   data: () => ({
     fav: true,
     menu: false,
@@ -218,7 +224,7 @@ export default {
         ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
       // if (!err) alert(msg);
       if (!err) this.showAlert(msg);
-      else this.updatemind();
+      else this.updatemind(this.no);
     },
     // 서버로부터 마인드맵 데이터를 받아오는 함수
     readminddetail(no) {
@@ -245,7 +251,7 @@ export default {
       form.append('explanation', this.explanation);
       form.append('hashtag', this.chips);
       form.append("MindID", no);
-      
+      console.log(no)
       this.$store.dispatch("updateMind", form).then(() =>{
         this.showConfirm('수정이 완료되었습니다.');  
       })
@@ -273,9 +279,9 @@ export default {
       });
     },
   },
-  // created: function () {
-  //   this.readminddetail()
-  // }
+  created: function () {
+    this.readminddetail(this.no)
+  }
 };
 </script>
 
