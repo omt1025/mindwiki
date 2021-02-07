@@ -179,6 +179,8 @@ export default {
           if (this.message === 'SUCCESS') {
             this.$store.dispatch('setMessage', null);
             // 생성 후 내 마인드 리스트 페이지로 이동
+            this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+            this.$store.dispatch('setBottomNav', 'home');
             this.$router.push('/main/mindmap/mymindlist');
             this.$router.go(this.$router.currentRoute);
           } else {
