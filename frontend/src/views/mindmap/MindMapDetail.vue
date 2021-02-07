@@ -7,6 +7,10 @@
   -->
   <v-app>
     <v-container>
+      <div>
+        <h2>{{ no.title }}</h2>
+      </div>
+      
       <!-- 마인드맵 api 사용 -->
       <mindmap :nodes="nodes" :connections="connections" :editable="true" />
       
@@ -83,7 +87,7 @@
                       :input-value="selected"
                       close
                       class="ma-2"
-                      color="orange"
+                      color="purple"
                       text-color="white"
                       @click="select"
                       @click:close="remove(item)"
@@ -135,81 +139,85 @@
 export default {
   name: "MindMapDetail",
   components: {},
-  props: {
-    no: {
-      type: Number,
-      default: 0
-    }
-  },
-  data: () => ({
-    fav: true,
-    menu: false,
-    // 마인드맵 생성에 필요한 요소
-    mindmap: "",
-    // 임시로 쓸 더미 데이터
-    nodes: [
-      {
-        'text': '중간발표',
+  // props: {
+  //   no: {
+  //     type: Number,
+  //     default: 0
+  //   }
+  // },
+  data() {
+    const no = Number(this.$route.params.no);
+    return {
+      no: no,
+      fav: true,
+      menu: false,
+      // 마인드맵 생성에 필요한 요소
+      mindmap: "",
+      // 임시로 쓸 더미 데이터
+      nodes: [
+        {
+          'text': '중간발표',
+          'url': '',
+          'fx': -13.916222252976013,
+          'fy': -659.1641376795345,
+          'nodes': [],
+        },
+        {
+          'text': '여행지',
+          'url': '',
+          'fx': 15.3247731601375,
+          'fy': -964.73700786748157,
+          'nodes': []
+        },
+        {
+        'text': '음식',
         'url': '',
-        'fx': -13.916222252976013,
-        'fy': -659.1641376795345,
-        'nodes': [],
-      },
-      {
-        'text': '여행지',
-        'url': '',
-        'fx': 15.3247731601375,
-        'fy': -964.73700786748157,
+        'fx': 355.7839253819375,
+        'fy': -455.5539283546699,
         'nodes': []
-      },
-      {
-      'text': '음식',
-      'url': '',
-      'fx': 355.7839253819375,
-      'fy': -455.5539283546699,
-      'nodes': []
-      },
-      {
-      'text': 'SNOW',
-      'note': 'hihi',
-      'url': '',
-      'fx': -98.5231997717085,
-      'fy': -355.07462866512333,
-      'nodes': []
-      },
-    ],
-    connections: [
-      {
-        'source': '중간발표',
-        'target': 'SNOW',
-        'curve': {
-          'x': -43.5535,
-          'y': 299.545
-        }
-      },
-      {
-        'source': '중간발표',
-        'target': '여행지',
-        'curve': {
-          'x': -78.1206,
-          'y': -114.714
-        }
-      },
-      {
-        'source': '중간발표',
-        'target': '음식',
-        'curve': {
-          'x': 29.6649,
-          'y': 80.1111
-        }
-      },
-    ],
-    hashtag: [],
-    // ...map,
-    title: "",
-    subject: "",
-    explanation: "",
-  }),
+        },
+        {
+        'text': 'SNOW',
+        'note': 'hihi',
+        'url': '',
+        'fx': -98.5231997717085,
+        'fy': -355.07462866512333,
+        'nodes': []
+        },
+      ],
+      connections: [
+        {
+          'source': '중간발표',
+          'target': 'SNOW',
+          'curve': {
+            'x': -43.5535,
+            'y': 299.545
+          }
+        },
+        {
+          'source': '중간발표',
+          'target': '여행지',
+          'curve': {
+            'x': -78.1206,
+            'y': -114.714
+          }
+        },
+        {
+          'source': '중간발표',
+          'target': '음식',
+          'curve': {
+            'x': 29.6649,
+            'y': 80.1111
+          }
+        },
+      ],
+      hashtag: [],
+      // ...map,
+      title: "",
+      subject: "",
+      explanation: "",
+    };
+  },
   methods: {
     checkHandler() {
       let err = true;
@@ -235,11 +243,13 @@ export default {
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch("readMindDetail", form).then(() =>{
         this.mindmap = this.$store.getters.getMessage;
-        console.log(this.mindmap)
+        // console.log(this.mindmap)
         this.title = this.mindmap.title
         this.explanation = this.mindmap.explanation
-        this.hashtag = this.mindmap.hashtag
+        // 해시태그 임시
+        if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',')
         this.subject = this.mindmap.subject
+        // console.log(this.hashtag)
       })
     },
     // 마인드맵 수정 함수
@@ -249,9 +259,9 @@ export default {
       form.append('title', this.title);
       form.append('subject', this.subject);
       form.append('explanation', this.explanation);
-      
+      form.append('hashtag', this.hashtag);
       form.append("MindID", no);
-      console.log(no)
+      // console.log(no)
       this.$store.dispatch("updateMind", form).then(() =>{
         this.showAlert('수정이 완료되었습니다.'); 
       })
@@ -274,8 +284,9 @@ export default {
     // 다이얼로그
     showAlert(msg) {
       const options = { title: '알림', size: 'sm' };
-      this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res);
+      this.$dialogs.alert(msg, options).then(() => {
+        // console.log(res);
+        this.menu = false
       });
     },
   },

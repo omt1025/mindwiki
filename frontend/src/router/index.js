@@ -76,10 +76,10 @@ const routes = [
     component: ChangePassword,
   },
   {
-    path: '/main/mindmap/mindmapdetail',
+    path: '/main/mindmap/mindmapdetail/:no',
     name: 'MindMapDetail',
     component: MindMapDetail,
-    props: true
+    // props: true
   },
   {
     path: '/main/mindmap/mymindlist',
