@@ -1,4 +1,11 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 로그아웃 시, bottomNav, topMenu 초기화
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-07
+ -->
+
   <v-app>
     <MenuNavi />
 
@@ -208,6 +215,10 @@ export default {
   }),
   methods: {
     logout() {
+      // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
+      // 로그아웃 처리
       this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
       // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
       // this.$router.push('/login');
