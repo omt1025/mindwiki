@@ -66,8 +66,8 @@
                 <v-combobox
                   append-icon
                   flat
-                  v-model="chips"
-                  chips
+                  v-model="hashtag"
+                  hashtag
                   clearable
                   label="Your favorite hobbies"
                   multiple
@@ -204,7 +204,7 @@ export default {
         }
       },
     ],
-    chips: [],
+    hashtag: [],
     // ...map,
     title: "",
     subject: "",
@@ -238,7 +238,7 @@ export default {
         console.log(this.mindmap)
         this.title = this.mindmap.title
         this.explanation = this.mindmap.explanation
-        this.chips = this.mindmap.chips
+        this.hashtag = this.mindmap.hashtag
         this.subject = this.mindmap.subject
       })
     },
@@ -253,7 +253,7 @@ export default {
       form.append("MindID", no);
       console.log(no)
       this.$store.dispatch("updateMind", form).then(() =>{
-        this.showConfirm('수정이 완료되었습니다.');  
+        this.showAlert('수정이 완료되었습니다.'); 
       })
     },
     // 마인드맵 제거 함수
@@ -268,8 +268,8 @@ export default {
     },
     // 관심태그 삭제
     remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
+      this.hashtag.splice(this.hashtag.indexOf(item), 1);
+      this.hashtag = [...this.hashtag];
     },
     // 다이얼로그
     showAlert(msg) {
