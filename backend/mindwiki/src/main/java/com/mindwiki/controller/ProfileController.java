@@ -24,7 +24,7 @@ import com.mindwiki.service.ProfileService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/mindwiki/profile")
 public class ProfileController {
 	
 	@Autowired
