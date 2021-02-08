@@ -14,6 +14,7 @@
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
+            @click="clickParams(card.mindID)"
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
@@ -39,6 +40,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'LivePopular',
   data: () => ({
@@ -80,6 +83,7 @@ export default {
     readmindmap () {
       this.$store.dispatch("readMindMap", this.$store.getters.getJWT).then(() => {
         this.cards = this.$store.getters.getMessage;
+        _.orderBy(this.cards, 'likeCnt', 'desc')
       })
     },
     // 좋아요 눌렀을 시 실행
@@ -90,8 +94,11 @@ export default {
       form.append('disLike', 0);
 
       this.$store.dispatch("likeMind", form).then(() => {
-        console.log(this.$store.getters.getMessage)
+        // console.log(this.$store.getters.getMessage)
       })
+    },
+    clickParams(no) {
+      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }
   },
   created: function () {

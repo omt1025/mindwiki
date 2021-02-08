@@ -10,6 +10,7 @@
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
+          <!-- 썸네일 클릭 시 상세 페이지로 이동 -->
           <v-img
             :src="card.thumbnail"
             class="white--text align-end"
@@ -58,6 +59,7 @@ export default {
         // console.log(this.cards)
       });
     },
+    // 마인드 아이디 값을 라우터로 보냄
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }

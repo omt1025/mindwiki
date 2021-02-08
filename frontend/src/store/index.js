@@ -183,6 +183,14 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data);
       })
     },
+    // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
+    readLikeMindMap(context, jwt) {
+      return axios.get(`${SERVER_URL}/mind/like/read/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
     // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
