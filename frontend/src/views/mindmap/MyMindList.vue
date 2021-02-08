@@ -1,12 +1,12 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 오민택
-    * 내용 : SNS 로그인 JWT저장
+    * 내용 : 내 마인드 보관함 생성
     * 생성일자 : 2021-02-01
     * 최종수정일자 : 2021-02-02
   -->
   <v-container fluid>
-    <v-btn @click="readmymindmap">임시</v-btn>
+    <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
