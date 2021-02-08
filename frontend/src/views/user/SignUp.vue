@@ -17,7 +17,7 @@
             </span>
 
             <!-- email input -->
-            <div class="wrap-input100 validate-input m-b-18">
+            <div class="wrap-input100 validate-input " id="email">
               <span class="label-input100" style="float: left">Email</span>
               <div class="input_icon">
                 <i
@@ -29,7 +29,7 @@
               </div>
               <input
                 class="input100"
-                type="text"
+                type="email"
                 placeholder="이메일을 입력해주세요."
                 id="useremail"
                 ref="useremail"
@@ -38,9 +38,10 @@
                 @keypress.enter="checkHandler"
               />
             </div>
+            <span class="validation" v-if="msg.email">{{ msg.email }}</span>
 
             <!-- realName input -->
-            <div class="wrap-input100 validate-input m-b-18">
+            <div class="wrap-input100 validate-input" style="margin-top:18px">
               <span class="label-input100" style="float: left">Username</span>
               <div class="input_icon">
                 <i
@@ -63,7 +64,7 @@
             </div>
 
             <!-- password input -->
-            <div class="wrap-input100 validate-input m-b-18">
+            <div class="wrap-input100 validate-input m-t-15">
               <span class="label-input100" style="float: left">Password</span>
               <div class="input_icon">
                 <i
@@ -84,9 +85,10 @@
                 @keypress.enter="checkHandler"
               />
             </div>
+            <span class="validation" v-if="msg.pass">{{ msg.pass }}</span>
 
             <!-- password check input -->
-            <div class="wrap-input100 validate-input m-b-18">
+            <div class="wrap-input100 validate-input m-t-15">
               <span class="label-input100" style="float: left">Password Check</span>
               <div class="input_icon">
                 <i
@@ -107,9 +109,10 @@
                 @keypress.enter="checkHandler"
               />
             </div>
+            <span class="validation" v-if="msg.pass_check">{{ msg.pass_check }}</span>
 
             <!-- 관심태그 추가 text -->
-            <div>
+            <div class="m-t-15">
               <p class="interestTagTitle">관심태그 추가</p>
             </div>
 
@@ -145,7 +148,7 @@
 
             <!-- 회원가입 button -->
             <!-- checkHandler에서 유효성검사 후, signup메소드에서 회원가입 처리 시도 -->
-            <div class="container-login100-form-btn p-t-31">
+            <div class="container-login100-form-btn m-t-15">
               <div class="wrap-login100-form-btn">
                 <div class="login100-form-bgbtn"></div>
                 <button class="login100-form-btn" @click="checkHandler">
@@ -155,7 +158,7 @@
             </div>
 
             <!-- 로그인 text -->
-            <div class="flex-col-c p-t-55">
+            <div class="flex-col-c p-t-30">
               <span class="txt1 p-b-10">
                 이미 회원이신가요?
               </span>
@@ -169,38 +172,6 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-.login_back {
-  background-image: url(../../assets/images/user/bg-01.jpg);
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 375px;
-
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
-
-  /* Set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  /* https://knulab.com/archives/1185 */
-}
-
-/* 관심태그 title */
-.interestTagTitle {
-  font-family: Poppins-Regular;
-  font-size: 14px;
-  color: #333333;
-  line-height: 1.5;
-  padding-left: 7px;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 7px;
-}
-</style>
 
 <script>
 import '../../components/css/user.scss';
@@ -219,13 +190,52 @@ export default {
         interest: {}, // 관심태그
       },
       message: '', // 오류 받아 올 변수
+      msg: [],
     };
   },
   components: {},
   created() {
     this.component = this;
   },
+  watch: {
+    // 이메일 양식 유효성 검사
+    'user.useremail'(value) {
+      this.user.useremail = value;
+      this.validateEmail(value);
+    },
+    // 비밀번호 유효성 검사
+    'user.userpwd'(value) {
+      this.user.userpwd = value;
+      this.validatePassword(value, 'userpwd');
+    },
+    // 비밀번호 확인 유효성 검사
+    'user.userpwd_check'(value) {
+      this.user.userpwd_check = value;
+      this.validatePassword(value, 'userpwd_check');
+    },
+  },
   methods: {
+    validateEmail(v) {
+      if (
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(v)
+      ) {
+        this.msg['email'] = '';
+      } else {
+        this.msg['email'] = '올바른 이메일을 입력해주세요.';
+      }
+    },
+    validatePassword(v, title) {
+      if (title === 'userpwd')
+        if (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g.test(v)) {
+          this.msg['pass'] = '';
+        } else this.msg['pass'] = '영어, 숫자, 특수문자를 조합하여 8글자 이상 입력해주세요.';
+      else {
+        if (this.user.userpwd_check !== this.user.userpwd)
+          this.msg['pass_check'] = '비밀번호를 다시 확인해주세요.';
+        else this.msg['pass_check'] = '';
+      }
+    },
+
     // 아이콘 색 변경 메소드[YJS]
     // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
     // https://meaningone.tistory.com/318
@@ -324,3 +334,41 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.login_back {
+  background-image: url(../../assets/images/user/bg-01.jpg);
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 375px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* https://knulab.com/archives/1185 */
+}
+
+/* 관심태그 title */
+.interestTagTitle {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5;
+  padding-left: 7px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.validation {
+  color: red;
+  font-size: 0.6rem;
+  margin-bottom: 18px;
+}
+</style>
