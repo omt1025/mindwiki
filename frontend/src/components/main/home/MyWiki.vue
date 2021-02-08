@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 좋아요한 게시글
+    * 생성일자 : 2021-01-18
+    * 최종수정일자 : 2021-02-08
+  -->
   <v-container fluid>
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
@@ -16,11 +22,11 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn icon color="purple">
+            <v-btn icon color="purple" @click="likemindmap(card.mindID)">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
-            <v-btn icon>
+            <v-btn icon @click="scrapmindmap(card.mindID)">
               <v-icon>mdi-bookmark</v-icon>
             </v-btn>
 
@@ -44,20 +50,35 @@ export default {
   methods: {
     // 좋아요 한 마인드맵 출력
     readlikemindmap () {
-      this.$store.dispatch("readMindMap", this.$store.getters.getJWT).then(() => {
-        this.cardsData = this.$store.getters.getMessage;
-      })
       this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
-        const likeMinds = this.$store.getters.getMessage
-        for (var i=0; i<likeMinds.length; i++) {
-          for (var j=0; j<this.cardsData.length; j++) {
-            if (likeMinds[i]["likedMindID"] == this.cardsData[j]["mindID"]) {
-              this.cards.push(this.cardsData[j])
-            }
-          }
-        }
+        this.cards = this.$store.getters.getMessage
+        console.log(this.cards)
       })
     },
+    // 좋아요 눌렀을 시 실행
+    likemindmap (no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
+      form.append('disLike', 1);
+
+      this.$store.dispatch("likeMind", form).then(() => {
+        // console.log(this.$store.getters.getMessage)
+        this.$router.go(this.$router.currentRoute);
+      })
+    },
+    // 스크랩 눌렀을 시 실행
+    scrapmindmap (no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
+      form.append('disScrap', 0);
+
+      this.$store.dispatch("scrapMind", form).then(() => {
+        console.log(this.$store.getters.getMessage)
+      })
+    },
+    // 라우터에 마인드 아이디를 보냄
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }

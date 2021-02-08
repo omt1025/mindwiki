@@ -63,6 +63,11 @@ export default {
     },
   },
   // 새로고침 후 상단 탭 유지
+    updated() {
+      this.$nextTick(() => {
+        this.mainTab = this.$store.getters.mainTab
+      })
+  },
     created() {
       this.$nextTick(() => {
         this.mainTab = this.$store.getters.mainTab

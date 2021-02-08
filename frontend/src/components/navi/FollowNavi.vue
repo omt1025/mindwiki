@@ -8,17 +8,17 @@
       <v-spacer></v-spacer>
 
       <template v-slot:extension>
-        <v-tabs v-model="tab" grow color="#a64bf4">
+        <v-tabs v-model="followTab" grow color="#a64bf4">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
-          <v-tab v-for="item in items" :key="item">
+          <v-tab v-for="(item, index) in items" :key="item" @click="setTab(index)">
             {{ item }}
           </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
 
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="followTab">
       <v-tab-item>
         <v-card flat>
           <FollowerList />
@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      tab: null,
+      followTab: '0',
       items: ['팔로워', '팔로잉'],
     };
   },
@@ -60,7 +60,17 @@ export default {
       this.$store.dispatch('setBottomNav', 'profile');
       this.$router.push('/main');
     },
+    setTab(index) {
+      this.followTab = index;
+      this.$store.dispatch('setFollowTab', this.followTab);
+    }
   },
+  // 새로고침 시 상단 탭(팔로워 / 팔로잉) 유지
+  updated() {
+    this.$nextTick(() => {
+      this.followTab = this.$store.getters.followTab
+    })
+  }
 };
 </script>
 <style scoped>

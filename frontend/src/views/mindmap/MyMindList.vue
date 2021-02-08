@@ -1,45 +1,57 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 오민택
-    * 내용 : 내 마인드 보관함 생성
+    * 내용 : SNS 로그인 JWT저장
     * 생성일자 : 2021-02-01
     * 최종수정일자 : 2021-02-02
   -->
-  <v-container fluid>
-    <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
-    <v-row dense id="list">
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-        <v-card>
-          <!-- 썸네일 클릭 시 상세 페이지로 이동 -->
-          <v-img
-            :src="card.thumbnail"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="200px"
-            @click="clickParams(card.mindID)"
-          >
-            <v-card-title v-text="card.title"></v-card-title>
-          </v-img>
+  <v-card max-width="400" class="mx-auto">
+    <!-- 나의 게시물 눌렀을 때 상단 네비게이션-->
+    <v-toolbar id="navi_shadow">
+      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
+      
+      <v-spacer></v-spacer>
+      <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
+      <v-spacer></v-spacer>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
+    </v-toolbar>
 
-            <v-btn icon>
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
+    <!-- 생성한 게시물을 보여줌 -->
+    <v-container>
+      <v-row dense id="list">
+        <!-- <v-col v-for="card in cards" :key="card.title" :cols="card.flex"> -->
+        <v-col v-for="card in cards" :key="card.title" cols="12">
+          <v-card>
+            <v-img
+              :src="card.thumbnail"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
+              @click="clickParams(card.mindID)"
+            >
+              <v-card-title v-text="card.title"></v-card-title>
+            </v-img>
 
-            <v-btn icon>
-              <v-icon>mdi-bookmark</v-icon>
-            </v-btn>
+            <v-card-actions>
+              <v-spacer></v-spacer>
 
-            <v-btn icon>
-              <v-icon>mdi-share-variant</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-bookmark</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-share-variant</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -59,9 +71,12 @@ export default {
         // console.log(this.cards)
       });
     },
-    // 마인드 아이디 값을 라우터로 보냄
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
+    },
+    // 프로필을 통해 게시물로 접근한 경우, 뒤로갔을 때 프로필로 되돌아감
+    backPage: function() {
+      this.$router.push('/main')
     }
   },
   // 페이지가 로드되면 실행되도록
