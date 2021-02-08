@@ -22,11 +22,11 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn icon color="purple">
+            <v-btn icon color="purple" @click="likemindmap(card.mindID)">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
-            <v-btn icon>
+            <v-btn icon @click="scrapmindmap(card.mindID)">
               <v-icon>mdi-bookmark</v-icon>
             </v-btn>
 
@@ -52,7 +52,29 @@ export default {
     readlikemindmap () {
       this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
         this.cards = this.$store.getters.getMessage
-        // console.log(this.cards)
+        console.log(this.cards)
+      })
+    },
+    // 좋아요 눌렀을 시 실행
+    likemindmap (no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
+      form.append('disLike', 1);
+
+      this.$store.dispatch("likeMind", form).then(() => {
+        console.log(this.$store.getters.getMessage)
+      })
+    },
+    // 스크랩 눌렀을 시 실행
+    scrapmindmap (no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', no);
+      form.append('disScrap', 0);
+
+      this.$store.dispatch("scrapMind", form).then(() => {
+        console.log(this.$store.getters.getMessage)
       })
     },
     clickParams(no) {

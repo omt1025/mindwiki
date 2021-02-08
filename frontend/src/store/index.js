@@ -205,6 +205,16 @@ export default new Vuex.Store({
           context.commit('setMessage', response.data);
         });
     },
+    // 스크랩 누른 마인드맵 리스트 불러오기[OMT]
+    readScrapMindMap(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/mind/scrap/read/`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
     // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
@@ -250,7 +260,16 @@ export default new Vuex.Store({
     },
     // 마인드맵 좋아요[OMT]
     likeMind(context, user) {
-      return axios.post(`${SERVER_URL}/mind/like/${user.get('MindID')}`, user).then((response) => {
+      const form = new FormData();
+      form.append('jwt', user.get('jwt'))
+      form.append('disLike', user.get('disLike'))
+      return axios.post(`${SERVER_URL}/mind/like/${user.get('no')}`, form).then((response) => {
+        context.commit('setMessage', response.data);
+      });
+    },
+    // 마인드맵 스크랩[OMT]
+    scrapMind(context, user) {
+      return axios.post(`${SERVER_URL}/mind/scrap/${user.get('MindID')}`, user).then((response) => {
         context.commit('setMessage', response.data);
       });
     },
