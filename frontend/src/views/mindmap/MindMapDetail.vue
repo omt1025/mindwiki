@@ -6,11 +6,17 @@
     * 최종수정일자 : 2021-02-04
   -->
   <v-app>
+      <!-- 상세 마인드맵 상단 네비게이션 -->
+      <v-toolbar id="navi_shadow">
+      <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
+      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
+      <v-spacer></v-spacer>
+      <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
+      <v-spacer></v-spacer>
+    </v-toolbar>
+
     <v-container>
-      <div>
-        <h2>{{ no.title }}</h2>
-      </div>
-      
+      <h3 id="Title">{{ title }}</h3>
       <!-- 마인드맵 api 사용 -->
       <mindmap :nodes="nodes" :connections="connections" :editable="true" />
       
@@ -25,10 +31,12 @@
           <!-- 임시로 버튼 제작 -->
           <!-- <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn> -->
           <!-- <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn> -->
-          <v-btn @click="deletemind($route.params.no)">삭제 임시</v-btn>
-          
-          <v-btn color="purple" dark v-bind="attrs" v-on="on" fab small>
-            <v-icon>mdi-plus</v-icon>
+          <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+
+          <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
+            <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </template>
         <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
@@ -37,7 +45,6 @@
             <span class="headline">마인드맵 수정</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
               <v-row>
                 <v-col cols="12">
                   <v-text-field
@@ -101,15 +108,12 @@
                 <v-col cols="12">
                   <v-text-field 
                   label="설명" 
-                  single-line
                   id="explanation"
                   ref="explanation"
                   v-model="explanation"
                   ></v-text-field>
                 </v-col>
               </v-row>
-            </v-container>
-            <small>container 크기 줄여야함</small>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -289,6 +293,10 @@ export default {
         this.menu = false
       });
     },
+    // 전체 조회 페이지로 이동
+    backPage: function() {
+      this.$router.push('/main/mindmap/mymindlist')
+    },
   },
   created: function () {
     this.readminddetail(this.no)
@@ -320,5 +328,17 @@ export default {
 }
 .container {
   max-height: 500px;
+}
+/* 마인드맵 제목 / 수정, 삭제 버튼 위치 */
+#Title {
+  position: fixed;
+}
+#btnDelete {
+  position: fixed;
+  right: 10px;
+}
+#btnUpdate {
+  position: fixed;
+  right: 70px;
 }
 </style>
