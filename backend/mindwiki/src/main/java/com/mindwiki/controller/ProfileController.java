@@ -253,6 +253,49 @@ public class ProfileController {
 //		return new ResponseEntity<ProfileDto>(returnProfile, status);
 		return null;
 	}
+	
+	/******************************************************************************
+	* 작성자 : 
+	* 기능 : 해당 계정이 존재하는지 확인
+	* 최종 수정일: 2021.02.08.
+	 * @throws UnsupportedEncodingException 
+	*******************************************************************************/
+	
+	// TODO
+	@PostMapping("/isExist")
+	public ResponseEntity<Map<String, Object>> isExist(HttpSession session,
+			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+		System.out.println("ProfileController] /profile/isExist");
+//		System.out.println("jwt: " + jwt); 
+		
+		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+		String email = (String)claimMap.get("email");
+
+		ProfileDto profileDto = new ProfileDto();
+		profileDto.setEmail(email);
+
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = null;
+		
+		try {
+			ProfileResultDto serviceResult = profileService.isExist(profileDto);
+			if(serviceResult.getResult()=="EXIST") {
+				result.put("message", "EXIST");
+				status = HttpStatus.ACCEPTED;
+			}else {
+				result.put("message", "NOT EXIST");
+				status = HttpStatus.ACCEPTED;
+			}
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+
+		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		return new ResponseEntity<Map<String, Object>>(result, status);
+
+	}
 
 
 }
