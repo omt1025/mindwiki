@@ -1,9 +1,9 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 프로필화면 UI제작-2차
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 스크랩 마인드 추가 / 생성 후 메인 화면에서 스크랩하면 프로필에서 출력 
     * 생성일자 : 2021-02-04
-    * 최종수정일자 : 2021-02-05
+    * 최종수정일자 : 2021-02-08
  -->
 
   <div class="profile_info">
@@ -92,23 +92,23 @@ export default {
       myMindList: {}, // 내 MIND
       // 스크랩 MIND기능 미 구현으로 임시로 데이터 박아두기...[YJS]
       scrapList: [
-        {
-          title: '스타벅스 MD',
-          hashtag: '크리스마스md, 벚꽃md, 새해md',
-          thumbnail:
-            'https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile3.uf.tistory.com%2Fimage%2F99A2DB485C6639A328054E',
-        },
-        {
-          title: '꽃보다남자',
-          hashtag: '구준표,신화그룹,잔디세탁',
-          thumbnail:
-            'https://t1.daumcdn.net/liveboard/cineplay/7d6049e657b44cf2bc1b4f5a02540ff5.JPG',
-        },
-        {
-          title: '다꾸',
-          hashtag: '컨페티,씰스,인스',
-          thumbnail: 'http://weekly.chosun.com/up_fd/wc_news/2123/bimg_org/2123_74_01.jpg',
-        },
+        // {
+        //   title: '스타벅스 MD',
+        //   hashtag: '크리스마스md, 벚꽃md, 새해md',
+        //   thumbnail:
+        //     'https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile3.uf.tistory.com%2Fimage%2F99A2DB485C6639A328054E',
+        // },
+        // {
+        //   title: '꽃보다남자',
+        //   hashtag: '구준표,신화그룹,잔디세탁',
+        //   thumbnail:
+        //     'https://t1.daumcdn.net/liveboard/cineplay/7d6049e657b44cf2bc1b4f5a02540ff5.JPG',
+        // },
+        // {
+        //   title: '다꾸',
+        //   hashtag: '컨페티,씰스,인스',
+        //   thumbnail: 'http://weekly.chosun.com/up_fd/wc_news/2123/bimg_org/2123_74_01.jpg',
+        // },
       ], // 스크랩 MIND
     };
   },

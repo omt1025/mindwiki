@@ -18,14 +18,21 @@
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
-
+          <div><h4>{{ card.like }}</h4></div>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn icon @click="likemindmap(card.mindID)">
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
+            <div v-if="card.like === true">
+              <v-btn icon color="purple">
+                <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
+              </v-btn>
+            </div>
+            <div v-else>
+              <v-btn icon>
+                <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
+              </v-btn>
+            </div>
 
-            <v-btn icon>
+            <v-btn icon @click="scrapmindmap(card.mindID)">
               <v-icon>mdi-bookmark</v-icon>
             </v-btn>
 
@@ -40,17 +47,9 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
 export default {
   name: 'LivePopular',
   data: () => ({
-    like: false,
-    cardForm: {
-      title: '',
-      src: '',
-      flex: 12,
-    },
     cards: [],
   }),
   methods: {
@@ -58,7 +57,19 @@ export default {
     readmindmap () {
       this.$store.dispatch("readMindMap", this.$store.getters.getJWT).then(() => {
         this.cards = this.$store.getters.getMessage;
-        _.orderBy(this.cards, 'likeCnt', 'desc')
+        this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
+        const likeData = this.$store.getters.getMessage
+        for (var j=0; j<this.cards.length; j++) {
+          for (var i=0; i<likeData.length; i++) {
+            if (likeData[i]["mindID"] === this.cards[j]["mindID"]) {
+              this.cards[j]['like'] = true
+              break
+            } else {
+              this.cards[j]['like'] = false
+            }
+          }
+        }
+      })
       })
     },
     // 좋아요 눌렀을 시 실행
@@ -69,6 +80,17 @@ export default {
       form.append('disLike', 0);
 
       this.$store.dispatch("likeMind", form).then(() => {
+        // console.log(this.$store.getters.getMessage)
+      })
+    },
+    // 스크랩 눌렀을 시 실행
+    scrapmindmap (no) {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
+      form.append('disScrap', 0);
+
+      this.$store.dispatch("scrapMind", form).then(() => {
         // console.log(this.$store.getters.getMessage)
       })
     },
