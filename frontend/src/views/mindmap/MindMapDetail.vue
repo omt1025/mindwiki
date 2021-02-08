@@ -241,7 +241,7 @@ export default {
       form.append("jwt", this.$store.getters.getJWT);
       form.append("no", no)
       // actions의 readMindDetail 함수 실행
-      this.$store.dispatch("readMindDetail", form).then(() =>{
+      this.$store.dispatch("readMindDetail", form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
         // console.log(this.mindmap)
         this.title = this.mindmap.title

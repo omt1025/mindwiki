@@ -1,8 +1,8 @@
 /*
- * 작성자 : 서울2반 4팀 윤지선
+ * 작성자 : 서울2반 4팀 윤지선, 오민택
  * 내용 : 프로필에서 사용할 마인드맵 리스트 불러오기
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-05
+ * 최종수정일자 : 2021-02-08
  */
 
 import Vue from 'vue';
@@ -175,7 +175,15 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },
-    // 마인드맵 리스트 불러오기[OMT]
+    // 전체 마인드맵 리스트 불러오기[OMT]
+    readMindMap(context, jwt) {
+      return axios.get(`${SERVER_URL}/mind/read/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
+    // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
         context.commit('setMessage', response.data); // 응답을 message에 저장
@@ -216,5 +224,11 @@ export default new Vuex.Store({
           context.commit('setMessage', response.data);
         });
     },
+    // 마인드맵 좋아요[OMT]
+    likeMind(context, user) {
+      return axios.post(`${SERVER_URL}/mind/like/${user.get('MindID')}`, user).then((response) => {
+        context.commit('setMessage', response.data); 
+      });
+    }
   },
 });
