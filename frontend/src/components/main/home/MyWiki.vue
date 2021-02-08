@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 좋아요한 게시글
+    * 생성일자 : 2021-01-18
+    * 최종수정일자 : 2021-02-08
+  -->
   <v-container fluid>
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
@@ -44,18 +50,9 @@ export default {
   methods: {
     // 좋아요 한 마인드맵 출력
     readlikemindmap () {
-      this.$store.dispatch("readMindMap", this.$store.getters.getJWT).then(() => {
-        this.cardsData = this.$store.getters.getMessage;
-      })
       this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
-        const likeMinds = this.$store.getters.getMessage
-        for (var i=0; i<likeMinds.length; i++) {
-          for (var j=0; j<this.cardsData.length; j++) {
-            if (likeMinds[i]["likedMindID"] == this.cardsData[j]["mindID"]) {
-              this.cards.push(this.cardsData[j])
-            }
-          }
-        }
+        this.cards = this.$store.getters.getMessage
+        // console.log(this.cards)
       })
     },
     clickParams(no) {
