@@ -6,8 +6,8 @@
 
 	<!-- TODO: hashtag column 추가 후 nickName->hashtag -->
 	<insert id="register" parameterType="com.mindwiki.model.ProfileDto">
-		INSERT INTO profile (email, password, realName, nickName, hashtag)
-					VALUES  (#{email}, #{password}, #{realName}, #{nickName}, #{hashtag} )
+		INSERT INTO profile (email, password, nickName, hashtag)
+					VALUES  (#{email}, #{password}, #{nickName}, #{hashtag} )
 	</insert>
 	
 	<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int">

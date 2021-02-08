@@ -24,7 +24,7 @@ import com.mindwiki.service.ProfileService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/mindwiki/profile")
+@RequestMapping("/profile")
 public class ProfileController {
 	
 	@Autowired
@@ -46,17 +46,15 @@ public class ProfileController {
 	public ResponseEntity<Map<String, Object>> register(HttpSession session,
 			@RequestParam(value="email", required=false) String email,
 			@RequestParam(value="password", required=false) String password,
-			@RequestParam(value="realName", required=false) String realName,
 			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
 		System.out.println("ProfileController] /profile/register ");
 		System.out.println("email: " + email + ", password: " + password 
-				+ ", realName: " + realName + ", nickName: " + nickName + ", hashtag: " + hashtag);
+				+ ", nickName: " + nickName + ", hashtag: " + hashtag);
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
 		profileDto.setPassword(password);
-		profileDto.setRealName(realName);
 		profileDto.setNickName(nickName);
 		profileDto.setHashtag(hashtag);
 
@@ -70,7 +68,7 @@ public class ProfileController {
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
-				status = HttpStatus.ACCEPTED;
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
