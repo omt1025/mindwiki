@@ -1,10 +1,11 @@
-package com.mindwiki.controller;
 
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
 * 기능 : 마인드 CRUD
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.controller;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,14 +62,62 @@ public class MindController {
 	private JwtService jwtSvc;
 	
 	//현재페이지를 스크랩함
-		@PostMapping("/mind/scrap/{no}")
-		public ResponseEntity<Map<String, Object>> scrap(@PathVariable(name = "no",required=false) int no,
-				@RequestParam(value="disScrap", required=false) int disScrap,
+	@PostMapping("/mind/scrap/{no}")
+	public ResponseEntity<Map<String, Object>> scrap(@PathVariable(name = "no",required=false) int no,
+			@RequestParam(value="disScrap", required=false) int disScrap,
+			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+		
+		
+		
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status=null;
+		
+		
+		Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
+		String email=(String)clamMap.get("email");
+		
+		if(disScrap==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
+			try {
+				mindSvc.deleteScrap(no, email);
+				resultMap.put("message", "DISSCRAP");
+				status = HttpStatus.OK;
+			} catch (SQLException e) {
+
+				resultMap.put("message", "ERROR");
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			}
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
+		
+		try {
+			
+			mindSvc.scrap(no, email);
+			resultMap.put("message", "SCRAP");
+			status = HttpStatus.OK;
+			
+			
+		} catch (SQLException e) {
+			resultMap.put("message", "duplicated");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+	
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
+	
+	
+	
+	//현재페이지를 좋아요함
+		@PostMapping("/mind/like/{no}")
+		public ResponseEntity<Map<String, Object>> like(@PathVariable(name = "no",required=false) int no,
+				@RequestParam(value="disLike", required=false) int disLike,
 				@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
-			
-			
-			
-			
 			Map<String, Object> resultMap = new HashMap<>();
 			HttpStatus status=null;
 			
@@ -75,10 +125,10 @@ public class MindController {
 			Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
 			String email=(String)clamMap.get("email");
 			
-			if(disScrap==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
+			if(disLike==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
 				try {
 					mindSvc.deleteScrap(no, email);
-					resultMap.put("message", "DISSCRAP");
+					resultMap.put("message", "DISLIKE");
 					status = HttpStatus.OK;
 				} catch (SQLException e) {
 
@@ -89,10 +139,11 @@ public class MindController {
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			}
 			
+			
 			try {
 				
-				mindSvc.scrap(no, email);
-				resultMap.put("message", "SCRAP");
+				mindSvc.like(no, email);
+				resultMap.put("message", "LIKE");
 				status = HttpStatus.OK;
 				
 				
@@ -101,63 +152,13 @@ public class MindController {
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				e.printStackTrace();
 			}
-			
 		
 			
 			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		}
-		
-		
-		
-		
-		
-		//현재페이지를 좋아요함
-			@PostMapping("/mind/like/{no}")
-			public ResponseEntity<Map<String, Object>> like(@PathVariable(name = "no",required=false) int no,
-					@RequestParam(value="disLike", required=false) int disLike,
-					@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
-				Map<String, Object> resultMap = new HashMap<>();
-				HttpStatus status=null;
-				
-				
-				Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
-				String email=(String)clamMap.get("email");
-				
-				if(disLike==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
-					try {
-						mindSvc.deleteScrap(no, email);
-						resultMap.put("message", "DISLIKE");
-						status = HttpStatus.OK;
-					} catch (SQLException e) {
-
-						resultMap.put("message", "ERROR");
-						status = HttpStatus.INTERNAL_SERVER_ERROR;
-						e.printStackTrace();
-					}
-					return new ResponseEntity<Map<String, Object>>(resultMap, status);
-				}
-				
-				
-				try {
-					
-					mindSvc.like(no, email);
-					resultMap.put("message", "LIKE");
-					status = HttpStatus.OK;
-					
-					
-				} catch (SQLException e) {
-					resultMap.put("message", "duplicated");
-					status = HttpStatus.INTERNAL_SERVER_ERROR;
-					e.printStackTrace();
-				}
-			
-				
-				return new ResponseEntity<Map<String, Object>>(resultMap, status);
-			}
-		
 	
 		
-		//스크랩 읽기/by email
+		//임시
 		@GetMapping("/mind/scrap/read")
 		public ResponseEntity<List<ScrapDto>> scrapRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
 			
@@ -184,7 +185,7 @@ public class MindController {
 			return new ResponseEntity<List<ScrapDto>>(mindSvc.scrapRead(email), HttpStatus.OK);
 		}
 		
-		//좋아요 읽기/by email
+		//임시
 		@GetMapping("/mind/like/read")
 		public ResponseEntity<List<LikeDto>> likeRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
 			
@@ -211,37 +212,36 @@ public class MindController {
 		
 		String dir = "/src/main/resources/static/img";
 		String path = System.getProperty("user.dir");
-	
+		
 		
 		String rootPath = path+dir;
-	
+	   
 	    String filePath = rootPath + "/" ;
 	    
 	   
-	 
+	  
 	    
 	    Path directory = Paths.get(filePath).toAbsolutePath().normalize();
-	    
-	    
-	 // 파일명을 바르게 수정한다.
+	  
 	    plusTime.replaceAll(":","");
 		String fileName = StringUtils.cleanPath(plusTime+file.getOriginalFilename());
 
-		String pathDB = "http://localhost:8000/mindwiki/image/"+fileName;
 		
+		String pathDB = "http://localhost:8000/mindwiki/image/"+fileName;
+	
 		Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
 	
 		Path targetPath = directory.resolve(fileName).normalize();
 
-		// 파일이 이미 존재하는지 확인하여 존재한다면 오류를 발생하고 없다면 저장한다.
+	
 		Assert.state(!Files.exists(targetPath), fileName + " File alerdy exists.");
 		try {
 			file.transferTo(targetPath);
 		} catch (IllegalStateException e) {
-
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-
+			
 			e.printStackTrace();
 		}
 		
@@ -249,12 +249,13 @@ public class MindController {
 		return pathDB;
 	}
 	
+	
 
 
 	@GetMapping(value = "/image/{imagename}", produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<byte[]> userSearch(@PathVariable("imagename") String imagename) throws IOException {
 		
-	
+		
 		String dir=StringUtils.cleanPath("src/main/resources/static/img/");
 	InputStream imageStream = new FileInputStream( dir+ imagename); 
 	
@@ -265,6 +266,42 @@ public class MindController {
 	
 	}
 	
+	@GetMapping("/mind/hashtag/read/{no}")
+	public List<String> hashRead(@PathVariable(name = "no",required=false) int MindID,
+			@RequestParam(value="jwt", required=false) String jwt){
+		
+		List<String> list=new ArrayList<>();
+		try {
+			list = mindSvc.hashtagByMindID(MindID);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
+	@DeleteMapping("/mind/hashtag/delete/{no}")
+	public ResponseEntity<Map<String, Object>> hashRead(@PathVariable(name = "no",required=false) int MindID,
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="hashtag", required=false) String hashtag){
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		
+		try {
+			mindSvc.deleteHashtag(MindID, hashtag);
+			resultMap.put("message", "DELETE");
+			status = HttpStatus.OK;
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
 	
 	@PostMapping("/mind")
 	public ResponseEntity<Map<String, Object>> make(HttpSession hs,
@@ -274,6 +311,7 @@ public class MindController {
 			@RequestParam(value="hashtag", required=false) String hashtag,
 			@RequestParam(value="subject", required=false) String subject,
 			@RequestParam(value="explanation", required=false) String explanation) throws UnsupportedEncodingException{
+	
 		
 		
 		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
@@ -290,12 +328,25 @@ public class MindController {
 			
 			if(file==null) {
 				mindSvc.make(mind);
+				//admin,createTime(mysql에 저장되어있음)으로 검색하기 MindID를
+				
+				int MindID=mindSvc.getMindID(admin);//인증된 이메일을 보냄
+				
+				StringTokenizer st = new StringTokenizer(hashtag,",");
+				int count=0;
+				count=st.countTokens();
+				for(int i=0;i<count;i++){//어차피 0일리는 없음
+			
+					mindSvc.makeHashtag(MindID, st.nextToken());//해쉬태그들을 리스트로 넣음			
+				}
+				
+				
 				resultMap.put("message", "SUCCESS");
 				status = HttpStatus.OK;
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			}else {
 				
-				thumbnail=fileUpload(file);//파일업로드 	
+				thumbnail=fileUpload(file);//이거 파일업로드 실행하는거	
 				mind.setThumbnail(thumbnail);
 			}
 			
@@ -309,10 +360,10 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-
+		
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-
+			//returnMessage="마인드 등록 실패!";
 		}
 		
 	
@@ -322,14 +373,13 @@ public class MindController {
 		
 		System.out.println("일단 mind controller");
 
+	
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	//comment
+	//comment0126 수정해야함
 	@PutMapping("/mind/read/{no}/comment")public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException{
-		
-		
-		
+
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -348,6 +398,7 @@ public class MindController {
 	//mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException{
 		
+	
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -364,10 +415,10 @@ public class MindController {
 			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
 			email=(String)claimMap.get("email");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
-		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
+		 
 		System.out.println(mindSvc.readByEmail(email));
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(email), HttpStatus.OK);
@@ -383,8 +434,7 @@ public class MindController {
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="hashtag", required=false) String hashtag,
 			@RequestParam(value="subject", required=false) String subject,
-			@RequestParam(value="explanation", required=false) String explanation,
-			@RequestParam(value="jwt", required=false) String jwt){
+			@RequestParam(value="explanation", required=false) String explanation){
 		
 		
 		System.out.println(MindID);
@@ -403,13 +453,14 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-			//returnMessage="마인드 등록 실패!";
+			
 		}
 	
 		
+
 
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -421,29 +472,30 @@ public class MindController {
 	
 	
 	//mind delete
-	@DeleteMapping("/mind/delete/{no}")public ResponseEntity<Map<String, Object>> delete(HttpSession hs,
-			@PathVariable(name = "no",required=false) int no,
-			@RequestParam(value="jwt", required=false) String jwt){
-		
-		Map<String,Object> resultMap = new HashMap<>();
-		HttpStatus status=null;
-		
-		MindDto mind=new MindDto();
-		mind.setMindID(no);
-		System.out.println("삭제번호 "+no);
-		try {
-			mindSvc.delete(mind);
-			status = HttpStatus.OK;
-			resultMap.put("message", "정상삭제완료");
-		} catch (SQLException e) {
-			resultMap.put("message", "서버오류삭제실패");
-			status=HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
+		@DeleteMapping("/mind/delete/{no}")public ResponseEntity<Map<String, Object>> delete(HttpSession hs,
+				@PathVariable(name = "no",required=false) int no,
+				@RequestParam(value="jwt", required=false) String jwt){
+			
+			Map<String,Object> resultMap = new HashMap<>();
+			HttpStatus status=null;
+			
+			MindDto mind=new MindDto();
+			mind.setMindID(no);
+			System.out.println("삭제번호 "+no);
+			try {
+				mindSvc.delete(mind);
+				status = HttpStatus.OK;
+				resultMap.put("message", "정상삭제완료");
+			} catch (SQLException e) {
+				resultMap.put("message", "서버오류삭제실패");
+				status=HttpStatus.INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			}
+			
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+			
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-		
-	}
 	
 	
 	
