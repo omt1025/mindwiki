@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 회원가입 서버연동
+    * 내용 : 회원가입 유효성검사
     * 생성일자 : 2021-01-22
-    * 최종수정일자 : 2021-02-07
+    * 최종수정일자 : 2021-02-08
  -->
 
   <div class="login_back">
@@ -190,7 +190,7 @@ export default {
         interest: {}, // 관심태그
       },
       message: '', // 오류 받아 올 변수
-      msg: [],
+      msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
     };
   },
   components: {},
@@ -205,16 +205,15 @@ export default {
     },
     // 비밀번호 유효성 검사
     'user.userpwd'(value) {
-      this.user.userpwd = value;
       this.validatePassword(value, 'userpwd');
     },
     // 비밀번호 확인 유효성 검사
     'user.userpwd_check'(value) {
-      this.user.userpwd_check = value;
       this.validatePassword(value, 'userpwd_check');
     },
   },
   methods: {
+    // 이메일 유효성 검사 정규식 : @ .여부
     validateEmail(v) {
       if (
         /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(v)
@@ -224,6 +223,7 @@ export default {
         this.msg['email'] = '올바른 이메일을 입력해주세요.';
       }
     },
+    // 비밀번호 유효성 검사 정규식 : 영어,숫자,특수문자 조합, 8글자 이상
     validatePassword(v, title) {
       if (title === 'userpwd')
         if (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g.test(v)) {
@@ -231,6 +231,7 @@ export default {
         } else this.msg['pass'] = '영어, 숫자, 특수문자를 조합하여 8글자 이상 입력해주세요.';
       else {
         if (this.user.userpwd_check !== this.user.userpwd)
+          // 비밀번호 확인과 비밀번호의 입력값이 다른 경우
           this.msg['pass_check'] = '비밀번호를 다시 확인해주세요.';
         else this.msg['pass_check'] = '';
       }
@@ -284,8 +285,8 @@ export default {
     signup() {
       let form = new FormData();
       form.append('email', this.user.useremail);
-      form.append('realName', this.user.userpwd);
-      form.append('password', this.user.username);
+      form.append('realName', this.user.username);
+      form.append('password', this.user.userpwd);
       form.append('nickName', this.user.useremail.split('@')[0]); // 초기 닉네임은 이메일 @앞 아이디
       form.append('hashtag', this.chips);
 
@@ -366,6 +367,7 @@ export default {
   margin-bottom: 6px;
 }
 
+/* 유효성 검사 span */
 .validation {
   color: red;
   font-size: 0.6rem;
