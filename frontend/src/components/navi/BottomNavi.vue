@@ -53,6 +53,12 @@ export default {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
     },
   },
+  // 새로고침 후 하단 네비게이션 유지
+  updated() {
+    this.$nextTick(() => {
+      this.value = this.$store.getters.bottomNav
+    })
+  }  
 };
 </script>
 
