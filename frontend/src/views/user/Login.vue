@@ -223,7 +223,6 @@ export default {
           if (this.message === 'SUCCESS') {
             this.$store.dispatch('setMessage', null); // message 재사용 위해
             this.$router.push(`/main`); // main페이지로 이동
-            this.$router.go(this.$router.currentRoute);
           }
           if (this.$store.getters.getMessage === 'FAIL') {
             // 로그인 실패 : 다이얼로그 띄우기
@@ -250,8 +249,8 @@ export default {
     // https://vuejsexamples.com/slim-dialog-for-vuejs/
     showAlert(msg) {
       const options = { title: '로그인 실패', size: 'sm' };
-      this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res); // {ok: true|false|undefined}
+      this.$dialogs.alert(msg, options).then(() => {
+        // console.log(res); // {ok: true|false|undefined}
       });
     },
   },

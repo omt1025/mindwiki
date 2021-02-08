@@ -1,6 +1,7 @@
 /*
- * 작성자 : 서울2반 4팀 윤지선(최종 수정하는 사람 이름 갱신하면될것같아요)
- * 내용 : 회원가입 메소드 추가, 로그인 메소드 수정
+(작성자는 최종 수정하는 사람 이름으로 갱신하면될것같아요)
+ * 작성자 : 서울2반 4팀 윤지선
+ * 내용 : 계정 존재 유무 확인 action메소드 생성
  * 생성일자 : 2021-01-20
  * 최종수정일자 : 2021-02-08
  */
@@ -154,6 +155,12 @@ export default new Vuex.Store({
 
       // muatation에 있는 state값 날리기
       context.commit('LOGOUT');
+    },
+    // jwt 속 이메일에 해당하는 계정이 있는지 조회
+    isExist(context, jwt) {
+      return axios.post(`${SERVER_URL}/profile/isExist`, jwt).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
     },
     // 회원가입[YJS]
     signUp(context, user) {
