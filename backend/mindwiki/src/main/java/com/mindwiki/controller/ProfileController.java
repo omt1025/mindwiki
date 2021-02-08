@@ -45,16 +45,18 @@ public class ProfileController {
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> register(HttpSession session,
 			@RequestParam(value="email", required=false) String email,
+			@RequestParam(value="realName", required=false) String realName,
 			@RequestParam(value="password", required=false) String password,
 			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
 		System.out.println("ProfileController] /profile/register ");
 		System.out.println("email: " + email + ", password: " + password 
-				+ ", nickName: " + nickName + ", hashtag: " + hashtag);
+				+ ", realName: " + realName + ", nickName: " + nickName + ", hashtag: " + hashtag); 
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
 		profileDto.setPassword(password);
+		profileDto.setRealName(realName);
 		profileDto.setNickName(nickName);
 		profileDto.setHashtag(hashtag);
 
@@ -68,7 +70,7 @@ public class ProfileController {
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				status = HttpStatus.ACCEPTED;
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
