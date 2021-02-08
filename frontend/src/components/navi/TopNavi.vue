@@ -61,7 +61,13 @@ export default {
       this.$emit('input-change', event.target.value);
       console.log('test')
     },
-  }, 
+  },
+  // 새로고침 후 상단 탭 유지
+    created() {
+      this.$nextTick(() => {
+        this.mainTab = this.$store.getters.mainTab
+      })
+  },
 };
 </script>
 

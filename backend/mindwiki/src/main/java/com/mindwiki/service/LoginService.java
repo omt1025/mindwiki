@@ -11,7 +11,7 @@ import com.mindwiki.model.ProfileDto;
 public interface LoginService {
 
 	
-	ProfileDto login(ProfileDto member) throws SQLException;
+	ProfileDto login(ProfileDto member);
 	
 	
 }

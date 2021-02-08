@@ -91,7 +91,24 @@
                   id="explanation"
                   ref="explanation"
                   v-model="newmind.explanation"
+                  @keypress.enter="checkHandler"
                 ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <div>
+                  <p class="interestTagTitle">썸네일 이미지 등록</p>
+                </div>
+                <input type="file" @change="processFile($event)" @keypress.enter="checkHandler"/>
+                <!-- <v-text-field 
+                  type="file" 
+                  id="files" 
+                  ref="files" 
+                  v-model="newmind.files" 
+                  single-line
+                  @change="processFile($event)"
+                  @keypress.enter="checkHandler"
+                /> -->
               </v-col>
             </v-row>
           </v-container>
@@ -140,6 +157,7 @@ export default {
       fx: '',
       fy: '',
       explanation: '',
+      files: '',
     },
     newconnection: {
       source: '',
@@ -147,7 +165,11 @@ export default {
     },  
   }),
   methods: {
+    processFile(event) {
+      this.newmind.files = event.target.files[0]
+    },
     checkHandler() {
+      console.log(this.newmind.files)
       let err = true;
       let msg = '';
       !this.newmind.title &&
@@ -170,6 +192,8 @@ export default {
       form.append('subject', this.newmind.subject);
       form.append('explanation', this.newmind.explanation);
       form.append('hashtag', this.chips);
+      form.append('files', this.newmind.files);
+
       // Actions를 호출
       this.$store
         .dispatch('makeMindMap', form)

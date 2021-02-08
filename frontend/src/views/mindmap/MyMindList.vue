@@ -6,12 +6,12 @@
     * 최종수정일자 : 2021-02-02
   -->
   <v-container fluid>
-    <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
+    <v-btn @click="readmymindmap">임시</v-btn>
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
           <v-img
-            :src="card.src"
+            :src="card.thumbnail"
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
@@ -55,10 +55,11 @@ export default {
 
       this.$store.dispatch("readMyMindMap", form).then(() => {
         this.cards = this.$store.getters.getMessage;
+        // console.log(this.cards)
       });
     },
     clickParams(no) {
-      this.$router.push({name: 'MindMapDetail', params: {no: no}});
+      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }
   },
   // 페이지가 로드되면 실행되도록
