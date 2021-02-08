@@ -15,7 +15,8 @@
             <!-- 게시글 -->
             <w-card class="card_item p-b-10">
               <!-- 게시글 썸네일 -->
-              <img :src="item.thumbnail" class="card_img" />
+              <!-- 썸네일 클릭 시 상세 페이지로 이동[OMT] -->
+              <img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)"/>
               <!-- 게시글 내용 -->
               <w-card-body class="body-rule">
                 <w-card-title class="card-title">{{ item.title }}</w-card-title>
@@ -45,6 +46,12 @@ export default {
       data: [],
     };
   },
+  methods: {
+    // 썸네일 클릭 시 상세 페이지로 이동[OMT]
+    clickParams(no) {
+      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
+    }
+  }
 };
 </script>
 

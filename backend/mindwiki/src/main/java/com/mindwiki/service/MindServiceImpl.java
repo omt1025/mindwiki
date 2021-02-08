@@ -1,9 +1,11 @@
-package com.mindwiki.service;
+
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
 * 기능 : mind service implementation
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.service;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,9 +37,9 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public MindDto readByMindID(int no) throws SQLException { 
+	public MindDto readByMindID(int no) throws SQLException { //여기가 service의 interface readbymindID
 		session.getMapper(MindDao.class).updateViewCnt(no);
-		return session.getMapper(MindDao.class).readByMindID(no);
+		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
 		
 	}
 
@@ -82,6 +84,41 @@ public class MindServiceImpl implements MindService {
 	public List<LikeDto> likeRead(String email) throws SQLException {
 		
 		return session.getMapper(MindDao.class).likeRead(email);
+		
+	}
+
+	@Override
+	public void deleteLike(int no, String email) throws SQLException {
+		session.getMapper(MindDao.class).deleteLike(no, email);
+		
+	}
+
+	@Override
+	public void deleteScrap(int no, String email) throws SQLException {
+		session.getMapper(MindDao.class).deleteScrap(no, email);
+		
+	}
+
+	@Override
+	public int getMindID(String email) throws SQLException {
+		return session.getMapper(MindDao.class).getMindID(email);
+	}
+
+	@Override
+	public void makeHashtag(int MindID, String hashtag) throws SQLException {
+		session.getMapper(MindDao.class).makeHashtag(MindID, hashtag);
+		
+	}
+
+	@Override
+	public List<String> hashtagByMindID(int MindID) throws SQLException {
+
+		return session.getMapper(MindDao.class).hashtagByMindID(MindID);
+	}
+
+	@Override
+	public void deleteHashtag(int MindID, String hashtag) throws SQLException {
+		session.getMapper(MindDao.class).deleteHashtag(MindID, hashtag);
 		
 	}
 

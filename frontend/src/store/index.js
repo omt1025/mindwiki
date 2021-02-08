@@ -1,5 +1,5 @@
 /*
- * 작성자 : 서울2반 4팀 윤지선
+ * 작성자 : 서울2반 4팀 윤지선(최종 수정하는 사람 이름 갱신하면될것같아요)
  * 내용 : 회원가입 메소드 추가, 로그인 메소드 수정
  * 생성일자 : 2021-01-20
  * 최종수정일자 : 2021-02-08
@@ -185,7 +185,27 @@ export default new Vuex.Store({
           context.commit('setMessage', response.data['message']); // 응답을 message에 저장
         });
     },
-    // 마인드맵 리스트 불러오기[OMT]
+    // 전체 마인드맵 리스트 불러오기[OMT]
+    readMindMap(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/mind/read/`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
+    // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
+    readLikeMindMap(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/mind/like/read/`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
+    // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
         context.commit('setMessage', response.data); // 응답을 message에 저장
@@ -227,6 +247,12 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data);
         });
+    },
+    // 마인드맵 좋아요[OMT]
+    likeMind(context, user) {
+      return axios.post(`${SERVER_URL}/mind/like/${user.get('MindID')}`, user).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
   },
 });

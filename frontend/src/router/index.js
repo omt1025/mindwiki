@@ -79,7 +79,6 @@ const routes = [
     path: '/main/mindmap/mindmapdetail/:no',
     name: 'MindMapDetail',
     component: MindMapDetail,
-    // props: true
   },
   {
     path: '/main/mindmap/mymindlist',

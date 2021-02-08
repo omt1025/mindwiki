@@ -1,15 +1,16 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 오민택
-    * 내용 : SNS 로그인 JWT저장
+    * 내용 : 내 마인드 보관함 생성
     * 생성일자 : 2021-02-01
     * 최종수정일자 : 2021-02-02
   -->
   <v-container fluid>
-    <v-btn @click="readmymindmap">임시</v-btn>
+    <!-- <v-btn @click="readmymindmap">임시</v-btn> -->
     <v-row dense id="list">
       <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
         <v-card>
+          <!-- 썸네일 클릭 시 상세 페이지로 이동 -->
           <v-img
             :src="card.thumbnail"
             class="white--text align-end"
@@ -58,6 +59,7 @@ export default {
         // console.log(this.cards)
       });
     },
+    // 마인드 아이디 값을 라우터로 보냄
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }

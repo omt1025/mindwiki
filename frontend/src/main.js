@@ -30,6 +30,10 @@ import 'vue-mindmap/dist/vue-mindmap.css';
 // https://wolfi-vue.netlify.app/docs/getting-started/quick-start/
 import Wolfi from '@xarples/wolfi-vue';
 
+// lodash
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
+
 library.add(faUserSecret);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -40,6 +44,7 @@ Vue.use(Vuex);
 Vue.use(VueGlide);
 Vue.use(Mindmap);
 Vue.use(Wolfi);
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash });
 
 Vue.config.productionTip = false;
 

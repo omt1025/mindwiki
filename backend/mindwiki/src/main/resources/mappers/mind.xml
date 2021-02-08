@@ -12,6 +12,12 @@
 		select * from mind
 	</select>
 	
+	<select id="hashtagByMindID" resultType="String">
+		select hashtag from hashtagList where MindID=#{MindID}
+	</select>
+	
+	
+	
 	<select id="scrapRead" resultType="com.mindwiki.model.ScrapDto">
 		select * from scrapList
 	</select>
@@ -52,6 +58,14 @@
 	insert into mind (admin, title, subject, hashtag, explanation,initCreateTime,thumbnail) values (#{admin}, #{title}, #{subject}, #{hashtag}, #{explanation},@time,#{thumbnail})
 	</insert>
 	
+	<insert id="makeHashtag">
+	insert into hashtagList(MindID, hashtag) values (#{MindID}, #{hashtag}) 
+	</insert>
+	
+	<select id="getMindID" resultType="Integer">
+	select MindID from mind where admin=#{email} and initCreateTime=@time;
+	</select>
+	
 	<!-- <update id="makeFollwerID">
 	
 	update mind set followerListID=(select MindID from mind where admin=#{admin} and initCreateTime=@time)
@@ -64,5 +78,20 @@
 	<insert id="like">
 		insert into likeList (email, likedMindID) values (#{email},#{no})
 	</insert>
+	
+	<delete id="deleteScrap">
+		delete from scrapList where scrapedMindID=#{no} and email=#{email}
+	</delete>
+	
+	<delete id="deleteLike">
+		delete from likeList where likedMindID=#{no} and email=#{email}
+	</delete>
+	
+	<delete id="deleteHashtag">
+		delete from hashtagList where MindID=#{MindID} and hashtag=#{hashtag}
+	</delete>
+	
+	
+	
 	
 </mapper>
