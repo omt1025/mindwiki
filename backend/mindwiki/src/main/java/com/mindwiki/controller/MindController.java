@@ -160,7 +160,7 @@ public class MindController {
 		
 		//임시
 		@GetMapping("/mind/scrap/read")
-		public ResponseEntity<List<ScrapDto>> scrapRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+		public ResponseEntity<List<MindDto>> scrapRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
 			
 			HttpStatus status=null;
 			
@@ -182,12 +182,12 @@ public class MindController {
 			}
 		
 			
-			return new ResponseEntity<List<ScrapDto>>(mindSvc.scrapRead(email), HttpStatus.OK);
+			return new ResponseEntity<List<MindDto>>(mindSvc.scrapRead(email), HttpStatus.OK);
 		}
 		
 		//임시
 		@GetMapping("/mind/like/read")
-		public ResponseEntity<List<LikeDto>> likeRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+		public ResponseEntity<List<MindDto>> likeRead(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
 			
 			HttpStatus status=null;
 			
@@ -200,7 +200,7 @@ public class MindController {
 		
 		
 			
-				return new ResponseEntity<List<LikeDto>>(mindSvc.likeRead(email), HttpStatus.OK);
+				return new ResponseEntity<List<MindDto>>(mindSvc.likeRead(email), HttpStatus.OK);
 		}
 		
 		

@@ -75,13 +75,13 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public List<ScrapDto> scrapRead(String email) throws SQLException {
+	public List<MindDto> scrapRead(String email) throws SQLException {
 		
 		return session.getMapper(MindDao.class).scrapRead(email); 
 	}
 
 	@Override
-	public List<LikeDto> likeRead(String email) throws SQLException {
+	public List<MindDto> likeRead(String email) throws SQLException {
 		
 		return session.getMapper(MindDao.class).likeRead(email);
 		
