@@ -127,7 +127,7 @@ public class MindController {
 			
 			if(disLike==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
 				try {
-					mindSvc.deleteScrap(no, email);
+					mindSvc.deleteLike(no, email);
 					resultMap.put("message", "DISLIKE");
 					status = HttpStatus.OK;
 				} catch (SQLException e) {
