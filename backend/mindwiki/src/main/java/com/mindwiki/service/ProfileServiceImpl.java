@@ -124,4 +124,22 @@ public class ProfileServiceImpl implements ProfileService {
 			return true;
 		return false;
 	}
+
+
+	// 해당 계정이 존재하는지 확인 => sns회원가입 위해 필요
+	@Override
+	public ProfileResultDto isExist(ProfileDto dto) throws SQLException {
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		// 해당 이메일로 가입된 계정이 존재하면,
+		if(profileMapper.sameEmailCnt(dto)!=0) {
+			result.setResult("EXIST");
+			return result;
+		}
+		
+		// 존재하지 않는경우
+		result.setResult("NOT EXIST");
+		return result;
+	}
 }

@@ -193,9 +193,26 @@ export default {
       msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
     };
   },
-  components: {},
-  created() {
-    this.component = this;
+  mounted() {
+    // input에 SNS 로그인에서 가져온 값을 넣어주기[YJS]
+    // mounted에 적용하지 않으면, 초기 input값 설정 불가능함
+    // https://jdkblog.tistory.com/39
+    if (this.$store.state.jwt !== null) {
+      var email = document.getElementById('useremail');
+      email.value = localStorage.getItem('user-id');
+      email.disabled = true; // 아이디 입력 못하도록 비활성화
+      document.getElementById('useremail_icon').style.color = '#a64bf4';
+      this.user.useremail = email.value;
+    }
+  },
+  updated() {
+    // input에 SNS 로그인에서 가져온 값을 넣어주기[YJS]
+    // updated에도 똑같이 적용해주지않으면, 다른 input입력시 값이 사라짐
+    if (this.$store.state.jwt !== null) {
+      var email = document.getElementById('useremail');
+      email.value = localStorage.getItem('user-id');
+      email.readOnly = true; // 아이디 입력 못하도록 비활성화
+    }
   },
   watch: {
     // 이메일 양식 유효성 검사
@@ -213,6 +230,11 @@ export default {
     },
   },
   methods: {
+    // setSNSJWT() {
+    //   if(this.$store.getters.getJWT !== null) {
+    //     console.log(this.$store.getters.userId);
+    //   }
+    // },
     // 이메일 유효성 검사 정규식 : @ .여부
     validateEmail(v) {
       if (

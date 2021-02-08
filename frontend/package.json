@@ -24,7 +24,7 @@
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
     "vue-glide-js": "^1.3.14",
-    "vue-lodash": "^2.1.2",
+    "vue-lodash": "2.1.2",
     "vue-mindmap": "0.0.4",
     "vue-naver-login": "^1.0.4",
     "vue-router": "^3.2.0",

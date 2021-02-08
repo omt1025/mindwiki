@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 버튼 글씨 회색으로 style 추가
+    * 내용 : sns로그인시 가입된 계정이 아니면, 회원가입 페이지로 이동
     * 생성일자 : 2021-01-20
-    * 최종수정일자 : 2021-02-04
+    * 최종수정일자 : 2021-02-08
  -->
 
   <div id="bg">
@@ -90,12 +90,31 @@ export default {
     expand: false, // 슬라이드 효과에 사용
   }),
   created() {
-    // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우 => main페이지로 이동[YJS]
+    // SNS로그인하여 'url?jwt='해서 jwt를 받아온 경우[YJS]
     if (this.$route.query.jwt !== undefined) {
       var jwt = this.$route.query.jwt;
-      this.$store.dispatch('setJWT', jwt);
-      // console.log('jwt저장 확인 : ' + this.$store.getters.getJWT);
-      this.$router.push('/main');
+      let form = new FormData(); // form : axios통신 할 값을 넣어 전달
+      form.append('jwt', jwt);
+
+      // 서버와 통신(axios)을 해 아이디 존재 여부를 message에 가져옴
+      this.$store
+        .dispatch('isExist', form)
+        .then(() => {
+          this.$store.dispatch('setJWT', jwt); // jwt를 로컬스토리지에 저장
+          this.message = this.$store.getters.getMessage;
+
+          // 해당 계정이 존재하는 경우 => main페이지로 이동
+          if (this.message === 'EXIST') {
+            this.$store.dispatch('setMessage', null); // message 재사용 위해
+            this.$router.push(`/main`); // main페이지로 이동
+          }
+          // 해당 계정이 존재하지 않는 경우 => signup페이지로 이동
+          else if (this.message === 'NOT EXIST') {
+            this.$store.dispatch('setMessage', null); // message 재사용 위해
+            this.$router.push(`/signup`); // signup페이지로 이동
+          }
+        })
+        .catch(({ message }) => (this.msg = message));
     }
   },
   methods: {

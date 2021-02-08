@@ -11,4 +11,5 @@ public interface ProfileService {
 	public ProfileResultDto changePassword(ProfileDto dto, String newPassword) throws SQLException;
 	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException;
 	public ProfileDto getProfile(ProfileDto profileDto) throws SQLException;
+	public ProfileResultDto isExist(ProfileDto profileDto) throws SQLException;
 }
