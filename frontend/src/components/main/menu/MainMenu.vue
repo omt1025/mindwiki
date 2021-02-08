@@ -218,6 +218,7 @@ export default {
       // 탭 초기화(재사용 위해)
       this.$store.dispatch('setMainTab', 0);
       this.$store.dispatch('setBottomNav', 'home');
+      this.$store.dispatch('setMessage', null);
       // 로그아웃 처리
       this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
       // axios.post(`http://localhost:8000/mindwiki/mind/logout`);

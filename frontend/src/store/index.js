@@ -1,8 +1,8 @@
 /*
  * 작성자 : 서울2반 4팀 윤지선
- * 내용 : 프로필에서 사용할 마인드맵 리스트 불러오기
+ * 내용 : 회원가입 메소드 추가, 로그인 메소드 수정
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-05
+ * 최종수정일자 : 2021-02-08
  */
 
 import Vue from 'vue';
@@ -125,20 +125,22 @@ export default new Vuex.Store({
     // 로그인 서버와 통신[YJS]
     LOGIN(context, user) {
       return axios.post(`${SERVER_URL}/login`, user).then((response) => {
-        context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
-        let token = `${response.data['jwt']}`;
+        // 성공시에만 mutation의 LOGIN으로 이동
+        if (response.data['message'] === 'SUCCESS') {
+          context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
+          let token = `${response.data['jwt']}`;
+          // jwt 디코딩
+          var decodedJWT = jwt_decode(token);
+          let userId = decodedJWT['email'];
+          let nickName = decodedJWT['nickName'];
 
-        // jwt 디코딩
-        var decodedJWT = jwt_decode(token);
-        let userId = decodedJWT['email'];
-        let nickName = decodedJWT['nickName'];
-
-        // localStorage에 저장
-        localStorage.setItem('jwt', token);
-        localStorage.setItem('user-id', userId);
-        localStorage.setItem('user-nickname', nickName);
-
-        // axios.defaults.headers.common['jwt'] = token;
+          // localStorage에 저장
+          localStorage.setItem('jwt', token);
+          localStorage.setItem('user-id', userId);
+          localStorage.setItem('user-nickname', nickName);
+        } else {
+          context.commit('setMessage', response.data['message']);
+        }
       });
     },
     // 로그아웃[YJS]
@@ -152,6 +154,12 @@ export default new Vuex.Store({
 
       // muatation에 있는 state값 날리기
       context.commit('LOGOUT');
+    },
+    // 회원가입[YJS]
+    signUp(context, user) {
+      return axios.post(`${SERVER_URL}/profile/register`, user).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
     },
     // vue에서 sns로그인 하고 받은 jwt를 mutation에서 state값 변경[YJS]
     setJWT(context, jwt) {
@@ -198,13 +206,13 @@ export default new Vuex.Store({
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
-      console.log(mind.get("jwt"))
-      console.log(mind.get("MindID"))
+      console.log(mind.get('jwt'));
+      console.log(mind.get('MindID'));
       let form = new FormData();
-      form=mind;
+      form = mind;
       return axios.put(`/mindwiki/mind/update`, form).then((response) => {
         context.commit('setMessage', response.data);
-      })
+      });
     },
     // 마인드맵 제거[OMT]
     deleteMind(context, user) {

@@ -224,7 +224,8 @@ export default {
             this.$store.dispatch('setMessage', null); // message 재사용 위해
             this.$router.push(`/main`); // main페이지로 이동
             this.$router.go(this.$router.currentRoute);
-          } else {
+          }
+          if (this.$store.getters.getMessage === 'FAIL') {
             // 로그인 실패 : 다이얼로그 띄우기
             this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
           }
@@ -232,7 +233,7 @@ export default {
         .catch(({ message }) => (this.msg = message));
 
       // 탭 초기화(재사용 위해)
-      this.message = '';
+      this.$store.dispatch('setMessage', null);
       this.$store.dispatch('setMainTab', 0);
       this.$store.dispatch('setBottomNav', 'home');
     },
