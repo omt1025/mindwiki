@@ -71,13 +71,14 @@ export default {
     scrapmindmap (no) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', no);
+      form.append('no', no);
       form.append('disScrap', 0);
 
       this.$store.dispatch("scrapMind", form).then(() => {
         console.log(this.$store.getters.getMessage)
       })
     },
+    // 라우터에 마인드 아이디를 보냄
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     }

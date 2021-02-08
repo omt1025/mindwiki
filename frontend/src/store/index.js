@@ -190,39 +190,32 @@ export default new Vuex.Store({
     },
     // 전체 마인드맵 리스트 불러오기[OMT]
     readMindMap(context, jwt) {
-      return axios
-        .get(`${SERVER_URL}/mind/read/`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
+      return axios.get(`${SERVER_URL}/mind/read/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
     // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
     readLikeMindMap(context, jwt) {
-      return axios
-        .get(`${SERVER_URL}/mind/like/read/`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
+      return axios.get(`${SERVER_URL}/mind/like/read/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
     // 스크랩 누른 마인드맵 리스트 불러오기[OMT]
     readScrapMindMap(context, jwt) {
-      return axios
-        .get(`${SERVER_URL}/mind/scrap/read/`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
+      return axios.get(`${SERVER_URL}/mind/scrap/read/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
     // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
         context.commit('setMessage', response.data); // 응답을 message에 저장
-
         // 메소드는 겹치는데, 혹시 몰라서, 따로 만들었음.. 후에 조정 필요
         context.commit('setMindList', response.data); // my_mindList불러오기위해[YJS]
       });
@@ -230,19 +223,14 @@ export default new Vuex.Store({
     // 상세 마인드맵 페이지에서 마인드맵 불러오기[OMT]
     readMindDetail(context, user) {
       const jwt = user.get('jwt');
-
-      return axios
-        .get(`${SERVER_URL}/mind/read/${user.get('no')}`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
+      return axios.get(`${SERVER_URL}/mind/read/${user.get('no')}`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
-      // let form = new FormData();
-      // form=mind;
       return axios.put(`/mindwiki/mind/update`, mind).then((response) => {
         context.commit('setMessage', response.data);
       })
@@ -250,14 +238,11 @@ export default new Vuex.Store({
     // 마인드맵 제거[OMT]
     deleteMind(context, user) {
       const jwt = user.get('jwt');
-
-      return axios
-        .delete(`${SERVER_URL}/mind/delete/${user.get('no')}`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
+      return axios.delete(`${SERVER_URL}/mind/delete/${user.get('no')}`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
     },
     // 마인드맵 좋아요[OMT]
     likeMind(context, user) {
@@ -270,9 +255,42 @@ export default new Vuex.Store({
     },
     // 마인드맵 스크랩[OMT]
     scrapMind(context, user) {
-      return axios.post(`${SERVER_URL}/mind/scrap/${user.get('MindID')}`, user).then((response) => {
+      return axios.post(`${SERVER_URL}/mind/scrap/${user.get('no')}`, user).then((response) => {
         context.commit('setMessage', response.data);
       });
     },
+    // 마인드맵 댓글 생성[OMT]
+    makeComment(context, user) {
+      const form = new FormData();
+      form.append('jwt', user.get('jwt'))
+      form.append('data', user.get('data'))
+      return axios.post(`${SERVER_URL}/mind/${user.get('no')}/comment/make`, form).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
+    // 마인드맵 불러오기[OMT]
+    readComment(context, no) {
+      return axios.get(`${SERVER_URL}/mind/${no}/comment/read`).then((response) => {
+        context.commit('setMessage', response.data);
+      });
+    },
+    // 마인드맵 수정[OMT]
+    updateComment(context, user) {
+      const form = new FormData();
+      form.append('jwt', user.get('jwt'))
+      form.append('data', user.get('data'))
+      return axios.put(`${SERVER_URL}/mind/${user.get('no')}/comment/update`, form).then((response) => {
+        context.commit('setMessage', response.data);
+      })
+    },
+    // 마인드맵 삭제[OMT]
+    deleteComment(context, user) {
+      const jwt = user.get('jwt');
+      return axios.delete(`${SERVER_URL}/mind/${user.get('no')}/comment/delete`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setMessage', response.data);
+      });
+    }
   },
 });
