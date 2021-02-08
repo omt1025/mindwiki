@@ -1,8 +1,8 @@
 /*
- * 작성자 : 서울2반 4팀 윤지선(최종 수정하는 사람 이름 갱신하면될것같아요)
- * 내용 : 회원가입 메소드 추가, 로그인 메소드 수정
+ * 작성자 : 서울2반 4팀 윤지선
+ * 내용 : 프로필에서 사용할 마인드맵 리스트 불러오기
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-08
+ * 최종수정일자 : 2021-02-05
  */
 
 import Vue from 'vue';
@@ -25,6 +25,7 @@ export default new Vuex.Store({
     bottomNav: 'home', // 하단 바 현재 위치
     mainTab: '0', // 상단 탭 현재 위치
     mindList: [], // 프로필 내 마인드리스트목록
+    followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
   },
 
   // 연산된 state값을 접근
@@ -58,6 +59,10 @@ export default new Vuex.Store({
     mindList(state) {
       return state.mindList;
     },
+    // 선택되어있는 상단 탭(팔로우 / 팔로워 리턴)
+    followTab(state) {
+      return state.followTab;
+    }
   },
 
   plugins: [createPersistedState()],
@@ -117,6 +122,10 @@ export default new Vuex.Store({
     setMindList(state, mindList) {
       state.mindList = mindList;
     },
+    // 상단 탭(팔로워/팔로잉)변경
+    setFollowTab(state, tab) {
+      state.followTab = tab;
+    }
   },
 
   // 비동기처리 로직을 선언하는 메서드
@@ -125,22 +134,20 @@ export default new Vuex.Store({
     // 로그인 서버와 통신[YJS]
     LOGIN(context, user) {
       return axios.post(`${SERVER_URL}/login`, user).then((response) => {
-        // 성공시에만 mutation의 LOGIN으로 이동
-        if (response.data['message'] === 'SUCCESS') {
-          context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
-          let token = `${response.data['jwt']}`;
-          // jwt 디코딩
-          var decodedJWT = jwt_decode(token);
-          let userId = decodedJWT['email'];
-          let nickName = decodedJWT['nickName'];
+        context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
+        let token = `${response.data['jwt']}`;
 
-          // localStorage에 저장
-          localStorage.setItem('jwt', token);
-          localStorage.setItem('user-id', userId);
-          localStorage.setItem('user-nickname', nickName);
-        } else {
-          context.commit('setMessage', response.data['message']);
-        }
+        // jwt 디코딩
+        var decodedJWT = jwt_decode(token);
+        let userId = decodedJWT['email'];
+        let nickName = decodedJWT['nickName'];
+
+        // localStorage에 저장
+        localStorage.setItem('jwt', token);
+        localStorage.setItem('user-id', userId);
+        localStorage.setItem('user-nickname', nickName);
+
+        // axios.defaults.headers.common['jwt'] = token;
       });
     },
     // 로그아웃[YJS]
@@ -154,12 +161,6 @@ export default new Vuex.Store({
 
       // muatation에 있는 state값 날리기
       context.commit('LOGOUT');
-    },
-    // 회원가입[YJS]
-    signUp(context, user) {
-      return axios.post(`${SERVER_URL}/profile/register`, user).then((response) => {
-        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
-      });
     },
     // vue에서 sns로그인 하고 받은 jwt를 mutation에서 state값 변경[YJS]
     setJWT(context, jwt) {
@@ -177,35 +178,17 @@ export default new Vuex.Store({
     setMainTab(context, tab) {
       context.commit('setMainTab', tab);
     },
+    // 상단 탭(팔로워/팔로잉)변경
+    setFollowTab(context, tab) {
+      context.commit('setFollowTab', tab);
+    },
     // 마인드맵 생성[OMT]
     makeMindMap(context, mind) {
-      return axios
-        .post(`${SERVER_URL}/mind`, mind, { headers: { 'Content-Type': 'multipart/form-data' } })
-        .then((response) => {
-          context.commit('setMessage', response.data['message']); // 응답을 message에 저장
-        });
+      return axios.post(`${SERVER_URL}/mind`, mind, { headers: { 'Content-Type': 'multipart/form-data' }}).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
     },
-    // 전체 마인드맵 리스트 불러오기[OMT]
-    readMindMap(context, jwt) {
-      return axios
-        .get(`${SERVER_URL}/mind/read/`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
-    },
-    // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
-    readLikeMindMap(context, jwt) {
-      return axios
-        .get(`${SERVER_URL}/mind/like/read/`, {
-          params: { jwt: jwt },
-        })
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
-    },
-    // 내 마인드맵 리스트 불러오기[OMT]
+    // 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
         context.commit('setMessage', response.data); // 응답을 message에 저장
@@ -228,13 +211,11 @@ export default new Vuex.Store({
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
-      console.log(mind.get('jwt'));
-      console.log(mind.get('MindID'));
-      let form = new FormData();
-      form = mind;
-      return axios.put(`/mindwiki/mind/update`, form).then((response) => {
+      // let form = new FormData();
+      // form=mind;
+      return axios.put(`/mindwiki/mind/update`, mind).then((response) => {
         context.commit('setMessage', response.data);
-      });
+      })
     },
     // 마인드맵 제거[OMT]
     deleteMind(context, user) {
@@ -247,12 +228,6 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data);
         });
-    },
-    // 마인드맵 좋아요[OMT]
-    likeMind(context, user) {
-      return axios.post(`${SERVER_URL}/mind/like/${user.get('MindID')}`, user).then((response) => {
-        context.commit('setMessage', response.data);
-      });
     },
   },
 });
