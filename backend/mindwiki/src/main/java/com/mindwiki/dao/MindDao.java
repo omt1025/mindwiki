@@ -29,4 +29,6 @@ public interface MindDao {
 	public List<ScrapDto> scrapRead(String email) throws SQLException;
 	public List<LikeDto> likeRead(String email) throws SQLException;
 	public List<MindDto> readByEmail(String email) throws SQLException;
+	void deleteLike(int no, String email) throws SQLException;
+	void deleteScrap(int no, String email) throws SQLException;
 }

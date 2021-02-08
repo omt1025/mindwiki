@@ -85,6 +85,17 @@ public class MindServiceImpl implements MindService {
 		
 	}
 
+	@Override
+	public void deleteLike(int no, String email) throws SQLException {
+		session.getMapper(MindDao.class).deleteLike(no, email);
+		
+	}
+
+	@Override
+	public void deleteScrap(int no, String email) throws SQLException {
+		session.getMapper(MindDao.class).deleteScrap(no, email);
+		
+	}
 
 	
 }

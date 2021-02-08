@@ -60,42 +60,14 @@ public class MindController {
 	private JwtService jwtSvc;
 	
 	//현재페이지를 스크랩함
-	@PostMapping("/mind/scrap/{no}")
-	public ResponseEntity<Map<String, Object>> scrap(@PathVariable(name = "no",required=false) int no,
-			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status=null;
-		
-		
-		Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
-		String email=(String)clamMap.get("email");
-		
-		try {
-			
-			mindSvc.scrap(no, email);
-			resultMap.put("message", "SCRAP");
-			status = HttpStatus.OK;
-			
-			
-		} catch (SQLException e) {
-			resultMap.put("message", "데이터중복");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-		}
-		
-	
-		
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-	
-	
-	
-	
-	
-	//현재페이지를 좋아요함
-		@PostMapping("/mind/like/{no}")
-		public ResponseEntity<Map<String, Object>> like(@PathVariable(name = "no",required=false) int no,
+		@PostMapping("/mind/scrap/{no}")
+		public ResponseEntity<Map<String, Object>> scrap(@PathVariable(name = "no",required=false) int no,
+				@RequestParam(value="disScrap", required=false) int disScrap,
 				@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+			
+			
+			
+			
 			Map<String, Object> resultMap = new HashMap<>();
 			HttpStatus status=null;
 			
@@ -103,22 +75,86 @@ public class MindController {
 			Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
 			String email=(String)clamMap.get("email");
 			
+			if(disScrap==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
+				try {
+					mindSvc.deleteScrap(no, email);
+					resultMap.put("message", "DISSCRAP");
+					status = HttpStatus.OK;
+				} catch (SQLException e) {
+
+					resultMap.put("message", "ERROR");
+					status = HttpStatus.INTERNAL_SERVER_ERROR;
+					e.printStackTrace();
+				}
+				return new ResponseEntity<Map<String, Object>>(resultMap, status);
+			}
+			
 			try {
 				
-				mindSvc.like(no, email);
-				resultMap.put("message", "LIKE");
+				mindSvc.scrap(no, email);
+				resultMap.put("message", "SCRAP");
 				status = HttpStatus.OK;
 				
 				
 			} catch (SQLException e) {
-				resultMap.put("message", "데이터중복");
+				resultMap.put("message", "duplicated");
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				e.printStackTrace();
 			}
+			
 		
 			
 			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		}
+		
+		
+		
+		
+		
+		//현재페이지를 좋아요함
+			@PostMapping("/mind/like/{no}")
+			public ResponseEntity<Map<String, Object>> like(@PathVariable(name = "no",required=false) int no,
+					@RequestParam(value="disLike", required=false) int disLike,
+					@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+				Map<String, Object> resultMap = new HashMap<>();
+				HttpStatus status=null;
+				
+				
+				Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
+				String email=(String)clamMap.get("email");
+				
+				if(disLike==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
+					try {
+						mindSvc.deleteScrap(no, email);
+						resultMap.put("message", "DISLIKE");
+						status = HttpStatus.OK;
+					} catch (SQLException e) {
+
+						resultMap.put("message", "ERROR");
+						status = HttpStatus.INTERNAL_SERVER_ERROR;
+						e.printStackTrace();
+					}
+					return new ResponseEntity<Map<String, Object>>(resultMap, status);
+				}
+				
+				
+				try {
+					
+					mindSvc.like(no, email);
+					resultMap.put("message", "LIKE");
+					status = HttpStatus.OK;
+					
+					
+				} catch (SQLException e) {
+					resultMap.put("message", "duplicated");
+					status = HttpStatus.INTERNAL_SERVER_ERROR;
+					e.printStackTrace();
+				}
+			
+				
+				return new ResponseEntity<Map<String, Object>>(resultMap, status);
+			}
+		
 	
 		
 		//스크랩 읽기/by email

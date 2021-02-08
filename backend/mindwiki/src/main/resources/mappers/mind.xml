@@ -65,4 +65,13 @@
 		insert into likeList (email, likedMindID) values (#{email},#{no})
 	</insert>
 	
+	
+	<delete id="deleteScrap">
+		delete from scrapList where scrapedMindID=#{no} and email=#{email}
+	</delete>
+	
+	<delete id="deleteLike">
+		delete from likeList where likedMindID=#{no} and email=#{email}
+	</delete>
+	
 </mapper>
