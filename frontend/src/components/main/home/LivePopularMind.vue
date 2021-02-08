@@ -65,7 +65,7 @@ export default {
     likemindmap (no) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', no);
+      form.append('no', no);
       form.append('disLike', 0);
 
       this.$store.dispatch("likeMind", form).then(() => {

@@ -63,7 +63,8 @@ export default {
       form.append('disLike', 1);
 
       this.$store.dispatch("likeMind", form).then(() => {
-        console.log(this.$store.getters.getMessage)
+        // console.log(this.$store.getters.getMessage)
+        this.$router.go(this.$router.currentRoute);
       })
     },
     // 스크랩 눌렀을 시 실행

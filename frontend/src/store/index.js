@@ -188,6 +188,26 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },
+    // 전체 마인드맵 리스트 불러오기[OMT]
+    readMindMap(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/mind/read/`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
+    // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
+    readLikeMindMap(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/mind/like/read/`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
     // 스크랩 누른 마인드맵 리스트 불러오기[OMT]
     readScrapMindMap(context, jwt) {
       return axios
