@@ -61,30 +61,27 @@ public class LoginController {
 		temp_mem.setEmail(id);
 		temp_mem.setPassword(pw);
 		
-		ProfileDto memberDto=null;
+		ProfileDto memberDto=new ProfileDto();
 		
 		
 		
-		try {
-			memberDto = loginSvc.login(temp_mem);
+		
+
+		memberDto = loginSvc.login(temp_mem);
 			
-			if(memberDto!=null) {//로그인성공
-				System.out.println(System.getProperty("user.dir"));
+		if(memberDto.getNickName()!=null) {//로그인성공
 				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
 				resultMap.put("message", "SUCCESS");
 				resultMap.put("jwt", jwt);
 				//hs.setAttribute("sessionGen", "exist");
 				//hs.setAttribute("jwt", jwt);
 				status=HttpStatus.ACCEPTED;
-			}else {//로그인 실패 비밀번호 실패
+		}else {//로그인 실패 비밀번호 실패
 				resultMap.put("message", "FAIL");
 				status=HttpStatus.ACCEPTED;
-			}
-			
-		} catch (SQLException e) {//에러
-				status=HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
+			
+	
 		
 		
 		
