@@ -76,15 +76,12 @@
               <input
                 class="input100"
                 type="password"
-                label="userpwd"
                 id="userpwd"
                 ref="userpwd"
-                :rules="[rules.passwordRules]"
                 v-model="user.userpwd"
                 placeholder="비밀번호를 입력해주세요."
                 @change="changeColor($event)"
                 @keypress.enter="checkHandler"
-                required
               />
             </div>
 
@@ -102,16 +99,12 @@
               <input
                 class="input100"
                 type="password"
-                label="userpwd_check"
                 id="userpwd_check"
                 ref="userpwd_check"
-                :rules="[rules.confirmPasswordRules, passwordConfirmationRule]"
-                @update:error="checkPassword"
                 v-model="user.userpwd_check"
                 placeholder="비밀번호를 다시 입력해주세요."
                 @change="changeColor($event)"
                 @keypress.enter="checkHandler"
-                required
               />
             </div>
 
@@ -177,6 +170,38 @@
   </div>
 </template>
 
+<style scoped>
+.login_back {
+  background-image: url(../../assets/images/user/bg-01.jpg);
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 375px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* https://knulab.com/archives/1185 */
+}
+
+/* 관심태그 title */
+.interestTagTitle {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5;
+  padding-left: 7px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 7px;
+}
+</style>
+
 <script>
 import '../../components/css/user.scss';
 import '../../components/css/tag.css';
@@ -194,32 +219,7 @@ export default {
         interest: {}, // 관심태그
       },
       message: '', // 오류 받아 올 변수
-      // 비밀번호 유효성 검사할 규칙
-      validPassword: '',
-      rules: {
-        passwordRules: (v) => {
-          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/;
-          return (
-            pattern.test(v) ||
-            '영문자(대문자 최소 1개 포함), 숫자, 특수문자($, ^, * 제외) 8자리 이상'
-          );
-        },
-        confirmPasswordRules: (v) => !!v || '비밀번호를 입력해주세요.',
-      },
     };
-  },
-  watch: {
-    userpwd: function() {
-      this.passwordRules();
-    },
-    userpwd_check: function() {
-      this.confirmPasswordRules();
-    },
-  },
-  computed: {
-    passwordConfirmationRule() {
-      return () => this.password === this.confirmPassword || '비밀번호가 일치하지 않습니다.';
-    },
   },
   components: {},
   created() {
@@ -321,51 +321,6 @@ export default {
         }
       });
     },
-    checkPassword(invalid) {
-      // correct: false
-      if (true == invalid) {
-        this.validPassword = false;
-      } else {
-        this.validPassword = true;
-      }
-      let isSubmit = true;
-      Object.values(this.error).map((v) => {
-        if (v) isSubmit = false;
-      });
-      this.isSubmit = isSubmit;
-    },
   },
 };
 </script>
-
-<style scoped>
-.login_back {
-  background-image: url(../../assets/images/user/bg-01.jpg);
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 375px;
-
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
-
-  /* Set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  /* https://knulab.com/archives/1185 */
-}
-
-/* 관심태그 title */
-.interestTagTitle {
-  font-family: Poppins-Regular;
-  font-size: 14px;
-  color: #333333;
-  line-height: 1.5;
-  padding-left: 7px;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 7px;
-}
-</style>
