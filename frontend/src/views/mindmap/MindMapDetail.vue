@@ -33,8 +33,16 @@
     <v-card-actions id="cardAction">
       <v-list-item class="grow">
         <!-- mr : 아이콘과 span의 간격 조정 -->
-        <v-icon class="mr-2">mdi-comment</v-icon>
-        <span>댓글 쓰기</span>
+        <v-btn
+          id="no-background-hover"
+          :ripple="false"
+          depressed
+          color="white"
+          @click="goMindComment(no)"
+          >
+          <v-icon class="mr-2">mdi-comment-outline</v-icon>
+          <span>댓글 쓰기</span>
+        </v-btn>
         <v-row align="center" justify="end">
           <v-icon color="purple">mdi-heart</v-icon>
           <!-- 누적된 좋아요 수 -->
@@ -332,6 +340,10 @@ export default {
     backPage: function() {
       this.$router.push('/main/mindmap/mymindlist')
     },
+    // 마인드맵 댓글 페이지 이동
+    goMindComment(no) {
+      this.$router.push({name: 'MindComment', params: {no: Number(no)}});
+    }
   },
   created: function () {
     this.readminddetail(this.no)
@@ -382,5 +394,11 @@ export default {
   position: fixed;
   right: 70px;
   top: 65px;
+}
+</style>
+
+<style lang="scss" scoped>
+#no-background-hover::before {
+  background-color: transparent !important;
 }
 </style>
