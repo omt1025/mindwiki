@@ -26,7 +26,7 @@ export default new Vuex.Store({
     nickName: null, // JWT 속 nickname
     bottomNav: 'home', // 하단 바 현재 위치
     mainTab: '0', // 상단 탭 현재 위치
-    mindList: [], // 프로필 내 마인드리스트목록
+    mindList: null, // 프로필 내 마인드리스트목록
     followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
     cards: null,  // 메인 페이지의 마인드맵 리스트
     likeData: null, // 좋아요 누른 마인드맵
