@@ -145,7 +145,7 @@ export default {
 
     /* Set up proportionate scaling */
     width: 100%;
-    height: auto;
+    max-height: 640px;
 
     /* Set up positioning */
     /* position: fixed; */
@@ -159,10 +159,11 @@ export default {
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 360px;
+    max-height: 100%;
 
     /* Set up proportionate scaling */
     width: 100%;
-    height: 100%;
+    height: auto;
 
     /* Set up positioning */
     position: fixed;
@@ -170,7 +171,7 @@ export default {
     left: 0;
   }
   #logo {
-    top: 40%;
+    top: 140px;
   }
   #bt {
     /* Set up proportionate scaling */

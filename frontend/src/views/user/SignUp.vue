@@ -305,12 +305,17 @@ export default {
 
     // Sign Up 액션 실행[YJS]
     signup() {
+      // chips를 #로 구분하여 전달하기 위해
+      var hashtag = '';
+      for (var chip in this.chips) hashtag += '#' + chip;
+      // console.log(hashtag);
+
       let form = new FormData();
       form.append('email', this.user.useremail);
       form.append('realName', this.user.username);
       form.append('password', this.user.userpwd);
       form.append('nickName', this.user.useremail.split('@')[0]); // 초기 닉네임은 이메일 @앞 아이디
-      form.append('hashtag', this.chips);
+      form.append('hashtag', hashtag);
 
       this.$store
         .dispatch('signUp', form)
