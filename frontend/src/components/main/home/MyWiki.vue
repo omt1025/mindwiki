@@ -52,7 +52,6 @@ export default {
     readlikemindmap() {
       this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
         this.cards = this.$store.getters.likeData;
-        console.log(this.cards);
       });
     },
     // 좋아요 눌렀을 시 실행

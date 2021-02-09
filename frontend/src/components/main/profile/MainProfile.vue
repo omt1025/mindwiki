@@ -142,7 +142,7 @@ export default {
     // 스크랩 마인드 리스트 조회[OMT]
     readscrapmindmap() {
       this.$store.dispatch('readScrapMindMap', this.$store.getters.getJWT).then(() => {
-        this.scrapList = this.$store.getters.getMessage; // 응답 결과 저장된 마인드를 자식 컴포넌트에 전달
+        this.scrapList = this.$store.getters.scrapData; // 응답 결과 저장된 마인드를 자식 컴포넌트에 전달
       });
     },
   },

@@ -19,7 +19,6 @@
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
           <div>
-            <!-- <h4>{{ card.like }}</h4> -->
           </div>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -34,9 +33,16 @@
               </v-btn>
             </div>
 
-            <v-btn icon @click="scrapmindmap(card.mindID)">
-              <v-icon>mdi-bookmark</v-icon>
-            </v-btn>
+            <div v-if="card.scrap">
+              <v-btn icon color="purple">
+                <v-icon @click="scrapmindmap(card.mindID, index, 1)">mdi-bookmark</v-icon>
+              </v-btn>
+            </div>
+            <div v-else-if="!card.scrap">
+              <v-btn icon>
+                <v-icon @click="scrapmindmap(card.mindID, index, 0)">mdi-bookmark</v-icon>
+              </v-btn>
+            </div>
 
             <v-btn icon>
               <v-icon>mdi-share-variant</v-icon>
@@ -56,18 +62,10 @@ export default {
   data: () => ({ items: null }),
 
   computed: {
-    ...mapGetters(['likeData, cards']),
+    ...mapGetters(['likeData, scrapData cards']),
   },
   methods: {
-    // 전체 마인드맵 데이터 불러오기
-    // readmindmap() {
-    //   this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
-    //     this.cards = this.$store.getters.getMessage;
-    //   });
-    //   this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
-    //     this.likeData = this.$store.getters.getMessage;
-    //   });
-    // },
+    // 로그인 한 유저가 좋아요 누른 게시글 확인
     checklike() {
       this.items = this.$store.state.cards;
       for (var j = 0; j < this.$store.state.cards.length; j++) {
@@ -80,17 +78,20 @@ export default {
           }
         }
       }
-      // console.log(this.cards);
     },
-    check(no) {
-      let isLike = false;
-      for (var i = 0; i < this.$store.getters.likeData.length; i++) {
-        if (this.$store.getters.likeData[i]['mindID'] === no) {
-          isLike = true;
-          break;
+    // 로그인 한 유저가 스크랩 한 게시글 확인
+    checkscrap() {
+      this.items = this.$store.state.cards;
+      for (var j = 0; j < this.$store.state.cards.length; j++) {
+        for (var i = 0; i < this.$store.state.scrapData.length; i++) {
+          if (this.$store.state.scrapData[i]['mindID'] === this.$store.state.cards[j]['mindID']) {
+            this.$set(this.items[j], 'scrap', true);
+            break;
+          } else {
+            this.$set(this.items[j], 'scrap', false);
+          }
         }
       }
-      return isLike;
     },
     // 좋아요 눌렀을 시 실행
     likemindmap(no, index, isLike) {
@@ -105,13 +106,14 @@ export default {
       });
     },
     // 스크랩 눌렀을 시 실행
-    scrapmindmap(no) {
+    scrapmindmap(no, index, isScrap) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
-      form.append('disScrap', 0);
+      form.append('disScrap', isScrap);
 
       this.$store.dispatch('scrapMind', form).then(() => {
+        this.items[index].scrap = !this.items[index].scrap;
         // console.log(this.$store.getters.getMessage)
       });
     },
@@ -121,11 +123,12 @@ export default {
   },
   created() {
     this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
-      this.cards = this.$store.getters.getMessage;
     });
     this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
-      this.likeData = this.$store.getters.getMessage;
       this.checklike();
+    });
+    this.$store.dispatch('readScrapMindMap', this.$store.getters.getJWT).then(() => {
+      this.checkscrap();
     });
   },
 };

@@ -28,8 +28,9 @@ export default new Vuex.Store({
     mainTab: '0', // 상단 탭 현재 위치
     mindList: [], // 프로필 내 마인드리스트목록
     followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
-    cards: null,
-    likeData: null,
+    cards: null,  // 메인 페이지의 마인드맵 리스트
+    likeData: null, // 좋아요 누른 마인드맵
+    scrapData: null,  // 스크랩한 마인드맵
   },
 
   // 연산된 state값을 접근
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     },
     likeData(state) {
       return state.likeData;
+    },
+    scrapData(state) {
+      return state.scrapData;
     },
   },
 
@@ -141,6 +145,9 @@ export default new Vuex.Store({
     },
     setLikeData(state, val) {
       state.likeData = val;
+    },
+    setScrapData(state, val) {
+      state.scrapData = val;
     },
   },
 
@@ -245,7 +252,7 @@ export default new Vuex.Store({
           params: { jwt: jwt },
         })
         .then((response) => {
-          context.commit('setMessage', response.data);
+          context.commit('setScrapData', response.data);
         });
     },
     // 내 마인드맵 리스트 불러오기[OMT]
@@ -295,6 +302,9 @@ export default new Vuex.Store({
     },
     // 마인드맵 스크랩[OMT]
     scrapMind(context, user) {
+      const form = new FormData();
+      form.append('jwt', user.get('jwt'));
+      form.append('disScrap', user.get('disScrap'));
       return axios.post(`${SERVER_URL}/mind/scrap/${user.get('no')}`, user).then((response) => {
         context.commit('setMessage', response.data);
       });
