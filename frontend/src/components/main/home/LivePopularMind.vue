@@ -7,7 +7,7 @@
   -->
   <v-container fluid>
     <v-row dense id="list">
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
+      <v-col v-for="card in items" :key="card.title" :cols="card.flex">
         <v-card>
           <v-img
             :src="card.thumbnail"
@@ -18,15 +18,17 @@
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
-          <div><h4>{{ card.like }}</h4></div>
+          <div>
+            <!-- <h4>{{ card.like }}</h4> -->
+          </div>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <div v-if="card.like === true">
+            <div v-if="card.like">
               <v-btn icon color="purple">
                 <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
               </v-btn>
             </div>
-            <div v-else>
+            <div v-else-if="!card.like">
               <v-btn icon>
                 <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
               </v-btn>
@@ -46,63 +48,89 @@
   </v-container>
 </template>
 
+
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'LivePopular',
-  data: () => ({
-    cards: [],
-  }),
+  data: () => ({ items: null }),
+
+  computed: {
+    ...mapGetters(['likeData, cards']),
+  },
   methods: {
     // 전체 마인드맵 데이터 불러오기
-    readmindmap () {
-      this.$store.dispatch("readMindMap", this.$store.getters.getJWT).then(() => {
-        this.cards = this.$store.getters.getMessage;
-        this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
-        const likeData = this.$store.getters.getMessage
-        for (var j=0; j<this.cards.length; j++) {
-          for (var i=0; i<likeData.length; i++) {
-            if (likeData[i]["mindID"] === this.cards[j]["mindID"]) {
-              this.cards[j]['like'] = true
-              break
-            } else {
-              this.cards[j]['like'] = false
-            }
+    // readmindmap() {
+    //   this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
+    //     this.cards = this.$store.getters.getMessage;
+    //   });
+    //   this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
+    //     this.likeData = this.$store.getters.getMessage;
+    //   });
+    // },
+    checklike() {
+      this.items = this.$store.state.cards;
+      for (var j = 0; j < this.$store.state.cards.length; j++) {
+        for (var i = 0; i < this.$store.state.likeData.length; i++) {
+          if (this.$store.state.likeData[i]['mindID'] === this.$store.state.cards[j]['mindID']) {
+            this.$set(this.items[j], 'like', true);
+            break;
+          } else {
+            this.$set(this.items[j], 'like', false);
           }
         }
-      })
-      })
+      }
+      // console.log(this.cards);
+    },
+    check(no) {
+      let isLike = false;
+      for (var i = 0; i < this.$store.getters.likeData.length; i++) {
+        if (this.$store.getters.likeData[i]['mindID'] === no) {
+          isLike = true;
+          break;
+        }
+      }
+      return isLike;
     },
     // 좋아요 눌렀을 시 실행
-    likemindmap (no) {
+    likemindmap(no) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disLike', 0);
 
-      this.$store.dispatch("likeMind", form).then(() => {
+      this.$store.dispatch('likeMind', form).then(() => {
         // console.log(this.$store.getters.getMessage)
-      })
+      });
     },
     // 스크랩 눌렀을 시 실행
-    scrapmindmap (no) {
+    scrapmindmap(no) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disScrap', 0);
 
-      this.$store.dispatch("scrapMind", form).then(() => {
+      this.$store.dispatch('scrapMind', form).then(() => {
         // console.log(this.$store.getters.getMessage)
-      })
+      });
     },
     clickParams(no) {
-      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
-    }
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    },
   },
-  created: function () {
-    this.readmindmap()
-  }
+  created() {
+    this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
+      this.cards = this.$store.getters.getMessage;
+    });
+    this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
+      this.likeData = this.$store.getters.getMessage;
+      this.checklike();
+    });
+  },
 };
 </script>
+
 
 <style>
 #list {
