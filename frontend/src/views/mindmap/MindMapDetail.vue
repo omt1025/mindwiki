@@ -1,13 +1,13 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 오민택
-    * 내용 : 상세 마인드맵 페이지 제작
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 상세 마인드맵 페이지 UI 수정
     * 생성일자 : 2021-02-03
-    * 최종수정일자 : 2021-02-04
+    * 최종수정일자 : 2021-02-09
   -->
   <v-app>
       <!-- 상세 마인드맵 상단 네비게이션 -->
-      <v-toolbar id="navi_shadow">
+      <v-toolbar>
       <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-spacer></v-spacer>
@@ -15,11 +15,38 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-container>
-      <h3 id="Title">{{ title }}</h3>
-      <!-- 마인드맵 api 사용 -->
-      <mindmap :nodes="nodes" :connections="connections" :editable="true" />
-      
+    <v-card class="mx-auto" max-width="400" flat outlined>
+      <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
+      <!-- 모바일 고려한 크기 조절 필요 -->
+      <v-img min-height="550" width="375px">
+        <!-- 마인드맵 api 사용 -->
+        <mindmap :nodes="nodes" :connections="connections" :editable="true" />
+        <v-card-title>{{ title }}</v-card-title>
+      </v-img>
+
+      <v-card-text id="explanationSize">
+        <div>{{ explanation }}</div>
+      </v-card-text>
+    </v-card>
+
+    <!-- 댓글 / 좋아요 / 스크랩 하는 곳 -->
+    <v-card-actions id="cardAction">
+      <v-list-item class="grow">
+        <!-- mr : 아이콘과 span의 간격 조정 -->
+        <v-icon class="mr-2">mdi-comment</v-icon>
+        <span>댓글 쓰기</span>
+        <v-row align="center" justify="end">
+          <v-icon color="purple">mdi-heart</v-icon>
+          <!-- 누적된 좋아요 수 -->
+          <span class="subheading mr-2">256</span>
+          <span class="mr-1">·</span>
+          <v-icon class="mr-1">mdi-share-variant</v-icon>
+          <!-- 누적된 스크랩 수 -->
+          <span class="subheading">45</span>
+        </v-row>
+      </v-list-item>
+    </v-card-actions>
+
       <!-- 노드 추가 버튼 구현 -->
       <v-menu
         v-model="menu"
@@ -39,25 +66,29 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </template>
+
         <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
         <v-card>
           <v-card-title>
             <span class="headline">마인드맵 수정</span>
           </v-card-title>
+
           <v-card-text>
               <v-row>
+                <!-- 제목 -->
                 <v-col cols="12">
                   <v-text-field
-                    label="제목"
+                    label="제목 (최대 16자)"
                     required
                     id="title"
                     ref="title"
                     v-model="title"
                     @keypress.enter="checkHandler"
                     type="text"
+                    :maxlength="max_title"
                   ></v-text-field>
                 </v-col>
-
+                <!-- 주제 -->
                 <v-col cols="12">
                   <v-text-field
                     label="주제"
@@ -69,7 +100,7 @@
                     type="text"
                   ></v-text-field>
                 </v-col>
-
+                <!-- 해시태그 -->
                 <div>
                   <p class="interestTagTitle">해시태그 설정</p>
                 </div>
@@ -104,13 +135,15 @@
                     </v-chip>
                   </template>
                 </v-combobox>
-
+                <!-- 설명 -->
                 <v-col cols="12">
                   <v-text-field 
-                  label="설명" 
+                  label="설명 (최대 145자)"
+                  required
                   id="explanation"
                   ref="explanation"
                   v-model="explanation"
+                  :maxlength="max_explanation"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -133,7 +166,6 @@
           </v-card-actions>
         </v-card>
       </v-menu>
-    </v-container>
   </v-app>
 </template>
 
@@ -220,6 +252,9 @@ export default {
       title: "",
       subject: "",
       explanation: "",
+      // 제목, 설명 글자 수 제한
+      max_title: 16,
+      max_explanation: 145,
     };
   },
   methods: {
@@ -308,6 +343,14 @@ export default {
 #app {
   background-color: #f1f5f8;
 }
+/* 설명이 적을 때 위치 고정 */
+#cardAction {
+  background-color: #fff;
+}
+/* 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) */
+#explanationSize {
+  min-height: 140px;
+}
 .interestTagTitle {
   font-family: Poppins-Regular;
   font-size: 14px;
@@ -329,16 +372,15 @@ export default {
 .container {
   max-height: 500px;
 }
-/* 마인드맵 제목 / 수정, 삭제 버튼 위치 */
-#Title {
-  position: fixed;
-}
+/* 마인드맵 수정 / 삭제 버튼 위치 */
 #btnDelete {
   position: fixed;
   right: 10px;
+  top: 65px;
 }
 #btnUpdate {
   position: fixed;
   right: 70px;
+  top: 65px;
 }
 </style>
