@@ -25,12 +25,12 @@
             <v-spacer></v-spacer>
             <div v-if="card.like">
               <v-btn icon color="purple">
-                <v-icon @click="likemindmap(card.mindID, index)">mdi-heart</v-icon>
+                <v-icon @click="likemindmap(card.mindID, index, 1)">mdi-heart</v-icon>
               </v-btn>
             </div>
             <div v-else-if="!card.like">
               <v-btn icon>
-                <v-icon @click="likemindmap(card.mindID, index)">mdi-heart</v-icon>
+                <v-icon @click="likemindmap(card.mindID, index, 0)">mdi-heart</v-icon>
               </v-btn>
             </div>
 
@@ -47,7 +47,6 @@
     </v-row>
   </v-container>
 </template>
-
 
 <script>
 import { mapGetters } from 'vuex';
@@ -94,11 +93,11 @@ export default {
       return isLike;
     },
     // 좋아요 눌렀을 시 실행
-    likemindmap(no, index) {
+    likemindmap(no, index, isLike) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
-      form.append('disLike', 0);
+      form.append('disLike', isLike);
 
       this.$store.dispatch('likeMind', form).then(() => {
         this.items[index].like = !this.items[index].like;
@@ -131,7 +130,6 @@ export default {
   },
 };
 </script>
-
 
 <style>
 #list {
