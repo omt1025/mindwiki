@@ -39,6 +39,7 @@ public class ProfileServiceImpl implements ProfileService {
 		result.setResult("SUCCESS");
 		return result;
 	}
+	/* 살아 있음 */
 	
 
 	@Override
