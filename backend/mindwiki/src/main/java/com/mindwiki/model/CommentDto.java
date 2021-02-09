@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class CommentDto {
 
-	private int commentID;
+	private int CommentID;
 	private int MindID;
 	private String data;
 	private String email;
@@ -24,19 +24,19 @@ public class CommentDto {
 		this.data = data;
 		this.email = email;
 	}
-	public CommentDto(int mindID,int commentID, String data, String email) {
+	public CommentDto(int mindID,int CommentID, String data, String email) {
 		super();
 		MindID = mindID;
-		this.commentID=commentID;
+		this.CommentID=CommentID;
 		this.data = data;
 		this.email = email;
 	}
 
 	public int getCommentID() {
-		return commentID;
+		return CommentID;
 	}
-	public void setCommentID(int commentID) {
-		this.commentID = commentID;
+	public void setCommentID(int CommentID) {
+		this.CommentID = CommentID;
 	}
 	public int getMindID() {
 		return MindID;
@@ -64,7 +64,7 @@ public class CommentDto {
 	}
 	@Override
 	public String toString() {
-		return "CommentDto [commentID=" + commentID + ", MindID=" + MindID + ", data=" + data + ", email=" + email
+		return "CommentDto [CommentID=" + CommentID + ", MindID=" + MindID + ", data=" + data + ", email=" + email
 				+ ", createTime=" + createTime + "]";
 	}
 	

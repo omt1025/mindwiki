@@ -1,6 +1,6 @@
 <template>
-  <v-col :cols="card.flex">
-    <v-card>
+  <v-col cols="12">
+    <v-card height="100%">
       <v-img
         :src="card.thumbnail"
         class="white--text align-end"
@@ -16,23 +16,23 @@
 
         <div v-if="card.like">
           <v-btn icon color="purple">
-            <v-icon @click="likemindmap(card.mindID, key, 1)">mdi-heart</v-icon>
+            <v-icon @click="likemindmap(card.mindID, 1)">mdi-heart</v-icon>
           </v-btn>
         </div>
         <div v-else-if="!card.like">
           <v-btn icon>
-            <v-icon @click="likemindmap(card.mindID, key, 0)">mdi-heart</v-icon>
+            <v-icon @click="likemindmap(card.mindID, 0)">mdi-heart</v-icon>
           </v-btn>
         </div>
 
         <div v-if="card.scrap">
           <v-btn icon color="purple">
-            <v-icon @click="scrapmindmap(card.mindID, index, 1)">mdi-bookmark</v-icon>
+            <v-icon @click="scrapmindmap(card.mindID, 1)">mdi-bookmark</v-icon>
           </v-btn>
         </div>
         <div v-else-if="!card.scrap">
           <v-btn icon>
-            <v-icon @click="scrapmindmap(card.mindID, index, 0)">mdi-bookmark</v-icon>
+            <v-icon @click="scrapmindmap(card.mindID, 0)">mdi-bookmark</v-icon>
           </v-btn>
         </div>
 
@@ -81,25 +81,25 @@ export default {
       }
     },
     // 좋아요 눌렀을 시 실행
-    likemindmap(no, index, isLike) {
+    likemindmap(no, isLike) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disLike', isLike);
 
       this.$store.dispatch('likeMind', form).then(() => {
-        this.items[index].like = !this.items[index].like;
+        this.items.like = !this.items.like;
       });
     },
     // 스크랩 눌렀을 시 실행
-    scrapmindmap(no, index, isScrap) {
+    scrapmindmap(no, isScrap) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disScrap', isScrap);
 
       this.$store.dispatch('scrapMind', form).then(() => {
-        this.items[index].scrap = !this.items[index].scrap;
+        this.items.scrap = !this.items.scrap;
       });
     },
     // 라우터에 마인드 아이디를 보냄
