@@ -134,6 +134,7 @@ export default {
   /* Specific to this particular image */
   .login_back {
     background-image: url(../assets/images/user/bg-01.jpg);
+    background-size: cover;
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 360px;
@@ -151,6 +152,7 @@ export default {
 
 .login_back {
   background-image: url(../assets/images/user/bg-01.jpg);
+  background-size: cover;
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 360px;
@@ -168,24 +170,6 @@ export default {
 }
 
 /* StartPage_css[HYH] */
-
-.login_back {
-  background-image: url(../assets/images/user/bg-01.jpg);
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 360px;
-
-  /* Set up proportionate scaling */
-  width: 100%;
-  max-height: 640px;
-
-  /* Set up positioning */
-  /* position: fixed; */
-  top: 0;
-  left: 0;
-
-  /* https://knulab.com/archives/1185 */
-}
 
 #logo {
   margin-bottom: 20px;
