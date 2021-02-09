@@ -7,7 +7,7 @@
   -->
   <v-container fluid>
     <v-row dense id="list">
-      <v-col v-for="card in items" :key="card.title" :cols="card.flex">
+      <v-col v-for="(card, index) in items" :key="card.title" :cols="card.flex">
         <v-card>
           <v-img
             :src="card.thumbnail"
@@ -25,12 +25,12 @@
             <v-spacer></v-spacer>
             <div v-if="card.like">
               <v-btn icon color="purple">
-                <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
+                <v-icon @click="likemindmap(card.mindID, index)">mdi-heart</v-icon>
               </v-btn>
             </div>
             <div v-else-if="!card.like">
               <v-btn icon>
-                <v-icon @click="likemindmap(card.mindID)">mdi-heart</v-icon>
+                <v-icon @click="likemindmap(card.mindID, index)">mdi-heart</v-icon>
               </v-btn>
             </div>
 
@@ -93,14 +93,15 @@ export default {
       return isLike;
     },
     // 좋아요 눌렀을 시 실행
-    likemindmap(no) {
+    likemindmap(no, index) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disLike', 0);
 
       this.$store.dispatch('likeMind', form).then(() => {
-        // console.log(this.$store.getters.getMessage)
+        this.items[index].like = !this.items[index].like;
+        // this.$store.dispatch('setCards', 'items');
       });
     },
     // 스크랩 눌렀을 시 실행
