@@ -14,8 +14,8 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-const SERVER_URL = 'http://localhost:8000/mindwiki';
-// const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
+// const SERVER_URL = 'http://localhost:8000/mindwiki';
+const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
 
 export default new Vuex.Store({
   // 여러 컴포넌트에 공유되는 데이터
@@ -28,9 +28,9 @@ export default new Vuex.Store({
     mainTab: '0', // 상단 탭 현재 위치
     mindList: [], // 프로필 내 마인드리스트목록
     followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
-    cards: null,  // 메인 페이지의 마인드맵 리스트
+    cards: null, // 메인 페이지의 마인드맵 리스트
     likeData: null, // 좋아요 누른 마인드맵
-    scrapData: null,  // 스크랩한 마인드맵
+    scrapData: null, // 스크랩한 마인드맵
   },
 
   // 연산된 state값을 접근
