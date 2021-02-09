@@ -51,7 +51,7 @@ export default {
     // 좋아요 한 마인드맵 출력
     readlikemindmap () {
       this.$store.dispatch("readLikeMindMap", this.$store.getters.getJWT).then(() => {
-        this.cards = this.$store.getters.getMessage
+        this.cards = this.$store.getters.likeData
         console.log(this.cards)
       })
     },
