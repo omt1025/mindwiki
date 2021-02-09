@@ -1,6 +1,6 @@
 <template>
-  <v-col :cols="card.flex">
-    <v-card>
+  <v-col cols="12">
+    <v-card height="100%">
       <v-img
         :src="card.thumbnail"
         class="white--text align-end"

@@ -31,6 +31,7 @@ export default new Vuex.Store({
     cards: null,  // 메인 페이지의 마인드맵 리스트
     likeData: null, // 좋아요 누른 마인드맵
     scrapData: null,  // 스크랩한 마인드맵
+    commentData: null, // 댓글 리스트
   },
 
   // 연산된 state값을 접근
@@ -76,6 +77,9 @@ export default new Vuex.Store({
     },
     scrapData(state) {
       return state.scrapData;
+    },
+    commentData(state) {
+      return state.commentData;
     },
   },
 
@@ -148,6 +152,9 @@ export default new Vuex.Store({
     },
     setScrapData(state, val) {
       state.scrapData = val;
+    },
+    setCommentData(state, val) {
+      state.commentData = val;
     },
   },
 
@@ -310,39 +317,44 @@ export default new Vuex.Store({
       });
     },
     // 마인드맵 댓글 생성[OMT]
-    makeComment(context, user) {
+    createComment(context, user) {
+      console.log(user.get('no'))
       const form = new FormData();
       form.append('jwt', user.get('jwt'));
       form.append('data', user.get('data'));
       return axios
-        .post(`${SERVER_URL}/mind/${user.get('no')}/comment/make`, form)
+        .post(`/mindwiki/mind/comment/make/${user.get('no')}`, form)
         .then((response) => {
           context.commit('setMessage', response.data);
         });
     },
-    // 마인드맵 불러오기[OMT]
+    // 마인드맵 댓글 불러오기[OMT]
     readComment(context, no) {
-      return axios.get(`${SERVER_URL}/mind/${no}/comment/read`).then((response) => {
-        context.commit('setMessage', response.data);
+      return axios.get(`${SERVER_URL}/mind/comment/read/${no}`,{
+        params: { no: no }
+      }).then((response) => {
+        context.commit('setCommentData', response.data);
       });
     },
-    // 마인드맵 수정[OMT]
-    updateComment(context, user) {
-      const form = new FormData();
-      form.append('jwt', user.get('jwt'));
-      form.append('data', user.get('data'));
-      return axios
-        .put(`${SERVER_URL}/mind/${user.get('no')}/comment/update`, form)
-        .then((response) => {
-          context.commit('setMessage', response.data);
-        });
-    },
-    // 마인드맵 삭제[OMT]
+    // 마인드맵 댓글 수정[OMT]
+    // updateComment(context, user) {
+    //   const form = new FormData();
+    //   form.append('jwt', user.get('jwt'));
+    //   form.append('data', user.get('data'));
+    //   return axios
+    //     .put(`${SERVER_URL}/mind/comment/update/${user.get('no')}`, form)
+    //     .then((response) => {
+    //       context.commit('setMessage', response.data);
+    //     });
+    // },
+    // 마인드맵 댓글 삭제[OMT]
     deleteComment(context, user) {
-      const jwt = user.get('jwt');
       return axios
-        .delete(`${SERVER_URL}/mind/${user.get('no')}/comment/delete`, {
-          params: { jwt: jwt },
+        .delete(`/mindwiki/mind/comment/delete/${user.get('no')}`, {
+          params: { 
+            jwt: user.get('jwt'),
+            commentID: user.get('commentID')
+          }
         })
         .then((response) => {
           context.commit('setMessage', response.data);

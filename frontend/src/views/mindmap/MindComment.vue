@@ -36,14 +36,15 @@
           ></v-divider>
           <v-list-item
             v-else
-            :key="item.title"
+            :key="item.data"
           >
             <v-list-item-avatar>
               <img :src="item.avatar" alt="">
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-html="item.title"></v-list-item-title>
-              <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+              <v-list-item-title v-html="item.data"></v-list-item-title>
+              <v-list-item-subtitle v-html="item.email"></v-list-item-subtitle>
+              <v-btn @click="deletecomment(item.commentID)">delete 임시</v-btn>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -63,42 +64,92 @@
         label="댓글 입력"
         rows="1"
         color="purple"
+        id="write"
+        ref="write"
+        v-model="write"
       ></v-textarea>
+      <v-btn @click="createcomment">임시</v-btn>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'MindComment',
-  data: () => ({
+  computed: {
+    ...mapGetters(['commentData']),
+  },
+  data() {
+    const no = Number(this.$route.params.no);
     // 댓글 임시 데이터
-    items: [
-      { header: '댓글' },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-      { divider: true, inset: true },
-      { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'hossi', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-      { divider: true, inset: true },
-    ],
-  }),
+    return {
+      no: no,
+      write: '',
+      items: [
+        // { header: '댓글' },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?1', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui1', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?2', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ2 <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui2', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ1 <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
+        // { divider: true, inset: true },
+        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'hossi', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
+        // { divider: true, inset: true },
+      ],
+    }
+  },
+  methods: {
+    createcomment() {
+      const form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT)
+      form.append('no', this.no);
+      form.append('data', this.write);
+
+      this.$store.dispatch('createComment', form).then(() => {
+        this.items = this.$store.getters.commentData
+      })
+    },
+    readcomment() {
+      this.$store.dispatch('readComment', this.no).then(() => {
+        this.items = this.$store.getters.commentData
+        console.log(this.items)
+      })
+    },
+    // updatecomment(no) {
+    //   this.$store.dispatch('updateComment', no).then(() => {
+    //     this.items = this.$store.getters.commentData
+    //     console.log(this.items)
+    //   })
+    // },
+    deletecomment(commentID) {
+      const form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', this.no)
+      form.append('commentID', commentID);
+      this.$store.dispatch('deleteComment', form).then(() => {
+        this.items = this.$store.getters.commentData
+        console.log(this.items)
+      })
+    },
+  },
+  created: function () {
+    this.readcomment()
+  }
 }
 </script>
 
