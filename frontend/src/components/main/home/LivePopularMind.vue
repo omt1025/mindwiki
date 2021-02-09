@@ -48,6 +48,7 @@
   </v-container>
 </template>
 
+
 <script>
 import { mapGetters } from 'vuex';
 
@@ -121,15 +122,16 @@ export default {
   },
   created() {
     this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
-      // this.cards = this.$store.getters.getMessage;
+      this.cards = this.$store.getters.getMessage;
     });
     this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
-      // this.likeData = this.$store.getters.getMessage;
+      this.likeData = this.$store.getters.getMessage;
       this.checklike();
     });
   },
 };
 </script>
+
 
 <style>
 #list {
