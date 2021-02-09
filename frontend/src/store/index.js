@@ -15,6 +15,7 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const SERVER_URL = 'http://localhost:8000/mindwiki';
+// const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
 
 export default new Vuex.Store({
   // 여러 컴포넌트에 공유되는 데이터
@@ -27,6 +28,8 @@ export default new Vuex.Store({
     mainTab: '0', // 상단 탭 현재 위치
     mindList: [], // 프로필 내 마인드리스트목록
     followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
+    cards: null,
+    likeData: null,
   },
 
   // 연산된 state값을 접근
@@ -63,6 +66,12 @@ export default new Vuex.Store({
     // 선택되어있는 상단 탭(팔로우 / 팔로워 리턴)
     followTab(state) {
       return state.followTab;
+    },
+    cards(state) {
+      return state.cards;
+    },
+    likeData(state) {
+      return state.likeData;
     },
   },
 
@@ -126,6 +135,12 @@ export default new Vuex.Store({
     // 상단 탭(팔로워/팔로잉)변경
     setFollowTab(state, tab) {
       state.followTab = tab;
+    },
+    setCards(state, val) {
+      state.cards = val;
+    },
+    setLikeData(state, val) {
+      state.likeData = val;
     },
   },
 
@@ -210,7 +225,7 @@ export default new Vuex.Store({
           params: { jwt: jwt },
         })
         .then((response) => {
-          context.commit('setMessage', response.data);
+          context.commit('setCards', response.data);
         });
     },
     // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
@@ -220,7 +235,7 @@ export default new Vuex.Store({
           params: { jwt: jwt },
         })
         .then((response) => {
-          context.commit('setMessage', response.data);
+          context.commit('setLikeData', response.data);
         });
     },
     // 스크랩 누른 마인드맵 리스트 불러오기[OMT]
