@@ -6,19 +6,15 @@
     * 최종수정일자 : 2021-02-08
  -->
   <div class="login_back">
-    <div id="bg">
-      <!-- 그라데이션 배경 -->
-      <img src="../assets/images/user/bg-01.jpg" alt="" />
-
-      <v-app>
-        <v-row justify="center" align="center" style="min-height: 160px;">
-          <v-col class="shrink">
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-50 p-b-35">
+          <div class="login100-form validate-form">
             <!-- 마인드위키 로고 -->
             <v-img
-              id="logo"
               src="../assets/images/mindwiki_logo-01.png"
               @click="expand = !expand"
-              class="ma-8"
+              class="ma-8 m-b-40"
             ></v-img>
 
             <div id="bt">
@@ -29,7 +25,7 @@
                   to="/signup"
                   height="50px"
                   width="300px"
-                  class="fb-btn font-weight-bold mx-auto ma-4"
+                  class="fb-btn font-weight-bold mx-auto ma-4 m-b-20"
                   :ripple="false"
                   id="no-background-hover"
                   color="#ffffffbb"
@@ -46,7 +42,7 @@
                   @click="goLogin"
                   height="50px"
                   width="300px"
-                  class="font-weight-bold mx-auto ma-4"
+                  class="font-weight-bold mx-auto ma-4 m-b-20"
                   :ripple="false"
                   id="no-background-hover"
                   color="#ffffffbb"
@@ -74,9 +70,9 @@
                 </v-btn>
               </transition>
             </div>
-          </v-col>
-        </v-row>
-      </v-app>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -134,9 +130,8 @@ export default {
 </script>
 
 <style scoped>
-/* StartPage_css[HYH] */
-
 @media screen and (min-width: 320px) and (max-width: 480px) {
+  /* Specific to this particular image */
   .login_back {
     background-image: url(../assets/images/user/bg-01.jpg);
     /* Set rules to fill background */
@@ -145,24 +140,6 @@ export default {
 
     /* Set up proportionate scaling */
     width: 100%;
-    max-height: 640px;
-
-    /* Set up positioning */
-    /* position: fixed; */
-    top: 0;
-    left: 0;
-
-    /* https://knulab.com/archives/1185 */
-  }
-
-  #bg img {
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 360px;
-    max-height: 100%;
-
-    /* Set up proportionate scaling */
-    width: 100%;
     height: auto;
 
     /* Set up positioning */
@@ -170,57 +147,90 @@ export default {
     top: 0;
     left: 0;
   }
-  #logo {
-    top: 140px;
-  }
-  #bt {
-    /* Set up proportionate scaling */
-    width: 100%;
-    height: auto;
+}
 
-    /* Set up positioning */
-    position: fixed;
-    bottom: 50px;
-  }
+.login_back {
+  background-image: url(../assets/images/user/bg-01.jpg);
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 360px;
 
-  /* 슬라이드 버튼[HYH] */
-  .slide-fade-enter-active {
-    transition: all 1s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* https://knulab.com/archives/1185 */
+}
+
+/* StartPage_css[HYH] */
+
+.login_back {
+  background-image: url(../assets/images/user/bg-01.jpg);
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 360px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  max-height: 640px;
+
+  /* Set up positioning */
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+
+  /* https://knulab.com/archives/1185 */
+}
+
+#logo {
+  margin-bottom: 20px;
+}
+.wrap-login100 {
+  background: none;
+}
+
+/* 슬라이드 버튼[HYH] */
+.slide-fade-enter-active {
+  transition: all 1s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  .slide-fade2-enter-active {
-    transition: all 3s ease;
-  }
-  .slide-fade2-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade2-enter, .slide-fade2-leave-to
+  transform: translateY(30px);
+  opacity: 0;
+}
+.slide-fade2-enter-active {
+  transition: all 3s ease;
+}
+.slide-fade2-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade2-enter, .slide-fade2-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  .slide-fade3-enter-active {
-    transition: all 5s ease;
-  }
-  .slide-fade3-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade3-enter, .slide-fade3-leave-to
+  transform: translateY(30px);
+  opacity: 0;
+}
+.slide-fade3-enter-active {
+  transition: all 5s ease;
+}
+.slide-fade3-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade3-enter, .slide-fade3-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  /* 버튼 글씨 회색[YJS] */
-  .theme--light .v-btn {
-    color: rgba(61, 61, 61, 0.87) !important;
-  }
+  transform: translateY(30px);
+  opacity: 0;
+}
+/* 버튼 글씨 회색[YJS] */
+.theme--light .v-btn {
+  color: rgba(61, 61, 61, 0.87) !important;
 }
 </style>
 

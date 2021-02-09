@@ -14,8 +14,8 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-const SERVER_URL = 'http://localhost:8000/mindwiki';
-// const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
+// const SERVER_URL = 'http://localhost:8000/mindwiki';
+const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
 
 export default new Vuex.Store({
   // 여러 컴포넌트에 공유되는 데이터
