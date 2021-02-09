@@ -51,7 +51,7 @@ public class CommentController {
 	
 	
 	@ApiOperation(value = "댓글 작성", notes = "댓글 정보를 입력한다. 그리고 DB입력 성공여부에 따라  map의 message에 'comment가 등록되었습니다.' 또는 'comment 등록실패(회원가입정보가 없습니다.)", response = Map.class)
-	@PostMapping("/mind/{no}/comment/make")
+	@PostMapping("/mind/comment/make/{no}")
 	public ResponseEntity<Map<String, Object>> make(HttpSession hs,
 			@RequestParam(value="jwt", required=false)  String jwt,
 			@RequestParam(value="data", required=false) String data,
@@ -104,7 +104,7 @@ public class CommentController {
 	
 	//Comment read 해당되는 MindIDto에 있는 모든 것을 불러온다.
 		@ApiOperation(value = "해당마인드 댓글 전부 불러오기", notes = "댓글 정보를 읽어온다. List로 받아온다.", response = List.class)
-		@GetMapping("/mind/{no}/comment/read")public ResponseEntity<List<CommentDto>> read(@PathVariable int no) throws SQLException{
+		@GetMapping("/mind/comment/read/{no}")public ResponseEntity<List<CommentDto>> read(@PathVariable int no) throws SQLException{
 			
 	
 			int MindID=no;
@@ -120,7 +120,7 @@ public class CommentController {
 		
 		//mind update
 		@ApiOperation(value = "댓글 한개를 수정한다.", notes = "댓글 하나를 수정한다. 수정결과에 따라 map에 message 성공시 : 댓글이 수정되었습니다. 실패시:댓글 수정실패(로그인해주세요.) Map으로 반환된다. ", response = Map.class)
-		@PutMapping("/mind/{no}/comment/update")public ResponseEntity<Map<String, Object>> update(
+		@PutMapping("/mind/comment/update/{no}")public ResponseEntity<Map<String, Object>> update(
 				@RequestParam(value="jwt", required=false) String jwt,
 				@PathVariable int no,
 				@RequestParam(value="commentID", required=false) int commentID,
@@ -167,7 +167,7 @@ public class CommentController {
 		
 		//mind delete
 		@ApiOperation(value = "댓글 한개를 삭제한다.", notes = "댓글 하나를 삭제한다. 수정결과에 따라 map에 message 성공시 : 정상삭제완료. 실패시: 서버오류삭제실패 ", response = Map.class)
-		@DeleteMapping("/mind/{no}/comment/delete")public ResponseEntity<Map<String, Object>> delete(HttpSession hs,
+		@DeleteMapping("/mind/comment/delete/{no}")public ResponseEntity<Map<String, Object>> delete(HttpSession hs,
 				@PathVariable int no,
 				@RequestParam(value="jwt", required=false) String jwt,
 				@RequestParam(value="commentID", required=false) int commentID,

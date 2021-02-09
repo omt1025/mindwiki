@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.*;
 public class InterCeptorConfig implements WebMvcConfigurer {
 	private static final String[] EXCLUDE_PATHS = { "/" , "/mindwiki/GoogleOAuth",
 			"/mindwiki/login","/mindwiki/oauth","/mindwiki/profile/register","/mindwiki/image","/mindwiki/image/**",
-			"/mindwiki/mind/{no}/comment/read"
+			"/mindwiki/mind/comment/read/{no}"
 			
 			};
 	
