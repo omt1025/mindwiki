@@ -307,7 +307,7 @@ export default {
     signup() {
       // chips를 #로 구분하여 전달하기 위해
       var hashtag = '';
-      for (var chip in this.chips) hashtag += '#' + chip;
+      for (var i = 0; i < this.chips.length; i++) hashtag += '#' + this.chips[i];
       // console.log(hashtag);
 
       let form = new FormData();
