@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 검색기능 구현
+    * 생성일자 : 2021-01-27
+    * 최종수정일자 : 2021-02-10
+  -->
   <v-app>
     <!-- 검색 도구 -->
     <v-text-field
@@ -94,6 +100,14 @@ export default {
 </script>
 
 <style scoped>
+/* 검색 css */
+.search {
+  height: 40px;
+}
+/* 검색 돋보기 위치 */
+.mdi:before, .mdi-set {
+  position: fixed;
+}
 .v-list-item__title {
   text-align: left;
 }

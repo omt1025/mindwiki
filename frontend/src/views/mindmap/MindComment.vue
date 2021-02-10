@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 상세 마인드맵 노드 댓글 UI
+    * 내용 : 상세 마인드맵 노드 댓글 UI 수정
     * 생성일자 : 2021-02-09
-    * 최종수정일자 : 2021-02-09
+    * 최종수정일자 : 2021-02-10
   -->
   <v-app>
     <div>
@@ -15,13 +15,35 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
+    <!-- 댓글 검색 -->
+    <v-toolbar flat>
+      <v-toolbar-title>댓글 {{this.items.length}}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-text-field
+        type="searche"
+        class="searche"
+        placeholder="댓글내용 검색"
+        outlined
+        v-model="searche"
+        @keypress.enter="onInputKeyword"
+      >
+        <template v-slot:append>
+          <v-icon id="searchIcon" @click="onInputKeyword">mdi-magnify</v-icon>
+        </template>
+      </v-text-field>
+    </v-toolbar>
+
+    <v-divider id="divider"></v-divider>
+
     <!-- 댓글 목록 -->
     <v-card
       flat
       height="100%"
     >
       <v-list>
-        <template v-for="(item, index) in items">
+        <template v-for="(item, index) in searchHandler">
           <v-subheader
             class="d-flex justify-center"
             v-if="item.header"
@@ -34,18 +56,32 @@
             :key="index"
             :inset="item.inset"
           ></v-divider>
+
           <v-list-item
             v-else
             :key="item.data"
           >
+            <!-- 댓글 이미지 첨부 -->
             <v-list-item-avatar>
-              <img :src="item.avatar" alt="">
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-html="item.data"></v-list-item-title>
-              <v-list-item-subtitle v-html="item.email"></v-list-item-subtitle>
-              <v-btn @click="deletecomment(item.commentID)">delete 임시</v-btn>
-            </v-list-item-content>
+              <v-img
+                :src="creatorImage"
+                @error="imageError = true"
+                alt="">
+              </v-img>
+            </v-list-item-avatar >
+            <!-- 프로필 사진 옆 댓글 작성자의 이메일 출력 -->
+            <v-list-item-subtitle id="commentEmail" v-html="item.email.split('@')[0]"></v-list-item-subtitle>
+
+            <v-list-item-title id="commentTitle" v-html="item.data"></v-list-item-title>
+            <!-- 로그인 된 email과 댓글 작성 email 같을 때만 삭제 가능 -->
+            <div
+              v-bind:userId="userId"
+              v-if="userId === item.email">
+              <v-icon
+                id="deleteBtn"
+                @click="deletecomment(item.commentID)"
+              >mdi-trash-can</v-icon>
+            </div>
           </v-list-item>
         </template>
       </v-list>
@@ -60,6 +96,7 @@
       <!-- textarea : 엔터 누르면 줄바꿈 가능 / no-resize : 줄바꿔도 textarea 늘어나지 않음-->
       <v-textarea
         append-outer-icon="mdi-comment"
+        @click:append-outer="createcomment"
         no-resize
         label="댓글 입력"
         rows="1"
@@ -67,8 +104,9 @@
         id="write"
         ref="write"
         v-model="write"
-      ></v-textarea>
-      <v-btn @click="createcomment">임시</v-btn>
+      >
+      </v-textarea>
+
     </v-footer>
   </v-app>
 </template>
@@ -79,38 +117,28 @@ export default {
   name: 'MindComment',
   computed: {
     ...mapGetters(['commentData']),
+    // 사용자가 이미지 설정하지 않은 경우 default 이미지 첨부
+    creatorImage() {
+      return this.imageError ? this.defaultImage : "creator-image.jpg"
+    },
+    searchHandler() {
+      return this.items.filter(elem => {
+        return elem.data.toLowerCase().includes(this.searche.toLowerCase());
+      });
+    }
   },
   data() {
     const no = Number(this.$route.params.no);
-    // 댓글 임시 데이터
     return {
       no: no,
       write: '',
-      items: [
-        // { header: '댓글' },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?1', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui1', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Brunch this weekend?2', subtitle: `<span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ2 <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Oui oui2', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Summer BBQ1 <span class="grey--text text--lighten-1">4</span>', subtitle: `<span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.` },
-        // { divider: true, inset: true },
-        // { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'hossi', subtitle: '<span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?' },
-        // { divider: true, inset: true },
-      ],
+      searche: '',
+      userId: localStorage.getItem('user-id'),
+      nickName:localStorage.getItem('user-nickname'),
+      // default 이미지 받아오는 경로
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
+      imageError: false,
+      items: [],
     }
   },
   methods: {
@@ -127,13 +155,12 @@ export default {
     readcomment() {
       this.$store.dispatch('readComment', this.no).then(() => {
         this.items = this.$store.getters.commentData
-        console.log(this.items)
       })
     },
     // updatecomment(no) {
     //   this.$store.dispatch('updateComment', no).then(() => {
     //     this.items = this.$store.getters.commentData
-    //     console.log(this.items)
+        // console.log(this.items)
     //   })
     // },
     deletecomment(commentID) {
@@ -143,9 +170,11 @@ export default {
       form.append('commentID', commentID);
       this.$store.dispatch('deleteComment', form).then(() => {
         this.items = this.$store.getters.commentData
-        console.log(this.items)
       })
     },
+    onInputKeyword: function(event) {
+      this.$emit('input-change', event.target.value)
+    }
   },
   created: function () {
     this.readcomment()
@@ -169,5 +198,46 @@ export default {
   width: 100%;
   background: #fff;
   z-index: 999;
+  height: 70px;
+}
+/* 이메일 css */
+#commentEmail {
+  max-width: 80px;
+  text-align: left;
+  font-size: 0.75em;
+}
+/* 댓글 자동 줄바꿈 */
+#commentTitle {
+  white-space: normal;
+  line-height: 1.5rem;
+  font-size: 0.85em;
+  max-width: 220px;
+  text-align: left;
+}
+/* 돋보기 위치 조정 */
+#searchIcon {
+  position: fixed;
+  bottom: 23%;
+  right: 6%;
+}
+/* 구분선 */
+#divider {
+  margin: 0;
+}
+/* 검색바 위치 */
+.searche {
+  position: fixed;
+  right: 5%;
+  top: 25%;
+  height: 10px;
+}
+/* 검색영역 조정 */
+.v-text-field--filled > .v-input__control > .v-input__slot, .v-text-field--full-width > .v-input__control > .v-input__slot, .v-text-field--outlined > .v-input__control > .v-input__slot {
+    align-items: stretch;
+    min-height: 33px;
+}
+/* 돋보기 위치 조정 */
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
+    max-height: 12px;
 }
 </style>
