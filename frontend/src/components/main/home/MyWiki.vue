@@ -5,7 +5,6 @@
     * 생성일자 : 2021-01-18
     * 최종수정일자 : 2021-02-09
   -->
-  <v-container fluid>
     <v-row dense id="list">
       <!-- CardForm 컴포넌트로 데이터를 보냄 -->
       <CardForm 
@@ -14,7 +13,6 @@
         :card="card"
       />
     </v-row>
-  </v-container>
 </template>
 
 <script>

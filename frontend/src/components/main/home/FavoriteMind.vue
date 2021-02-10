@@ -1,5 +1,11 @@
 <template>
-  <v-container fluid>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 리스트 보여지는 영역 수정
+    * 생성일자 : 2021-01-18
+    * 최종수정일자 : 2021-02-10
+  -->
+  <v-app>
     <v-combobox
       append-icon
       flat
@@ -58,7 +64,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </v-app>
 </template>
 
 <script>
