@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mindwiki.dao.LiketagDao">
+
+	
+	<select id="list" resultType="String">
+		select hashtag from profile where email=#{email}
+	</select>
+	
+	
+	<update id="update">
+		update profile set hashtag=#{hashtag} where email=#{email}
+	</update>
+	
+	<select id="likeTagAndMind" resultType="com.mindwiki.model.MindDto">
+		select * from mind where MindID in (select MindID from hashtagList where hashtag LIKE CONCAT('%',#{hashtag},'%') ); 
+	</select>
+	
+	 
+</mapper>
