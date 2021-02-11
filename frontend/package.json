@@ -2,10 +2,12 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "main": "./lib/tag-textarea.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name tag-textarea --dest lib packages/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -20,13 +22,16 @@
     "lodash": "^4.17.20",
     "material-icons": "^0.5.2",
     "password-validator": "5.1.1",
+    "svg.js": "^2.7.1",
     "v-slim-dialog": "0.0.10",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
     "vue-glide-js": "^1.3.14",
     "vue-lodash": "2.1.2",
+    "vue-mind-mapping": "1.2.6",
     "vue-mindmap": "0.0.4",
     "vue-naver-login": "^1.0.4",
+    "vue-pinch-zoom": "1.0.1",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.2",
     "vuex": "3.6.0",
@@ -59,6 +64,11 @@
       "parser": "babel-eslint"
     },
     "rules": {}
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "browserslist": [
     "> 1%",

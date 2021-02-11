@@ -31,12 +31,18 @@ import 'vue-mindmap/dist/vue-mindmap.css';
 import Wolfi from '@xarples/wolfi-vue';
 
 // lodash
-import VueLodash from 'vue-lodash'
-import lodash from 'lodash'
+import VueLodash from 'vue-lodash';
+import lodash from 'lodash';
+
+// mindmap[YJS]
+import MindMapping from './packages/index';
+import svgJs from './views/mindmap/svg/index';
+import PinchZoom from 'vue-pinch-zoom';
 
 library.add(faUserSecret);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('pinch-zoom', PinchZoom);
 
 Vue.config.productionTip = false;
 
@@ -44,7 +50,9 @@ Vue.use(Vuex);
 Vue.use(VueGlide);
 Vue.use(Mindmap);
 Vue.use(Wolfi);
-Vue.use(VueLodash, { name: 'custom' , lodash: lodash });
+Vue.use(svgJs);
+Vue.use(MindMapping);
+Vue.use(VueLodash, { name: 'custom', lodash: lodash });
 
 Vue.config.productionTip = false;
 

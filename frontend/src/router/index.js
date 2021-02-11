@@ -19,10 +19,21 @@ import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
 import MyMindList from '../views/mindmap/MyMindList.vue';
-import MindComment from '../views/mindmap/MindComment.vue'
+import MindComment from '../views/mindmap/MindComment.vue';
+
+import Test from '../views/mindmap/Test.vue';
+import vuemindmapping from 'vue-mind-mapping';
+
+Vue.use(vuemindmapping);
+
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+  },
   {
     path: '/',
     name: 'Home',
