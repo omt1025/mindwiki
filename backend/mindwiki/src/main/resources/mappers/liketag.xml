@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- 
+작성자 : 신충현
+기능 : 관심태그
+수정 : 02. 12 
+-->
 <mapper namespace="com.mindwiki.dao.LiketagDao">
 
 	
