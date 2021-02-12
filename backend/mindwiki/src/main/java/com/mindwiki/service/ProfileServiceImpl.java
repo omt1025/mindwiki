@@ -1,11 +1,13 @@
 package com.mindwiki.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mindwiki.dao.MindDao;
 import com.mindwiki.dao.ProfileDao;
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ProfileResultDto;
@@ -142,5 +144,11 @@ public class ProfileServiceImpl implements ProfileService {
 		// 존재하지 않는경우
 		result.setResult("NOT EXIST");
 		return result;
+	}
+
+
+	@Override
+	public List<ProfileDto> memberList() throws SQLException {
+		return session.getMapper(ProfileDao.class).memberList();
 	}
 }

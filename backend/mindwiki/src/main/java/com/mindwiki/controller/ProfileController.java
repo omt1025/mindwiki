@@ -3,6 +3,7 @@ package com.mindwiki.controller;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -11,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ProfileResultDto;
 import com.mindwiki.service.JwtService;
@@ -295,6 +298,34 @@ public class ProfileController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 
+	}
+	
+	// TODO
+	@PostMapping("/memberList")
+	public ResponseEntity<List<ProfileDto>> memberList(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+		System.out.println("ProfileController] /profile/memberList");
+		
+		HttpStatus status=null;
+		
+		
+//		Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
+//		String email=(String)clamMap.get("email");
+		
+		
+		try {
+			
+			profileService.memberList();
+			
+			status = HttpStatus.OK;
+			
+			
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+	
+		
+		return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), HttpStatus.OK);
 	}
 
 

@@ -47,6 +47,8 @@
 		WHERE email=#{email}
 	</select>
 	
-	
+	<select id="memberList" resultType="com.mindwiki.model.ProfileDto">
+		SELECT email, nickName FROM profile
+	</select>
 		
 </mapper>
