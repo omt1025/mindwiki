@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 
+작성자 : 신충현
+기능 : follower
+수정 : 02. 12 
+-->
+
+<mapper namespace="com.mindwiki.dao.FollowerDao">
+
+	<insert id="save">
+	insert into followerList (myEmail,followerEmail,name) values (#{myEmail},#{followerEmail},#{name})
+	</insert>
+	
+	
+	<select id="searchNameByEmail" resultType="String">
+		select nickName from profile where email=#{followerEmail};
+	</select>
+	
+	<select id="list" resultType="com.mindwiki.model.FollowerDto">
+	select * from followerList where myEmail=#{myEmail};
+	</select>
+	
+	<delete id="deleteByFollower">
+	delete from followerList where myEmail=#{myEmail} and followerEmail=#{followerEmail}
+	</delete>
+	
+</mapper>

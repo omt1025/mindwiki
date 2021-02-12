@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+작성자 : 신충현
+기능 : 실시간랭킹
+수정 : 02. 12 
+-->
+
+<mapper namespace="com.mindwiki.dao.LiveRankingDao">
+
+	
+	<select id="liveRankingList" resultType="com.mindwiki.model.MindDto">
+		select * from mind order by initCreateTime DESC, viewCnt DESC limit 100;
+	</select>
+	
+
+	
+	 
+</mapper>
