@@ -78,7 +78,6 @@ export default {
     searchHandler() {
       return this.data.filter(elem => {
         return elem.name.toLowerCase().includes(this.search.toLowerCase());
-        // return elem.name
       });
     }
   },
@@ -90,6 +89,7 @@ export default {
   },
   created() {
     this.data = persons;
+    console.log(this.$store.getters.nickName)
   },
   methods: {
     onInputKeyword: function(event) {
