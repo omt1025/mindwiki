@@ -64,7 +64,7 @@
                   id="no-background-hover"
                   color="#ffffffbb"
                   rounded
-                  @click="goTest"
+                  @click="goMain"
                 >
                   비회원으로 접속하기
                 </v-btn>
