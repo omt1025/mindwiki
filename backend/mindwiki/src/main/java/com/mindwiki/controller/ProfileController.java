@@ -3,6 +3,7 @@ package com.mindwiki.controller;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -297,6 +298,35 @@ public class ProfileController {
 
 	}
 
+	// TODO
+		@PostMapping("/memberList")
+		public ResponseEntity<List<ProfileDto>> memberList(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+			System.out.println("ProfileController] /profile/memberList");
+			
+			HttpStatus status=null;
+			
+			
+//			Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
+//			String email=(String)clamMap.get("email");
+			
+			
+			try {
+				
+				profileService.memberList();
+				
+				status = HttpStatus.OK;
+				
+				
+			} catch (SQLException e) {
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			}
+		
+			
+			return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), HttpStatus.OK);
+		}
 
+
+	
 }
 

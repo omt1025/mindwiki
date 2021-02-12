@@ -1,6 +1,7 @@
 package com.mindwiki.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ public interface ProfileDao {
 	public int updatePassword(ProfileDto dto) throws SQLException;
 	public int updateProfile(ProfileDto dto) throws SQLException;
 	
-
+	public List<ProfileDto> memberList() throws SQLException;
 	
 //	public String getPassword(ProfileDto dto) throws SQLException;
 	
