@@ -12,6 +12,8 @@ public class NodeDto {
 	private float fx;
 	private float fy;
 	private int[] ConnectionList;
+	private float cx;
+	private float cy;
 	
 	public int getNodeID() {
 		return NodeID;
