@@ -20,6 +20,7 @@
     "lodash": "^4.17.20",
     "material-icons": "^0.5.2",
     "password-validator": "5.1.1",
+    "simple-vue-mind-map": "^0.1.19",
     "v-slim-dialog": "0.0.10",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
