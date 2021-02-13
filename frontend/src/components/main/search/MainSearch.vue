@@ -25,17 +25,22 @@
       <div class="caption purple--text">프로필 검색</div>
     </v-list-item-content>
 
-    <!-- 프로필 슬라이드 -->
+    <!-- 프로필 검색결과 -->
     <template>
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group
           multiple
         >
           <v-slide-item
-            v-for="item in searchHandler"
+            v-for="item in searchProfileHandler"
             :key="item.email"
           >
-            <v-list-item :key="item.email" id="v-list-item">
+            <v-list-item
+            :key="item.email"
+            id="v-list-item"
+            v-bind:userId="userId"
+            v-if="userId !== item.email"
+          >
             <v-list-item-avatar>
               <v-img
                 :src="creatorImage"
@@ -45,7 +50,6 @@
 
             <!-- 프로필 이메일 검색  -->
             <v-list-item-subtitle
-              v-if="item.email !== null"
               v-html="item.email.split('@')[0]"
               id="subtitle"
             ></v-list-item-subtitle>
@@ -57,17 +61,65 @@
     </template>
 
     <v-divider></v-divider>
+    
     <!-- 마인드맵 제목 검색 -->
     <v-list-item-content>
       <div class="caption purple--text">제목 검색</div>
     </v-list-item-content>
 
+    <!-- 마인드맵 제목 검색 결과 -->
+    <template>
+      <v-sheet class="mx-auto" max-width="375">
+        <v-slide-group multiple>
+          <!-- Slide에 들어가는 card를 item만큼 만든다 -->
+          <v-slide-item v-for="item in searchTitleHandler" :key="item.email">
+            <v-list-item>
+              <v-card class="mx-auto" max-width="400">
+                <v-img
+                  class="black--text align-end"
+                  height="200px"
+                  width= "200px"
+                  :src="item.thumbnail"
+                  @click="clickParams(item.mindID)"
+                >
+                  <v-card-subtitle v-html="item.title"></v-card-subtitle>
+                </v-img>
+              </v-card>
+            </v-list-item>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
+    </template>
     <v-divider></v-divider>
 
     <!-- 마인드맵 해시태그 검색 -->
     <v-list-item-content>
       <div class="caption purple--text">해시태그 검색</div>
     </v-list-item-content>
+
+    <!-- 마인드맵 해시태그 검색 결과 -->
+    <template>
+      <v-sheet class="mx-auto" max-width="375">
+        <v-slide-group multiple>
+          <!-- Slide에 들어가는 card를 item만큼 만든다 -->
+          <v-slide-item v-for="item in minditems" :key="item.email">
+            <v-list-item>
+              <v-card class="mx-auto" max-width="400">
+                <v-img
+                  class="black--text align-end"
+                  height="200px"
+                  width= "200px"
+                  :src="item.thumbnail"
+                  @click="clickParams(item.mindID)"
+                >
+                  <v-card-subtitle v-html="item.hashtag"></v-card-subtitle>
+                </v-img>
+              </v-card>
+            </v-list-item>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>      
+    </template>
 
   </v-app>
 </template>
@@ -78,16 +130,32 @@ import { mapGetters } from 'vuex';
 export default {
   components: {},
   computed: {
+    // 멤버 목록 가져오기
     ...mapGetters(['memberList']),
+    // 전체 마인드 가져오기
+    ...mapGetters(['cards']),
+    // default 이미지 설정
     creatorImage() {
       return this.imageError ? this.defaultImage : "creator-image.jpg"
     },
     // 닉네임이 null 값일 경우 에러가 나기 때문에 email 검색
-    searchHandler() {
+    searchProfileHandler() {
       return this.items.filter(elem => {
         return elem.email.toLowerCase().includes(this.search.toLowerCase());
       });
-    }
+    },
+    // 제목 검색
+    searchTitleHandler() {
+      return this.minditems.filter(elem => {
+        return elem.title.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
+    // 해시태그 검색
+    // searchHashtagHandler() {
+    //   return this.minditems.filter(elem => {
+    //     return elem.hashtag.toLowerCase().includes(this.search.toLowerCase());
+    //   });
+    // },
   },
   data() {
     return {
@@ -95,6 +163,8 @@ export default {
       defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
       imageError: false,
       items: [],
+      minditems: [],
+      userId: localStorage.getItem('user-id'),
     };
   },
   methods: {
@@ -109,9 +179,16 @@ export default {
         this.items = this.$store.getters.memberList;
       })
     },
+    // 썸네일 클릭 시 상세 페이지로 이동[OMT]
+    clickParams(no) {
+      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
+    },
   },
   created() {
     this.readmemberlist();
+    this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
+    this.minditems = this.$store.state.cards;
+    });
   },
 };
 </script>
