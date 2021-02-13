@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 검색기능 구현
+    * 내용 : 회원 프로필 검색
     * 생성일자 : 2021-01-27
-    * 최종수정일자 : 2021-02-10
+    * 최종수정일자 : 2021-02-13
   -->
   <v-app>
     <!-- 검색 도구 -->
@@ -33,18 +33,23 @@
         >
           <v-slide-item
             v-for="item in searchHandler"
-            :key="item.id"
+            :key="item.email"
           >
-            <v-list-item id="v-list-item">
-            <v-list-item-avatar color="purple">
+            <v-list-item :key="item.email" id="v-list-item">
+            <v-list-item-avatar>
               <v-img
-                :alt="`${item.name} avatar`"
-                :src="item.avatar"
+                :src="creatorImage"
+                @error="imageError = true"
               ></v-img>
             </v-list-item-avatar>
 
-            <v-list-item-subtitle id="subtitle" v-text="item.name"></v-list-item-subtitle>
-            
+            <!-- 프로필 이메일 검색  -->
+            <v-list-item-subtitle
+              v-if="item.email !== null"
+              v-html="item.email.split('@')[0]"
+              id="subtitle"
+            ></v-list-item-subtitle>
+
             </v-list-item>
           </v-slide-item>
         </v-slide-group>
@@ -68,33 +73,45 @@
 </template>
 
 <script>
-import { persons } from '@/data/data';
+import { mapGetters } from 'vuex';
 
 export default {
-  components: {
-
-  },
+  components: {},
   computed: {
+    ...mapGetters(['memberList']),
+    creatorImage() {
+      return this.imageError ? this.defaultImage : "creator-image.jpg"
+    },
+    // 닉네임이 null 값일 경우 에러가 나기 때문에 email 검색
     searchHandler() {
-      return this.data.filter(elem => {
-        return elem.name.toLowerCase().includes(this.search.toLowerCase());
+      return this.items.filter(elem => {
+        return elem.email.toLowerCase().includes(this.search.toLowerCase());
       });
     }
   },
   data() {
     return {
       search: '',
-      data: []
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
+      imageError: false,
+      items: [],
     };
-  },
-  created() {
-    this.data = persons;
-    console.log(this.$store.getters.nickName)
   },
   methods: {
     onInputKeyword: function(event) {
       this.$emit('input-change', event.target.value);
-    }
+    },
+    readmemberlist() {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+
+      this.$store.dispatch('readMemberList', form).then(() => {
+        this.items = this.$store.getters.memberList;
+      })
+    },
+  },
+  created() {
+    this.readmemberlist();
   },
 };
 </script>
@@ -129,7 +146,7 @@ hr {
 }
 #subtitle {
   position: fixed;
-  bottom: 0px;
+  bottom: 0%;
 }
 </style>
 

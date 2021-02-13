@@ -32,6 +32,7 @@ export default new Vuex.Store({
     likeData: null, // 좋아요 누른 마인드맵
     scrapData: null, // 스크랩한 마인드맵
     commentData: null, // 댓글 리스트
+    memberList: null, // 회원가입 한 전체 회원
   },
 
   // 연산된 state값을 접근
@@ -80,6 +81,10 @@ export default new Vuex.Store({
     },
     commentData(state) {
       return state.commentData;
+    },
+    // 회원가입 회원들 리턴
+    memberList(state) {
+      return state.memberList;
     },
   },
 
@@ -155,6 +160,9 @@ export default new Vuex.Store({
     },
     setCommentData(state, val) {
       state.commentData = val;
+    },
+    setMemberList(state, val) {
+      state.memberList = val;
     },
   },
 
@@ -359,6 +367,12 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data);
         });
+    },
+    // 전체 회원 불러오기[HYH]
+    readMemberList(context, jwt) {
+      return axios.post(`${SERVER_URL}/profile/memberList`, jwt).then((response) => {
+        context.commit('setMemberList', response.data);
+      });
     },
   },
 });

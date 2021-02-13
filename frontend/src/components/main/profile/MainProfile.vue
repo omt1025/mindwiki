@@ -6,7 +6,10 @@
     * 최종수정일자 : 2021-02-08
  -->
 
-  <div class="profile_info">
+
+  <div
+    class="profile_info"
+  >
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
       <v-avatar class="user_avatar" size="120px">
