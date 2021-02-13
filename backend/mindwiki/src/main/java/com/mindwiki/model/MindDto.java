@@ -35,8 +35,6 @@ public class MindDto {
 	
 	
 	
-	
-	
 	public String getSubject() {
 		return subject;
 	}

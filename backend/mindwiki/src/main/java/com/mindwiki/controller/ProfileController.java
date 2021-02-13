@@ -27,22 +27,22 @@ import com.mindwiki.service.ProfileService;
 @RestController
 @RequestMapping("/mindwiki/profile")
 public class ProfileController {
-	
+
 	@Autowired
 	private ProfileService profileService;
-	
+
 	@Autowired
 	private JwtService jwtService;
 
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
-	
+
 	/******************************************************************************
-	* 작성자 : 서울 2반 4팀 김정웅
-	* 기능 : 회원 가입
-	* 최종 수정일: 2021.02.04.
-	*******************************************************************************/
-	
+	 * 작성자 : 서울 2반 4팀 김정웅
+	 * 기능 : 회원 가입
+	 * 최종 수정일: 2021.02.04.
+	 *******************************************************************************/
+
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> register(HttpSession session,
 			@RequestParam(value="email", required=false) String email,
@@ -82,22 +82,22 @@ public class ProfileController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
-	
-	
+
+
 	/******************************************************************************
-	* 작성자 : 서울 2반 4팀 김정웅
-	* 기능 : 회원 탈퇴
-	* 최종 수정일: 2021.02.03.
+	 * 작성자 : 서울 2반 4팀 김정웅
+	 * 기능 : 회원 탈퇴
+	 * 최종 수정일: 2021.02.03.
 	 * @throws UnsupportedEncodingException 
-	*******************************************************************************/
-	
+	 *******************************************************************************/
+
 	@PostMapping("/withdrawal")
 	public ResponseEntity<Map<String, Object>> withdrawal(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="password", required=false) String password) throws UnsupportedEncodingException{
 		System.out.println("ProfileController] /profile/withdrawal ");
 		System.out.println("password: " + password); 
-		
+
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
 
@@ -126,15 +126,15 @@ public class ProfileController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
-	
-	
+
+
 	/******************************************************************************
-	* 작성자 : 서울 2반 4팀 김정웅
-	* 기능 : 비밀번호 변경
-	* 최종 수정일: 2021.02.03.
+	 * 작성자 : 서울 2반 4팀 김정웅
+	 * 기능 : 비밀번호 변경
+	 * 최종 수정일: 2021.02.03.
 	 * @throws UnsupportedEncodingException 
-	*******************************************************************************/
-	
+	 *******************************************************************************/
+
 	@PostMapping("/changePassword")
 	public ResponseEntity<Map<String, Object>> changePassword(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
@@ -145,7 +145,7 @@ public class ProfileController {
 
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
-		
+
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
 		profileDto.setPassword(oldPassword);
@@ -167,19 +167,19 @@ public class ProfileController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
-		}
+	}
 
-	
+
 	/******************************************************************************
-	* 작성자 : 서울 2반 4팀 김정웅
-	* 기능 : 회원 정보 수정
-	* 최종 수정일: 2021.02.03.
+	 * 작성자 : 서울 2반 4팀 김정웅
+	 * 기능 : 회원 정보 수정
+	 * 최종 수정일: 2021.02.03.
 	 * @throws UnsupportedEncodingException 
-	*******************************************************************************/
-	
+	 *******************************************************************************/
+
 	@PostMapping("/changeProfile")
 	public ResponseEntity<Map<String, Object>> changeProfile(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
@@ -187,7 +187,7 @@ public class ProfileController {
 			@RequestParam(value="nickName", required=false) String nickName) throws UnsupportedEncodingException{
 		System.out.println("ProfileController] /profile/changeProfile");
 		System.out.println("phoneNumber: " + phoneNumber + ", nickName:" + nickName); 
-		
+
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
 
@@ -230,45 +230,45 @@ public class ProfileController {
 
 		ProfileDto resultProfile = new ProfileDto();
 		HttpStatus status = null;
-		
-		ProfileResultDto result = new ProfileResultDto();
-		
 
-//		try {
-//			
-//			
-//			
-//			if(result.getResult()=="SUCCESS") {
-//				result.put("message", "SUCCESS");
-//				status = HttpStatus.ACCEPTED;
-//			}else {
-//				result.put("message", "FAIL");
-//				status = HttpStatus.INTERNAL_SERVER_ERROR;
-//			}
-//		}catch(SQLException e) {
-//			status = HttpStatus.INTERNAL_SERVER_ERROR;
-//			e.printStackTrace();
-//		}
-//
-//		System.out.println(" status: " + status.toString());
-//		return new ResponseEntity<ProfileDto>(returnProfile, status);
+		ProfileResultDto result = new ProfileResultDto();
+
+
+		//		try {
+		//			
+		//			
+		//			
+		//			if(result.getResult()=="SUCCESS") {
+		//				result.put("message", "SUCCESS");
+		//				status = HttpStatus.ACCEPTED;
+		//			}else {
+		//				result.put("message", "FAIL");
+		//				status = HttpStatus.INTERNAL_SERVER_ERROR;
+		//			}
+		//		}catch(SQLException e) {
+		//			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		//			e.printStackTrace();
+		//		}
+		//
+		//		System.out.println(" status: " + status.toString());
+		//		return new ResponseEntity<ProfileDto>(returnProfile, status);
 		return null;
 	}
-	
+
 	/******************************************************************************
-	* 작성자 : 
-	* 기능 : 해당 계정이 존재하는지 확인
-	* 최종 수정일: 2021.02.08.
+	 * 작성자 : 
+	 * 기능 : 해당 계정이 존재하는지 확인
+	 * 최종 수정일: 2021.02.08.
 	 * @throws UnsupportedEncodingException 
-	*******************************************************************************/
-	
+	 *******************************************************************************/
+
 	// TODO
 	@PostMapping("/isExist")
 	public ResponseEntity<Map<String, Object>> isExist(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
 		System.out.println("ProfileController] /profile/isExist");
-//		System.out.println("jwt: " + jwt); 
-		
+		//		System.out.println("jwt: " + jwt); 
+
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
 
@@ -277,7 +277,7 @@ public class ProfileController {
 
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = null;
-		
+
 		try {
 			ProfileResultDto serviceResult = profileService.isExist(profileDto);
 			if(serviceResult.getResult()=="EXIST") {
@@ -299,34 +299,22 @@ public class ProfileController {
 	}
 
 	// TODO
-		@PostMapping("/memberList")
-		public ResponseEntity<List<ProfileDto>> memberList(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
-			System.out.println("ProfileController] /profile/memberList");
-			
-			HttpStatus status=null;
-			
-			
-//			Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
-//			String email=(String)clamMap.get("email");
-			
-			
-			try {
-				
-				profileService.memberList();
-				
-				status = HttpStatus.OK;
-				
-				
-			} catch (SQLException e) {
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
-				e.printStackTrace();
-			}
-		
-			
-			return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), HttpStatus.OK);
+	@PostMapping("/memberList")
+	public ResponseEntity<List<ProfileDto>> memberList(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+		System.out.println("ProfileController] /profile/memberList");
+
+		HttpStatus status=null;
+
+		try {
+			profileService.memberList();
+			status = HttpStatus.OK;
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
 		}
 
+		return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), HttpStatus.OK);
+	}
 
-	
 }
 
