@@ -1,8 +1,17 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 회원탈퇴 변경 구현
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-15
+ -->
   <div>
+    <!-- 상단 Navi -->
     <close-navi :title="title"></close-navi>
+
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-30 p-b-35">
+        <!-- 현재 비밀번호 -->
         <span class="label-input100 p-b-7" style="float: left">현재 비밀번호</span>
         <w-input
           class="m-b-10"
@@ -14,6 +23,7 @@
           placeholder="현재 비밀번호"
         />
 
+        <!-- 회원탈퇴 comment -->
         <div class="m-t-25 m-b-25">
           <p style="text-align: left" class="m-b-5">
             '{{ nickName }}' 님, 안녕하세요!<br />
@@ -26,6 +36,7 @@
           </p>
         </div>
 
+        <!-- 회원탈퇴 버튼 -->
         <div class="wrap-login100-form-btn">
           <div class="login100-form-bgbtn"></div>
           <button class="login100-form-btn" @click="checkHandler">
@@ -46,7 +57,7 @@ export default {
     return {
       title: '회원 탈퇴',
       user: {
-        userpwd: '',
+        userpwd: '', // 현재 비밀번호
       },
       message: '', // 오류 받아 올 변수
     };
@@ -74,10 +85,17 @@ export default {
     },
     // 회원탈퇴
     withdraw() {
+      // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setMessage', null);
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
+
+      // 서버통신 위해 form에 담기
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('password', this.user.userpwd);
 
+      // 서버통신 위해 action호출
       this.$store
         .dispatch('withdraw', form)
         .then(() => {

@@ -1,8 +1,18 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 비밀번호 변경 구현
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-15
+ -->
+
   <div>
+    <!-- 상단 Navi -->
     <close-navi :title="title"></close-navi>
+
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-30 p-b-35">
+        <!-- 현재 비밀번호 -->
         <span class="label-input100 p-b-7" style="float: left">현재 비밀번호</span>
         <w-input
           class="m-b-10"
@@ -14,6 +24,7 @@
           placeholder="현재 비밀번호"
         />
 
+        <!-- 새 비밀번호 -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left">새 비밀번호</span>
         <w-input
           class="m-t-10"
@@ -24,6 +35,8 @@
           placeholder="새 비밀번호"
         />
         <span class="validation" v-if="msg.pass">{{ msg.pass }}</span>
+
+        <!-- 새 비밀번호 확인 -->
         <w-input
           class="m-t-10"
           type="password"
@@ -34,6 +47,7 @@
         />
         <span class="validation" v-if="msg.pass_check">{{ msg.pass_check }}</span>
 
+        <!-- 비밀번호 변경 tip -->
         <div class="m-t-25 m-b-25">
           <p style="text-align: left" class="m-b-5">
             비밀번호에 영문, 숫자, 특수문자를 조합하시면 비밀번호 안전도가 높아저 도용의 위험이
@@ -46,6 +60,7 @@
           </p>
         </div>
 
+        <!-- 변경하기 버튼 -->
         <div class="wrap-login100-form-btn">
           <div class="login100-form-bgbtn"></div>
           <button class="login100-form-btn" @click="checkHandler">
@@ -64,7 +79,7 @@ export default {
     return {
       title: '비밀번호 변경',
       user: {
-        oldpwd: '',
+        oldpwd: '', // 현재 비밀번호
         userpwd: '', // 비밀번호
         userpwd_check: '', // 비밀번호 확인
       },
@@ -123,11 +138,18 @@ export default {
       if (this.msg.pass || this.msg.pass_check)
         this.showAlert('양식을 지켜 다시 시도해주세요.', '양식 오류');
       else {
+        // 탭 초기화(재사용 위해)
+        this.$store.dispatch('setMessage', null);
+        this.$store.dispatch('setMainTab', 0);
+        this.$store.dispatch('setBottomNav', 'home');
+
+        // 서버통신 위해 form에 담기
         let form = new FormData();
         form.append('jwt', this.$store.getters.getJWT);
         form.append('oldPassword', this.user.oldpwd);
         form.append('newPassword', this.user.userpwd);
 
+        // 서버통신 위해 action호출
         this.$store
           .dispatch('changePW', form)
           .then(() => {
