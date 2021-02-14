@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    {{ this.map }}
     <mind-map
       :data="map"
       width="360"
@@ -24,6 +25,7 @@ export default {
           label: '마인드맵',
           root: true,
           reason: 0,
+          url: '',
           children: [
             {
               label: 'A1',

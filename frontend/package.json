@@ -20,7 +20,7 @@
     "lodash": "^4.17.20",
     "material-icons": "^0.5.2",
     "password-validator": "5.1.1",
-    "simple-vue-mind-map": "^0.1.19",
+    "simple-vue-mind-map": "0.1.19",
     "v-slim-dialog": "0.0.10",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
@@ -29,6 +29,7 @@
     "vue-mindmap": "0.0.4",
     "vue-naver-login": "^1.0.4",
     "vue-router": "^3.2.0",
+    "vue-swipeable-bottom-sheet": "0.0.5",
     "vuetify": "^2.4.2",
     "vuex": "3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.3"

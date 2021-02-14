@@ -72,7 +72,7 @@
             <v-btn
               x-large
               width="500px"
-              to="/main/menu/changepassword"
+              to="/main/menu/passwordchange"
               depressed
               color="white"
               id="no-background-hover"
@@ -183,6 +183,7 @@
               depressed
               color="white"
               id="no-background-hover"
+              to="menu/withdraw"
               :ripple="false"
             >
               <v-icon>mdi-account-remove</v-icon>

@@ -1,9 +1,8 @@
 /*
-(작성자는 최종 수정하는 사람 이름으로 갱신하면될것같아요)
  * 작성자 : 서울2반 4팀 윤지선
- * 내용 : 계정 존재 유무 확인 action메소드 생성
+ * 내용 : 비밀번호찾기, 회원탈퇴 생성, 로그인 수정
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-05
+ * 최종수정일자 : 2021-02-15
  */
 
 import Vue from 'vue';
@@ -174,6 +173,7 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/login`, user).then((response) => {
         context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
         let token = `${response.data['jwt']}`;
+        context.commit('setJWT', token); // 응답을 mutations으로 전달
 
         // jwt 디코딩
         var decodedJWT = jwt_decode(token);
@@ -209,6 +209,18 @@ export default new Vuex.Store({
     // 회원가입[YJS]
     signUp(context, user) {
       return axios.post(`${SERVER_URL}/profile/register`, user).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
+    },
+    // 비밀번호변경[YJS]
+    changePW(context, form) {
+      return axios.post(`${SERVER_URL}/profile/changePassword`, form).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
+    },
+    // 회원탈퇴[YJS]
+    withdraw(context, form) {
+      return axios.post(`${SERVER_URL}/profile/withdrawal`, form).then((response) => {
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },

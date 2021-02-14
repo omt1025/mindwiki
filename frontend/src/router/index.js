@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
 import ChangePassword from '@/views/user/ChangePassword.vue';
+import PasswordChange from '@/views/user/PasswordChange.vue';
 import FindPW from '@/views/user/FindPassword.vue';
 // Main
 import Home from '../views/Home.vue';
@@ -14,6 +15,7 @@ import MakeMind from '../views/main/MakeMind.vue';
 
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
+import Withdraw from '../views/main/menu/Withdraw.vue';
 // MyLibrary
 import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
@@ -69,6 +71,11 @@ const routes = [
     component: MainMenu,
   },
   {
+    path: '/main/menu/withdraw',
+    name: 'Withdraw',
+    component: Withdraw,
+  },
+  {
     path: '/main/mylibrary/follow',
     name: 'Follow',
     component: Follow,
@@ -77,6 +84,11 @@ const routes = [
     path: '/main/menu/changepassword',
     name: 'ChangePassword',
     component: ChangePassword,
+  },
+  {
+    path: '/main/menu/passwordchange',
+    name: 'PasswordChange',
+    component: PasswordChange,
   },
   {
     path: '/main/mindmap/mindmapdetail/:no',
