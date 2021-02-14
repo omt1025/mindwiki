@@ -212,6 +212,12 @@ export default new Vuex.Store({
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },
+    // 비밀번호변경[YJS]
+    changePW(context, form) {
+      return axios.post(`${SERVER_URL}/profile/changePassword`, form).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
+    },
     // vue에서 sns로그인 하고 받은 jwt를 mutation에서 state값 변경[YJS]
     setJWT(context, jwt) {
       context.commit('setJWT', jwt);

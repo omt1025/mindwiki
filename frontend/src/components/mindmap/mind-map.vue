@@ -1,120 +1,141 @@
 <template>
-  <div ref="mind-map-item" class="mind-map-item">
-    <div class="tools">
-      <div v-tooltip.bottom="'显示比例'" class="operation normal-icon" @click="toggleZoomSelector">
-        <span>{{ Math.round(ratio * 100) }}%</span>
-        <i
-          ref="ratio-selector"
-          class="icon simple-vue-mind-map icon_arrow_down"
-          style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
-        ></i>
-        <ul ref="ratio-selector" class="ratio-selector">
-          <li
-            v-for="rt in selectableRatios"
-            :key="rt"
-            :class="{ active: rt === ratio }"
-            @click="handleSelectZoomingRate(rt)"
-          >
-            {{ rt * 100 }}%
-          </li>
-        </ul>
-      </div>
+  <div>
+    <div ref="mind-map-item" class="mind-map-item">
+      <div class="tools">
+        <div
+          v-tooltip.bottom="'显示比例'"
+          class="operation normal-icon"
+          @click="toggleZoomSelector"
+        >
+          <span>{{ Math.round(ratio * 100) }}%</span>
+          <i
+            ref="ratio-selector"
+            class="icon simple-vue-mind-map icon_arrow_down"
+            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
+          ></i>
+          <ul ref="ratio-selector" class="ratio-selector">
+            <li
+              v-for="rt in selectableRatios"
+              :key="rt"
+              :class="{ active: rt === ratio }"
+              @click="handleSelectZoomingRate(rt)"
+            >
+              {{ rt * 100 }}%
+            </li>
+          </ul>
+        </div>
 
-      <div v-tooltip.bottom="'放大'" class="operation" @click="handleZoomIn()">
-        <i
-          class="normal-icon icon simple-vue-mind-map icon_zoomin"
-          :class="{ disabled: this.ratio >= this.MAX_RATIO }"
-        ></i>
-      </div>
-      <div v-tooltip.bottom="'缩小'" class="operation" @click="handleZoomOut()">
-        <i
-          class="normal-icon icon simple-vue-mind-map icon_zoomout"
-          :class="{ disabled: this.ratio <= this.MIN_RATIO }"
-        ></i>
-      </div>
-      <div class="separator"></div>
-      <div v-tooltip.bottom="'居中显示'" class="operation" @click="handleRelocation">
-        <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
-      </div>
-      <div class="separator"></div>
-      <div
-        v-tooltip.bottom="'脑图结构'"
-        ref="toVert"
-        class="operation"
-        @click="handleToStructureVert"
-        style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
-      </div>
-      <div
-        v-tooltip.bottom="'脑图结构'"
-        ref="toHori"
-        class="operation"
-        @click="handleToStructureHori"
-        style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
-      </div>
-      <div v-if="showReason" class="separator"></div>
-      <div
-        v-if="showReason"
-        v-tooltip.bottom="'设置真因'"
-        class="operation"
-        @click="handleSetAsReason"
-      >
-        <i
-          class="normal-icon"
-          style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
-          :class="{ active: currentData.reason > 0 }"
-          >真因</i
+        <div v-tooltip.bottom="'放大'" class="operation" @click="handleZoomIn()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomin"
+            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
+          ></i>
+        </div>
+        <div v-tooltip.bottom="'缩小'" class="operation" @click="handleZoomOut()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomout"
+            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
+          ></i>
+        </div>
+        <div class="separator"></div>
+        <div v-tooltip.bottom="'居中显示'" class="operation" @click="handleRelocation">
+          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
+        </div>
+        <div class="separator"></div>
+        <div
+          v-tooltip.bottom="'脑图结构'"
+          ref="toVert"
+          class="operation"
+          @click="handleToStructureVert"
+          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
         >
-      </div>
-      <div class="separator"></div>
-      <div
-        v-if="inFullScreen"
-        v-tooltip.bottom="'退出全屏'"
-        class="operation"
-        @click="handleExitFullScreen"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
-      </div>
-      <div v-else v-tooltip.bottom="'全屏'" class="operation" @click="handleFullScreen">
-        <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
-      </div>
-    </div>
-    <div ref="drawing-board" class="drawing-board">
-      <div
-        ref="tela"
-        class="tela"
-        @transitionstart="handleTransitionstart"
-        @transitionend="handleTransitionend"
-        @click="handleTelaClick"
-      >
-        <vue-okr-tree
-          ref="tree"
-          :direction="direction"
-          :data="mapData"
-          :render-content="handleRenderContent"
-          @node-click="handleNodeClick"
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
+        </div>
+        <div
+          v-tooltip.bottom="'脑图结构'"
+          ref="toHori"
+          class="operation"
+          @click="handleToStructureHori"
+          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
         >
-        </vue-okr-tree>
-        <context-menu
-          :show="contextMenuVisible"
-          :offset="contextMenuOffset"
-          @update:show="(show) => (contextMenuVisible = show)"
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
+        </div>
+        <div v-if="showReason" class="separator"></div>
+        <div
+          v-if="showReason"
+          v-tooltip.bottom="'设置真因'"
+          class="operation"
+          @click="handleSetAsReason"
         >
-          <a @click="handleSetAsReason">真因</a>
-          <a @click="handleAppendChild">增加子节点</a>
-          <a @click="handleInsertBefore">左边增加节点</a>
-          <a @click="handleInsertAfter">右边增加节点</a>
-          <a @click="handleRemove">删除节点</a>
-        </context-menu>
+          <i
+            class="normal-icon"
+            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
+            :class="{ active: currentData.reason > 0 }"
+            >真因</i
+          >
+        </div>
+        <div class="separator"></div>
+        <div
+          v-if="inFullScreen"
+          v-tooltip.bottom="'退出全屏'"
+          class="operation"
+          @click="handleExitFullScreen"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
+        </div>
+        <div v-else v-tooltip.bottom="'全屏'" class="operation" @click="handleFullScreen">
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
+        </div>
       </div>
+      <div ref="drawing-board" class="drawing-board">
+        <div
+          ref="tela"
+          class="tela"
+          @transitionstart="handleTransitionstart"
+          @transitionend="handleTransitionend"
+          @click="handleTelaClick"
+        >
+          <vue-okr-tree
+            ref="tree"
+            :direction="direction"
+            :data="mapData"
+            :render-content="handleRenderContent"
+            @node-click="handleNodeClick"
+          >
+          </vue-okr-tree>
+          <context-menu
+            :show="contextMenuVisible"
+            :offset="contextMenuOffset"
+            @update:show="(show) => (contextMenuVisible = show)"
+          >
+            <a @click="handleSetAsReason">真因</a>
+            <a @click="handleAppendChild">增加子节点</a>
+            <a @click="handleInsertBefore">左边增加节点</a>
+            <a @click="handleInsertAfter">右边增加节点</a>
+            <a @click="handleRemove">删除节点</a>
+          </context-menu>
+        </div>
+      </div>
+      <button @click="open">Open</button>
+      <swipeable-bottom-sheet ref="swipeableBottomSheet">
+        <h1>Lorem Ipsum</h1>
+        <h2>What is Lorem Ipsum?</h2>
+        <p>
+          <strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+          when an unknown printer took a galley of type and scrambled it to make a type specimen
+          book. It has survived not only five centuries, but also the leap into electronic
+          typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
+          release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+          publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </swipeable-bottom-sheet>
     </div>
   </div>
 </template>
 
 <script>
+import { SwipeableBottomSheet } from 'vue-swipeable-bottom-sheet';
 import { VueOkrTree } from 'vue-okr-tree';
 import 'vue-okr-tree/dist/vue-okr-tree.css';
 import { ContextMenu } from '@gahing/vcontextmenu';
@@ -131,6 +152,7 @@ export default {
   components: {
     VueOkrTree,
     ContextMenu,
+    SwipeableBottomSheet,
   },
   data() {
     return {
@@ -211,6 +233,9 @@ export default {
     },
   },
   methods: {
+    open() {
+      this.$refs.swipeableBottomSheet.setState('open');
+    },
     toggleZoomSelector() {
       this.$ratioSelector.style.display = this.ratioSelectorShowing ? 'none' : 'block';
 
@@ -358,7 +383,7 @@ export default {
     handleNodeClick(data, node, component) {
       this.handleClearTela();
 
-      this.inputContent = data.label;
+      this.inputContent = 'data.label';
 
       document.querySelectorAll('.org-chart-node-label-inner').forEach((item) => {
         item.style.backgroundColor = 'inherit';
@@ -421,7 +446,7 @@ export default {
             e.preventDefault();
 
             // console.log('输入回车', data.label, this.inputContent)
-            data.label = this.inputContent;
+            data.label = 'ddd';
 
             this.$emit('data-change', this.mapData);
 

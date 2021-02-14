@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
 import ChangePassword from '@/views/user/ChangePassword.vue';
+import PasswordChange from '@/views/user/PasswordChange.vue';
 import FindPW from '@/views/user/FindPassword.vue';
 // Main
 import Home from '../views/Home.vue';
@@ -77,6 +78,11 @@ const routes = [
     path: '/main/menu/changepassword',
     name: 'ChangePassword',
     component: ChangePassword,
+  },
+  {
+    path: '/main/menu/passwordchange',
+    name: 'PasswordChange',
+    component: PasswordChange,
   },
   {
     path: '/main/mindmap/mindmapdetail/:no',

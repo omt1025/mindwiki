@@ -72,7 +72,7 @@
             <v-btn
               x-large
               width="500px"
-              to="/main/menu/changepassword"
+              to="/main/menu/passwordchange"
               depressed
               color="white"
               id="no-background-hover"
