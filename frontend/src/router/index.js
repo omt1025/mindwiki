@@ -20,6 +20,7 @@ import Follow from '../views/main/mylibrary/Follow.vue';
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
 import MyMindList from '../views/mindmap/MyMindList.vue';
 import MindComment from '../views/mindmap/MindComment.vue'
+import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -89,6 +90,11 @@ const routes = [
     path: '/main/mindmap/mindmapdetail/:no/mindcomment',
     name: 'MindComment',
     component: MindComment,
+  },
+  {
+    path: '/main/mindmap/mindmapdetail/:no/mindmapupdate',
+    name: 'MindMapUpdate',
+    component: MindMapUpdate,
   },
 ];
 
