@@ -69,6 +69,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileResultDto changePassword(ProfileDto dto, String newPassword) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		System.out.println(dto);
 		
 		if(profileMapper.checkPassword(dto)!=SUCCESS) {
 			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
@@ -76,6 +77,7 @@ public class ProfileServiceImpl implements ProfileService {
 			return result;
 		}
 		
+		dto.setPassword(newPassword);
 		if(profileMapper.updatePassword(dto)!=1) {
 			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			System.out.println("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
