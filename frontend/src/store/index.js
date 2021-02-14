@@ -174,6 +174,7 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/login`, user).then((response) => {
         context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
         let token = `${response.data['jwt']}`;
+        context.commit('setJWT', token); // 응답을 mutations으로 전달
 
         // jwt 디코딩
         var decodedJWT = jwt_decode(token);
@@ -215,6 +216,12 @@ export default new Vuex.Store({
     // 비밀번호변경[YJS]
     changePW(context, form) {
       return axios.post(`${SERVER_URL}/profile/changePassword`, form).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
+    },
+    // 회원탈퇴[YJS]
+    withdraw(context, form) {
+      return axios.post(`${SERVER_URL}/profile/withdrawal`, form).then((response) => {
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },

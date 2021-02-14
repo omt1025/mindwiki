@@ -133,7 +133,7 @@ export default {
           .then(() => {
             this.message = this.$store.getters.getMessage;
 
-            // 회원가입 성공
+            // 비밀번호 변경 성공
             if (this.message === 'SUCCESS') {
               this.showAlert('시작 화면으로 이동합니다.', '비밀번호변경 성공');
             } else if (this.message === 'FAIL') {

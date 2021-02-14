@@ -183,6 +183,7 @@
               depressed
               color="white"
               id="no-background-hover"
+              to="menu/withdraw"
               :ripple="false"
             >
               <v-icon>mdi-account-remove</v-icon>

@@ -15,6 +15,7 @@ import MakeMind from '../views/main/MakeMind.vue';
 
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
+import Withdraw from '../views/main/menu/Withdraw.vue';
 // MyLibrary
 import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
@@ -68,6 +69,11 @@ const routes = [
     path: '/main/menu',
     name: 'MainMenu',
     component: MainMenu,
+  },
+  {
+    path: '/main/menu/withdraw',
+    name: 'Withdraw',
+    component: Withdraw,
   },
   {
     path: '/main/mylibrary/follow',
