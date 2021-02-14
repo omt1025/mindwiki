@@ -115,7 +115,7 @@ public class ProfileController {
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				status = HttpStatus.ACCEPTED;
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
