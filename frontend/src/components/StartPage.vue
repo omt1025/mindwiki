@@ -64,7 +64,7 @@
                   id="no-background-hover"
                   color="#ffffffbb"
                   rounded
-                  @click="goMain"
+                  @click="goTest"
                 >
                   비회원으로 접속하기
                 </v-btn>
@@ -124,6 +124,9 @@ export default {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
       this.$router.push('/main');
+    },
+    goTest() {
+      this.$router.push('/main/mindmap/test');
     },
   },
 };
