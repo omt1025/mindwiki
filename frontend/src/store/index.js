@@ -388,6 +388,12 @@ export default new Vuex.Store({
       form.append('disLike', user.get('disLike'));
       return axios.post(`${SERVER_URL}/mind/like/${user.get('no')}`, form).then((response) => {
         context.commit('setMessage', response.data);
+        return axios.get(`${SERVER_URL}/mind/like/read/`, {
+          params: { jwt: user.get('jwt') },
+        })
+        .then((response) => {
+          context.commit('setLikeData', response.data);
+        });
       });
     },
     // 마인드맵 스크랩[OMT]

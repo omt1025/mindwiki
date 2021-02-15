@@ -36,9 +36,12 @@
           </v-btn>
         </div>
 
-        <v-btn icon>
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
+        <div>
+          <v-btn icon color="purple" class="mx-1">
+            <v-icon>mdi-eye</v-icon> 
+            <div>{{ card.viewCnt }}</div>
+          </v-btn>
+        </div>
       </v-card-actions>
     </v-card>
   </v-col>
@@ -58,25 +61,23 @@ export default {
   methods: {
     // 로그인 한 유저가 좋아요 누른 게시글 확인
     checklike() {
-      this.items = this.card;
       for (var i = 0; i < this.$store.state.likeData.length; i++) {
         if (this.$store.state.likeData[i]['mindID'] === this.card['mindID']) {
-          this.$set(this.items, 'like', true);
+          this.$set(this.card, 'like', true);
           break;
         } else {
-          this.$set(this.items, 'like', false);
+          this.$set(this.card, 'like', false);
         }
       }
     },
     // 로그인 한 유저가 스크랩 한 게시글 확인
     checkscrap() {
-      this.items = this.card;
       for (var i = 0; i < this.$store.state.scrapData.length; i++) {
-        if (this.$store.state.scrapData[i]['mindID'] === this.items['mindID']) {
-          this.$set(this.items, 'scrap', true);
+        if (this.$store.state.scrapData[i]['mindID'] === this.card['mindID']) {
+          this.$set(this.card, 'scrap', true);
           break;
         } else {
-          this.$set(this.items, 'scrap', false);
+          this.$set(this.card, 'scrap', false);
         }
       }
     },
@@ -88,7 +89,7 @@ export default {
       form.append('disLike', isLike);
 
       this.$store.dispatch('likeMind', form).then(() => {
-        this.items.like = !this.items.like;
+        this.card.like = !this.card.like;
       });
     },
     // 스크랩 눌렀을 시 실행
@@ -99,7 +100,7 @@ export default {
       form.append('disScrap', isScrap);
 
       this.$store.dispatch('scrapMind', form).then(() => {
-        this.items.scrap = !this.items.scrap;
+        this.card.scrap = !this.card.scrap;
       });
     },
     // 라우터에 마인드 아이디를 보냄

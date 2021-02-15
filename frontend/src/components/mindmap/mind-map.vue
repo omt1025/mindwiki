@@ -105,14 +105,25 @@
         >
           <a @click="handleSetAsReason">부모 노드</a>
           <a @click="handleAppendChild">노드추가</a>
-          <a @click="handleInsertBefore">왼쪽에 노드 추가</a>
-          <a @click="handleInsertAfter">오른쪽에 노드 추가</a>
           <a @click="handleRemove">노드 삭제</a>
         </context-menu>
       </div>
       <swipeable-bottom-sheet ref="swipeableBottomSheet">
-        <input type="text" v-model="currentData.label">
-        <v-btn @click="handleAppendChild">노드추가</v-btn>
+        <v-col cols="12">
+          <v-text-field
+            label="현재 노드 수정"
+            type="text"
+            id="label"
+            ref="label"
+            v-model="currentData.label"
+            @keypress.enter="onInputKeyword"
+          >
+            <template v-slot:append>
+              <v-icon>mdi-plus</v-icon>
+            </template>
+          </v-text-field>
+          <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
+        </v-col>
       </swipeable-bottom-sheet>
     </div>
   </div>
@@ -503,16 +514,6 @@ export default {
     },
     handleAppendChild() {
       this.$refs.tree.append(Object.assign({}, this.dataTemplate), this.currentNode);
-
-      this.contextMenuVisible = false;
-    },
-    handleInsertBefore() {
-      this.$refs.tree.insertBefore(Object.assign({}, this.dataTemplate), this.currentNode);
-
-      this.contextMenuVisible = false;
-    },
-    handleInsertAfter() {
-      this.$refs.tree.insertAfter(Object.assign({}, this.dataTemplate), this.currentNode);
 
       this.contextMenuVisible = false;
     },
