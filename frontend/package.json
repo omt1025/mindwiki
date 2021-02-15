@@ -12,7 +12,11 @@
     "@fortawesome/free-regular-svg-icons": "5.15.2",
     "@fortawesome/free-solid-svg-icons": "5.15.2",
     "@fortawesome/vue-fontawesome": "2.0.2",
+<<<<<<< HEAD
     "@gahing/vcontextmenu": "^1.0.0",
+=======
+    "@ssthouse/vue-tree-chart": "^0.4.0",
+>>>>>>> fecef293b9afc1be5175f0542e5b1e93dd4356fa
     "@xarples/wolfi-vue": "0.0.24-alpha.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
@@ -30,7 +34,7 @@
     "vue-mindmap": "0.0.4",
     "vue-naver-login": "^1.0.4",
     "vue-router": "^3.2.0",
-    "vue-swipeable-bottom-sheet": "0.0.5",
+    "vue-swipeable-bottom-sheet": "^0.0.5",
     "vuetify": "^2.4.2",
     "vuex": "3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.3"
