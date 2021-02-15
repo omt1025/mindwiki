@@ -141,7 +141,6 @@ import '@gahing/vcontextmenu/lib/vcontextmenu.css';
 import '../../assets/css/iconfont.css';
 import Vue from 'vue';
 import VTooltip from 'v-tooltip';
-import { SwipeableBottomSheet } from "vue-swipeable-bottom-sheet";
 
 Vue.use(VTooltip);
 
