@@ -26,13 +26,13 @@ import com.mindwiki.service.NodeService;
 @RestController
 @RequestMapping("/mindwiki/node")
 public class NodeController {
-	
+
 	@Autowired
 	private NodeService nodeService;
-	
+
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
-	
+
 	@PostMapping("/setNode")
 	public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID,
@@ -43,13 +43,17 @@ public class NodeController {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 		nodeDto.setData(data);
-		
+
+		return processSetNode(nodeDto);
+	}
+
+	private ResponseEntity<Map<String, Object>> processSetNode(NodeDto dto){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = null;
 
 		try {
-			NodeResultDto resultDto = nodeService.setNode(nodeDto);
-			
+			NodeResultDto resultDto = nodeService.setNode(dto);
+
 			if(resultDto.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;
@@ -66,24 +70,29 @@ public class NodeController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
-	
+
 	@PostMapping("/getNode")
 	public ResponseEntity<Map<String, Object>> getNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID){
 		System.out.println("NodeController] /getNode/ ");
 		System.out.println("MindID: " + MindID);
 
+		NodeDto nodeDto = new NodeDto();
+		nodeDto.setMindID(MindID);
+
+		return processGetNode(nodeDto);
+	}
+
+	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = null;
-		
-		NodeDto nodeDto = new NodeDto();
 
 		try {
-			NodeResultDto serviceResult = nodeService.setNode(nodeDto);
-			
+			NodeResultDto serviceResult = nodeService.getNode(dto);
+
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
-				result.put("data",serviceResult.getNodeDto().getData());
+				result.put("data", serviceResult.getNodeDto().getData());
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
@@ -97,7 +106,11 @@ public class NodeController {
 
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
+		//	}
+		//		return null;
 	}
-	
+
+
+
 
 }

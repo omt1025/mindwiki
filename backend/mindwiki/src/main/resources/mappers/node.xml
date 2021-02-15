@@ -14,22 +14,8 @@
                     VALUES  (#{MindID}, #{data}) 
 	</insert>
 	
-	<!-- 
-	getNode
-	 -->
-<!-- 		<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int"> -->
-<!-- 		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email}) as success; -->
-<!-- 	</select> -->
-	
-
-
-<!-- if(nodeMapper.findMindID(dto)!=SUCCESS) { -->
-<!-- 			result.setResult("FIND_MIND_ID_ERROR"); -->
-<!-- 			return result; -->
-<!-- 		} -->
-		
-<!-- 		if(nodeMapper.setNodes(dto)!=0) { -->
-<!-- 			result.setResult("SET_NODES_ERROR"); -->
-<!-- 			return result; -->
+	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="string">
+		SELECT data FROM node WHERE MindID=#{MindID}
+	</select>
 		
 </mapper>
