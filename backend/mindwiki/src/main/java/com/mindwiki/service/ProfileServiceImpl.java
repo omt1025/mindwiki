@@ -3,6 +3,7 @@ package com.mindwiki.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,9 +95,63 @@ public class ProfileServiceImpl implements ProfileService {
 			return result;
 		}
 		
-		result.setResult("SUCCESS");
+		String tmpPW = createTmpPW();
+		dto.setPassword(tmpPW);
+		if(profileMapper.updatePassword(dto)!=SUCCESS) {
+			result.setResult("UPDATE_PW_ERROR");
+			return result;
+		}
 		
+		if(sendTempPWToEmail(dto)==FAIL) {
+			result.setResult("MAIL_SEND_FAIL");
+			return result;
+		}
+		
+		result.setResult("SUCCESS");
 		return result;
+	}
+	
+	private String createTmpPW() {
+		String pw = "";
+		for(int i=0; i<12; i++) {
+			pw += (char) ((Math.random() * 26) + 97);
+		}
+		return pw;
+	}
+	
+	private int sendTempPWToEmail(ProfileDto dto){
+		// Mail Server 설정
+		String charSet = "utf-8";
+		String hostSMTP = "smtp.naver.com";
+		String hostSMTPid = "kjw11036@naver.com";
+		String hostSMTPpwd = "ssafy2021!@";
+
+		// 보내는 사람 EMail, 제목, 내용
+		String fromEmail = "kjw11036@naver.com";
+		String fromName = "mindwiki_admin";
+		String subject = "temp password";
+		String msg = dto.getPassword();
+		
+		try {
+			HtmlEmail email = new HtmlEmail();
+			email.setDebug(false);
+			email.setCharset(charSet);
+			email.setSSL(true);
+			email.setHostName(hostSMTP);
+			email.setSmtpPort(465);
+
+			email.setAuthentication(hostSMTPid, hostSMTPpwd);
+			email.setTLS(true);
+			email.addTo(dto.getEmail(), charSet);
+			email.setFrom(fromEmail, fromName, charSet);
+			email.setSubject(subject);
+			email.setHtmlMsg(msg);
+			email.send();
+		} catch (Exception e) {
+			System.out.println("send temp pw to email error : " + e);
+			return FAIL;
+		}
+		return SUCCESS;
 	}
 	
 	@Override
