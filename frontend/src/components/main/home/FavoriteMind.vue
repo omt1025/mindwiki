@@ -40,7 +40,7 @@
         </v-chip>
       </template>
     </v-combobox>
-    <v-row dense>
+    <v-row dense id="list">
       <!-- CardForm 컴포넌트로 데이터를 보냄 -->
       <CardForm 
         v-for="(card, index) in items" 
@@ -107,6 +107,9 @@ export default {
       form.append("hashtag", hashtagform)
 
       this.$store.dispatch('updateHashTag', form).then(() => {
+        this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
+        this.items = this.$store.state.liketagData
+        });
       });
     },
   },
@@ -119,5 +122,8 @@ export default {
 </script>
 
 <style>
-
+#list {
+  padding: 5px;
+  margin-bottom: 50px;
+}
 </style>
