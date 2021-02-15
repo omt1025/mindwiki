@@ -1,9 +1,10 @@
 <template>
   <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
+      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-icon @click="backPage">mdi-close</v-icon>
+      <v-icon v-if="title !== '설정'" @click="backPage" color="#a64bf4">mdi-check</v-icon>
     </v-toolbar>
   </v-card>
 </template>
@@ -18,7 +19,7 @@ export default {
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
-      this.$router.push('/main/menu');
+      this.$router.push('/main');
     },
   },
 };

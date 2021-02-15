@@ -7,7 +7,8 @@
  -->
 
   <v-app>
-    <MenuNavi />
+    <!-- <MenuNavi /> -->
+    <back-navi :title="title"></back-navi>
 
     <v-row align="center">
       <v-col>
@@ -198,15 +199,18 @@
 </template>
 
 <script>
-import MenuNavi from '@/components/navi/MenuNavi.vue';
+// import MenuNavi from '@/components/navi/MenuNavi.vue';
+import BackNavi from '../../navi/BackNavi.vue';
 // import axios from 'axios';
 
 export default {
   name: 'MainMenu',
   components: {
-    MenuNavi,
+    // MenuNavi
+    BackNavi,
   },
   data: () => ({
+    title: '설정',
     bellClick: true,
     accountClick: true,
     color: 'white',

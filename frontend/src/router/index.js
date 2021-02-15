@@ -12,6 +12,7 @@ import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
 
 import MakeMind from '../views/main/MakeMind.vue';
+import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
 
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
@@ -21,8 +22,8 @@ import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
 import MyMindList from '../views/mindmap/MyMindList.vue';
-import MindComment from '../views/mindmap/MindComment.vue'
-import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue'
+import MindComment from '../views/mindmap/MindComment.vue';
+import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
 import Test from '../views/mindmap/Test.vue';
 Vue.use(VueRouter);
 
@@ -52,13 +53,16 @@ const routes = [
     name: 'Main',
     component: Main,
   },
-
   {
     path: '/main/makemind',
     name: 'MakeMind',
     component: MakeMind,
   },
-
+  {
+    path: '/main/createmind',
+    name: 'MainCreateMind',
+    component: MainCreateMind,
+  },
   {
     path: '/main/mylibrary',
     name: 'MyLibrary',

@@ -8,76 +8,71 @@
 
   <div>
     <!-- 상단 Navi -->
-    <close-navi :title="title"></close-navi>
+    <back-navi :title="title"></back-navi>
 
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
-        <!-- 현재 비밀번호 -->
-        <span class="label-input100 p-b-7" style="float: left">현재 비밀번호</span>
+        <!-- 마인드 제목 input -->
+        <span class="label-input100 p-b-7" style="float: left">마인드 제목</span>
         <w-input
           class="m-b-10"
           id="oldpwd"
           ref="oldpwd"
           v-model="user.oldpwd"
-          type="password"
           required
-          placeholder="현재 비밀번호"
+          placeholder="작성할 마인드의 제목"
         />
+        <span class="validation" v-if="msg.pass_check">{{ msg.pass_check }}</span>
 
-        <!-- 새 비밀번호 -->
-        <span class="label-input100 p-t-25 p-b-7" style="float: left">새 비밀번호</span>
+        <!-- 주제 input -->
+        <span class="label-input100 p-t-25 p-b-7" style="float: left">마인드 주제</span>
         <w-input
           class="m-t-10"
           id="userpwd"
           ref="userpwd"
           v-model="user.userpwd"
-          type="password"
-          placeholder="새 비밀번호"
+          placeholder="작성할 마인드의 주제"
         />
         <span class="validation" v-if="msg.pass">{{ msg.pass }}</span>
 
-        <!-- 새 비밀번호 확인 -->
-        <w-input
-          class="m-t-10"
-          type="password"
-          id="userpwd_check"
-          ref="userpwd_check"
-          v-model="user.userpwd_check"
-          placeholder="새 비밀번호 확인"
-        />
-        <span class="validation" v-if="msg.pass_check">{{ msg.pass_check }}</span>
-
-        <!-- 비밀번호 변경 tip -->
-        <div class="m-t-25 m-b-25">
-          <p style="text-align: left" class="m-b-5">
-            비밀번호에 영문, 숫자, 특수문자를 조합하시면 비밀번호 안전도가 높아저 도용의 위험이
-            줄어듭니다.<br />
-          </p>
-          <p class="tip">
-            * 사용 가능한 특수문자: !@#$%^&amp;*( )+-/&lt;&gt;,. <br />
-            * ID, 주민번호, 생일, 전화번호 등의 개인정보의 사용을 피하는 것이 좋습니다.<br />
-            * 비밀번호는 주기적으로 바꾸어 사용하시는 것이 안전합니다.
-          </p>
-        </div>
-
-        <!-- 변경하기 버튼 -->
-        <div class="wrap-login100-form-btn">
-          <div class="login100-form-bgbtn"></div>
-          <button class="login100-form-btn" @click="checkHandler">
-            변경하기
-          </button>
-        </div>
+        <!-- 해시태그 box -->
+        <span class="label-input100 p-t-25 p-b-7" style="float: left">해시 태그</span>
+        <v-combobox
+          v-model="chips"
+          :items="items"
+          chips
+          clearable
+          label="Your favorite hobbies"
+          multiple
+          prepend-icon="filter_list"
+          solo
+        >
+          <template v-slot:selection="{ attrs, item, select, selected }">
+            <v-chip
+              v-bind="attrs"
+              :input-value="selected"
+              close
+              @click="select"
+              @click:close="remove(item)"
+            >
+              <strong>{{ item }}</strong
+              >&nbsp;
+              <span>(interest)</span>
+            </v-chip>
+          </template>
+        </v-combobox>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CloseNavi from '../../components/navi/CloseNavi.vue';
+import BackNavi from '../../components/navi/BackNavi.vue';
 export default {
   data() {
     return {
-      title: '비밀번호 변경',
+      title: '마인드 생성',
+      chips: ['싸피', 'ssafy'], // 관심태그
       user: {
         oldpwd: '', // 현재 비밀번호
         userpwd: '', // 비밀번호
@@ -88,7 +83,7 @@ export default {
     };
   },
   components: {
-    CloseNavi,
+    BackNavi,
   },
   watch: {
     // 비밀번호 유효성 검사
@@ -220,6 +215,29 @@ export default {
   }
   .input[data-v-565818fe] {
     background-color: #00000006 !important;
+  }
+  .combobox {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+    border: 0;
+    display: block;
+    font-weight: '400';
+    font-size: 0.875rem;
+    height: auto;
+    /* background-color: '#00000006' !important; */
+    height: calc(1.5em + 1.25rem + 2px);
+    line-height: 1.5;
+    /* padding: 0.625rem 0.75rem; */
+    transition: box-shadow 0.15s ease;
+  }
+  .v-input__control {
+    background-color: black;
+  }
+  .v-input .v-input__slot {
   }
 }
 </style>
