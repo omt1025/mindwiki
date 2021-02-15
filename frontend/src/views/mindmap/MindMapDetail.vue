@@ -6,8 +6,8 @@
     * 최종수정일자 : 2021-02-15
   -->
   <v-app id="app">
-      <!-- 상세 마인드맵 상단 네비게이션 -->
-      <v-toolbar>
+    <!-- 상세 마인드맵 상단 네비게이션 -->
+    <v-toolbar>
       <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-spacer></v-spacer>
@@ -47,7 +47,7 @@
           depressed
           color="white"
           @click="goMindComment(no)"
-          >
+        >
           <v-icon class="mr-2">mdi-comment-outline</v-icon>
           <span>댓글 쓰기</span>
         </v-btn>
@@ -63,124 +63,114 @@
       </v-list-item>
     </v-card-actions>
 
-      <!-- 노드 추가 버튼 구현 -->
-      <v-menu
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-        offset-x
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
+    <!-- 노드 추가 버튼 구현 -->
+    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
 
-          <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </template>
+        <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+      </template>
 
-        <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
-        <v-card>
-          <v-card-title>
-            <span class="headline">마인드맵 수정</span>
-          </v-card-title>
+      <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
+      <v-card>
+        <v-card-title>
+          <span class="headline">마인드맵 수정</span>
+        </v-card-title>
 
-          <v-card-text>
-              <v-row>
-                <!-- 제목 -->
-                <v-col cols="12">
-                  <v-text-field
-                    label="제목 (최대 16자)"
-                    required
-                    id="title"
-                    ref="title"
-                    v-model="title"
-                    @keypress.enter="checkHandler"
-                    type="text"
-                    :maxlength="max_title"
-                  ></v-text-field>
-                </v-col>
-                <!-- 주제 -->
-                <v-col cols="12">
-                  <v-text-field
-                    label="주제"
-                    required
-                    id="subject"
-                    ref="subject"
-                    v-model="subject"
-                    @keypress.enter="checkHandler"
-                    type="text"
-                  ></v-text-field>
-                </v-col>
-                <!-- 해시태그 -->
-                <div>
-                  <div padding="10px">
-                    <p class="interestTagTitle">해시태그 설정</p>
-                  </div>
+        <v-card-text>
+          <v-row>
+            <!-- 제목 -->
+            <v-col cols="12">
+              <v-text-field
+                label="제목 (최대 16자)"
+                required
+                id="title"
+                ref="title"
+                v-model="title"
+                @keypress.enter="checkHandler"
+                type="text"
+                :maxlength="max_title"
+              ></v-text-field>
+            </v-col>
+            <!-- 주제 -->
+            <v-col cols="12">
+              <v-text-field
+                label="주제"
+                required
+                id="subject"
+                ref="subject"
+                v-model="subject"
+                @keypress.enter="checkHandler"
+                type="text"
+              ></v-text-field>
+            </v-col>
+            <!-- 해시태그 -->
+            <div>
+              <div padding="10px">
+                <p class="interestTagTitle">해시태그 설정</p>
+              </div>
 
-                  <v-combobox
-                    append-icon
-                    flat
-                    v-model="hashtag"
-                    hashtag
-                    clearable
-                    label="Your favorite hobbies"
-                    multiple
-                    no-filter
-                    solo
-                    id="combobox"
+              <v-combobox
+                append-icon
+                flat
+                v-model="hashtag"
+                hashtag
+                clearable
+                label="Your favorite hobbies"
+                multiple
+                no-filter
+                solo
+                id="combobox"
+              >
+                <template v-slot:selection="{ attrs, item, select, selected }">
+                  <v-chip
+                    v-bind="attrs"
+                    :input-value="selected"
+                    close
+                    class="ma-2"
+                    color="purple"
+                    text-color="white"
+                    @click="select"
+                    @click:close="remove(item)"
                   >
-                    <template
-                      v-slot:selection="{ attrs, item, select, selected }"
-                    >
-                      <v-chip
-                        v-bind="attrs"
-                        :input-value="selected"
-                        close
-                        class="ma-2"
-                        color="purple"
-                        text-color="white"
-                        @click="select"
-                        @click:close="remove(item)"
-                      >
-                        <strong class="test">{{ item }}</strong
-                        >&nbsp;
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                </div>
-                <!-- 설명 -->
-                <v-col cols="12">
-                  <v-text-field 
-                  label="설명 (최대 145자)"
-                  required
-                  id="explanation"
-                  ref="explanation"
-                  v-model="explanation"
-                  :maxlength="max_explanation"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-          </v-card-text>
+                    <strong class="test">{{ item }}</strong
+                    >&nbsp;
+                  </v-chip>
+                </template>
+              </v-combobox>
+            </div>
+            <!-- 설명 -->
+            <v-col cols="12">
+              <v-text-field
+                label="설명 (최대 145자)"
+                required
+                id="explanation"
+                ref="explanation"
+                v-model="explanation"
+                :maxlength="max_explanation"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-          <v-divider></v-divider>
+        <v-divider></v-divider>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text @click="menu = false">
-              Cancel
-            </v-btn>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="menu = false">
+            Cancel
+          </v-btn>
 
-            <v-btn 
-            text
-            @click="checkHandler"
-            >
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
+          <v-btn text @click="checkHandler">
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-menu>
   </v-app>
 </template>
 
@@ -188,16 +178,16 @@
 import mindMap from '../../components/mindmap/mind-map.vue';
 
 export default {
-  name: "MindMapDetail",
+  name: 'MindMapDetail',
   components: { mindMap },
   data() {
-    const no = Number(this.$route.params.no)
+    const no = Number(this.$route.params.no);
     return {
       no: no,
       fav: true,
       menu: false,
       // 마인드맵 생성에 필요한 요소
-      mindmap: "",
+      mindmap: '',
       // 임시로 쓸 더미 데이터
       map: [
         {
@@ -238,9 +228,9 @@ export default {
       ],
       hashtag: [],
       // ...map,
-      title: "",
-      subject: "",
-      explanation: "",
+      title: '',
+      subject: '',
+      explanation: '',
       // 제목, 설명 글자 수 제한
       max_title: 16,
       max_explanation: 145,
@@ -257,18 +247,17 @@ export default {
     },
     readmapdata() {
       let form = new FormData();
-      form.append("jwt", this.$store.getters.getJWT)
-      form.append("MindID", this.no)
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', this.no);
 
-      this.$store.dispatch("readMapData", form).then(() =>{
-        console.log(this.$store.getters.getMessage.data)
-      })
+      this.$store.dispatch('readMapData', form).then(() => {
+        console.log(this.$store.getters.getMessage.data);
+      });
     },
     checkHandler() {
       let err = true;
       let msg = '';
-      !this.title &&
-        ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
+      !this.title && ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
       err &&
         !this.subject &&
         ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
@@ -283,19 +272,19 @@ export default {
     readminddetail(no) {
       // jwt와 마인드 번호를 form에 담아서 보내야 함
       let form = new FormData();
-      form.append("jwt", this.$store.getters.getJWT);
-      form.append("no", no)
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
       // actions의 readMindDetail 함수 실행
-      this.$store.dispatch("readMindDetail", form).then(() => {
+      this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
         // console.log(this.mindmap)
-        this.title = this.mindmap.title
-        this.explanation = this.mindmap.explanation
+        this.title = this.mindmap.title;
+        this.explanation = this.mindmap.explanation;
         // 해시태그 임시
-        if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',')
-        this.subject = this.mindmap.subject
+        if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',');
+        this.subject = this.mindmap.subject;
         // console.log(this.hashtag)
-      })
+      });
     },
     // 마인드맵 수정 함수
     updatemind(no) {
@@ -305,21 +294,21 @@ export default {
       form.append('subject', this.subject);
       form.append('explanation', this.explanation);
       form.append('hashtag', this.hashtag);
-      form.append("MindID", no);
+      form.append('MindID', no);
       // console.log(no)
-      this.$store.dispatch("updateMind", form).then(() =>{
-        this.showAlert('수정이 완료되었습니다.'); 
-      })
+      this.$store.dispatch('updateMind', form).then(() => {
+        this.showAlert('수정이 완료되었습니다.');
+      });
     },
     // 마인드맵 제거 함수
     deletemind(no) {
       let form = new FormData();
-      form.append("jwt", this.$store.getters.getJWT);
-      form.append("no", no)
-      
-      this.$store.dispatch("deleteMind", form).then(() =>{
-        this.$router.push('/main/mindmap/mymindlist')
-      })
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('no', no);
+
+      this.$store.dispatch('deleteMind', form).then(() => {
+        this.$router.push('/main/mindmap/mymindlist');
+      });
     },
     // 관심태그 삭제
     remove(item) {
@@ -331,22 +320,22 @@ export default {
       const options = { title: '알림', size: 'sm' };
       this.$dialogs.alert(msg, options).then(() => {
         // console.log(res);
-        this.menu = false
+        this.menu = false;
       });
     },
     // 전체 조회 페이지로 이동
     backPage: function() {
-      this.$router.push('/main')
+      this.$router.push('/main');
     },
     // 마인드맵 댓글 페이지 이동
     goMindComment(no) {
-      this.$router.push({name: 'MindComment', params: {no: Number(no)}});
-    }
+      this.$router.push({ name: 'MindComment', params: { no: Number(no) } });
+    },
   },
-  created: function () {
+  created: function() {
     this.readminddetail(this.no);
     this.readmapdata();
-  }
+  },
 };
 </script>
 
