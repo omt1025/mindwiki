@@ -32,7 +32,7 @@ export default {
   },
   // 전체 게시글을 가져옴
   created() {
-    this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
+    this.$store.dispatch('readLiveRankingMindMap', this.$store.getters.getJWT).then(() => {
     this.items = this.$store.state.cards
     });
   },

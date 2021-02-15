@@ -28,6 +28,8 @@ export default new Vuex.Store({
     mindList: null, // 프로필 내 마인드리스트목록
     followTab: '0', // 상단 탭(팔로워 / 팔로잉) 현재 위치
     cards: null, // 메인 페이지의 마인드맵 리스트
+    liketagData: null,  // 관심 태그 리스트
+    hashtag: null,  // 관심 태그
     likeData: null, // 좋아요 누른 마인드맵
     scrapData: null, // 스크랩한 마인드맵
     commentData: null, // 댓글 리스트
@@ -71,6 +73,12 @@ export default new Vuex.Store({
     },
     cards(state) {
       return state.cards;
+    },
+    liketagData(state) {
+      return state.liketagData;
+    },
+    hashtag(state) {
+      return state.hashtag;
     },
     likeData(state) {
       return state.likeData;
@@ -150,6 +158,12 @@ export default new Vuex.Store({
     },
     setCards(state, val) {
       state.cards = val;
+    },
+    setLikeTagData(state, val) {
+      state.liketagData = val;
+    },
+    setHashTag(state, val) {
+      state.hashtag = val;
     },
     setLikeData(state, val) {
       state.likeData = val;
@@ -261,6 +275,35 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setCards', response.data);
         });
+    },
+    // 실시간 인기 리스트 불러오기[OMT]
+    readLiveRankingMindMap(context, jwt) {
+      return axios.get(`${SERVER_URL}/liveRanking/list/`, {
+        params: { jwt: jwt }}).then((response) => {
+        context.commit('setCards', response.data);
+      })
+    },
+    // 관심태그 리스트 불러오기[OMT]
+    readLikeTagMindMap(context, jwt) {
+      return axios.get(`${SERVER_URL}/liketag/home/list/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setLikeTagData', response.data);
+      })
+    },
+    // 해시태그 불러오기[OMT]
+    readHashTag(context, jwt) {
+      return axios.get(`${SERVER_URL}/liketag/list/`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setHashTag', response.data);
+      })
+    },
+    // 해시태그 수정하기[OMT]
+    updateHashTag(context, form) {
+      return axios.put(`mindwiki/liketag/update/`, form).then((response) => {
+        context.commit('setHashTag', response.data);
+      })
     },
     // 좋아요 누른 마인드맵 리스트 불러오기[OMT]
     readLikeMindMap(context, jwt) {

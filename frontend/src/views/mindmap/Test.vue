@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    {{ this.map }}
     <mind-map
       :data="map"
       width="360"
