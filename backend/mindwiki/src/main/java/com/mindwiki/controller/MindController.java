@@ -257,6 +257,7 @@ public class MindController {
 		return list;
 
 	}
+	
 
 	@DeleteMapping("/mind/hashtag/delete/{no}")
 	public ResponseEntity<Map<String, Object>> hashRead(@PathVariable(name = "no", required = false) int MindID,
