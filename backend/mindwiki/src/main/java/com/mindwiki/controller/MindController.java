@@ -350,7 +350,11 @@ public class MindController {
 	private void initNode(int MindID, String subject, String hashtag) throws SQLException {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-		nodeDto.setData(buildData(subject, hashtag));
+		String data = buildData(subject, hashtag);
+		nodeDto.setData(data);
+		
+		System.out.println("DATA");
+		System.out.println(data);
 
 		nodeService.setNode(nodeDto);
 	}
