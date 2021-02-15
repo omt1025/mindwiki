@@ -51,6 +51,8 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void delete(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).deleteByMindID(mind);
+		session.getMapper(MindDao.class).deleteHashtagList(mind.getMindID());
+		//마인드삭제할때 리스트까지 다 날라가게
 		
 	}
 
@@ -121,6 +123,11 @@ public class MindServiceImpl implements MindService {
 		
 	}
 
+	@Override
+	public void deleteHashtagList(int MindID) throws SQLException {
+		session.getMapper(MindDao.class).deleteHashtagList(MindID);
+		
+	}
 
 	
 }

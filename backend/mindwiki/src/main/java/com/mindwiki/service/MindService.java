@@ -25,6 +25,7 @@ public interface MindService {
 	int getMindID(String email) throws SQLException;
 	public List<String> hashtagByMindID(int MindID) throws SQLException;
 	void deleteHashtag(int MindID, String hashtag) throws SQLException;
+	void deleteHashtagList(int MindID) throws SQLException;
 	
 	
 }

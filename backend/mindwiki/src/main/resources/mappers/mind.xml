@@ -87,7 +87,9 @@
 		delete from hashtagList where MindID=#{MindID} and hashtag=#{hashtag}
 	</delete>
 	
-	
+	<delete id="deleteHashtagList">
+		delete from hashtagList where MindID=#{MindID}
+	</delete>
 	
 	
 </mapper>

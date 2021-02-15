@@ -395,7 +395,7 @@ public class MindController {
 	@GetMapping("/mind/read/{no}")
 	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
-		//System.out.println(mindSvc.readByMindID(no)); 이거해주면 중복실행되서 2씩 카운트됨
+		
 		
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no),HttpStatus.OK);
 	}
@@ -438,46 +438,62 @@ public class MindController {
 	
 	
 	//mind update
-	@PutMapping("/mind/update")public ResponseEntity<Map<String, Object>> update(HttpSession hs,
-			@RequestParam(value="MindID", required=false) int MindID,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="hashtag", required=false) String hashtag,
-			@RequestParam(value="subject", required=false) String subject,
-			@RequestParam(value="explanation", required=false) String explanation){
-		
-		//업데이트하면 리스트에 있는거 다 삭제되고, 수정되도록해야겠네, //삭제는 따로 처리
-		//수정만 가능하게
-		
-		System.out.println(MindID);
-		MindDto mind = new MindDto(MindID, title, hashtag, subject, explanation);
-		HttpStatus status=null;
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		try {
-			if(title!=null) {//여기 수정해야됨 세션이나 관리자로 권한확인
-			mindSvc.update(mind);
-			resultMap.put("message", "마인드가 수정되었습니다.");
-			System.out.println("수정됨");
-			status = HttpStatus.OK;
-			}else {
-				resultMap.put("message", "마인드 수정실패(로그인해주세요.)");
+		@PutMapping("/mind/update")public ResponseEntity<Map<String, Object>> update(HttpSession hs,
+				@RequestParam(value="MindID", required=false) int MindID,
+				@RequestParam(value="title", required=false) String title,
+				@RequestParam(value="hashtag", required=false) String hashtag,
+				@RequestParam(value="subject", required=false) String subject,
+				@RequestParam(value="explanation", required=false) String explanation){
+			
+			//업데이트하면 리스트에 있는거 다 삭제되고, 수정되도록 //왜냐하면 해시태그는 수시로, 삭제되었다가 재생성될수 있기 때문에
+			//통합처리
+			//수정만 가능하게
+			
+			System.out.println(MindID);
+			
+			MindDto mind = new MindDto(MindID, title, hashtag, subject, explanation);
+			HttpStatus status=null;
+			Map<String, Object> resultMap = new HashMap<>();
+			
+			try {
+				if(title!=null) {//여기 수정해야됨 세션이나 관리자로 권한확인
+				mindSvc.update(mind);
+				mindSvc.deleteHashtagList(MindID);//해쉬태그 전체삭제후
+				
+				//해쉬태그를 다시 삽입해준다. 이렇게 하는 이유는 어차피 해쉬태그가 수정하면서 삭제도 되어야하기때문에
+				StringTokenizer st = new StringTokenizer(hashtag,",");
+				int count=0;
+				count=st.countTokens();
+				for(int i=0;i<count;i++){//어차피 0일리는 없음
+				
+					mindSvc.makeHashtag(MindID, st.nextToken());//해쉬태그들을 리스트로 넣음			
+				}
+				
+				
+				
+				resultMap.put("message", "마인드가 수정되었습니다.");
+				System.out.println("수정됨");
 				status = HttpStatus.OK;
+				}else {
+					resultMap.put("message", "마인드 수정실패(로그인해주세요.)");
+					status = HttpStatus.OK;
+				}
+			} catch (SQLException e) {
+				
+				status=HttpStatus.INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			status=HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-			//returnMessage="마인드 등록 실패!";
+		
+			
+
+			
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+			
+			
+
+			
 		}
-	
-		
-
-
-		
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-		
-		
-	}
 	
 	
 	//mind delete
