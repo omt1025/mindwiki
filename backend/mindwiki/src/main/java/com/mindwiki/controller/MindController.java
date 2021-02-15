@@ -477,8 +477,6 @@ public class MindController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		
 		
-
-		
 	}
 	
 	
