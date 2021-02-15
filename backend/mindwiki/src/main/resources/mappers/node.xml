@@ -15,7 +15,7 @@
 	</insert>
 	
 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="string">
-		SELECT data FROM node WHERE MindID=#{MindID}
+		SELECT nodeData FROM node WHERE MindID=#{MindID}
 	</select>
 		
 </mapper>
