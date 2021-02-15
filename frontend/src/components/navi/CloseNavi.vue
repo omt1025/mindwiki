@@ -1,11 +1,11 @@
 <template>
-  <v-app class="closenavi">
+  <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon @click="backPage">mdi-close</v-icon>
     </v-toolbar>
-  </v-app>
+  </v-card>
 </template>
 
 <script>
