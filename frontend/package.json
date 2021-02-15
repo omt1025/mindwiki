@@ -12,6 +12,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.2",
     "@fortawesome/free-solid-svg-icons": "5.15.2",
     "@fortawesome/vue-fontawesome": "2.0.2",
+    "@gahing/vcontextmenu": "^1.0.0",
     "@xarples/wolfi-vue": "0.0.24-alpha.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
