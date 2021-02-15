@@ -30,9 +30,8 @@ import 'vue-mindmap/dist/vue-mindmap.css';
 // https://wolfi-vue.netlify.app/docs/getting-started/quick-start/
 import Wolfi from '@xarples/wolfi-vue';
 
-// lodash
-import VueLodash from 'vue-lodash'
-import lodash from 'lodash'
+// tree
+import VueTree from '@ssthouse/vue-tree-chart'
 
 library.add(faUserSecret);
 
@@ -44,7 +43,7 @@ Vue.use(Vuex);
 Vue.use(VueGlide);
 Vue.use(Mindmap);
 Vue.use(Wolfi);
-Vue.use(VueLodash, { name: 'custom' , lodash: lodash });
+Vue.component('vue-tree', VueTree)
 
 Vue.config.productionTip = false;
 

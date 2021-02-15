@@ -1,120 +1,114 @@
 <template>
-  <div>
-    <div ref="mind-map-item" class="mind-map-item">
-      <div class="tools">
-        <div
-          v-tooltip.bottom="'显示比例'"
-          class="operation normal-icon"
-          @click="toggleZoomSelector"
-        >
-          <span>{{ Math.round(ratio * 100) }}%</span>
-          <i
-            ref="ratio-selector"
-            class="icon simple-vue-mind-map icon_arrow_down"
-            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
-          ></i>
-          <ul ref="ratio-selector" class="ratio-selector">
-            <li
-              v-for="rt in selectableRatios"
-              :key="rt"
-              :class="{ active: rt === ratio }"
-              @click="handleSelectZoomingRate(rt)"
-            >
-              {{ rt * 100 }}%
-            </li>
-          </ul>
-        </div>
-
-        <div v-tooltip.bottom="'放大'" class="operation" @click="handleZoomIn()">
-          <i
-            class="normal-icon icon simple-vue-mind-map icon_zoomin"
-            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
-          ></i>
-        </div>
-        <div v-tooltip.bottom="'缩小'" class="operation" @click="handleZoomOut()">
-          <i
-            class="normal-icon icon simple-vue-mind-map icon_zoomout"
-            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
-          ></i>
-        </div>
-        <div class="separator"></div>
-        <div v-tooltip.bottom="'居中显示'" class="operation" @click="handleRelocation">
-          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
-        </div>
-        <div class="separator"></div>
-        <div
-          v-tooltip.bottom="'脑图结构'"
-          ref="toVert"
-          class="operation"
-          @click="handleToStructureVert"
-          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
-        </div>
-        <div
-          v-tooltip.bottom="'脑图结构'"
-          ref="toHori"
-          class="operation"
-          @click="handleToStructureHori"
-          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
-        </div>
-        <div v-if="showReason" class="separator"></div>
-        <div
-          v-if="showReason"
-          v-tooltip.bottom="'设置真因'"
-          class="operation"
-          @click="handleSetAsReason"
-        >
-          <i
-            class="normal-icon"
-            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
-            :class="{ active: currentData.reason > 0 }"
-            >真因</i
+  <div ref="mind-map-item" class="mind-map-item">
+    <div class="tools">
+      <div v-tooltip.bottom="'화면 비율'" class="operation normal-icon" @click="toggleZoomSelector">
+        <span>{{ Math.round(ratio * 100) }}%</span>
+        <i
+          ref="ratio-selector"
+          class="icon simple-vue-mind-map icon_arrow_down"
+          style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
+        ></i>
+        <ul ref="ratio-selector" class="ratio-selector">
+          <li
+            v-for="rt in selectableRatios"
+            :key="rt"
+            :class="{ active: rt === ratio }"
+            @click="handleSelectZoomingRate(rt)"
           >
-        </div>
-        <div class="separator"></div>
-        <div
-          v-if="inFullScreen"
-          v-tooltip.bottom="'退出全屏'"
-          class="operation"
-          @click="handleExitFullScreen"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
-        </div>
-        <div v-else v-tooltip.bottom="'全屏'" class="operation" @click="handleFullScreen">
-          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
-        </div>
+            {{ rt * 100 }}%
+          </li>
+        </ul>
       </div>
-      <div ref="drawing-board" class="drawing-board">
-        <div
-          ref="tela"
-          class="tela"
-          @transitionstart="handleTransitionstart"
-          @transitionend="handleTransitionend"
-          @click="handleTelaClick"
+
+      <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
+        <i
+          class="normal-icon icon simple-vue-mind-map icon_zoomin"
+          :class="{ disabled: this.ratio >= this.MAX_RATIO }"
+        ></i>
+      </div>
+      <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
+        <i
+          class="normal-icon icon simple-vue-mind-map icon_zoomout"
+          :class="{ disabled: this.ratio <= this.MIN_RATIO }"
+        ></i>
+      </div>
+      <div class="separator"></div>
+      <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
+        <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
+      </div>
+      <div class="separator"></div>
+      <div
+        v-tooltip.bottom="'트리구조'"
+        ref="toHori"
+        class="operation"
+        @click="handleToStructureHori"
+        style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
+      >
+        <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
+      </div>
+      <div
+        v-tooltip.bottom="'트리구조'"
+        ref="toVert"
+        class="operation"
+        @click="handleToStructureVert"
+        style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
+      >
+        <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
+      </div>
+      <div v-if="showReason" class="separator"></div>
+      <div
+        v-if="showReason"
+        v-tooltip.bottom="'부모노드 생성'"
+        class="operation"
+        @click="handleSetAsReason"
+      >
+        <i
+          class="normal-icon"
+          style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
+          :class="{ active: currentData.reason > 0 }"
+          >부모노드</i
         >
-          <vue-okr-tree
-            ref="tree"
-            :direction="direction"
-            :data="mapData"
-            :render-content="handleRenderContent"
-            @node-click="handleNodeClick"
-          >
-          </vue-okr-tree>
-          <context-menu
-            :show="contextMenuVisible"
-            :offset="contextMenuOffset"
-            @update:show="(show) => (contextMenuVisible = show)"
-          >
-            <a @click="handleSetAsReason">真因</a>
-            <a @click="handleAppendChild">增加子节点</a>
-            <a @click="handleInsertBefore">左边增加节点</a>
-            <a @click="handleInsertAfter">右边增加节点</a>
-            <a @click="handleRemove">删除节点</a>
-          </context-menu>
-        </div>
+      </div>
+      <div class="separator"></div>
+      <div
+        v-if="inFullScreen"
+        v-tooltip.bottom="'전체화면 해제'"
+        class="operation"
+        @click="handleExitFullScreen"
+      >
+        <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
+      </div>
+      <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
+        <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
+      </div>
+    </div>
+    <div ref="drawing-board" class="drawing-board">
+      <div
+        ref="tela"
+        class="tela"
+        @transitionstart="handleTransitionstart"
+        @transitionend="handleTransitionend"
+        @click="handleTelaClick"
+      >
+        <vue-okr-tree
+          ref="tree"
+          :direction="direction"
+          :data="mapData"
+          :render-content="handleRenderContent"
+          @node-click="handleNodeClick"
+        >
+        </vue-okr-tree>
+        <context-menu
+          :show="contextMenuVisible"
+          :offset="contextMenuOffset"
+          @update:show="(show) => (contextMenuVisible = show)"
+        >
+          <a @click="handleSetAsReason">부모 노드</a>
+          <a @click="handleAppendChild">노드추가</a>
+          <a @click="handleInsertBefore">왼쪽에 노드 추가</a>
+          <a @click="handleInsertAfter">오른쪽에 노드 추가</a>
+          <a @click="handleRemove">노드 삭제</a>
+        </context-menu>
       </div>
       <button @click="open">Open</button>
       <swipeable-bottom-sheet ref="swipeableBottomSheet">
@@ -131,6 +125,10 @@
         </p>
       </swipeable-bottom-sheet>
     </div>
+    <swipeable-bottom-sheet ref="swipeableBottomSheet">
+      <input type="text" v-model="currentData.label">
+      <v-btn @click="handleAppendChild">노드추가</v-btn>
+    </swipeable-bottom-sheet>
   </div>
 </template>
 
@@ -156,7 +154,15 @@ export default {
   },
   data() {
     return {
-      direction: 'vertical',
+      sheet: false,
+      tiles: [
+        { img: 'keep.png', title: 'Keep' },
+        { img: 'inbox.png', title: 'Inbox' },
+        { img: 'hangouts.png', title: 'Hangouts' },
+        { img: 'messenger.png', title: 'Messenger' },
+        { img: 'google.png', title: 'Google+' }
+      ],
+      direction: 'horizontal',
       $toVert: null,
       $toHori: null,
       $mindMapItem: null,
@@ -184,6 +190,7 @@ export default {
     };
   },
   mounted() {
+    this.$refs.swipeableBottomSheet.setState("close")
     const $refs = this.$refs;
 
     this.$toVert = $refs.toVert;
@@ -233,8 +240,8 @@ export default {
     },
   },
   methods: {
-    open() {
-      this.$refs.swipeableBottomSheet.setState('open');
+    open () {
+      this.$refs.swipeableBottomSheet.setState("half")
     },
     toggleZoomSelector() {
       this.$ratioSelector.style.display = this.ratioSelectorShowing ? 'none' : 'block';
@@ -342,38 +349,22 @@ export default {
 
       this.handleRelocation();
     },
+    // 노드 추가 부분 -> 노드 새로 만들 때 화살표 아이콘 수정하면 될 듯, 추가되는 내용도 데이터베이스에 보내야됨
     handleRenderContent(h, node) {
       return (
         <div style="position: relative;text-align: left;">
           {node.data.root ? (
             ''
           ) : (
-            <div class="act act-left" on-click={this.handleInsertBefore}>
-              <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-            </div>
-          )}
-          {node.data.root ? (
-            ''
-          ) : (
-            <div class="act act-right" on-click={this.handleInsertAfter}>
-              <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-            </div>
-          )}
-          <div class="act act-down" on-click={this.handleAppendChild}>
-            <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-          </div>
-          {node.data.root ? (
-            ''
-          ) : (
             <div class="act act-close" on-click={this.handleRemove}>
-              <i class="normal-icon icon simple-vue-mind-map icon_card_close"></i>
+              <i class="fa fa-minus-square" aria-hidden="true"></i>
             </div>
           )}
           <span contenteditable="true" style="outline: none;">
             {node.data.label}
           </span>
           {this.showReason && node.data.reason ? (
-            <div class="reason">真因{this.reasonCount > 1 ? node.data.reason : ''}</div>
+            <div class="reason">부모노드{this.reasonCount > 1 ? node.data.reason : ''}</div>
           ) : (
             ''
           )}
@@ -381,6 +372,7 @@ export default {
       );
     },
     handleNodeClick(data, node, component) {
+      this.open();
       this.handleClearTela();
 
       this.inputContent = 'data.label';
@@ -402,21 +394,19 @@ export default {
       });
 
       let isInputZh = false;
-
+      // 입력 시작
       $ele.addEventListener(
         'compositionstart',
         function() {
           isInputZh = true;
-          // console.log('开始输入中文')
         },
         false
       );
-
+      // 입력 완료
       $ele.addEventListener(
         'compositionend',
         function() {
           isInputZh = false;
-          // console.log('结束输入中文', e.target.innerText)
 
           var event = new Event('input', {
             bubbles: true,
