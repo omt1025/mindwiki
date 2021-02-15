@@ -63,24 +63,19 @@
       </v-list-item>
     </v-card-actions>
 
-      <!-- 노드 추가 버튼 구현 -->
-      <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
-      <div v-if="mindmap.admin === useremail">
-        <v-menu
-          v-model="menu"
-          :close-on-content-click="false"
-          :nudge-width="200"
-          offset-x
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
+    <!-- 노드 추가 버튼 구현 -->
+    <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
+    <div v-if="mindmap.admin === useremail">
+      <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
 
-            <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
+          <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
 
         <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
         <v-card>
@@ -88,81 +83,89 @@
             <span class="headline">마인드맵 수정</span>
           </v-card-title>
 
-        <v-card-text>
-          <v-row>
-            <!-- 제목 -->
-            <v-col cols="12">
-              <v-text-field
-                label="제목 (최대 16자)"
-                required
-                id="title"
-                ref="title"
-                v-model="title"
-                @keypress.enter="checkHandler"
-                type="text"
-                :maxlength="max_title"
-              ></v-text-field>
-            </v-col>
-            <!-- 주제 -->
-            <v-col cols="12">
-              <v-text-field
-                label="주제"
-                required
-                id="subject"
-                ref="subject"
-                v-model="subject"
-                @keypress.enter="checkHandler"
-                type="text"
-              ></v-text-field>
-            </v-col>
-            <!-- 해시태그 -->
-            <div>
-              <div padding="10px">
-                <p class="interestTagTitle">해시태그 설정</p>
+          <v-card-text>
+            <v-row>
+              <!-- 제목 -->
+              <v-col cols="12">
+                <v-text-field
+                  label="제목 (최대 16자)"
+                  required
+                  id="title"
+                  ref="title"
+                  v-model="title"
+                  @keypress.enter="checkHandler"
+                  type="text"
+                  :maxlength="max_title"
+                ></v-text-field>
+              </v-col>
+              <!-- 주제 -->
+              <v-col cols="12">
+                <v-text-field
+                  label="주제"
+                  required
+                  id="subject"
+                  ref="subject"
+                  v-model="subject"
+                  @keypress.enter="checkHandler"
+                  type="text"
+                ></v-text-field>
+              </v-col>
+              <!-- 해시태그 -->
+              <div>
+                <div padding="10px">
+                  <p class="interestTagTitle">해시태그 설정</p>
+                </div>
+
+                <v-combobox
+                  append-icon
+                  flat
+                  v-model="hashtag"
+                  hashtag
+                  clearable
+                  multiple
+                  no-filter
+                  id="combobox"
+                >
+                  <template v-slot:selection="{ attrs, item, select, selected }">
+                    <v-chip
+                      v-bind="attrs"
+                      :input-value="selected"
+                      close
+                      class="ma-2"
+                      color="purple"
+                      text-color="white"
+                      @click="select"
+                      @click:close="remove(item)"
+                    >
+                      <strong class="test">{{ item }}</strong
+                      >&nbsp;
+                    </v-chip>
+                  </template>
+                </v-combobox>
               </div>
+              <!-- 설명 -->
+              <v-col cols="12">
+                <v-text-field
+                  label="설명 (최대 145자)"
+                  required
+                  id="explanation"
+                  ref="explanation"
+                  v-model="explanation"
+                  :maxlength="max_explanation"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card-text>
 
-                  <v-combobox
-                    append-icon
-                    flat
-                    v-model="hashtag"
-                    hashtag
-                    clearable
-                    multiple
-                    no-filter
-                    id="combobox"
-                  >
-                    <strong class="test">{{ item }}</strong
-                    >&nbsp;
-                  </v-chip>
-                </template>
-              </v-combobox>
-            </div>
-            <!-- 설명 -->
-            <v-col cols="12">
-              <v-text-field
-                label="설명 (최대 145자)"
-                required
-                id="explanation"
-                ref="explanation"
-                v-model="explanation"
-                :maxlength="max_explanation"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-card-text>
+          <v-divider></v-divider>
 
-        <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="menu = false">
+              Cancel
+            </v-btn>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="menu = false">
-            Cancel
-          </v-btn>
-
-            <v-btn 
-            text
-            @click="checkHandler"
-            >
+            <v-btn text @click="checkHandler">
               OK
             </v-btn>
           </v-card-actions>
@@ -185,7 +188,7 @@ export default {
       fav: true,
       menu: false,
       // 마인드맵 생성에 필요한 요소
-      mindmap: "",
+      mindmap: '',
       useremail: this.$store.getters.userId,
       // 임시로 쓸 더미 데이터
       map: [
