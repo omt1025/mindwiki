@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="checkPassword" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
-		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email} AND password=#{password} ))
+		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email} AND password=#{password} )
 	</select>
 	
 	<delete id="withdrawal" parameterType="com.mindwiki.model.ProfileDto">
