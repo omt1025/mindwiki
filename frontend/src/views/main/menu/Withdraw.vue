@@ -10,7 +10,7 @@
     <close-navi :title="title"></close-navi>
 
     <div class="container-login100">
-      <div class="wrap-login100 p-l-55 p-r-55 p-t-30 p-b-35">
+      <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
         <!-- 현재 비밀번호 -->
         <span class="label-input100 p-b-7" style="float: left">현재 비밀번호</span>
         <w-input

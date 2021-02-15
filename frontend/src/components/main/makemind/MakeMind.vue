@@ -89,7 +89,7 @@
             <div>
               <p class="interestTagTitle">썸네일 이미지 등록</p>
             </div>
-            <input type="file" @change="processFile($event)" @keypress.enter="checkHandler"/>
+            <input type="file" @change="processFile($event)" @keypress.enter="checkHandler" />
             <!-- <v-text-field 
               type="file" 
               id="files" 
@@ -107,17 +107,11 @@
       <!-- 생성 창 확인 / 취소 버튼 -->
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          text
-          @click="setState"
-        >
+        <v-btn text @click="setState">
           Cancel
         </v-btn>
 
-        <v-btn
-          text
-          @click="checkHandler"
-        >
+        <v-btn text @click="checkHandler">
           OK
         </v-btn>
       </v-card-actions>
@@ -155,10 +149,10 @@ export default {
   }),
   methods: {
     processFile(event) {
-      this.newmind.files = event.target.files[0]
+      this.newmind.files = event.target.files[0];
     },
     checkHandler() {
-      console.log(this.newmind.files)
+      console.log(this.newmind.files);
       let err = true;
       let msg = '';
       !this.newmind.title &&
@@ -217,21 +211,20 @@ export default {
     },
     // 다이얼로그 2
     showConfirm(msg) {
-      const options = {title: '알림', cancelLabel: 'CANCEL'}
-      this.$dialogs.confirm(msg, options)
-      .then(res => {
-        console.log(res)
+      const options = { title: '알림', cancelLabel: 'CANCEL' };
+      this.$dialogs.confirm(msg, options).then((res) => {
+        console.log(res);
         this.$router.push('/login');
-      })
+      });
     },
     // 생성 취소 후 알림창
     setState(value) {
       this.value = value;
       this.$store.dispatch('setBottomNav', this.value);
       let msg = '취소 완료. "OK"를 누르고 다시 생성하려면 "생성" 누르기';
-      this.showAlert(msg)
-    }
-  }
+      this.showAlert(msg);
+    },
+  },
 };
 </script>
 

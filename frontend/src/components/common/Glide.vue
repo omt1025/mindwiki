@@ -3,7 +3,7 @@
     <div id="subheadder">
       <h3>좋아요</h3>
     </div>
-    
+
     <vue-glide v-model="active1">
       <vue-glide-slide v-for="card in cards1" :key="card.title">
         <v-row dense>

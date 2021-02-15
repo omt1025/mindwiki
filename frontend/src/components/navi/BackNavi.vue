@@ -1,9 +1,17 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 뒤로가기 navi 재사용
+    * 생성일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-16
+ -->
+
   <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
+      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-icon @click="backPage">mdi-close</v-icon>
+      <v-icon v-if="title !== '설정'" @click="checkbtn" color="#a64bf4">mdi-check</v-icon>
     </v-toolbar>
   </v-card>
 </template>
@@ -18,7 +26,11 @@ export default {
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
-      this.$router.push('/main/menu');
+      this.$router.push('/main');
+    },
+    checkbtn: function() {
+      //   console.log('왔니');
+      this.$emit('checkbtn');
     },
   },
 };

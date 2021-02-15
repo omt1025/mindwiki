@@ -4,7 +4,6 @@ import VueRouter from 'vue-router';
 // User
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
-import ChangePassword from '@/views/user/ChangePassword.vue';
 import PasswordChange from '@/views/user/PasswordChange.vue';
 import FindPW from '@/views/user/FindPassword.vue';
 // Main
@@ -12,6 +11,7 @@ import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
 
 import MakeMind from '../views/main/MakeMind.vue';
+import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
 
 import MyLibrary from '../views/main/MyLibrary.vue';
 import MainMenu from '../components/main/menu/MainMenu.vue';
@@ -21,8 +21,8 @@ import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
 import MyMindList from '../views/mindmap/MyMindList.vue';
-import MindComment from '../views/mindmap/MindComment.vue'
-import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue'
+import MindComment from '../views/mindmap/MindComment.vue';
+import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
 import Test from '../views/mindmap/Test.vue';
 Vue.use(VueRouter);
 
@@ -52,13 +52,16 @@ const routes = [
     name: 'Main',
     component: Main,
   },
-
   {
     path: '/main/makemind',
     name: 'MakeMind',
     component: MakeMind,
   },
-
+  {
+    path: '/main/createmind',
+    name: 'MainCreateMind',
+    component: MainCreateMind,
+  },
   {
     path: '/main/mylibrary',
     name: 'MyLibrary',
@@ -78,11 +81,6 @@ const routes = [
     path: '/main/mylibrary/follow',
     name: 'Follow',
     component: Follow,
-  },
-  {
-    path: '/main/menu/changepassword',
-    name: 'ChangePassword',
-    component: ChangePassword,
   },
   {
     path: '/main/menu/passwordchange',

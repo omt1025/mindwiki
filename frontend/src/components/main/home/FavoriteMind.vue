@@ -13,16 +13,15 @@
       v-model="hashtag"
       hashtag
       clearable
-      label="Your favorite hobbies"
+      label="관심태그를 입력해주세요."
       multiple
+      hide-details="true"
       no-filter
       solo
       id="combobox"
       @change="updatehashtag()"
     >
-      <template
-        v-slot:selection="{ attrs, item, select, selected }"
-      >
+      <template v-slot:selection="{ attrs, item, select, selected }">
         <v-chip
           v-bind="attrs"
           :input-value="selected"
@@ -33,7 +32,7 @@
           @click="select"
           @click:close="remove(item)"
         >
-          <div v-if='item !== ""'>
+          <div v-if="item !== ''">
             <strong class="test">{{ item }}</strong
             >&nbsp;
           </div>
@@ -42,57 +41,53 @@
     </v-combobox>
     <v-row dense id="list">
       <!-- CardForm 컴포넌트로 데이터를 보냄 -->
-      <CardForm 
-        v-for="(card, index) in items" 
-        :key="index"
-        :card="card"
-      />
+      <CardForm v-for="(card, index) in items" :key="index" :card="card" />
     </v-row>
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import CardForm from '../../common/CardForm.vue'
+import CardForm from '../../common/CardForm.vue';
 
 export default {
   name: 'FavoriteMind',
-  data: () => ({ 
+  data: () => ({
     items: null,
-    hashtag: [], 
+    hashtag: [],
   }),
   components: {
-    CardForm
+    CardForm,
   },
   computed: {
     ...mapGetters(['cards']),
   },
-  methods:{
+  methods: {
     // 관심태그와 같은 마인드맵을 받아옴
-    readliketagmind () {
+    readliketagmind() {
       this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
-      this.items = this.$store.state.liketagData
+        this.items = this.$store.state.liketagData;
       });
     },
     // 로그인된 유저가 설정한 관심태그를 받아옴
-    readhashtag () {
+    readhashtag() {
       this.$store.dispatch('readHashTag', this.$store.getters.getJWT).then(() => {
-      const temphashtag = this.$store.state.hashtag.hashtag
-      if (temphashtag) this.hashtag = temphashtag.split('#')
-      this.hashtag.shift()
+        const temphashtag = this.$store.state.hashtag.hashtag;
+        if (temphashtag) this.hashtag = temphashtag.split('#');
+        this.hashtag.shift();
       });
     },
     // 관심태그 수정
-    updatehashtag () {
+    updatehashtag() {
       var hashtagform = '';
       for (var i = 0; i < this.hashtag.length; i++) hashtagform += '#' + this.hashtag[i];
       let form = new FormData();
-      form.append("jwt", this.$store.getters.getJWT);
-      form.append("hashtag", hashtagform)
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('hashtag', hashtagform);
 
       this.$store.dispatch('updateHashTag', form).then(() => {
         this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
-        this.items = this.$store.state.liketagData
+          this.items = this.$store.state.liketagData;
         });
       });
     },
@@ -103,20 +98,20 @@ export default {
       var hashtagform = '';
       for (var i = 0; i < this.hashtag.length; i++) hashtagform += '#' + this.hashtag[i];
       let form = new FormData();
-      form.append("jwt", this.$store.getters.getJWT);
-      form.append("hashtag", hashtagform)
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('hashtag', hashtagform);
 
       this.$store.dispatch('updateHashTag', form).then(() => {
         this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
-        this.items = this.$store.state.liketagData
+          this.items = this.$store.state.liketagData;
         });
       });
     },
   },
   // 전체 게시글을 가져옴
   created() {
-    this.readliketagmind ();
-    this.readhashtag ();
+    this.readliketagmind();
+    this.readhashtag();
   },
 };
 </script>
