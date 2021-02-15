@@ -5,77 +5,80 @@
     * 생성일자 : 2021-02-04
     * 최종수정일자 : 2021-02-08
  -->
+  <div class="login_back">
+    <div class="limiter">
+      <div class="profile_info">
+        <div class="user_info">
+          <!-- 사용자 프로필 이미지 -->
+          <v-avatar class="user_avatar" size="120px">
+            <img src="../../../assets/images/profile/person.jpeg" alt="John" />
+          </v-avatar>
 
-  <div class="profile_info">
-    <div class="user_info">
-      <!-- 사용자 프로필 이미지 -->
-      <v-avatar class="user_avatar" size="120px">
-        <img src="../../../assets/images/profile/person.jpeg" alt="John" />
-      </v-avatar>
-
-      <!-- 사용자 계정 정보 -->
-      <div class="user_nickname text-center p-t-22 p-b-3">
-        <span>{{ nickName }}</span>
-      </div>
-      <div class="txt1 text-center p-t-2 p-b-20">
-        <span>{{ userId }}</span>
-      </div>
-
-      <!-- 팔로워, 팔로잉, 게시글 수 -->
-      <w-card>
-        <w-card-body>
-          <!-- 본인이 작성한 게시물 수 -->
-          <div class="user-num" @click="goMind">
-            <w-card-title class="card-title">게시물</w-card-title>
-            <w-card-description class="card-description">
-              {{ myMindList.length }}
-            </w-card-description>
+          <!-- 사용자 계정 정보 -->
+          <div class="user_nickname text-center p-t-22 p-b-3">
+            <span>{{ nickName }}</span>
           </div>
-          <!-- 스크랩한 게시물 수 -->
-          <div class="user-num">
-            <w-card-title class="card-title">스크랩</w-card-title>
-            <w-card-description class="card-description">
-              {{ scrapList.length }}
-            </w-card-description>
-          </div>
-          <!-- 본인을 팔로워한 사람 수 -->
-          <div class="user-num" @click="goFollow">
-            <w-card-title class="card-title">팔로워</w-card-title>
-            <w-card-description class="card-description">
-              159
-            </w-card-description>
-          </div>
-          <!-- 본인이 팔로우한 사람 수 -->
-          <div class="user-num" @click="goFollow">
-            <w-card-title class="card-title">팔로잉</w-card-title>
-            <w-card-description class="card-description">
-              295
-            </w-card-description>
+          <div class="txt1 text-center p-t-2 p-b-20">
+            <span>{{ userId }}</span>
           </div>
 
-          <!-- 다른 사람 계정을 볼 때만 보여지도록 추후 구현 필요[YJS] -->
-          <!-- 이미 팔로우한 경우, #a64bf4 -->
-          <div v-if="nickName !== this.$store.getters.nickName" class="p-t-16">
-            <w-button class="profile_button">팔로우</w-button>
-            <w-button>메시지</w-button>
-          </div>
-        </w-card-body>
-      </w-card>
+          <!-- 팔로워, 팔로잉, 게시글 수 -->
+          <w-card>
+            <w-card-body>
+              <!-- 본인이 작성한 게시물 수 -->
+              <div class="user-num" @click="goMind">
+                <w-card-title class="card-title">게시물</w-card-title>
+                <w-card-description class="card-description">
+                  {{ myMindList.length }}
+                </w-card-description>
+              </div>
+              <!-- 스크랩한 게시물 수 -->
+              <div class="user-num">
+                <w-card-title class="card-title">스크랩</w-card-title>
+                <w-card-description class="card-description">
+                  {{ scrapList.length }}
+                </w-card-description>
+              </div>
+              <!-- 본인을 팔로워한 사람 수 -->
+              <div class="user-num" @click="goFollow">
+                <w-card-title class="card-title">팔로워</w-card-title>
+                <w-card-description class="card-description">
+                  159
+                </w-card-description>
+              </div>
+              <!-- 본인이 팔로우한 사람 수 -->
+              <div class="user-num" @click="goFollow">
+                <w-card-title class="card-title">팔로잉</w-card-title>
+                <w-card-description class="card-description">
+                  295
+                </w-card-description>
+              </div>
 
-      <!-- 내가 작성한 MIND목록 -->
-      <div class="mymind_list p-t-60 p-b-20">
-        <div class="txt2 p-t-15 p-b-15">
-          <span>내 MIND</span>
+              <!-- 다른 사람 계정을 볼 때만 보여지도록 추후 구현 필요[YJS] -->
+              <!-- 이미 팔로우한 경우, #a64bf4 -->
+              <div v-if="nickName !== this.$store.getters.nickName" class="p-t-16">
+                <w-button class="profile_button">팔로우</w-button>
+                <w-button>메시지</w-button>
+              </div>
+            </w-card-body>
+          </w-card>
+
+          <!-- 내가 작성한 MIND목록 -->
+          <div class="mymind_list p-t-60 p-b-20">
+            <div class="txt2 p-t-15 p-b-15">
+              <span>내 MIND</span>
+            </div>
+            <mind-list :mindlist="myMindList"></mind-list>
+          </div>
+
+          <!-- 내가 스크랩한 MIND목록 -->
+          <div class="mymind_list p-t-20 p-b-50">
+            <div class="txt2 p-t-2 p-b-15">
+              <span>스크랩 MIND</span>
+            </div>
+            <mind-list :mindlist="this.scrapList"></mind-list>
+          </div>
         </div>
-        <mind-list :mindlist="myMindList"></mind-list>
-      </div>
-
-      <!-- 내가 스크랩한 MIND목록 -->
-      <div class="mymind_list p-t-20 p-b-50">
-        <div class="txt2 p-t-2 p-b-15">
-          <span>스크랩 MIND</span>
-        </div>
-        <mind-list :mindlist="this.scrapList"></mind-list>
       </div>
     </div>
   </div>
