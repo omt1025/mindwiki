@@ -6,10 +6,7 @@
     * 최종수정일자 : 2021-02-08
  -->
 
-
-  <div
-    class="profile_info"
-  >
+  <div class="profile_info">
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
       <v-avatar class="user_avatar" size="120px">
@@ -156,7 +153,7 @@ export default {
 .profile_info {
   background-image: url(../../../assets/images/profile/hero_mini.svg);
   min-height: auto;
-  min-width: 375px;
+  min-width: 360px;
   width: 100%;
   /* height: 100%; */
   position: relative;
@@ -210,5 +207,4 @@ export default {
 .card-body {
   padding: 1rem;
 }
-
 </style>

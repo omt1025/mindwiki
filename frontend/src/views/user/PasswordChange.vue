@@ -203,7 +203,7 @@ export default {
   text-align: left;
 }
 .container-login100 {
-  align-items: baseline;
+  align-items: start important;
 }
 .input[data-v-565818fe] {
   background-color: #00000006 !important;
