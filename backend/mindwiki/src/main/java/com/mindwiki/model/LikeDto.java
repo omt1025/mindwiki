@@ -1,9 +1,11 @@
-package com.mindwiki.model;
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 좋아요 dto
+* 기능 : 좋아요
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+
+package com.mindwiki.model;
+
 public class LikeDto {
 	private String email;
 	private int likedMindID;

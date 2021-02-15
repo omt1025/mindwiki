@@ -1,10 +1,10 @@
-package com.mindwiki.controller;
-
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 기본 로그인 & jwt 발급
+* 기능 : login
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.controller;
+
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -56,6 +56,7 @@ public class LoginController {
 		ProfileDto temp_mem=new ProfileDto();
 		
 		
+		
 	
 		
 		temp_mem.setEmail(id);
@@ -65,24 +66,29 @@ public class LoginController {
 		
 		
 		
-		
 
-		memberDto = loginSvc.login(temp_mem);
-			
-		if(memberDto.getNickName()!=null) {//로그인성공
-				String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
-				resultMap.put("message", "SUCCESS");
-				resultMap.put("jwt", jwt);
-				//hs.setAttribute("sessionGen", "exist");
-				//hs.setAttribute("jwt", jwt);
-				status=HttpStatus.ACCEPTED;
-		}else {//로그인 실패 비밀번호 실패
-				resultMap.put("message", "FAIL");
-				status=HttpStatus.ACCEPTED;
-		}
-			
-	
 		
+		memberDto = loginSvc.login(temp_mem);
+		
+	
+
+		
+		//이메일이 있을때
+		if(memberDto.getNickName()!=null) {//로그인성공
+			System.out.println(memberDto.getNickName());
+
+			String jwt = jwtSvc.createToken("userInfo", memberDto.getEmail(),memberDto.getNickName());
+			resultMap.put("message", "SUCCESS");
+			resultMap.put("jwt", jwt);
+			//hs.setAttribute("sessionGen", "exist");
+			//hs.setAttribute("jwt", jwt);
+			status=HttpStatus.ACCEPTED;
+		}else {//로그인 실패 비밀번호 실패
+			resultMap.put("message", "FAIL");
+			status=HttpStatus.ACCEPTED;
+		}
+	
+	
 		
 		
 		System.out.println(new ResponseEntity<Map<String, Object>>(resultMap, status));
@@ -110,7 +116,7 @@ public class LoginController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	
 		
 		return claims;
 	}

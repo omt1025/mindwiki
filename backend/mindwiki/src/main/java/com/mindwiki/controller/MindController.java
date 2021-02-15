@@ -1,7 +1,6 @@
-
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 마인드 CRUD
+* 기능 : mind controll
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
 package com.mindwiki.controller;
@@ -124,7 +123,8 @@ public class MindController {
 			
 			Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
 			String email=(String)clamMap.get("email");
-			
+		
+	
 			if(disLike==1) {//취소해야되는 값을 넘겨주면 여기서 로직을 끝내버리면됨
 				try {
 					mindSvc.deleteLike(no, email);
@@ -212,50 +212,50 @@ public class MindController {
 		
 		String dir = "/src/main/resources/static/img";
 		String path = System.getProperty("user.dir");
-		
+		//리눅스는 / 윈도우는 \이다. 이거지금 리눅스처럼해도 잘돌아가게해줌
 		
 		String rootPath = path+dir;
-	   
-	    String filePath = rootPath + "/" ;
+
+	    String filePath = rootPath + "/" ;//+ file.getOriginalFilename();
 	    
 	   
-	  
+	    //System.out.println("filePath : "+ StringUtils.cleanPath(dir));
 	    
 	    Path directory = Paths.get(filePath).toAbsolutePath().normalize();
-	  
+	    //File dest = new File(filePath);
+	    
+
 	    plusTime.replaceAll(":","");
 		String fileName = StringUtils.cleanPath(plusTime+file.getOriginalFilename());
 
-		
 		String pathDB = "http://localhost:8000/mindwiki/image/"+fileName;
-	
+
 		Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
-	
+
 		Path targetPath = directory.resolve(fileName).normalize();
 
-	
 		Assert.state(!Files.exists(targetPath), fileName + " File alerdy exists.");
 		try {
 			file.transferTo(targetPath);
 		} catch (IllegalStateException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		return pathDB;
+		return pathDB;//어차피 업로드 로직은 실행되었기때문에 db에 넣을 thumbnail값을 출력한다.
 	}
 	
-	
+	// feed image 반환하기
 
 
 	@GetMapping(value = "/image/{imagename}", produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<byte[]> userSearch(@PathVariable("imagename") String imagename) throws IOException {
 		
-		
+		//System.out.println(imagename+"이잘넘어왔다!! jwt를 뚫고!");
 		String dir=StringUtils.cleanPath("src/main/resources/static/img/");
 	InputStream imageStream = new FileInputStream( dir+ imagename); 
 	
@@ -311,7 +311,7 @@ public class MindController {
 			@RequestParam(value="hashtag", required=false) String hashtag,
 			@RequestParam(value="subject", required=false) String subject,
 			@RequestParam(value="explanation", required=false) String explanation) throws UnsupportedEncodingException{
-	
+		
 		
 		
 		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
@@ -336,7 +336,7 @@ public class MindController {
 				int count=0;
 				count=st.countTokens();
 				for(int i=0;i<count;i++){//어차피 0일리는 없음
-			
+					//System.out.println(st.nextToken());
 					mindSvc.makeHashtag(MindID, st.nextToken());//해쉬태그들을 리스트로 넣음			
 				}
 				
@@ -360,7 +360,7 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-		
+			// TODO Auto-generated catch block
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 			//returnMessage="마인드 등록 실패!";
@@ -373,13 +373,18 @@ public class MindController {
 		
 		System.out.println("일단 mind controller");
 
-	
+		
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	//comment0126 수정해야함
 	@PutMapping("/mind/read/{no}/comment")public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException{
-
+		
+		//1번 mymind 불러오기
+		//2번 
+		
+		
+		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -390,7 +395,7 @@ public class MindController {
 	@GetMapping("/mind/read/{no}")
 	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
-	
+		//System.out.println(mindSvc.readByMindID(no)); 이거해주면 중복실행되서 2씩 카운트됨
 		
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no),HttpStatus.OK);
 	}
@@ -398,7 +403,11 @@ public class MindController {
 	//mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException{
 		
-	
+		//1번 mymind 불러오기
+		//2번 
+		
+		
+		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
 		System.out.println(mindSvc.read());
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
@@ -415,10 +424,10 @@ public class MindController {
 			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
 			email=(String)claimMap.get("email");
 		} catch (UnsupportedEncodingException e) {
-		
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 
+		//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
 		System.out.println(mindSvc.readByEmail(email));
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(email), HttpStatus.OK);
@@ -436,6 +445,8 @@ public class MindController {
 			@RequestParam(value="subject", required=false) String subject,
 			@RequestParam(value="explanation", required=false) String explanation){
 		
+		//업데이트하면 리스트에 있는거 다 삭제되고, 수정되도록해야겠네, //삭제는 따로 처리
+		//수정만 가능하게
 		
 		System.out.println(MindID);
 		MindDto mind = new MindDto(MindID, title, hashtag, subject, explanation);
@@ -453,10 +464,10 @@ public class MindController {
 				status = HttpStatus.OK;
 			}
 		} catch (SQLException e) {
-			
+			// TODO Auto-generated catch block
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-			
+			//returnMessage="마인드 등록 실패!";
 		}
 	
 		

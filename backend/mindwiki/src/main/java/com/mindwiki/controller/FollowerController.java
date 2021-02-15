@@ -1,7 +1,7 @@
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : Follwer crud
-* 최종 수정일: 2021.02.12.
+* 기능 : follower
+* 최종 수정일: 2021.02.04.
 *******************************************************************************/
 package com.mindwiki.controller;
 
@@ -67,7 +67,7 @@ public class FollowerController {
 	private JwtService jwtSvc;
 	
 	
-
+	//Create Read Delete
 	
 	@PostMapping("/save")
 	public ResponseEntity<Map<String, Object>> follower_save(
@@ -99,13 +99,17 @@ public class FollowerController {
 		}//저장해줌
 		
 		
+		
 
+
+
+		
+		
+		
+		//내이메일이랑, followerEmail을 이메일
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	
-	
 	
 	
 	@GetMapping("/list")
@@ -120,9 +124,6 @@ public class FollowerController {
 		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail),HttpStatus.OK);
 	}
 	
-	
-	
-	
 	@GetMapping("/list/detail")
 	public ResponseEntity<List<MindDto>> follower_list_detail(
 			@RequestParam(value="jwt", required=false) String jwt,
@@ -132,9 +133,6 @@ public class FollowerController {
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(followerEmail), HttpStatus.OK);
 	}
-	
-	
-	
 	
 	
 	@DeleteMapping("/list/delete")

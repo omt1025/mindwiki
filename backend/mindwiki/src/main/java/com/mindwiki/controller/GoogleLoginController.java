@@ -1,3 +1,8 @@
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : google로그인
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 package com.mindwiki.controller;
 
 import java.io.IOException;
@@ -39,11 +44,7 @@ import com.mindwiki.service.JwtService;
 
 import io.swagger.annotations.Api;
 
-/******************************************************************************
-* 작성자 : 서울 2반 4팀 신충현
-* 기능 : 구글 oauth & jwt
-* 최종 수정일: 2021.02.04.
-*******************************************************************************/
+
 
 //@CrossOrigin("*")
 @Controller
@@ -92,13 +93,11 @@ public class GoogleLoginController {
 	      
 	      
 
+	     
+	    //  System.out.println(returnJson);
+	      String jwt = getUserInfo(returnJson);
 
-	      String jwt = getUserInfo(returnJson);//사실 jwt를 return해주지않아도 생성된 것임
-
-	      
-	      
-	    
-	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
+	      return new RedirectView("http://localhost:8080/?jwt="+jwt);
 	}
 
 
@@ -107,15 +106,15 @@ public class GoogleLoginController {
 		
 		JsonNode accessToken = GoogleRequestJson.get("access_token");
 		
-		//&자 앞에서 안끊어주면 illegal 오류남
+	
 		  final String RequestUrl ="https://www.googleapis.com/oauth2/v1/userinfo?alt=json";		  
 	      final HttpClient client = HttpClientBuilder.create().build();
 	      final HttpGet get = new HttpGet(RequestUrl);
-	 
+	
 	      get.addHeader("Authorization", "Bearer " + accessToken);
 	      JsonNode returnJson = null;
 	      try {
-	    
+	    	
 	         final HttpResponse response = client.execute(get);
 	         // JSON 형태 반환값 처리
 	     
@@ -126,9 +125,9 @@ public class GoogleLoginController {
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	      } finally {
-	  
+	         // clear resources
 	      }
-    
+//	      
 	      
 	      String Google_email = null;
 	      String Google_name = null;
@@ -137,10 +136,11 @@ public class GoogleLoginController {
 	      System.out.println(Google_email);
 	      System.out.println(Google_name);
 	
+//	      
 	      if(Google_email!=null) {
 	    	  
 	      jwt=jwtSvc.createToken("userInfo", Google_email,Google_name);
-	      //만들어주면 알아서 서버에 저장됨
+	   
 	      
 	      }
 	      return jwt;

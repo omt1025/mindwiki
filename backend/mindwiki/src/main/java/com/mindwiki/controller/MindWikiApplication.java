@@ -1,10 +1,10 @@
-package com.mindwiki.controller;
-
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : cors 관리
+* 기능 : mindwiki
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.controller;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -20,5 +20,5 @@ public class MindWikiApplication {
 		SpringApplication.run(MindWikiApplication.class, args);
 	}
 
-
+	
 }

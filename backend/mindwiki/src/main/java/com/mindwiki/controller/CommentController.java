@@ -1,3 +1,8 @@
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 댓글
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 package com.mindwiki.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -31,14 +36,8 @@ import io.swagger.annotations.Api;
 
 import io.swagger.annotations.ApiOperation;
 
-/******************************************************************************
-* 작성자 : 서울 2반 4팀 신충현
-* 기능 : 댓글 CRUD
-* 최종 수정일: 2021.02.04.
-*******************************************************************************/
-
-
 @Api("CommentController V1")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/mindwiki")
 public class CommentController {
@@ -65,35 +64,29 @@ public class CommentController {
 	
 		
 		HttpStatus status=null;
-		
 
 		try {
-			if(jwtSvc.verifyJWT(jwt)!=null) {
+			
 		
 			claims=jwtSvc.verifyJWT(jwt);
 			String email=(String) claims.get("email");
 			System.out.println("이메일 jwt에서 검증후 잘가져왔는지" +email);
 			CommentDto comment =new CommentDto(MindID,data,email);
 			commentSvc.make(comment);//comment 생성
-			resultMap.put("message", "comment가 등록되었습니다.");
+			resultMap.put("message", "SUCCESS");
 			System.out.println("등록됨");
 			status = HttpStatus.OK;
-			}else {
-				resultMap.put("message", "comment 등록실패(회원가입정보가 없습니다.)");
-				status = HttpStatus.OK;
-			}
-		} catch (SQLException e) {
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-		
+			//returnMessage="코멘트 등록 실패!";
 		}
 	
 		
 		System.out.println("일단 comment controller");
 
-		
-		
 	
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -102,11 +95,12 @@ public class CommentController {
 	
 	
 	
-	//Comment read 해당되는 MindIDto에 있는 모든 것을 불러온다.
+	//Comment read 해당되는 MindIDno에 있는 모든 것을 불러온다.
 		@ApiOperation(value = "해당마인드 댓글 전부 불러오기", notes = "댓글 정보를 읽어온다. List로 받아온다.", response = List.class)
 		@GetMapping("/mind/comment/read/{no}")public ResponseEntity<List<CommentDto>> read(@PathVariable int no) throws SQLException{
 			
-	
+			//1번 mymind 불러오기
+			//2번 
 			int MindID=no;
 			
 			//마인드 내부에 들어오면 이 페이지의 mindID가 무엇인지 알려줘야함 
@@ -142,11 +136,11 @@ public class CommentController {
 			try {
 				if(email!=null) {//여기 수정해야됨 세션이나 관리자로 권한확인
 				commentSvc.updateByCommentID(comment);
-				resultMap.put("message", "댓글이 수정되었습니다.");
+				resultMap.put("message", "UPDATE SUCCESS");
 				System.out.println("수정됨");
 				status = HttpStatus.OK;
 				}else {
-					resultMap.put("message", "댓글 수정실패(로그인해주세요.)");
+					resultMap.put("message", "FAIL(LOGIN)");
 					status = HttpStatus.OK;
 				}
 			} catch (SQLException e) {
@@ -180,7 +174,9 @@ public class CommentController {
 			claims=jwtSvc.verifyJWT(jwt);
 			String email=(String) claims.get("email");
 			HttpStatus status=null;
-		
+			
+			//1번 mymind 불러오기
+			//2번 
 			CommentDto comment =new CommentDto(MindID,commentID,data,email);
 			//이 생성자로 인해comment id가 제대로 전달됨
 			

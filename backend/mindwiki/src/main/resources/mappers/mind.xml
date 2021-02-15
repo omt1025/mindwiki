@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-작성자 : 신충현
-기능 : mind mybatis
-수정 : 02. 05 
--->
+
 <mapper namespace="com.mindwiki.dao.MindDao">
 
 	<select id="read" resultType="com.mindwiki.model.MindDto">
 		select * from mind
 	</select>
 	
-	<select id="scrapRead" resultType="com.mindwiki.model.ScrapDto">
-		select * from scrapList
+	<select id="hashtagByMindID" resultType="String">
+		select hashtag from hashtagList where MindID=#{MindID}
 	</select>
 	
-	<select id="likeRead" resultType="com.mindwiki.model.LikeDto">
-		select * from likeList
+	
+	
+	<select id="scrapRead" resultType="com.mindwiki.model.MindDto">
+		select * from mind where MindID in (select scrapedMindID from scrapList where email=#{email});
+	</select>
+	
+	<select id="likeRead" resultType="com.mindwiki.model.MindDto">
+		select * from mind where MindID in (select likedMindID from likeList where email=#{email});
 	</select>
 	
 	
@@ -52,6 +54,14 @@
 	insert into mind (admin, title, subject, hashtag, explanation,initCreateTime,thumbnail) values (#{admin}, #{title}, #{subject}, #{hashtag}, #{explanation},@time,#{thumbnail})
 	</insert>
 	
+	<insert id="makeHashtag">
+	insert into hashtagList(MindID, hashtag) values (#{MindID}, #{hashtag}) 
+	</insert>
+	
+	<select id="getMindID" resultType="Integer">
+	select MindID from mind where admin=#{email} and initCreateTime=@time;
+	</select>
+	
 	<!-- <update id="makeFollwerID">
 	
 	update mind set followerListID=(select MindID from mind where admin=#{admin} and initCreateTime=@time)
@@ -65,7 +75,6 @@
 		insert into likeList (email, likedMindID) values (#{email},#{no})
 	</insert>
 	
-	
 	<delete id="deleteScrap">
 		delete from scrapList where scrapedMindID=#{no} and email=#{email}
 	</delete>
@@ -73,5 +82,12 @@
 	<delete id="deleteLike">
 		delete from likeList where likedMindID=#{no} and email=#{email}
 	</delete>
+	
+	<delete id="deleteHashtag">
+		delete from hashtagList where MindID=#{MindID} and hashtag=#{hashtag}
+	</delete>
+	
+	
+	
 	
 </mapper>
