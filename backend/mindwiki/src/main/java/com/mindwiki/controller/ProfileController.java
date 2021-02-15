@@ -33,9 +33,6 @@ public class ProfileController {
 	@Autowired
 	private JwtService jwtService;
 
-	private static final int SUCCESS = 1;
-	private static final int FAIL = -1;
-
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
 	 * 기능 : 회원 가입
@@ -137,25 +134,25 @@ public class ProfileController {
 	@PostMapping("/changePassword")
 	public ResponseEntity<Map<String, Object>> changePassword(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="oldPassword", required=false) String oldPassword,
-			@RequestParam(value="newPassword", required=false) String newPassword) throws UnsupportedEncodingException{
+			@RequestParam(value="oldPassword", required=false) String oldPW,
+			@RequestParam(value="newPassword", required=false) String newPW) throws UnsupportedEncodingException{
 
 		Map<String, Object> jwtData =  jwtService.verifyJWT(jwt);
 		String email = (String)jwtData.get("email");
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
-		profileDto.setPassword(oldPassword);
+		profileDto.setPassword(oldPW);
 		
-		return processChangePassword(profileDto, newPassword);
+		return processChangePW(profileDto, newPW);
 	}
 	
-	private ResponseEntity<Map<String, Object>> processChangePassword(ProfileDto dto,  String newPassword){
+	private ResponseEntity<Map<String, Object>> processChangePW(ProfileDto dto,  String newPW){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status;
 		
 		try {
-			ProfileResultDto serviceResult = profileService.changePassword(dto, newPassword);
+			ProfileResultDto serviceResult = profileService.changePassword(dto, newPW);
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;

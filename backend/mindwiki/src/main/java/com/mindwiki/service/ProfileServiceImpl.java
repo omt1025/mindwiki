@@ -103,7 +103,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException {
 		ProfileResultDto resultDto = new ProfileResultDto();
 
-		if (successChangeProfile(dto)) {
+		if (session.getMapper(ProfileDao.class).updateProfile(dto) == 1) {
 			resultDto.setResult("SUCCESS");
 		} else {
 			resultDto.setResult("FAIL");
@@ -118,15 +118,6 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 
-	// TODO
-	private boolean successChangeProfile(ProfileDto dto) throws SQLException {
-		if (session.getMapper(ProfileDao.class).updateProfile(dto) == 1)
-			return true;
-		return false;
-	}
-
-
-	// 해당 계정이 존재하는지 확인 => sns회원가입 위해 필요
 	@Override
 	public ProfileResultDto isExist(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
