@@ -50,7 +50,7 @@ public class NodeServiceImpl implements NodeService{
 		}
 		
 		String data = nodeMapper.getNode(dto);
-		nodeDto.setData(data);
+		nodeDto.setNodeData(data);
 		result.setNodeDto(nodeDto);
 		
 		result.setResult("SUCCESS");

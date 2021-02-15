@@ -9,8 +9,9 @@
 	</select>
 	
 	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto">
-		 INSERT INTO node (MindID, data)
-                    VALUES  (#{MindID}, #{data}) ON DUPLICATE KEY UPDATE MindID=#{MindID}, data=#{data};
+		 INSERT INTO node (MindID, nodeData)
+                    VALUES (#{MindID}, #{nodeData})
+                    ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeData=#{nodeData};
 	</insert>
 	
 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="string">

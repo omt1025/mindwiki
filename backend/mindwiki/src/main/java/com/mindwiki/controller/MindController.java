@@ -303,12 +303,9 @@ public class MindController {
 			if (jwtSvc.verifyJWT(jwt) != null) {
 
 				if (file == null) {
-					mindSvc.make(mind);
 					
-					// admin,createTime(mysql에 저장되어있음)으로 검색하기 MindID를
-
+					mindSvc.make(mind);
 					MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
-					System.out.println(hashtag);
 					initNode(MindID, subject, hashtag);
 
 					StringTokenizer st = new StringTokenizer(hashtag, ",");
@@ -354,18 +351,13 @@ public class MindController {
 	private void initNode(int MindID, String subject, String hashtag) throws SQLException {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-		String data = buildData(subject, hashtag);
-		nodeDto.setData(data);
-		
-		System.out.println("DATA");
-		System.out.println(data);
+		nodeDto.setNodeData(buildNodeData(subject, hashtag));
 
 		nodeService.setNode(nodeDto);
 	}
 	
-	@SuppressWarnings("null")
-	private String buildData(String subject, String hashtag) {
-		StringBuilder data = null;
+	private String buildNodeData(String subject, String hashtag) {
+		StringBuilder data = new StringBuilder();
 		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
 		
 		StringTokenizer st = new StringTokenizer(hashtag, ",");

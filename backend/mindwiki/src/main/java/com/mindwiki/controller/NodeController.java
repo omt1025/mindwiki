@@ -42,7 +42,7 @@ public class NodeController {
 
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-		nodeDto.setData(data);
+		nodeDto.setNodeData(data);
 
 		return processSetNode(nodeDto);
 	}
@@ -92,7 +92,7 @@ public class NodeController {
 
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
-				result.put("data", serviceResult.getNodeDto().getData());
+				result.put("data", serviceResult.getNodeDto().getNodeData());
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
