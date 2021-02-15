@@ -1,11 +1,12 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 리스트 보여지는 영역 수정
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 관심태그랑 마인드맵 리스트 출력
     * 생성일자 : 2021-01-18
-    * 최종수정일자 : 2021-02-10
+    * 최종수정일자 : 2021-02-15
   -->
   <v-app>
+    <!-- 관심 태그 -->
     <v-combobox
       append-icon
       flat
@@ -67,11 +68,13 @@ export default {
     ...mapGetters(['cards']),
   },
   methods:{
+    // 관심태그와 같은 마인드맵을 받아옴
     readliketagmind () {
       this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
       this.items = this.$store.state.liketagData
       });
     },
+    // 로그인된 유저가 설정한 관심태그를 받아옴
     readhashtag () {
       this.$store.dispatch('readHashTag', this.$store.getters.getJWT).then(() => {
       const temphashtag = this.$store.state.hashtag.hashtag
@@ -79,21 +82,35 @@ export default {
       this.hashtag.shift()
       });
     },
+    // 관심태그 수정
     updatehashtag () {
       var hashtagform = '';
       for (var i = 0; i < this.hashtag.length; i++) hashtagform += '#' + this.hashtag[i];
-      console.log('변했다!!')
       let form = new FormData();
       form.append("jwt", this.$store.getters.getJWT);
       form.append("hashtag", hashtagform)
 
       this.$store.dispatch('updateHashTag', form).then(() => {
+        this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
+        this.items = this.$store.state.liketagData
+        });
       });
     },
     // 관심태그 삭제
     remove(item) {
       this.hashtag.splice(this.hashtag.indexOf(item), 1);
       this.hashtag = [...this.hashtag];
+      var hashtagform = '';
+      for (var i = 0; i < this.hashtag.length; i++) hashtagform += '#' + this.hashtag[i];
+      let form = new FormData();
+      form.append("jwt", this.$store.getters.getJWT);
+      form.append("hashtag", hashtagform)
+
+      this.$store.dispatch('updateHashTag', form).then(() => {
+        this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
+        this.items = this.$store.state.liketagData
+        });
+      });
     },
   },
   // 전체 게시글을 가져옴
@@ -105,8 +122,8 @@ export default {
 </script>
 
 <style>
-  #list {
-    padding: 5px;
-    margin-bottom: 50px;
-  }
+#list {
+  padding: 5px;
+  margin-bottom: 50px;
+}
 </style>

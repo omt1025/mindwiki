@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mindwiki.dao.NodeDao;
-import com.mindwiki.dao.ProfileDao;
 import com.mindwiki.model.NodeDto;
 import com.mindwiki.model.NodeResultDto;
-import com.mindwiki.model.ProfileDto;
-import com.mindwiki.model.ProfileResultDto;
 
 @Service
 public class NodeServiceImpl implements NodeService{
@@ -27,7 +24,7 @@ public class NodeServiceImpl implements NodeService{
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 		
-		if(nodeMapper.existMindID(dto)!=SUCCESS) {
+		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
@@ -44,21 +41,18 @@ public class NodeServiceImpl implements NodeService{
 	@Override
 	public NodeResultDto getNode(NodeDto dto) throws SQLException {
 		NodeResultDto result = new NodeResultDto();
+		NodeDto nodeDto = new NodeDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 		
-		if(nodeMapper.existMindID(dto)!=SUCCESS) {
+		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
 		
-		NodeDto nodeDto = nodeMapper.getNode(dto);
-		
-		if(nodeDto.getNodeID()==0) {
-			result.setResult("GET_NODE_ERROR");
-			return result;
-		}
-		
+		String data = nodeMapper.getNode(dto);
+		nodeDto.setData(data);
 		result.setNodeDto(nodeDto);
+		
 		result.setResult("SUCCESS");
 		return result;
 	}

@@ -8,10 +8,7 @@ import com.mindwiki.model.NodeDto;
 
 @Repository
 public interface NodeDao {
-	public int existMindID(NodeDto dto) throws SQLException;
+	public int existByMindID(NodeDto dto) throws SQLException;
 	public int setNode(NodeDto dto) throws SQLException;
-	
-	public NodeDto getNode(NodeDto dto) throws SQLException;
-
+	public String getNode(NodeDto dto) throws SQLException;
 }
-
