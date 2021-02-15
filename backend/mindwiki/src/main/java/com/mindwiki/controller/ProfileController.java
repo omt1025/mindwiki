@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ProfileResultDto;
 import com.mindwiki.service.JwtService;
-import com.mindwiki.service.JwtServiceImpl;
 import com.mindwiki.service.ProfileService;
 
 @CrossOrigin("*")
@@ -33,9 +32,6 @@ public class ProfileController {
 
 	@Autowired
 	private JwtService jwtService;
-
-	private static final int SUCCESS = 1;
-	private static final int FAIL = -1;
 
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
@@ -50,9 +46,6 @@ public class ProfileController {
 			@RequestParam(value="password", required=false) String password,
 			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
-		System.out.println("ProfileController] /profile/register ");
-		System.out.println("email: " + email + ", password: " + password 
-				+ ", realName: " + realName + ", nickName: " + nickName + ", hashtag: " + hashtag); 
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
@@ -60,12 +53,16 @@ public class ProfileController {
 		profileDto.setRealName(realName);
 		profileDto.setNickName(nickName);
 		profileDto.setHashtag(hashtag);
-
+		
+		return processRegister(profileDto);
+	}
+	
+	private ResponseEntity<Map<String, Object>> processRegister(ProfileDto dto){
 		Map<String, Object> result = new HashMap<>();
-		HttpStatus status = null;
-
+		HttpStatus status;
+		
 		try {
-			ProfileResultDto resultDto = profileService.register(profileDto);
+			ProfileResultDto resultDto = profileService.register(dto);
 			if(resultDto.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;
@@ -75,11 +72,10 @@ public class ProfileController {
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
-			status = HttpStatus.ACCEPTED;
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 
@@ -95,8 +91,6 @@ public class ProfileController {
 	public ResponseEntity<Map<String, Object>> withdrawal(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="password", required=false) String password) throws UnsupportedEncodingException{
-		System.out.println("ProfileController] /profile/withdrawal ");
-		System.out.println("password: " + password); 
 
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
@@ -105,11 +99,15 @@ public class ProfileController {
 		profileDto.setPassword(password);
 		profileDto.setEmail(email);
 
+		return processWithdrawal(profileDto);
+	}
+	
+	private ResponseEntity<Map<String, Object>> processWithdrawal(ProfileDto dto){
 		Map<String, Object> result = new HashMap<>();
-		HttpStatus status = null;
-
+		HttpStatus status;
+		
 		try {
-			ProfileResultDto serviceResult = profileService.withdrawal(profileDto);
+			ProfileResultDto serviceResult = profileService.withdrawal(dto);
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;
@@ -122,11 +120,9 @@ public class ProfileController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
-
 
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
@@ -138,23 +134,25 @@ public class ProfileController {
 	@PostMapping("/changePassword")
 	public ResponseEntity<Map<String, Object>> changePassword(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="oldPassword", required=false) String oldPassword,
-			@RequestParam(value="newPassword", required=false) String newPassword) throws UnsupportedEncodingException{
-		System.out.println("ProfileController] /profile/changePassword ");
-		System.out.println("oldPassword: " + oldPassword + ", newPassword:" + newPassword); 
+			@RequestParam(value="oldPassword", required=false) String oldPW,
+			@RequestParam(value="newPassword", required=false) String newPW) throws UnsupportedEncodingException{
 
-		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
-		String email = (String)claimMap.get("email");
+		Map<String, Object> jwtData =  jwtService.verifyJWT(jwt);
+		String email = (String)jwtData.get("email");
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
-		profileDto.setPassword(oldPassword);
-
+		profileDto.setPassword(oldPW);
+		
+		return processChangePW(profileDto, newPW);
+	}
+	
+	private ResponseEntity<Map<String, Object>> processChangePW(ProfileDto dto,  String newPW){
 		Map<String, Object> result = new HashMap<>();
-		HttpStatus status = null;
-
+		HttpStatus status;
+		
 		try {
-			ProfileResultDto serviceResult = profileService.changePassword(profileDto, newPassword);
+			ProfileResultDto serviceResult = profileService.changePassword(dto, newPW);
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;
@@ -164,14 +162,49 @@ public class ProfileController {
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
-			status = HttpStatus.ACCEPTED;
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
-
+	
+	/******************************************************************************
+	 * 작성자 : 서울 2반 4팀 김정웅
+	 * 기능 : 비밀번호 찾기
+	 * 최종 수정일: 2021.02.03.
+	 *******************************************************************************/
+	
+	@PostMapping("/sendTempPassword")
+	public ResponseEntity<Map<String, Object>> sendTempPassword(HttpSession session,
+			@RequestParam(value="email", required=false) String email){
+		ProfileDto profileDto = new ProfileDto();
+		profileDto.setEmail(email);
+		
+		return processSendTempPassword(profileDto);
+	}
+	
+	private ResponseEntity<Map<String, Object>> processSendTempPassword(ProfileDto dto){
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status;
+		
+		try {
+			ProfileResultDto serviceResult = profileService.sendTempPassword(dto);
+			if(serviceResult.getResult()=="SUCCESS") {
+				result.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
+			}else {
+				result.put("message", "FAIL");
+				status = HttpStatus.ACCEPTED;
+			}
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
 
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
@@ -185,8 +218,6 @@ public class ProfileController {
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="phoneNumber", required=false) String phoneNumber,
 			@RequestParam(value="nickName", required=false) String nickName) throws UnsupportedEncodingException{
-		System.out.println("ProfileController] /profile/changeProfile");
-		System.out.println("phoneNumber: " + phoneNumber + ", nickName:" + nickName); 
 
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
@@ -196,34 +227,42 @@ public class ProfileController {
 		profileDto.setPhoneNumber(phoneNumber);
 		profileDto.setNickName(nickName);
 
+		return processChangeProfile(profileDto);
+	}
+	
+	private ResponseEntity<Map<String, Object>> processChangeProfile(ProfileDto dto){
 		Map<String, Object> result = new HashMap<>();
-		HttpStatus status = null;
-
+		HttpStatus status;
+		
 		try {
-			ProfileResultDto serviceResult = profileService.changeProfile(profileDto);
+			ProfileResultDto serviceResult = profileService.changeProfile(dto);
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				status = HttpStatus.ACCEPTED;
 			}
 		}catch(SQLException e) {
 			result.put("message", "SERVER_ERROR");
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
+	
+	/******************************************************************************
+	 * 작성자 : 
+	 * 기능 : 해당 계정이 존재하는지 확인
+	 * 최종 수정일: 2021.02.08.
+	 * @throws UnsupportedEncodingException 
+	 *******************************************************************************/
 
 	// TODO
 	@PostMapping("/getProfile")
 	public ResponseEntity<ProfileDto> getProfile(HttpSession session,
 			@RequestParam(value="email", required=false) String email){
-		System.out.println("ProfileController] /profile/getProfile");
-		System.out.println("email: " + email); 
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setEmail(email);
@@ -233,25 +272,6 @@ public class ProfileController {
 
 		ProfileResultDto result = new ProfileResultDto();
 
-
-		//		try {
-		//			
-		//			
-		//			
-		//			if(result.getResult()=="SUCCESS") {
-		//				result.put("message", "SUCCESS");
-		//				status = HttpStatus.ACCEPTED;
-		//			}else {
-		//				result.put("message", "FAIL");
-		//				status = HttpStatus.INTERNAL_SERVER_ERROR;
-		//			}
-		//		}catch(SQLException e) {
-		//			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		//			e.printStackTrace();
-		//		}
-		//
-		//		System.out.println(" status: " + status.toString());
-		//		return new ResponseEntity<ProfileDto>(returnProfile, status);
 		return null;
 	}
 
@@ -266,8 +286,6 @@ public class ProfileController {
 	@PostMapping("/isExist")
 	public ResponseEntity<Map<String, Object>> isExist(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
-		System.out.println("ProfileController] /profile/isExist");
-		//		System.out.println("jwt: " + jwt); 
 
 		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
 		String email = (String)claimMap.get("email");
@@ -295,25 +313,30 @@ public class ProfileController {
 
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
-
 	}
 
-	// TODO
+	/******************************************************************************
+	 * 작성자 : 
+	 * 기능 : 해당 계정이 존재하는지 확인
+	 * 최종 수정일: 2021.02.08.
+	 * @throws UnsupportedEncodingException 
+	 *******************************************************************************/
+	
 	@PostMapping("/memberList")
-	public ResponseEntity<List<ProfileDto>> memberList(@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
-		System.out.println("ProfileController] /profile/memberList");
-
-		HttpStatus status=null;
-
+	public ResponseEntity<List<ProfileDto>> memberList(HttpSession session,
+			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
+		List<ProfileDto> allProfile = null;
+		HttpStatus status;
+		
 		try {
-			profileService.memberList();
+			allProfile = profileService.getAllProfile();
 			status = HttpStatus.OK;
 		} catch (SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-
-		return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), status);
+		
+		return new ResponseEntity<List<ProfileDto>> (allProfile, status);
 	}
 
 }

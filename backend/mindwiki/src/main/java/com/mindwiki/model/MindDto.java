@@ -35,10 +35,6 @@ public class MindDto {
 	private String subject; //이거 추가됨 //db에는 alter table로 추가해줬음
 	private String explanation;//이거도 추가됨
 	
-	
-	
-	
-	
 	public String getSubject() {
 		return subject;
 	}

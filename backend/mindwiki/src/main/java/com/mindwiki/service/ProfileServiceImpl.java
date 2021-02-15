@@ -14,8 +14,6 @@ import com.mindwiki.model.ProfileResultDto;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-	// TODO
-	// session -> DAO
 	@Autowired
 	private SqlSession session;
 
@@ -40,8 +38,6 @@ public class ProfileServiceImpl implements ProfileService {
 		result.setResult("SUCCESS");
 		return result;
 	}
-	/* 살아 있음 */
-	
 
 	@Override
 	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException {
@@ -78,7 +74,7 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		
 		dto.setPassword(newPassword);
-		if(profileMapper.updatePassword(dto)!=1) {
+		if(profileMapper.updatePassword(dto)!=SUCCESS) {
 			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			System.out.println("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			return result;
@@ -89,10 +85,25 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
+	public ProfileResultDto sendTempPassword(ProfileDto dto) throws SQLException {
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(profileMapper.sameEmailCnt(dto)!=1) {
+			result.setResult("EMAIL_ERROR");
+			return result;
+		}
+		
+		result.setResult("SUCCESS");
+		
+		return result;
+	}
+	
+	@Override
 	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException {
 		ProfileResultDto resultDto = new ProfileResultDto();
 
-		if (successChangeProfile(dto)) {
+		if (session.getMapper(ProfileDao.class).updateProfile(dto) == 1) {
 			resultDto.setResult("SUCCESS");
 		} else {
 			resultDto.setResult("FAIL");
@@ -106,32 +117,7 @@ public class ProfileServiceImpl implements ProfileService {
 		return null;
 	}
 
-	// TODO
-	// password 확인
-	private boolean successWithdrawal(ProfileDto dto) throws SQLException {
-		if (session.getMapper(ProfileDao.class).withdrawal(dto) == 1)
-			return true;
-		return false;
-	}
 
-	// TODO
-	// old pw 확인 작업
-	private boolean successChangePassword(ProfileDto dto, String newPassword) throws SQLException {
-		dto.setPassword(newPassword);
-		if (session.getMapper(ProfileDao.class).updatePassword(dto) == 1)
-			return true;
-		return false;
-	}
-
-	// TODO
-	private boolean successChangeProfile(ProfileDto dto) throws SQLException {
-		if (session.getMapper(ProfileDao.class).updateProfile(dto) == 1)
-			return true;
-		return false;
-	}
-
-
-	// 해당 계정이 존재하는지 확인 => sns회원가입 위해 필요
 	@Override
 	public ProfileResultDto isExist(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
@@ -149,7 +135,8 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public List<ProfileDto> memberList() throws SQLException {
+	public List<ProfileDto> getAllProfile() throws SQLException {
 		return session.getMapper(ProfileDao.class).memberList();
 	}
+
 }

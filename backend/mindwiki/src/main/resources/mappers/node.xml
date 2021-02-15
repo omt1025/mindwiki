@@ -14,6 +14,9 @@
                     VALUES  (#{MindID}, #{data}) 
 	</insert>
 	
+	<!-- 
+	getNode
+	 -->
 <!-- 		<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int"> -->
 <!-- 		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email}) as success; -->
 <!-- 	</select> -->

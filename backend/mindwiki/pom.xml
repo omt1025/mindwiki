@@ -42,6 +42,13 @@
     <scope>provided</scope>
     <version>2.4.2</version>
 </dependency>
+
+<!-- 메일 api -->
+<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-email</artifactId>
+	<version>1.2</version>
+</dependency>
 	
 	
 		<!-- json변환 -->

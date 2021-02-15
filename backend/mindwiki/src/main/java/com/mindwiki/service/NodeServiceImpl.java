@@ -27,7 +27,7 @@ public class NodeServiceImpl implements NodeService{
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 		
-		if(nodeMapper.existMindID(dto)!=SUCCESS) {
+		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
@@ -46,7 +46,7 @@ public class NodeServiceImpl implements NodeService{
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 		
-		if(nodeMapper.existMindID(dto)!=SUCCESS) {
+		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}

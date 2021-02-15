@@ -3,8 +3,8 @@ package com.mindwiki.model;
 public class NodeDto {
 	
 	private int NodeID;
-	private String data;
 	private int MindID;
+	private String data;
 	
 	public int getNodeID() {
 		return NodeID;
