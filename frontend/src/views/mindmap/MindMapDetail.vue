@@ -260,8 +260,8 @@ export default {
       form.append("jwt", this.$store.getters.getJWT)
       form.append("MindID", this.no)
 
-      this.$store.dispatch("updateMind", form).then(() =>{
-        console.log(this.$store.getters.setMessage)
+      this.$store.dispatch("readMapData", form).then(() =>{
+        console.log(this.$store.getters.getMessage.data)
       })
     },
     checkHandler() {
@@ -344,7 +344,8 @@ export default {
     }
   },
   created: function () {
-    this.readminddetail(this.no)
+    this.readminddetail(this.no);
+    this.readmapdata();
   }
 };
 </script>
