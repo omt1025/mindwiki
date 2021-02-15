@@ -30,11 +30,7 @@
     "vue-mindmap": "0.0.4",
     "vue-naver-login": "^1.0.4",
     "vue-router": "^3.2.0",
-<<<<<<< HEAD
     "vue-swipeable-bottom-sheet": "^0.0.5",
-=======
-    "vue-swipeable-bottom-sheet": "0.0.5",
->>>>>>> 08529fc4aac6ac4ebbf867163c6c946c07e276e0
     "vuetify": "^2.4.2",
     "vuex": "3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.3"
