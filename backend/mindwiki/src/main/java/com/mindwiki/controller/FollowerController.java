@@ -112,13 +112,58 @@ public class FollowerController {
 	}
 	
 	
+	
+	@GetMapping("/fname")
+	public ResponseEntity<Map<String, Object>> follower_name(
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws UnsupportedEncodingException, SQLException {
+		
+		Map<String, Object> resultMap=new HashMap<>();
+		  
+		
+	
+		HttpStatus status=null;
+		
+		try {
+			String followerName=followSvc.searchNameByEmail(followerEmail);
+		
+			resultMap.put("name",followerName);
+			resultMap.put("message","SUCCESS");
+			
+			status = HttpStatus.OK;
+		} catch (SQLException e) {
+			resultMap.put("message","ERROR");
+			
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+	
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/list")
 	public ResponseEntity<List<FollowerDto>> follower_list(
-			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException{
-		
-		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+		String myEmail;
+		if(followerEmail==null) {
+			
+			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			  
+			myEmail=(String) claimMap.get("email");
+		}
+		else {
+			myEmail=followerEmail;
+		}
+	
 		  
-		String myEmail=(String) claimMap.get("email");
+		
 		
 		
 		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail),HttpStatus.OK);
