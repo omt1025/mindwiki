@@ -205,7 +205,7 @@ export default {
   }
   .container-login100 {
     width: 100%;
-    min-height: 100vh;
+    min-height: auto;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -213,7 +213,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: baseline;
+    align-items: normal;
     padding: 15px;
     background-repeat: no-repeat;
     background-size: cover;
