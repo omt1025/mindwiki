@@ -32,6 +32,7 @@ export default {
   created() {
     this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
       this.items = this.$store.getters.likeData;
+      console.log(this.items)
     });
   },
 };

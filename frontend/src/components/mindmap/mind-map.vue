@@ -111,6 +111,10 @@
         </context-menu>
       </div>
     </div>
+    <swipeable-bottom-sheet ref="swipeableBottomSheet">
+      <input type="text" v-model="currentData.label">
+      <v-btn @click="handleAppendChild">노드추가</v-btn>
+    </swipeable-bottom-sheet>
   </div>
 </template>
 
@@ -122,6 +126,7 @@ import '@gahing/vcontextmenu/lib/vcontextmenu.css';
 import '../../assets/css/iconfont.css';
 import Vue from 'vue';
 import VTooltip from 'v-tooltip';
+import { SwipeableBottomSheet } from "vue-swipeable-bottom-sheet";
 
 Vue.use(VTooltip);
 
@@ -131,10 +136,19 @@ export default {
   components: {
     VueOkrTree,
     ContextMenu,
+    SwipeableBottomSheet,
   },
   data() {
     return {
-      direction: 'vertical',
+      sheet: false,
+      tiles: [
+        { img: 'keep.png', title: 'Keep' },
+        { img: 'inbox.png', title: 'Inbox' },
+        { img: 'hangouts.png', title: 'Hangouts' },
+        { img: 'messenger.png', title: 'Messenger' },
+        { img: 'google.png', title: 'Google+' }
+      ],
+      direction: 'horizontal',
       $toVert: null,
       $toHori: null,
       $mindMapItem: null,
@@ -162,6 +176,7 @@ export default {
     };
   },
   mounted() {
+    this.$refs.swipeableBottomSheet.setState("close")
     const $refs = this.$refs;
 
     this.$toVert = $refs.toVert;
@@ -211,6 +226,9 @@ export default {
     },
   },
   methods: {
+    open () {
+      this.$refs.swipeableBottomSheet.setState("half")
+    },
     toggleZoomSelector() {
       this.$ratioSelector.style.display = this.ratioSelectorShowing ? 'none' : 'block';
 
@@ -324,25 +342,8 @@ export default {
           {node.data.root ? (
             ''
           ) : (
-            <div class="act act-left" on-click={this.handleInsertBefore}>
-              <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-            </div>
-          )}
-          {node.data.root ? (
-            ''
-          ) : (
-            <div class="act act-right" on-click={this.handleInsertAfter}>
-              <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-            </div>
-          )}
-          <div class="act act-down" on-click={this.handleAppendChild}>
-            <i class="normal-icon icon simple-vue-mind-map icon_arrow_solid"></i>
-          </div>
-          {node.data.root ? (
-            ''
-          ) : (
             <div class="act act-close" on-click={this.handleRemove}>
-              <i class="normal-icon icon simple-vue-mind-map icon_card_close"></i>
+              <i class="fa fa-minus-square" aria-hidden="true"></i>
             </div>
           )}
           <span contenteditable="true" style="outline: none;">
@@ -357,6 +358,7 @@ export default {
       );
     },
     handleNodeClick(data, node, component) {
+      this.open();
       this.handleClearTela();
 
       this.inputContent = data.label;
