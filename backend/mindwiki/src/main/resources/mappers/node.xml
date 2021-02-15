@@ -5,7 +5,7 @@
 <mapper namespace="com.mindwiki.dao.NodeDao">
 
 
-	<select id="existMindID" parameterType="com.mindwiki.model.NodeDto">
+	<select id="existByMindID" parameterType="com.mindwiki.model.NodeDto">
 		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
 	</select>
 	
