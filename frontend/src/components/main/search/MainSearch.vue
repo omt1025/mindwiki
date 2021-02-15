@@ -31,12 +31,7 @@
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <v-slide-item v-for="item in searchProfileHandler" :key="item.email">
-            <v-list-item
-              :key="item.email"
-              id="v-list-item"
-              v-bind:userId="userId"
-              v-if="userId !== item.email"
-            >
+            <v-list-item :key="item.email" id="v-list-item" v-bind:userId="userId">
               <v-list-item-avatar>
                 <v-img
                   :src="creatorImage"
@@ -44,6 +39,12 @@
                   @click="goUserProfile(item.email)"
                 ></v-img>
               </v-list-item-avatar>
+
+              <!-- 프로필 이메일 검색  -->
+              <v-list-item-subtitle
+                v-html="item.email.split('@')[0]"
+                id="subtitle"
+              ></v-list-item-subtitle>
 
               <!-- 프로필 이메일 검색  -->
               <v-list-item-subtitle

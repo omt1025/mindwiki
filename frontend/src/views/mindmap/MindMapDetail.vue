@@ -15,7 +15,7 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-card class="mx-auto" width="100%" flat outlined>
+    <v-card class="mx-auto" width="100%" flat outlined style="">
       <v-card-title>{{ title }}</v-card-title>
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
@@ -63,23 +63,30 @@
       </v-list-item>
     </v-card-actions>
 
-    <!-- 노드 추가 버튼 구현 -->
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
+      <!-- 노드 추가 버튼 구현 -->
+      <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
+      <div v-if="mindmap.admin === useremail">
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-x
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
 
-        <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-      </template>
+            <v-btn id="btnUpdate" color="purple" dark v-bind="attrs" v-on="on" fab small>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
 
-      <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
-      <v-card>
-        <v-card-title>
-          <span class="headline">마인드맵 수정</span>
-        </v-card-title>
+        <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
+        <v-card>
+          <v-card-title class="justify-center">
+            <span class="headline">마인드맵 수정</span>
+          </v-card-title>
 
         <v-card-text>
           <v-row>
@@ -114,28 +121,15 @@
                 <p class="interestTagTitle">해시태그 설정</p>
               </div>
 
-              <v-combobox
-                append-icon
-                flat
-                v-model="hashtag"
-                hashtag
-                clearable
-                label="Your favorite hobbies"
-                multiple
-                no-filter
-                solo
-                id="combobox"
-              >
-                <template v-slot:selection="{ attrs, item, select, selected }">
-                  <v-chip
-                    v-bind="attrs"
-                    :input-value="selected"
-                    close
-                    class="ma-2"
-                    color="purple"
-                    text-color="white"
-                    @click="select"
-                    @click:close="remove(item)"
+                  <v-combobox
+                    append-icon
+                    flat
+                    v-model="hashtag"
+                    hashtag
+                    clearable
+                    multiple
+                    no-filter
+                    id="combobox"
                   >
                     <strong class="test">{{ item }}</strong
                     >&nbsp;
@@ -165,12 +159,16 @@
             Cancel
           </v-btn>
 
-          <v-btn text @click="checkHandler">
-            OK
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
+            <v-btn 
+            text
+            @click="checkHandler"
+            >
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+    </div>
   </v-app>
 </template>
 
@@ -187,7 +185,8 @@ export default {
       fav: true,
       menu: false,
       // 마인드맵 생성에 필요한 요소
-      mindmap: '',
+      mindmap: "",
+      useremail: this.$store.getters.userId,
       // 임시로 쓸 더미 데이터
       map: [
         {

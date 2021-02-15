@@ -135,12 +135,6 @@ export default {
         this.items = this.$store.getters.commentData;
       });
     },
-    // updatecomment(no) {
-    //   this.$store.dispatch('updateComment', no).then(() => {
-    //     this.items = this.$store.getters.commentData
-    // console.log(this.items)
-    //   })
-    // },
     deletecomment(commentID) {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);

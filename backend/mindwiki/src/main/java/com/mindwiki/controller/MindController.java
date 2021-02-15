@@ -257,6 +257,7 @@ public class MindController {
 		return list;
 
 	}
+	
 
 	@DeleteMapping("/mind/hashtag/delete/{no}")
 	public ResponseEntity<Map<String, Object>> hashRead(@PathVariable(name = "no", required = false) int MindID,
@@ -303,9 +304,12 @@ public class MindController {
 
 				if (file == null) {
 					mindSvc.make(mind);
+					
 					// admin,createTime(mysql에 저장되어있음)으로 검색하기 MindID를
 
 					MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
+					System.out.println(hashtag);
+					initNode(MindID, subject, hashtag);
 
 					StringTokenizer st = new StringTokenizer(hashtag, ",");
 					int count = 0;
@@ -325,7 +329,7 @@ public class MindController {
 				}
 
 				mindSvc.make(mind);
-
+				MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
 				initNode(MindID, subject, hashtag);
 
 				resultMap.put("message", "SUCCESS");
@@ -342,15 +346,19 @@ public class MindController {
 			// returnMessage="마인드 등록 실패!";
 		}
 
-		System.out.println("일단 mind controller");
 
+		System.out.println("일단 mind controller");
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 	private void initNode(int MindID, String subject, String hashtag) throws SQLException {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-		nodeDto.setData(buildData(subject, hashtag));
+		String data = buildData(subject, hashtag);
+		nodeDto.setData(data);
+		
+		System.out.println("DATA");
+		System.out.println(data);
 
 		nodeService.setNode(nodeDto);
 	}
@@ -360,7 +368,7 @@ public class MindController {
 		StringBuilder data = null;
 		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
 		
-		StringTokenizer st = new StringTokenizer(hashtag, "#");
+		StringTokenizer st = new StringTokenizer(hashtag, ",");
 		while(st.hasMoreTokens()) {
 			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
 		}

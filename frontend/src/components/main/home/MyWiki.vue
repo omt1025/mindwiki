@@ -38,5 +38,8 @@ export default {
 </script>
 
 <style>
-
+#list {
+  padding: 5px;
+  margin-bottom: 50px;
+}
 </style>

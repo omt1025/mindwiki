@@ -4,14 +4,13 @@
 
 <mapper namespace="com.mindwiki.dao.NodeDao">
 
-
 	<select id="existByMindID" parameterType="com.mindwiki.model.NodeDto" resultType="int">
 		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
 	</select>
 	
 	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto">
 		 INSERT INTO node (MindID, data)
-                    VALUES  (#{MindID}, #{data}) 
+                    VALUES  (#{MindID}, #{data}) ON DUPLICATE KEY UPDATE MindID=#{MindID}, data=#{data};
 	</insert>
 	
 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="string">
