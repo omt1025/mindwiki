@@ -14,8 +14,6 @@ import com.mindwiki.model.ProfileResultDto;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-	// TODO
-	// session -> DAO
 	@Autowired
 	private SqlSession session;
 
@@ -40,8 +38,6 @@ public class ProfileServiceImpl implements ProfileService {
 		result.setResult("SUCCESS");
 		return result;
 	}
-	/* 살아 있음 */
-	
 
 	@Override
 	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException {
@@ -78,7 +74,7 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		
 		dto.setPassword(newPassword);
-		if(profileMapper.updatePassword(dto)!=1) {
+		if(profileMapper.updatePassword(dto)!=SUCCESS) {
 			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			System.out.println("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			return result;
@@ -87,6 +83,8 @@ public class ProfileServiceImpl implements ProfileService {
 		result.setResult("SUCCESS");
 		return result;
 	}
+	
+//	@
 
 	@Override
 	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException {
@@ -106,22 +104,6 @@ public class ProfileServiceImpl implements ProfileService {
 		return null;
 	}
 
-	// TODO
-	// password 확인
-	private boolean successWithdrawal(ProfileDto dto) throws SQLException {
-		if (session.getMapper(ProfileDao.class).withdrawal(dto) == 1)
-			return true;
-		return false;
-	}
-
-	// TODO
-	// old pw 확인 작업
-	private boolean successChangePassword(ProfileDto dto, String newPassword) throws SQLException {
-		dto.setPassword(newPassword);
-		if (session.getMapper(ProfileDao.class).updatePassword(dto) == 1)
-			return true;
-		return false;
-	}
 
 	// TODO
 	private boolean successChangeProfile(ProfileDto dto) throws SQLException {

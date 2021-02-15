@@ -10,8 +10,5 @@ import com.mindwiki.model.NodeDto;
 public interface NodeDao {
 	public int existMindID(NodeDto dto) throws SQLException;
 	public int setNode(NodeDto dto) throws SQLException;
-	
 	public NodeDto getNode(NodeDto dto) throws SQLException;
-
 }
-

@@ -171,6 +171,43 @@ public class ProfileController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
+	
+	@PostMapping("/sendTempPassword")
+	public ResponseEntity<Map<String, Object>> sendTempPassword(HttpSession session,
+			@RequestParam(value="email", required=false) String email){
+		
+		System.out.println("ProfileController] /profile/sendTempPassword ");
+		System.out.println("email: " + email);
+		
+////		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+////		String email = (String)claimMap.get("email");
+//		
+//		ProfileDto profileDto = new ProfileDto();
+//		profileDto.setEmail(email);
+////		profileDto.setPassword(oldPassword);
+//		
+//		Map<String, Object> result = new HashMap<>();
+//		HttpStatus status = null;
+//		
+//		try {
+//			ProfileResultDto serviceResult = profileService.changePassword(profileDto, newPassword);
+//			if(serviceResult.getResult()=="SUCCESS") {
+//				result.put("message", "SUCCESS");
+//				status = HttpStatus.ACCEPTED;
+//			}else {
+//				result.put("message", "FAIL");
+//				status = HttpStatus.ACCEPTED;
+//			}
+//		}catch(SQLException e) {
+//			result.put("message", "SERVER_ERROR");
+//			status = HttpStatus.ACCEPTED;
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+//		return new ResponseEntity<Map<String, Object>>(result, status);
+		return null;
+	}
 
 
 	/******************************************************************************
