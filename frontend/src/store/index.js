@@ -13,8 +13,8 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-// const SERVER_URL = 'http://localhost:8000/mindwiki';
-const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
+const SERVER_URL = 'http://localhost:8000/mindwiki';
+// const SERVER_URL = 'http://i4a204.p.ssafy.io:8000/mindwiki';
 
 export default new Vuex.Store({
   // 여러 컴포넌트에 공유되는 데이터
@@ -34,6 +34,7 @@ export default new Vuex.Store({
     scrapData: null, // 스크랩한 마인드맵
     commentData: null, // 댓글 리스트
     memberList: null, // 회원가입 한 전체 회원
+    mapData: null,  // 마인드맵 데이터
   },
 
   // 연산된 state값을 접근
@@ -71,23 +72,33 @@ export default new Vuex.Store({
     followTab(state) {
       return state.followTab;
     },
+    // 전체 마인드맵 리스트 리턴
     cards(state) {
       return state.cards;
     },
+    // 관심태그 마인드맵 리스트 리턴
     liketagData(state) {
       return state.liketagData;
     },
+    // 해시태그 리턴
     hashtag(state) {
       return state.hashtag;
     },
+    // 좋아요한 마인드맵 리스트 리턴
     likeData(state) {
       return state.likeData;
     },
+    // 스크랩한 마인드맵 리스트 리턴
     scrapData(state) {
       return state.scrapData;
     },
+    // 댓글 리스트 리턴
     commentData(state) {
       return state.commentData;
+    },
+    // 마인드맵 데이터 리턴
+    mapData(state) {
+      return state.mapData;
     },
     // 회원가입 회원들 리턴
     memberList(state) {
@@ -156,24 +167,35 @@ export default new Vuex.Store({
     setFollowTab(state, tab) {
       state.followTab = tab;
     },
+    // 전체 마인드맵 리스트 변경
     setCards(state, val) {
       state.cards = val;
     },
+    // 관심태그 리스트 변경
     setLikeTagData(state, val) {
       state.liketagData = val;
     },
+    // 해시태그 변경
     setHashTag(state, val) {
       state.hashtag = val;
     },
+    // 좋아요 리스트 변경
     setLikeData(state, val) {
       state.likeData = val;
     },
+    // 스크랩 리스트 변경
     setScrapData(state, val) {
       state.scrapData = val;
     },
+    // 댓글 데이터 변경
     setCommentData(state, val) {
       state.commentData = val;
     },
+    // 마인드맵 변경
+    setMapData(state, val) {
+      state.mapData = val;
+    },
+    // 회원가입 회원 변경
     setMemberList(state, val) {
       state.memberList = val;
     },
@@ -328,8 +350,6 @@ export default new Vuex.Store({
     // 내 마인드맵 리스트 불러오기[OMT]
     readMyMindMap(context, jwt) {
       return axios.post(`${SERVER_URL}/mind/list`, jwt).then((response) => {
-        context.commit('setMessage', response.data); // 응답을 message에 저장
-        // 메소드는 겹치는데, 혹시 몰라서, 따로 만들었음.. 후에 조정 필요
         context.commit('setMindList', response.data); // my_mindList불러오기위해[YJS]
       });
     },
@@ -381,7 +401,6 @@ export default new Vuex.Store({
     },
     // 마인드맵 댓글 생성[OMT]
     createComment(context, user) {
-      console.log(user.get('no'));
       const form = new FormData();
       form.append('jwt', user.get('jwt'));
       form.append('data', user.get('data'));
@@ -399,17 +418,6 @@ export default new Vuex.Store({
           context.commit('setCommentData', response.data);
         });
     },
-    // 마인드맵 댓글 수정[OMT]
-    // updateComment(context, user) {
-    //   const form = new FormData();
-    //   form.append('jwt', user.get('jwt'));
-    //   form.append('data', user.get('data'));
-    //   return axios
-    //     .put(`${SERVER_URL}/mind/comment/update/${user.get('no')}`, form)
-    //     .then((response) => {
-    //       context.commit('setMessage', response.data);
-    //     });
-    // },
     // 마인드맵 댓글 삭제[OMT]
     deleteComment(context, user) {
       return axios
@@ -422,6 +430,18 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data);
         });
+    },
+    // 마인드맵 데이터 불러오기[OMT]
+    readMapData(context, mind) {
+      return axios.post(`${SERVER_URL}/mind/node/getNode`, mind).then((response) => {
+        context.commit('setMessage', response.data); 
+      });
+    },
+    // 마인드맵 데이터 수정하기[OMT]
+    updateMapData(context, mind) {
+      return axios.post(`${SERVER_URL}/mind/node/setNode`, mind).then((response) => {
+        context.commit('setMapData', response.data); 
+      });
     },
     // 전체 회원 불러오기[HYH]
     readMemberList(context, jwt) {

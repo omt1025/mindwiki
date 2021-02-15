@@ -1,12 +1,12 @@
 <template>
-  <v-col cols="12">
+  <v-col cols="12" id="col">
     <v-card height="100%">
       <v-img
         :src="card.thumbnail"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         height="200px"
-        @click="clickParams(card.mindID)"
+        @click="clickParams(card)"
       >
         <v-card-title v-text="card.title"></v-card-title>
       </v-img>
@@ -103,8 +103,8 @@ export default {
       });
     },
     // 라우터에 마인드 아이디를 보냄
-    clickParams(no) {
-      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    clickParams(mind) {
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
     },
   },
   created () {
@@ -119,8 +119,7 @@ export default {
 </script>
 
 <style>
-  #list {
-    padding: 5px;
-    margin-bottom: 50px;
-  }
+#col {
+  padding: 10px 20px;
+}
 </style>

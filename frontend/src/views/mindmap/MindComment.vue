@@ -9,7 +9,7 @@
     <div>
     <v-toolbar id="navi_shadow">
       <!-- 뒤로가기 누르면 해당하는 상세 마인드맵 페이지로 이동 -->
-      <v-icon>mdi-keyboard-backspace</v-icon>
+      <v-icon @click="backPage()">mdi-keyboard-backspace</v-icon>
       <v-spacer></v-spacer>
       <img src="@/assets/images/user/mindwiki_logo.png" alt="" height="23px" />
       <v-spacer></v-spacer>
@@ -59,7 +59,7 @@
 
           <v-list-item
             v-else
-            :key="item.data"
+            :key="item.index"
           >
             <!-- 댓글 이미지 첨부 -->
             <v-list-item-avatar>
@@ -150,6 +150,8 @@ export default {
 
       this.$store.dispatch('createComment', form).then(() => {
         this.items = this.$store.getters.commentData
+        this.readcomment()
+        this.write = ''
       })
     },
     readcomment() {
@@ -170,11 +172,16 @@ export default {
       form.append('commentID', commentID);
       this.$store.dispatch('deleteComment', form).then(() => {
         this.items = this.$store.getters.commentData
+        this.readcomment()
       })
     },
     onInputKeyword: function(event) {
       this.$emit('input-change', event.target.value)
-    }
+    },
+    // 상세 조회 페이지로 이동
+    backPage: function() {
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
+    },
   },
   created: function () {
     this.readcomment()

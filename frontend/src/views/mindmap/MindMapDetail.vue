@@ -1,11 +1,11 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 상세 마인드맵 페이지 UI 수정
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 뒤로가기 시 메인으로 이동, 마인드맵 변경
     * 생성일자 : 2021-02-03
-    * 최종수정일자 : 2021-02-09
+    * 최종수정일자 : 2021-02-15
   -->
-  <v-app>
+  <v-app id="app">
       <!-- 상세 마인드맵 상단 네비게이션 -->
       <v-toolbar>
       <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
@@ -15,13 +15,21 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-card class="mx-auto" max-width="400" flat outlined>
+    <v-card class="mx-auto" width="100%" flat outlined>
+      <v-card-title>{{ title }}</v-card-title>
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
-      <v-img min-height="550" width="375px">
+      <v-img width="375px">
         <!-- 마인드맵 api 사용 -->
-        <mindmap :nodes="nodes" :connections="connections" :editable="true" />
-        <v-card-title>{{ title }}</v-card-title>
+        <mind-map
+          :data="map"
+          width="360"
+          height="450"
+          :show-reason="false"
+          :data-template="{ label: ' ', reason: 0 }"
+          @data-change="handleDataChange"
+          @node-delete="handleNodeDelete"
+        ></mind-map>
       </v-img>
 
       <v-card-text id="explanationSize">
@@ -63,9 +71,6 @@
         offset-x
       >
         <template v-slot:activator="{ on, attrs }">
-          <!-- 임시로 버튼 제작 -->
-          <!-- <v-btn @click="readminddetail($route.params.no)">{{ $route.params.no }}</v-btn> -->
-          <!-- <v-btn @click="updatemind($route.params.no)">수정 임시</v-btn> -->
           <v-btn id="btnDelete" color="purple" dark fab small @click="deletemind($route.params.no)">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
@@ -110,39 +115,41 @@
                 </v-col>
                 <!-- 해시태그 -->
                 <div>
-                  <p class="interestTagTitle">해시태그 설정</p>
-                </div>
+                  <div padding="10px">
+                    <p class="interestTagTitle">해시태그 설정</p>
+                  </div>
 
-                <v-combobox
-                  append-icon
-                  flat
-                  v-model="hashtag"
-                  hashtag
-                  clearable
-                  label="Your favorite hobbies"
-                  multiple
-                  no-filter
-                  solo
-                  id="combobox"
-                >
-                  <template
-                    v-slot:selection="{ attrs, item, select, selected }"
+                  <v-combobox
+                    append-icon
+                    flat
+                    v-model="hashtag"
+                    hashtag
+                    clearable
+                    label="Your favorite hobbies"
+                    multiple
+                    no-filter
+                    solo
+                    id="combobox"
                   >
-                    <v-chip
-                      v-bind="attrs"
-                      :input-value="selected"
-                      close
-                      class="ma-2"
-                      color="purple"
-                      text-color="white"
-                      @click="select"
-                      @click:close="remove(item)"
+                    <template
+                      v-slot:selection="{ attrs, item, select, selected }"
                     >
-                      <strong class="test">{{ item }}</strong
-                      >&nbsp;
-                    </v-chip>
-                  </template>
-                </v-combobox>
+                      <v-chip
+                        v-bind="attrs"
+                        :input-value="selected"
+                        close
+                        class="ma-2"
+                        color="purple"
+                        text-color="white"
+                        @click="select"
+                        @click:close="remove(item)"
+                      >
+                        <strong class="test">{{ item }}</strong
+                        >&nbsp;
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </div>
                 <!-- 설명 -->
                 <v-col cols="12">
                   <v-text-field 
@@ -178,19 +185,13 @@
 </template>
 
 <script>
-// import map from '../map.js';
+import mindMap from '../../components/mindmap/mind-map.vue';
 
 export default {
   name: "MindMapDetail",
-  components: {},
-  // props: {
-  //   no: {
-  //     type: Number,
-  //     default: 0
-  //   }
-  // },
+  components: { mindMap },
   data() {
-    const no = Number(this.$route.params.no);
+    const no = Number(this.$route.params.no)
     return {
       no: no,
       fav: true,
@@ -198,61 +199,41 @@ export default {
       // 마인드맵 생성에 필요한 요소
       mindmap: "",
       // 임시로 쓸 더미 데이터
-      nodes: [
+      map: [
         {
-          'text': '중간발표',
-          'url': '',
-          'fx': -13.916222252976013,
-          'fy': -659.1641376795345,
-          'nodes': [],
-        },
-        {
-          'text': '여행지',
-          'url': '',
-          'fx': 15.3247731601375,
-          'fy': -964.73700786748157,
-          'nodes': []
-        },
-        {
-        'text': '음식',
-        'url': '',
-        'fx': 355.7839253819375,
-        'fy': -455.5539283546699,
-        'nodes': []
-        },
-        {
-        'text': 'SNOW',
-        'note': 'hihi',
-        'url': '',
-        'fx': -98.5231997717085,
-        'fy': -355.07462866512333,
-        'nodes': []
-        },
-      ],
-      connections: [
-        {
-          'source': '중간발표',
-          'target': 'SNOW',
-          'curve': {
-            'x': -43.5535,
-            'y': 299.545
-          }
-        },
-        {
-          'source': '중간발표',
-          'target': '여행지',
-          'curve': {
-            'x': -78.1206,
-            'y': -114.714
-          }
-        },
-        {
-          'source': '중간발표',
-          'target': '음식',
-          'curve': {
-            'x': 29.6649,
-            'y': 80.1111
-          }
+          label: '마인드맵',
+          root: true,
+          url: '',
+          children: [
+            {
+              label: 'A1',
+              children: [
+                {
+                  label: '홍홍',
+                },
+                {
+                  label: '콩콩',
+                },
+                {
+                  label: '둥둥',
+                },
+              ],
+            },
+            {
+              label: 'A2',
+              children: [
+                {
+                  label: '얄라리',
+                },
+                {
+                  label: '얄라',
+                },
+              ],
+            },
+            {
+              label: 'A3',
+            },
+          ],
         },
       ],
       hashtag: [],
@@ -266,6 +247,23 @@ export default {
     };
   },
   methods: {
+    handleDataChange(data) {
+      this.map = data;
+    },
+    handleNodeDelete(nodeData, callback) {
+      console.log(nodeData);
+
+      callback(true);
+    },
+    readmapdata() {
+      let form = new FormData();
+      form.append("jwt", this.$store.getters.getJWT)
+      form.append("MindID", this.no)
+
+      this.$store.dispatch("updateMind", form).then(() =>{
+        console.log(this.$store.getters.setMessage)
+      })
+    },
     checkHandler() {
       let err = true;
       let msg = '';
@@ -338,7 +336,7 @@ export default {
     },
     // 전체 조회 페이지로 이동
     backPage: function() {
-      this.$router.push('/main/mindmap/mymindlist')
+      this.$router.push('/main')
     },
     // 마인드맵 댓글 페이지 이동
     goMindComment(no) {
@@ -351,13 +349,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #app {
   background-color: #f1f5f8;
 }
 /* 설명이 적을 때 위치 고정 */
 #cardAction {
   background-color: #fff;
+  position: fixed;
+  bottom: 0;
 }
 /* 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) */
 #explanationSize {
@@ -373,16 +373,13 @@ export default {
   text-align: left;
   margin-bottom: 7px;
 }
-</style>
-
-<style>
 .mindmap-svg {
   position: fixed;
   top: -50px;
   left: 40px;
 }
-.container {
-  max-height: 500px;
+#app {
+  height: 100%;
 }
 /* 마인드맵 수정 / 삭제 버튼 위치 */
 #btnDelete {
@@ -395,9 +392,6 @@ export default {
   right: 70px;
   top: 65px;
 }
-</style>
-
-<style lang="scss" scoped>
 #no-background-hover::before {
   background-color: transparent !important;
 }

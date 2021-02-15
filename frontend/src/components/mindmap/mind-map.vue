@@ -335,7 +335,7 @@ export default {
 
       this.handleRelocation();
     },
-    // 노드 추가 부분 -> 노드 새로 만들 때 화살표 아이콘 수정하면 될 듯, 추가되는 내용도 데이터베이스에 보내야됨
+    // 노드 추가 부분
     handleRenderContent(h, node) {
       return (
         <div style="position: relative;text-align: left;">
@@ -405,11 +405,9 @@ export default {
       );
 
       $ele.addEventListener('input', (e) => {
-        // console.log(isInputZh)
 
         if (isInputZh) return;
 
-        // console.log(e.target.innerText)
 
         this.inputContent = e.target.innerText;
       });
@@ -421,7 +419,6 @@ export default {
           if (!e.shiftKey) {
             e.preventDefault();
 
-            // console.log('输入回车', data.label, this.inputContent)
             data.label = 'ddd';
 
             this.$emit('data-change', this.mapData);
