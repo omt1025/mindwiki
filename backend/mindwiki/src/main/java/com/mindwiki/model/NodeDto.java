@@ -4,7 +4,7 @@ public class NodeDto {
 	
 	private int NodeID;
 	private int MindID;
-	private String data;
+	private String nodeData;
 	
 	public int getNodeID() {
 		return NodeID;
@@ -12,11 +12,11 @@ public class NodeDto {
 	public void setNodeID(int nodeID) {
 		NodeID = nodeID;
 	}
-	public String getData() {
-		return data;
+	public String getNodeData() {
+		return nodeData;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setNodeData(String nodeData) {
+		this.nodeData = nodeData;
 	}
 	public int getMindID() {
 		return MindID;
