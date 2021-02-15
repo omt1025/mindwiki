@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="closenavi">
     <v-toolbar id="navi_shadow">
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -35,4 +35,8 @@ export default {
 // .v-toolbar__title {
 //   font-family: 'Black Han Sans';
 // }
+.closenavi {
+  max-height: 56px;
+  height: 56px;
+}
 </style>

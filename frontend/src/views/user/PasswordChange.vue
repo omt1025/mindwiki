@@ -203,7 +203,7 @@ export default {
     font-size: 0.6rem;
     text-align: left;
   }
-  .container-login100 {
+  /* .container-login100 {
     width: 100%;
     min-height: auto;
     display: -webkit-box;
@@ -217,7 +217,7 @@ export default {
     padding: 15px;
     background-repeat: no-repeat;
     background-size: cover;
-  }
+  } */
   .input[data-v-565818fe] {
     background-color: #00000006 !important;
   }
