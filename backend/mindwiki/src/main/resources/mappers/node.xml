@@ -3,5 +3,30 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mindwiki.dao.NodeDao">
+
+
+	<select id="existMindID" parameterType="com.mindwiki.model.NodeDto">
+		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
+	</select>
+	
+	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto">
+		 INSERT INTO node (MindID, data)
+                    VALUES  (#{MindID}, #{data}) 
+	</insert>
+	
+<!-- 		<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int"> -->
+<!-- 		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email}) as success; -->
+<!-- 	</select> -->
+	
+
+
+<!-- if(nodeMapper.findMindID(dto)!=SUCCESS) { -->
+<!-- 			result.setResult("FIND_MIND_ID_ERROR"); -->
+<!-- 			return result; -->
+<!-- 		} -->
+		
+<!-- 		if(nodeMapper.setNodes(dto)!=0) { -->
+<!-- 			result.setResult("SET_NODES_ERROR"); -->
+<!-- 			return result; -->
 		
 </mapper>

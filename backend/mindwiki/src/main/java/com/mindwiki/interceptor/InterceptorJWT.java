@@ -1,3 +1,8 @@
+/******************************************************************************
+* 작성자 : 서울 2반 4팀 신충현
+* 기능 : 인터셉터 jwt확인
+* 최종 수정일: 2021.02.04.
+*******************************************************************************/
 package com.mindwiki.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.mindwiki.service.JwtService;
-/******************************************************************************
-* 작성자 : 서울 2반 4팀 신충현
-* 기능 : InterCeptor를 이용한 jwt검증
-* 최종 수정일: 2021.02.04.
-*******************************************************************************/
+
 
 @Component
 public class InterceptorJWT implements HandlerInterceptor{

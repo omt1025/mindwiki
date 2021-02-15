@@ -1,9 +1,10 @@
-package com.mindwiki.service;
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 댓글 implementation
+* 기능 : 서비스
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.service;
+
 import java.sql.SQLException;
 import java.util.List;
 

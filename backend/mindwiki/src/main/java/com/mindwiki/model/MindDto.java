@@ -1,9 +1,11 @@
-package com.mindwiki.model;
+
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 마인드 Dto
+* 기능 : 마인드
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.model;
+
 import java.util.Date;
 
 public class MindDto {
@@ -32,6 +34,8 @@ public class MindDto {
 	private String thumbnail;
 	private String subject; //이거 추가됨 //db에는 alter table로 추가해줬음
 	private String explanation;//이거도 추가됨
+	
+	
 	
 	
 	

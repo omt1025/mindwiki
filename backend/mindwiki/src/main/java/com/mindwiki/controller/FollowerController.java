@@ -1,7 +1,7 @@
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : Follwer crud
-* 최종 수정일: 2021.02.12.
+* 기능 : follower
+* 최종 수정일: 2021.02.04.
 *******************************************************************************/
 package com.mindwiki.controller;
 
@@ -67,7 +67,7 @@ public class FollowerController {
 	private JwtService jwtSvc;
 	
 	
-
+	//Create Read Delete
 	
 	@PostMapping("/save")
 	public ResponseEntity<Map<String, Object>> follower_save(
@@ -99,7 +99,46 @@ public class FollowerController {
 		}//저장해줌
 		
 		
+		
 
+
+
+		
+		
+		
+		//내이메일이랑, followerEmail을 이메일
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
+	
+	@GetMapping("/fname")
+	public ResponseEntity<Map<String, Object>> follower_name(
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws UnsupportedEncodingException, SQLException {
+		
+		Map<String, Object> resultMap=new HashMap<>();
+		  
+		
+	
+		HttpStatus status=null;
+		
+		try {
+			String followerName=followSvc.searchNameByEmail(followerEmail);
+		
+			resultMap.put("name",followerName);
+			resultMap.put("message","SUCCESS");
+			
+			status = HttpStatus.OK;
+		} catch (SQLException e) {
+			resultMap.put("message","ERROR");
+			
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+	
 		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
@@ -110,18 +149,25 @@ public class FollowerController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<FollowerDto>> follower_list(
-			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException{
-		
-		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+		String myEmail;
+		if(followerEmail==null) {
+			
+			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			  
+			myEmail=(String) claimMap.get("email");
+		}
+		else {
+			myEmail=followerEmail;
+		}
+	
 		  
-		String myEmail=(String) claimMap.get("email");
+		
 		
 		
 		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail),HttpStatus.OK);
 	}
-	
-	
-	
 	
 	@GetMapping("/list/detail")
 	public ResponseEntity<List<MindDto>> follower_list_detail(
@@ -132,9 +178,6 @@ public class FollowerController {
 		
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(followerEmail), HttpStatus.OK);
 	}
-	
-	
-	
 	
 	
 	@DeleteMapping("/list/delete")

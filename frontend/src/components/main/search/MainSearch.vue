@@ -45,6 +45,7 @@
               <v-img
                 :src="creatorImage"
                 @error="imageError = true"
+                @click="goUserProfile(item.email)"
               ></v-img>
             </v-list-item-avatar>
 
@@ -77,8 +78,8 @@
               <v-card class="mx-auto" max-width="400">
                 <v-img
                   class="black--text align-end"
-                  height="200px"
-                  width= "200px"
+                  height="160px"
+                  width= "160px"
                   :src="item.thumbnail"
                   @click="clickParams(item.mindID)"
                 >
@@ -107,8 +108,8 @@
               <v-card class="mx-auto" max-width="400">
                 <v-img
                   class="black--text align-end"
-                  height="200px"
-                  width= "200px"
+                  height="160px"
+                  width= "160px"
                   :src="item.thumbnail"
                   @click="clickParams(item.mindID)"
                 >
@@ -183,6 +184,10 @@ export default {
     clickParams(no) {
       this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
     },
+    // 회원 이메일 가져옴
+    goUserProfile(email) {
+      console.log(email)
+    }
   },
   created() {
     this.readmemberlist();

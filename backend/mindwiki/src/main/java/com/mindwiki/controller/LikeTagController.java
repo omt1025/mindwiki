@@ -1,7 +1,7 @@
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 관심태그
-* 최종 수정일: 2021.02.12.
+* 기능 : liketag
+* 최종 수정일: 2021.02.04.
 *******************************************************************************/
 package com.mindwiki.controller;
 
@@ -49,8 +49,7 @@ public class LikeTagController {
 	@Autowired
 	private JwtService jwtSvc;
 	
-
-	//내가 관심있어하는 해쉬태그의 리스트(아래랑 다릅니다. 아래는 마인드, 이것은 해쉬태그 string자체)
+	
 	@GetMapping("/list")
 	public ResponseEntity<Map<String,Object>> list(
 			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException{
@@ -64,14 +63,12 @@ public class LikeTagController {
 	
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("hashtag",LiketagSvc.list(email));
-		
+		//그냥 responseentity<string>으로 리턴시 오류남 맵으로 넣어서 보내줘야함 한글때문에
 		
 		return new ResponseEntity<Map<String,Object>>(resultMap,HttpStatus.OK);
 	}
 	
 	
-	
-	//home_like_list 관심있는 해쉬태그로 검색한 마인드 리스트
 	@GetMapping("/home/list")
 	public ResponseEntity<List<MindDto>> home_list(
 			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException{
@@ -80,7 +77,8 @@ public class LikeTagController {
 		  
 		String email=(String) claimMap.get("email");
 		
-	
+		//System.out.println(LiketagSvc.list(email));
+		
 		StringTokenizer st = new StringTokenizer(LiketagSvc.list(email), "#");
 		
 		int endNum=st.countTokens();
@@ -90,8 +88,7 @@ public class LikeTagController {
 		
 		int prev_mindID=0;
 		MindDto mind = new MindDto();
-		
-		//여기는 hashtag로 찾아주는거고 아래는 겹치지 않게 mindID로 다시 검색해줌
+	
 		for(int i=0;i<endNum;i++) {
 		
 			
@@ -102,9 +99,7 @@ public class LikeTagController {
 				mind=innerMind.get(j);
 			if(mind!=null) {
 			if(prev_mindID==mind.getMindID()) {
-				//MindID가 이전값이랑 전값이랑 같으면 그대로
-				//MindID가 다르면 그냥 저장안함 같은거니까
-				//대신에 다르면 번호에 저장해서 다음에 비교하게함
+		
 			
 				
 			}else {
@@ -115,7 +110,7 @@ public class LikeTagController {
 			
 			
 			}
-			//이렇게해주면 homTagList에 그 검색한 해쉬태그와 관련된 마인드값이 들어감
+	
 		}
 		
 		Object[] array=homeTagListID.toArray();
@@ -125,15 +120,16 @@ public class LikeTagController {
 			homeTagList.add(mindSvc.readByMindID((int)array[i]));//int는 셋으로 중복값을 제거하기위해 사용
 		}
 		
-					
+		
+		
+
+		
 		return new ResponseEntity<List<MindDto>>(homeTagList,HttpStatus.OK);
 	}
 	
 	
 	
 	
-	
-	//update
 	@PutMapping("/update")
 	public ResponseEntity<Map<String,Object>> update(
 			@RequestParam(value="jwt", required=false) String jwt,
@@ -149,14 +145,12 @@ public class LikeTagController {
 	
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("hashtag",LiketagSvc.list(email));
-		
+		//그냥 responseentity<string>으로 리턴시 오류남 맵으로 넣어서 보내줘야함 한글때문에
 		
 		return new ResponseEntity<Map<String,Object>>(resultMap,HttpStatus.OK);
 	}
 	
 	
-	
-
 	
 	
 	
