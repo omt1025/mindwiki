@@ -83,9 +83,22 @@ public class ProfileServiceImpl implements ProfileService {
 		result.setResult("SUCCESS");
 		return result;
 	}
-	
-//	@
 
+	@Override
+	public ProfileResultDto sendTempPassword(ProfileDto dto) throws SQLException {
+		ProfileResultDto result = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(profileMapper.sameEmailCnt(dto)!=1) {
+			result.setResult("EMAIL_ERROR");
+			return result;
+		}
+		
+		result.setResult("SUCCESS");
+		
+		return result;
+	}
+	
 	@Override
 	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException {
 		ProfileResultDto resultDto = new ProfileResultDto();
@@ -131,7 +144,8 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public List<ProfileDto> memberList() throws SQLException {
+	public List<ProfileDto> getAllProfile() throws SQLException {
 		return session.getMapper(ProfileDao.class).memberList();
 	}
+
 }

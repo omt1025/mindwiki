@@ -181,12 +181,33 @@ public class ProfileController {
 	@PostMapping("/sendTempPassword")
 	public ResponseEntity<Map<String, Object>> sendTempPassword(HttpSession session,
 			@RequestParam(value="email", required=false) String email){
-		System.out.println("ProfileController] /profile/sendTempPassword ");
-		System.out.println("email: " + email);
+		ProfileDto profileDto = new ProfileDto();
+		profileDto.setEmail(email);
 		
-		return null;
+		return processSendTempPassword(profileDto);
 	}
-
+	
+	private ResponseEntity<Map<String, Object>> processSendTempPassword(ProfileDto dto){
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status;
+		
+		try {
+			ProfileResultDto serviceResult = profileService.sendTempPassword(dto);
+			if(serviceResult.getResult()=="SUCCESS") {
+				result.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
+			}else {
+				result.put("message", "FAIL");
+				status = HttpStatus.ACCEPTED;
+			}
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
 
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
@@ -305,25 +326,20 @@ public class ProfileController {
 	 *******************************************************************************/
 	
 	@PostMapping("/memberList")
-	public ResponseEntity<List<ProfileDto>> getAllProfile(HttpSession session,
+	public ResponseEntity<List<ProfileDto>> memberList(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException, SQLException{
-		
-		return processGetAllProfile();
-	}
-	
-	private ResponseEntity<List<ProfileDto>> processGetAllProfile() throws SQLException{
-		List<ProfileDto> profileList = null;
+		List<ProfileDto> allProfile = null;
 		HttpStatus status;
 		
 		try {
-			profileList = profileService.memberList();
+			allProfile = profileService.getAllProfile();
 			status = HttpStatus.OK;
 		} catch (SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<List<ProfileDto>> (profileList, status);
+		return new ResponseEntity<List<ProfileDto>> (allProfile, status);
 	}
 
 }
