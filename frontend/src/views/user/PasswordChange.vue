@@ -188,24 +188,38 @@ export default {
 </script>
 
 <style scoped>
-.m-t-10 {
-  margin-top: 10px !important;
-}
-/* 유효성 검사 span */
-.validation {
-  color: red;
-  font-size: 0.6rem;
-  margin-bottom: 18px;
-}
-/* 비밀번호 변경 팁 span */
-.tip {
-  font-size: 0.6rem;
-  text-align: left;
-}
-.container-login100 {
-  align-items: baseline;
-}
-.input[data-v-565818fe] {
-  background-color: #00000006 !important;
+@media (min-width: 320px) and (max-width: 480px) {
+  .m-t-10 {
+    margin-top: 10px !important;
+  }
+  /* 유효성 검사 span */
+  .validation {
+    color: red;
+    font-size: 0.6rem;
+    margin-bottom: 18px;
+  }
+  /* 비밀번호 변경 팁 span */
+  .tip {
+    font-size: 0.6rem;
+    text-align: left;
+  }
+  .container-login100 {
+    width: 100%;
+    min-height: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: normal;
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .input[data-v-565818fe] {
+    background-color: #00000006 !important;
+  }
 }
 </style>

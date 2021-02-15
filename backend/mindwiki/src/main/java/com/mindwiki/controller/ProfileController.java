@@ -313,7 +313,7 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 
-		return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), HttpStatus.OK);
+		return new ResponseEntity<List<ProfileDto>> (profileService.memberList(), status);
 	}
 
 }
