@@ -39,7 +39,6 @@
             :key="item.email"
             id="v-list-item"
             v-bind:userId="userId"
-            v-if="userId !== item.email"
           >
             <v-list-item-avatar>
               <v-img
