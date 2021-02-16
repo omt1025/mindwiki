@@ -9,7 +9,12 @@
 	</select>
 	
 <!-- 	<insert id="setNode" parameterType="object" > -->
-	<insert id="setNode" parameterType="object" >
+	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto" >
+	
+		INSERT INTO
+			node  (MindID, nodeString)
+			values(#{MindID}, #{nodeString});
+	
 <!-- 		insert into node(MindID, nodeJson) values(#{MindID},json_object( -->
 <!-- 	    'age', 29, -->
 <!-- 	    'gender', 'woman', -->
@@ -37,8 +42,8 @@
 <!--                     ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)}; -->
 	</insert>
 	
-<!-- 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="map"> -->
-<!-- 		SELECT nodeJson FROM node WHERE MindID=#{MindID} -->
-<!-- 	</select> -->
+	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="String">
+		SELECT nodeString FROM node WHERE MindID=#{MindID}
+	</select>
 		
 </mapper>

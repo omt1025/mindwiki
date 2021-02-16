@@ -6,8 +6,15 @@ public class NodeDto {
 	
 	private int NodeID;
 	private int MindID;
+	private String nodeString;
 	private JSONArray nodeJson;
 	
+	public String getNodeString() {
+		return nodeString;
+	}
+	public void setNodeString(String nodeString) {
+		this.nodeString = nodeString;
+	}
 	public int getNodeID() {
 		return NodeID;
 	}

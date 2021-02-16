@@ -309,12 +309,11 @@ public class MindController {
 				if (file == null) {
 					
 					mindSvc.make(mind);
-					MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
 					
-					//**********0217 mm 변경된 부분입니다!
+					MindID = mindSvc.getMindID(admin);
 					NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
 					if(result.getResult()!="SUCCESS"){
-					    resultMap.put("message", "init node fail");
+					    resultMap.put("message", "NODE_INIT_FAIL");
 					    status = HttpStatus.OK;
 					    return new ResponseEntity<Map<String, Object>>(resultMap, status);
 					}
@@ -337,13 +336,11 @@ public class MindController {
 				}
 
 				mindSvc.make(mind);
-				MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
 				
-				
-				//**********0217 mm 변경된 부분입니다!
+				MindID = mindSvc.getMindID(admin);
 				NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
-				if(resul.getResult()!="SUCCESS"){
-				    resultMap.put("message", "init node fail");
+				if(result.getResult()!="SUCCESS"){
+				    resultMap.put("message", "NODE_INIT_FAIL");
 				    status = HttpStatus.OK;
 				    return new ResponseEntity<Map<String, Object>>(resultMap, status);
 				}
@@ -376,7 +373,6 @@ public class MindController {
 		System.out.println(nodeJson);
 		NodeResultDto result = nodeService.setNode(nodeDto);
 		System.out.println(result.getResult());
-//		nodeDto.setNodeJson(buildNodeData(subject, hashtag));
 	}
 	
 	private JSONArray buildNodeJSONArray(String subject, String hashtag) {
