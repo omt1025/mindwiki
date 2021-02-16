@@ -30,7 +30,9 @@ public class NodeServiceImpl implements NodeService{
 			return result;
 		}
 		
-		if(nodeMapper.setNode(dto)!=0) {
+		int insertResult = nodeMapper.setNode(dto);
+		System.out.println("insertResult: " + insertResult);
+		if(insertResult != SUCCESS) {
 			result.setResult("SET_NODES_ERROR");
 			return result;
 		}

@@ -49,6 +49,7 @@ import com.mindwiki.model.ScrapDto;
 import com.mindwiki.model.LikeDto;
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.NodeDto;
+import com.mindwiki.model.NodeResultDto;
 import com.mindwiki.service.JwtService;
 import com.mindwiki.service.MindService;
 import com.mindwiki.service.NodeService;
@@ -356,8 +357,8 @@ public class MindController {
 		nodeDto.setNodeJson(nodeJson);
 		
 		System.out.println(nodeJson);
-
-		nodeService.setNode(nodeDto);
+		NodeResultDto result = nodeService.setNode(nodeDto);
+		System.out.println(result.getResult());
 //		nodeDto.setNodeJson(buildNodeData(subject, hashtag));
 	}
 	
@@ -370,13 +371,12 @@ public class MindController {
 			hashtagObj = new JSONObject();
 			hashtagObj.put("label", st.nextToken());
 			hashtagObj.put("reason", String.valueOf(0));
-//			hashtagArray = new JSONArray();
 			hashtagArray.add(hashtagObj);
 		}
 		
 		nodeObj = new JSONObject();
 		nodeObj.put("label", subject);
-		nodeObj.put("root", "true");
+		nodeObj.put("root", true);
 		nodeObj.put("url", "");
 		nodeObj.put("children", hashtagArray);
 		

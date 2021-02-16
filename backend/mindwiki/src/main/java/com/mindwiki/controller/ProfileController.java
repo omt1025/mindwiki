@@ -379,7 +379,6 @@ public class ProfileController {
 		return new ResponseEntity<List<ProfileDto>> (allProfile, status);
 	}
 	
-	
 	@GetMapping("/profilepicture")
 	public ResponseEntity<Map<String,Object>> profilePicture(
 			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{

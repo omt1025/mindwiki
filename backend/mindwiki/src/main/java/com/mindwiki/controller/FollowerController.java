@@ -59,7 +59,6 @@ public class FollowerController {
 	@Autowired
 	private MindService mindSvc;
 	
-	
 	@Autowired
 	private FollowerService followSvc;
 	

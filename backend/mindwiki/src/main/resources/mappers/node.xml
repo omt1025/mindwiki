@@ -8,11 +8,34 @@
 		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
 	</select>
 	
-<!-- 	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto"> -->
+<!-- 	<insert id="setNode" parameterType="object" > -->
+	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto" >
+<!-- 		insert into node(MindID, nodeJson) values(#{MindID},json_object( -->
+<!-- 	    'age', 29, -->
+<!-- 	    'gender', 'woman', -->
+<!-- 	    '부서', '개발', -->
+<!-- 	    '자격증', json_array('CISA', 'PMP', 'CISSP') -->
+<!-- 	    )); -->
+<!-- 		INSERT INTO node (MindID) VALUES (#{MindID}); -->
+		
+<!-- 		 ON DUPLICATE KEY UPDATE MindID=#{MindID}; -->
+		
+<!-- 		INSERT INTO node nodeJson=json_array(#{nodeJson}); -->
+		SET @json = JSON_ARRAY(#{nodeJson});
+
+		INSERT INTO node 
+		(MindId, nodeJson)
+		values
+		(#{MindID}, @json);
+<!-- 		(#{MindID}, JSON_SET(#{nodeJson})) -->
+		
+		
+<!-- 		) -->
+<!-- 		nodeJson=#{nodeJson}; -->
 <!-- 		 INSERT INTO node (MindID, nodeJson) -->
 <!--                     VALUES (#{MindID}, json_array(#{nodeJson})) -->
 <!--                     ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)}; -->
-<!-- 	</insert> -->
+	</insert>
 	
 <!-- 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="map"> -->
 <!-- 		SELECT nodeJson FROM node WHERE MindID=#{MindID} -->
