@@ -23,51 +23,14 @@ export default {
     return {
       // map: map
       map: [
-        {
-          label: '마인드맵',
-          root: true,
-          reason: 0,
-          url: '',
-          children: [
-            {
-              label: 'A1',
-              reason: 0,
-              children: [
-                {
-                  label: '홍홍',
-                  reason: 0,
-                },
-                {
-                  label: '콩콩',
-                  reason: 0,
-                },
-                {
-                  label: '둥둥',
-                  reason: 0,
-                },
-              ],
-            },
-            {
-              label: 'A2',
-              reason: 0,
-              children: [
-                {
-                  label: '얄라리',
-                  reason: 0,
-                },
-                {
-                  label: '얄라',
-                  reason: 0,
-                },
-              ],
-            },
-            {
-              label: 'A3',
-              reason: 0,
-            },
-          ],
-        },
-      ],
+        {"children":
+            [{"reason":"0","label":"123"},
+            {"reason":"0","label":"123"},
+            {"reason":"0","label":"123"}],
+        "root":"true",
+        "label":"woong",
+        "url":""}
+      ]
     };
   },
   components: { mindMap },
