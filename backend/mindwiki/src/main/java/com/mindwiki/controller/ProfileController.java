@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -256,25 +257,62 @@ public class ProfileController {
 	
 	/******************************************************************************
 	 * 작성자 : 
-	 * 기능 : 해당 계정이 존재하는지 확인
-	 * 최종 수정일: 2021.02.08.
+	 * 기능 : 내 프로필 정보 리턴
+	 * 최종 수정일: 2021.02..
+	 * @throws Exception 
+	 *******************************************************************************/
+
+	// TODO
+	@PostMapping("/getMyProfile")
+	public ResponseEntity<Map<String, Object>> getMyProfile(HttpSession session,
+			@RequestParam(value="jwt", required=false) String jwt) throws Exception{
+
+		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+		String email = (String)claimMap.get("email");
+
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+
+		try {
+			result.put("info", profileService.getMyProfile(email));
+			result.put("message", "SUCCESS");
+			
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			e.printStackTrace();
+		}
+
+		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
+	
+	/******************************************************************************
+	 * 작성자 : 
+	 * 기능 : 상대방 프로필 정보 리턴
+	 * 최종 수정일: 2021.02..
+	 * @throws Exception 
 	 * @throws UnsupportedEncodingException 
 	 *******************************************************************************/
 
 	// TODO
 	@PostMapping("/getProfile")
-	public ResponseEntity<ProfileDto> getProfile(HttpSession session,
-			@RequestParam(value="email", required=false) String email){
+	public ResponseEntity<Map<String, Object>> getProfile(HttpSession session,
+			@RequestParam(value="email", required=false) String email) throws Exception{
 
-		ProfileDto profileDto = new ProfileDto();
-		profileDto.setEmail(email);
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
 
-		ProfileDto resultProfile = new ProfileDto();
-		HttpStatus status = null;
+		try {
+			result.put("info", profileService.getMyProfile(email));
+			result.put("message", "SUCCESS");
+			
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			e.printStackTrace();
+		}
 
-		ProfileResultDto result = new ProfileResultDto();
-
-		return null;
+		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 
 	/******************************************************************************
@@ -319,7 +357,7 @@ public class ProfileController {
 
 	/******************************************************************************
 	 * 작성자 : 
-	 * 기능 : 해당 계정이 존재하는지 확인
+	 * 기능 : 회원목록 리턴
 	 * 최종 수정일: 2021.02.08.
 	 * @throws UnsupportedEncodingException 
 	 *******************************************************************************/
@@ -339,6 +377,32 @@ public class ProfileController {
 		}
 		
 		return new ResponseEntity<List<ProfileDto>> (allProfile, status);
+	}
+	
+	
+	@GetMapping("/profilepicture")
+	public ResponseEntity<Map<String,Object>> profilePicture(
+			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+		
+		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+		String email = (String)claimMap.get("email");
+		
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = null;
+		
+		String picUrl = null;
+		try {
+			picUrl = profileService.getProfilePic(email);
+			result.put("picture", picUrl);
+			result.put("message", "SUCCESS");
+			status = HttpStatus.ACCEPTED;
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			result.put("message", "ERROR");
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String,Object>> (result, status);
 	}
 
 }

@@ -1,67 +1,90 @@
 <template>
-  <v-list two-line>
-    <template v-for="(item, index) in items">
-      <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 내 활동 알림
+    * 생성일자 : 2021-01-22
+    * 최종수정일자 : 2021-02-16
+  -->
+  <v-app>
+    <!-- 좋아요 누른 게시글 알림 -->
+    <v-list three-line>
+      <template v-for="item in items">
+        <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
 
-      <v-divider v-else-if="item.divider" :key="index"></v-divider>
+        <v-list-item v-else :key="item.index">
+          <!-- 프로필 사진 -->
+          <v-list-item-avatar>
+            <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
+          </v-list-item-avatar>
 
-      <v-list-item v-else :key="item.title">
-        <v-list-item-action></v-list-item-action>
+          <v-list-item-subtitle v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
+          <v-list-item-title
+            @click="clickParams(item.mindID)"
+            v-html="item.title"
+          ></v-list-item-title>
+        </v-list-item>
+      </template>
+    </v-list>
 
-        <v-list-item-icon>
-          <v-icon v-html="item.icon"></v-icon>
-        </v-list-item-icon>
+    <v-divider></v-divider>
 
-        <v-list-item-action></v-list-item-action>
+    <!-- 스크랩 누른 게시글 알림 -->
+    <v-list three-line>
+      <template v-for="scrap in scraps">
+        <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
 
-        <v-list-item-content>
-          <v-list-item-title v-html="item.title"></v-list-item-title>
-          <v-list-item-subtitle v-html="item.subtitle" class="subtitle"></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </template>
-  </v-list>
+        <v-list-item v-else :key="scrap.index">
+          <!-- 프로필 사진 -->
+          <v-list-item-avatar>
+            <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
+          </v-list-item-avatar>
+
+          <v-list-item-subtitle v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
+          <v-list-item-title
+            @click="clickParams(scrap.mindID)"
+            v-html="scrap.title"
+          ></v-list-item-title>
+        </v-list-item>
+      </template>
+    </v-list>
+  </v-app>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
+
 export default {
-  name: 'ActivityMessage',
-
+  name: 'MyActivity',
+  components: {  },
+  computed: {
+    ...mapGetters(['likeData, scrapData']),
+    creatorImage() {
+      return this.imageError ? this.defaultImage : 'creator-image.jpg';
+    },
+  },
   data: () => ({
-    items: [
-      { header: '오늘 알림' },
-      {
-        icon: 'mdi-heart',
-        title: 'giga님이 회원님의 게시물을 좋아합니다.',
-        subtitle: `52분 전`,
-      },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'popo님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 이렇게 생각할수도 있겠네요</span>',
-        subtitle: `10시간`,
-      },
-
-      { header: '이전 알림' },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'zolryu님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 퍼가요^^</span>',
-        subtitle: '2021-01-20',
-      },
-      {
-        icon: 'mdi-heart',
-        title: 'hei님이 회원님의 게시물을 좋아합니다',
-        subtitle: '2021-01-15',
-      },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'mola님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 헉, 펜트하우스 넘나 존잼이죠!!</span>',
-        subtitle: '2021-01-04',
-      },
-    ],
-  }),
+    defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
+    imageError: false,
+    items: [],
+    scraps: [],
+    }),
+  // 좋아요 누른 게시글을 가져옴
+  created() {
+    this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
+      this.items = this.$store.getters.likeData;
+    this.$store.dispatch('readScrapMindMap', this.$store.getters.getJWT).then(() => {
+      this.scraps = this.$store.getters.scrapData;
+      console.log(this.scraps)
+    });
+    });
+  },
+  methods: {
+    // 라우터에 마인드 아이디를 보냄
+    clickParams(no) {
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    },
+  },
 };
 </script>
 

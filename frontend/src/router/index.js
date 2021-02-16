@@ -23,6 +23,11 @@ import MyMindList from '../views/mindmap/MyMindList.vue';
 import MindComment from '../views/mindmap/MindComment.vue';
 import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
 import Test from '../views/mindmap/Test.vue';
+
+// Profile Revisee
+import ReviseProfile from '../components/main/profile/ReviseProfile.vue';
+
+import UserProfile from '@/components/main/profile/UserProfile.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -105,6 +110,16 @@ const routes = [
     path: '/main/mindmap/test',
     name: 'Test',
     component: Test,
+  },
+  {
+    path: '/main/profile/revise',
+    name: 'ReviseProfile',
+    component: ReviseProfile,
+  },
+  {
+    path: '/main/userprofile/',
+    name: 'UserProfile',
+    component: UserProfile,
   },
 ];
 

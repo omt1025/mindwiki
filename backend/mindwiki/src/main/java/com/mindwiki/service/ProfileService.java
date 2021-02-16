@@ -17,4 +17,7 @@ public interface ProfileService {
 	public ProfileResultDto isExist(ProfileDto profileDto) throws SQLException;
 	public List<ProfileDto> getAllProfile() throws SQLException;
 	public ProfileResultDto sendTempPassword(ProfileDto dto) throws SQLException;
+	public String getProfilePic(String email) throws SQLException;
+	public ProfileDto getProfile(String email) throws Exception;
+	public ProfileDto getMyProfile(String email) throws Exception;
 }

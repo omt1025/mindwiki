@@ -1,10 +1,12 @@
 package com.mindwiki.model;
 
+import org.json.simple.JSONArray;
+
 public class NodeDto {
 	
 	private int NodeID;
 	private int MindID;
-	private String nodeData;
+	private JSONArray nodeJson;
 	
 	public int getNodeID() {
 		return NodeID;
@@ -12,11 +14,11 @@ public class NodeDto {
 	public void setNodeID(int nodeID) {
 		NodeID = nodeID;
 	}
-	public String getNodeData() {
-		return nodeData;
+	public JSONArray getNodeJson() {
+		return nodeJson;
 	}
-	public void setNodeData(String nodeData) {
-		this.nodeData = nodeData;
+	public void setNodeJson(JSONArray nodeJson) {
+		this.nodeJson = nodeJson;
 	}
 	public int getMindID() {
 		return MindID;
