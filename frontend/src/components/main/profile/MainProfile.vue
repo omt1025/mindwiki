@@ -6,9 +6,7 @@
     * 최종수정일자 : 2021-02-16
   -->
 
-  <div
-    class="profile_info"
-  >
+  <div class="profile_info">
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
       <v-avatar class="user_avatar" size="120px">
@@ -18,6 +16,7 @@
       <!-- 사용자 계정 정보 -->
       <div class="user_nickname text-center p-t-22 p-b-3">
         <span>{{ nickName }}</span>
+        <i class="fa fa-pencil-square-o pencil" aria-hidden="true" @click="goRevise"></i>
       </div>
       <div class="txt1 text-center p-t-2 p-b-20">
         <span>{{ userId }}</span>
@@ -141,6 +140,9 @@ export default {
     goMind() {
       this.$router.push('/main/mindmap/mymindlist');
     },
+    goRevise() {
+      this.$router.push('/main/profile/revise');
+    },
     // 내 마인드 리스트 조회
     readmymindmap() {
       let form = new FormData();
@@ -159,13 +161,13 @@ export default {
     // 팔로잉 목록 조회[HYH]
     readfollowing() {
       this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
-        this.followings = this.$store.getters.followingData
+        this.followings = this.$store.getters.followingData;
       });
     },
     // 팔로워 목록 조회[HYH]
     readfollower() {
       this.$store.dispatch('readFollower', this.$store.getters.getJWT).then(() => {
-        this.followers = this.$store.getters.followerData
+        this.followers = this.$store.getters.followerData;
       });
     },
   },
@@ -230,5 +232,10 @@ export default {
 .card-body {
   padding: 1rem;
 }
-
+/* 프로필 수정 페이지 버튼 */
+.pencil {
+  font-size: 22px;
+  margin-left: 10px;
+  color: #ffffffbb;
+}
 </style>

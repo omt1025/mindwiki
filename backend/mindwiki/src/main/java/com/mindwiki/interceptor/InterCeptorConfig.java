@@ -18,7 +18,7 @@ public class InterCeptorConfig implements WebMvcConfigurer {
 	private static final String[] EXCLUDE_PATHS = { "/" , "/mindwiki/GoogleOAuth",
 			"/mindwiki/login","/mindwiki/oauth","/mindwiki/profile/register","/mindwiki/image","/mindwiki/image/**"
 			,"/mindwiki/mind/comment/read/{no}","/mindwiki/liveRanking/list","/mindwiki/profile/sendTempPassword",
-			"mindwiki/profile/image/", "mindwiki/profile/image/**"
+			"mindwiki/profile/image/", "mindwiki/profile/image/**", "/mindwiki/profile/getProfile"
 			
 			};
 	
