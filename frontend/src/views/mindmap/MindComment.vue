@@ -154,7 +154,7 @@ export default {
     },
   },
   created: function() {
-    this.readcomment();
+    this.readcomment();  
   },
 };
 </script>

@@ -6,47 +6,51 @@
     * 최종수정일자 : 2021-02-16
   -->
   <v-app>
-    <!-- 좋아요 누른 게시글 알림 -->
-    <v-list three-line>
-      <template v-for="item in items">
-        <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
+    <div>
+    <v-card flat height="100%">
+      <!-- 좋아요 누른 게시글 알림 -->
+      <v-list three-line>
+        <template v-for="item in items">
+          <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
 
-        <v-list-item v-else :key="item.index">
-          <!-- 프로필 사진 -->
-          <v-list-item-avatar>
-            <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
-          </v-list-item-avatar>
+          <v-list-item v-else :key="item.index">
+            <!-- 프로필 사진 -->
+            <v-list-item-avatar>
+              <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
+            </v-list-item-avatar>
 
-          <v-list-item-subtitle v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
-          <v-list-item-title
-            @click="clickParams(item.mindID)"
-            v-html="item.title"
-          ></v-list-item-title>
-        </v-list-item>
-      </template>
-    </v-list>
+            <v-list-item-subtitle v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
+            <v-list-item-title
+              @click="clickParams(item.mindID)"
+              v-html="item.title"
+            ></v-list-item-title>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-card>
+      <v-divider></v-divider>
+    <v-card flat height="100%">
+      <!-- 스크랩 누른 게시글 알림 -->
+      <v-list three-line>
+        <template v-for="scrap in scraps">
+          <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
 
-    <v-divider></v-divider>
+          <v-list-item v-else :key="scrap.index">
+            <!-- 프로필 사진 -->
+            <v-list-item-avatar>
+              <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
+            </v-list-item-avatar>
 
-    <!-- 스크랩 누른 게시글 알림 -->
-    <v-list three-line>
-      <template v-for="scrap in scraps">
-        <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
-
-        <v-list-item v-else :key="scrap.index">
-          <!-- 프로필 사진 -->
-          <v-list-item-avatar>
-            <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
-          </v-list-item-avatar>
-
-          <v-list-item-subtitle v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
-          <v-list-item-title
-            @click="clickParams(scrap.mindID)"
-            v-html="scrap.title"
-          ></v-list-item-title>
-        </v-list-item>
-      </template>
-    </v-list>
+            <v-list-item-subtitle v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
+            <v-list-item-title
+              @click="clickParams(scrap.mindID)"
+              v-html="scrap.title"
+            ></v-list-item-title>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-card>
+    </div>
   </v-app>
 </template>
 
@@ -73,10 +77,9 @@ export default {
   created() {
     this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
       this.items = this.$store.getters.likeData;
+    });
     this.$store.dispatch('readScrapMindMap', this.$store.getters.getJWT).then(() => {
       this.scraps = this.$store.getters.scrapData;
-      console.log(this.scraps)
-    });
     });
   },
   methods: {
