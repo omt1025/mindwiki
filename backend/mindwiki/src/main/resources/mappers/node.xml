@@ -8,11 +8,11 @@
 		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
 	</select>
 	
-	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto">
-		 INSERT INTO node (MindID, nodeJson)
-                    VALUES (#{MindID}, json_array(#{nodeJson}))
-                    ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)};
-	</insert>
+<!-- 	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto"> -->
+<!-- 		 INSERT INTO node (MindID, nodeJson) -->
+<!--                     VALUES (#{MindID}, json_array(#{nodeJson})) -->
+<!--                     ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)}; -->
+<!-- 	</insert> -->
 	
 <!-- 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="map"> -->
 <!-- 		SELECT nodeJson FROM node WHERE MindID=#{MindID} -->
