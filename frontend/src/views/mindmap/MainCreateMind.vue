@@ -8,7 +8,7 @@
 
   <div>
     <!-- 상단 Navi -->
-    <back-navi :title="title" v-on:checkbtn="checkHandler"></back-navi>
+    <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
 
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
@@ -144,23 +144,11 @@ export default {
   components: {
     BackNavi,
   },
-  watch: {
-    // 비밀번호 유효성 검사
-    // 'user.userpwd'(value) {
-    //   this.validatePassword(value, 'userpwd');
-    // },
-    // 비밀번호 확인 유효성 검사
-    // 'user.userpwd_check'(value) {
-    //   this.validatePassword(value, 'userpwd_check');
-    // },
-  },
-  computed: {
-    // onFileSelected(event){ var input = event.target; if (input.files && input.files[0]) { var reader = new FileReader(); reader.onload = (e) => { this.uploadImageFile = e.target.result; } reader.readAsDataURL(input.files[0]); } },
-    // https://avengersrhydon1121.tistory.com/232?category=834822
-  },
   methods: {
     backPage: function() {
-      this.$router.push('/main/menu');
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$router.push('/main');
     },
     processFile(event) {
       this.newmind.files = event.target.files[0];

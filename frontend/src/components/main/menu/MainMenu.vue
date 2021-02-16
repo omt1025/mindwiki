@@ -8,7 +8,7 @@
 
   <v-app>
     <!-- <MenuNavi /> -->
-    <back-navi :title="title"></back-navi>
+    <back-navi :title="title" v-on:backbtn="backPage"></back-navi>
 
     <v-row align="center">
       <v-col>
@@ -228,6 +228,11 @@ export default {
       this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
       // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
       // this.$router.push('/login');
+    },
+    backPage: function() {
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$router.push('/main');
     },
   },
 };
