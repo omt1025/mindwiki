@@ -13,7 +13,6 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -177,7 +176,6 @@ public class ProfileServiceImpl implements ProfileService {
 		ProfileResultDto resultDto = new ProfileResultDto();
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		/* 여기에 함수로 만들어주시면 좋을것 같습니다*/
 		if(hasFile(file)) {
 			String filePath = getFilePath(file);
 			dto.setProfileDefaultPic(filePath);
@@ -218,7 +216,7 @@ public class ProfileServiceImpl implements ProfileService {
 			e.printStackTrace();
 		}
 
-		return filePath;// 어차피 업로드 로직은 실행되었기때문에 db에 넣을 thumbnail값을 출력한다.
+		return filePath;
 	}
 
 	@Override
