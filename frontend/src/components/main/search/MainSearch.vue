@@ -14,10 +14,9 @@
       outlined
       hide-details="true"
       v-model="search"
-      @keypress="onInputKeyword"
     >
       <template v-slot:append>
-        <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
+        <v-icon>mdi-magnify</v-icon>
       </template>
     </v-text-field>
 
@@ -27,7 +26,7 @@
     </v-list-item-content>
 
     <!-- 프로필 검색결과 -->
-    <template v-if="isStatusOn">
+    <template v-if="search.length != 0">
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <v-slide-item v-for="item in searchProfileHandler" :key="item.email">
@@ -60,7 +59,7 @@
     </v-list-item-content>
 
     <!-- 마인드맵 제목 검색 결과 -->
-    <template>
+    <template v-if="search.length != 0">
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <!-- Slide에 들어가는 card를 item만큼 만든다 -->
@@ -90,7 +89,7 @@
     </v-list-item-content>
 
     <!-- 마인드맵 해시태그 검색 결과 -->
-    <template>
+    <template v-if="search.length != 0">
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <!-- Slide에 들어가는 card를 item만큼 만든다 -->
@@ -156,16 +155,9 @@ export default {
       items: [],
       minditems: [],
       userId: localStorage.getItem('user-id'),
-      isStatusOn: false,
     };
   },
   methods: {
-    // onInputKeyword: function(event) {
-    //   this.$emit('input-change', event.target.value);
-    // },
-    onInputKeyword: function() {
-      this.isStatusOn = !this.isStatusOn;
-    },
     readmemberlist() {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
