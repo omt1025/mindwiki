@@ -11,9 +11,9 @@
         <v-card-title v-text="card.title"></v-card-title>
       </v-img>
 
-      <v-card-actions>
+      <v-card-actions class="justify-around">
         <v-spacer></v-spacer>
-
+        <div>{{ card.admin }}</div>
         <div v-if="card.like">
           <v-btn icon color="purple">
             <v-icon @click="likemindmap(card.mindID, 1)">mdi-heart</v-icon>

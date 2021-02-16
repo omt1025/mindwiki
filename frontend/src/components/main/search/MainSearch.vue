@@ -14,7 +14,7 @@
       outlined
       hide-details="true"
       v-model="search"
-      @keypress.enter="onInputKeyword"
+      @keypress="onInputKeyword"
     >
       <template v-slot:append>
         <v-icon @click="onInputKeyword">mdi-magnify</v-icon>
@@ -27,7 +27,7 @@
     </v-list-item-content>
 
     <!-- 프로필 검색결과 -->
-    <template>
+    <template v-if="isStatusOn">
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <v-slide-item v-for="item in searchProfileHandler" :key="item.email">
@@ -156,11 +156,15 @@ export default {
       items: [],
       minditems: [],
       userId: localStorage.getItem('user-id'),
+      isStatusOn: false,
     };
   },
   methods: {
-    onInputKeyword: function(event) {
-      this.$emit('input-change', event.target.value);
+    // onInputKeyword: function(event) {
+    //   this.$emit('input-change', event.target.value);
+    // },
+    onInputKeyword: function() {
+      this.isStatusOn = !this.isStatusOn;
     },
     readmemberlist() {
       let form = new FormData();
