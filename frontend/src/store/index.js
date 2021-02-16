@@ -38,6 +38,7 @@ export default new Vuex.Store({
     followingData: null, // 팔로잉 목록
     followingMindData: null, // 팔로워의 마인드 목록
     followerData: null, // 나를 팔로우한 사람 목록
+    profile: null, // 회원정보
   },
 
   // 연산된 state값을 접근
@@ -118,6 +119,10 @@ export default new Vuex.Store({
     // 나를 팔로우한 사람 목록
     followerData(state) {
       return state.followerData;
+    },
+    // 회원 정보
+    profile(state) {
+      return state.profile;
     },
   },
 
@@ -217,7 +222,7 @@ export default new Vuex.Store({
     // 팔로잉 변경
     setfollowingData(state, val) {
       state.followingData = val;
-    // 팔로우 한 사람 마인드맵 리스트 변경
+      // 팔로우 한 사람 마인드맵 리스트 변경
     },
     setfollowingMindData(state, val) {
       state.followingMindData = val;
@@ -225,6 +230,10 @@ export default new Vuex.Store({
     // 팔로워 변경
     setfollowerData(state, val) {
       state.followerData = val;
+    },
+    // 프로필 변경
+    setProfile(state, val) {
+      state.profile = val;
     },
   },
 
@@ -532,7 +541,6 @@ export default new Vuex.Store({
           context.commit('setFollowerData', response.data);
         });
     },
-
     // 팔로우한 유저의 마인드 확인[HYH]
     readfollowingMindData(context, form) {
       return axios
@@ -565,6 +573,20 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setfollowerData', response.data);
         });
+    },
+    // 내 프로필 정보 가져오기[YJS]
+    myProfile(context, form) {
+      return axios.post(`${SERVER_URL}/profile/getMyProfile`, form).then((response) => {
+        // console.log(response.data);
+        context.commit('setProfile', response.data.info);
+        context.commit('setMessage', response.data.message);
+      });
+    },
+    // 회원정보 수정[YJS]
+    changeProfile(context, form) {
+      return axios.post(`${SERVER_URL}/profile/changeProfile`, form).then((response) => {
+        context.commit('setMessage', response.data.message);
+      });
     },
   },
 });
