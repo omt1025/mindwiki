@@ -122,15 +122,15 @@ public class ProfileServiceImpl implements ProfileService {
 	private int sendTempPWToEmail(ProfileDto dto){
 		// Mail Server 설정
 		String charSet = "utf-8";
-		String hostSMTP = "smtp.naver.com";
-		String hostSMTPid = "kjw11036@naver.com";
+		String hostSMTP = "smtp.gmail.com";
+		String hostSMTPid = "mindwiki.manager@gmail.com";
 		String hostSMTPpwd = "ssafy2021!@";
 
 		// 보내는 사람 EMail, 제목, 내용
-		String fromEmail = "kjw11036@naver.com";
+		String fromEmail = "mindwiki.manager@gmail.com";
 		String fromName = "mindwiki_admin";
-		String subject = "temp password";
-		String msg = dto.getPassword();
+		String subject = "mindwiki temporary password";
+		String mainText = writeMainText(dto);
 		
 		try {
 			HtmlEmail email = new HtmlEmail();
@@ -145,13 +145,26 @@ public class ProfileServiceImpl implements ProfileService {
 			email.addTo(dto.getEmail(), charSet);
 			email.setFrom(fromEmail, fromName, charSet);
 			email.setSubject(subject);
-			email.setHtmlMsg(msg);
+			email.setHtmlMsg(mainText);
 			email.send();
 		} catch (Exception e) {
 			System.out.println("send temp pw to email error : " + e);
 			return FAIL;
 		}
 		return SUCCESS;
+	}
+	
+	private String writeMainText(ProfileDto dto) {
+		String msg = "";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+		msg += "<h2 style='color: black;'>";
+		msg += "<p>Your temporary password </p>";
+		msg += "<h3 style='color: blue;'>";
+		msg += "<p>" + dto.getPassword() + "</p>";
+		msg += "<h2 style='color: black;'>";
+		msg += "<p>Please change your password.</p></div>";
+		
+		return msg;
 	}
 	
 	@Override
