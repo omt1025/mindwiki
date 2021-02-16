@@ -53,13 +53,19 @@
           <span>댓글 쓰기</span>
         </v-btn>
         <v-row align="center" justify="end">
-          <v-icon color="purple">mdi-heart</v-icon>
+          <v-icon v-if="this.mindmap.likeCnt === 0">mdi-heart</v-icon>
+          <v-icon v-else color="purple">mdi-heart</v-icon>
           <!-- 누적된 좋아요 수 -->
-          <span class="subheading mr-2">256</span>
+          <span class="subheading mr-2">{{ this.mindmap.likeCnt }}</span>
           <span class="mr-1">·</span>
+<<<<<<< HEAD
           <v-icon class="mr-1">mdi-bookmark</v-icon>
+=======
+          <v-icon v-if="this.mindmap.scrapCnt === 0" class="mr-1">mdi-bookmark</v-icon>
+          <v-icon v-else class="mr-1" color="purple">mdi-bookmark</v-icon>
+>>>>>>> 870dfdf80eb0f26f937dc0da9773c77b9324cadb
           <!-- 누적된 스크랩 수 -->
-          <span class="subheading">45</span>
+          <span class="subheading">{{ this.mindmap.scrapCnt }}</span>
         </v-row>
       </v-list-item>
     </v-card-actions>
@@ -189,7 +195,7 @@ export default {
   name: 'MindMapDetail',
   components: { mindMap },
   computed: {
-    ...mapGetters({ map:'getMapData'})
+    ...mapGetters({ map:'getMapData'}),
   },
   data() {
     const no = Number(this.$route.params.no);

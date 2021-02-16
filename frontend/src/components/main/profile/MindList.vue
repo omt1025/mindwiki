@@ -1,16 +1,17 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : UI생성
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : key값으로 인한 console 에러 수정
     * 생성일자 : 2021-02-05
-    * 최종수정일자 : 2021-02-05
- -->
+    * 최종수정일자 : 2021-02-16
+-->
 
   <div>
     <v-sheet class="mx-auto" max-width="375">
       <v-slide-group multiple>
         <!-- Slide에 들어가는 card를 item만큼 만든다 -->
-        <v-slide-item v-for="item in mindlist" :key="item.title">
+        <!-- key값이 중복되는 경우 에러가 나기 때문에 최대한 중복이 없는 마인드 생성시간으로 설정 -->
+        <v-slide-item v-for="item in mindlist" :key="item.initCreateTime">
           <v-list-item id="v-list-item">
             <!-- 게시글 -->
             <w-card class="card_item p-b-10">
