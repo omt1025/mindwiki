@@ -49,8 +49,8 @@ public class NodeServiceImpl implements NodeService{
 			return result;
 		}
 		
-		String data = nodeMapper.getNode(dto);
-		nodeDto.setNodeData(data);
+//		String data = nodeMapper.getNode(dto);
+//		nodeDto.setNodeData(data);
 		result.setNodeDto(nodeDto);
 		
 		result.setResult("SUCCESS");

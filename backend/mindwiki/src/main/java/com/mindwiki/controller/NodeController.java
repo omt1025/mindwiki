@@ -43,7 +43,7 @@ public class NodeController {
 
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-		nodeDto.setNodeData(data);
+//		nodeDto.setNodeData(data);
 
 		return processSetNode(nodeDto);
 	}
