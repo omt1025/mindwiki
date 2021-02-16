@@ -63,7 +63,9 @@
         </v-row>
       </v-list-item>
     </v-card-actions>
-
+    <v-btn id="temp" color="purple" dark fab small @click="updatenode($route.params.no)">
+      <v-icon>mdi-pencil</v-icon>
+    </v-btn>
     <!-- 노드 추가 버튼 구현 -->
     <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
     <div v-if="mindmap.admin === useremail">
@@ -178,10 +180,13 @@
 
 <script>
 import mindMap from '../../components/mindmap/mind-map.vue';
-
+import { mapGetters } from 'vuex';
 export default {
   name: 'MindMapDetail',
   components: { mindMap },
+  computed: {
+    ...mapGetters({ map:'getMapData'})
+  },
   data() {
     const no = Number(this.$route.params.no);
     return {
@@ -192,7 +197,7 @@ export default {
       mindmap: '',
       useremail: this.$store.getters.userId,
       // 임시로 쓸 더미 데이터
-      map: [],
+      // map: [{ label: 'wwwwwwww', root:true, reason:0, url:'', children: [],},],
       hashtag: [],
       // ...map,
       title: '',
@@ -218,8 +223,8 @@ export default {
       form.append('MindID', this.no);
 
       this.$store.dispatch('readMapData', form).then(() => {
-        this.map = this.$store.getters.getMessage.data
-        console.log(this.map)
+        this.map = this.$store.getters.getMapData
+        console.log(typeof this.map)
       });
     },
     checkHandler() {
@@ -278,6 +283,10 @@ export default {
         this.$router.push('/main/mindmap/mymindlist');
       });
     },
+    // 마인드맵 제거 함수
+    updatenode() {
+      this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.no), map: this.map }})
+    },
     // 관심태그 삭제
     remove(item) {
       this.hashtag.splice(this.hashtag.indexOf(item), 1);
@@ -303,6 +312,7 @@ export default {
   created: function() {
     this.readminddetail(this.no);
     this.readmapdata();
+    console.log(this.map)
   },
 };
 </script>

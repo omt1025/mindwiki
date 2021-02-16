@@ -187,6 +187,7 @@ export default {
     };
   },
   mounted() {
+    console.log("자식 실행")
     this.$refs.swipeableBottomSheet.setState("close")
     const $refs = this.$refs;
 

@@ -17,9 +17,11 @@
 import mindMap from '../../components/mindmap/mind-map.vue';
 
 export default {
-  name: 'App',
+  name: 'MindMapUpdate',
   data() {
+    // const map = this.$route.params.map
     return {
+      // map: map
       map: [
         {
           label: '마인드맵',
@@ -79,6 +81,9 @@ export default {
       callback(true);
     },
   },
+  created() {
+    console.log(typeof this.map)
+  }
 };
 </script>
 
