@@ -92,4 +92,20 @@
 	</delete>
 	
 	
+	
+	<update id="likePlusCnt">
+	update mind set likeCnt = likeCnt+1 where MindID=#{no}
+	</update>
+	<update id="likeMinusCnt">
+	update mind set likeCnt = likeCnt-1 where MindID=#{no}
+	</update>
+	<update id="scrapPlusCnt">
+	update mind set scrapCnt = scrapCnt+1 where MindID=#{no}
+	</update>
+	<update id="scrapMinusCnt">
+	update mind set scrapCnt = scrapCnt-1 where MindID=#{no}
+	</update>
+		
+	
+		
 </mapper>

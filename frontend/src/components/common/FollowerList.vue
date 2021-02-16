@@ -1,77 +1,72 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 팔로워 리스트 구현
+    * 생성일자 : 2021-01-22
+    * 최종수정일자 : 2021-02-16
+  -->
+  <!-- 나를 팔로우한 사람을 보여준다. -->
   <div id="app">
-    <template v-for="(item, index) in items">
+    <template v-for="follower in followers">
       <v-subheader
-        v-if="item.header"
-        :key="item.header"
-        v-text="item.header"
+        v-if="follower.header"
+        :key="follower.header"
       ></v-subheader>
-
-      <v-divider
-        v-else-if="item.divider"
-        :key="index"
-        :inset="item.inset"
-      ></v-divider>
 
       <v-list-item
       v-else
-      :key="item.title"
+      :key="follower.data"
       >
         <v-list-item-avatar>
           <v-img
-            :alt="`${item.title} avatar`"
-            :src="item.avatar"
+            alt=""
+            :src="creatorImage"
+            @error="imageError = true"
           ></v-img>
         </v-list-item-avatar>
-
+        <!-- 나를 팔로우한 사람의 이메일을 보여준다. -->
         <v-list-item-content>
-          <v-list-item-title v-text="item.title"></v-list-item-title>
+          <v-list-item-title v-html="follower.split('@')[0]"></v-list-item-title>
         </v-list-item-content>
-
-        <v-list-item-icon>
-          <v-btn icon color="purple">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </v-list-item-icon>
       </v-list-item>
     </template>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "FollowingList",
+import { mapGetters } from 'vuex'
 
-    data: () => ({
-      items: [
-        { header: '모든 팔로워' },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: 'Conan',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Kiki',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-          title: 'Apeach',
-        },
-        { divider: true, inset: true },
-        {
-          title: 'pooh',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-        }
-      ],
-    }),
+export default {
+  name: "FollowerList",
+  computed: {
+    ...mapGetters(['followerData']),
+    // 사용자가 이미지 설정하지 않은 경우 default 이미지 첨부
+    creatorImage() {
+      return this.imageError ? this.defaultImage : "creator-image.jpg"
+    },
+  },
+  data() {
+    return {
+      items: [],
+      followers: [],
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
+      imageError: false,      
+    }
+  },
+  methods: {
+    // 팔로워 목록 조회[HYH]
+    readfollower() {
+      this.$store.dispatch('readFollower', this.$store.getters.getJWT).then(() => {
+        this.followers = this.$store.getters.followerData
+      });
+    },
+  },
+  // 팔로워 확인
+  created: function() {
+    this.readfollower()
   }
+
+}
 </script>
 
 <style scoped>
