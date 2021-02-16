@@ -19,6 +19,7 @@
       <v-card-title>{{ title }}</v-card-title>
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
+      <div>{{ map }}</div>
       <v-img width="375px">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -191,43 +192,7 @@ export default {
       mindmap: '',
       useremail: this.$store.getters.userId,
       // 임시로 쓸 더미 데이터
-      map: [
-        {
-          label: '마인드맵',
-          root: true,
-          url: '',
-          children: [
-            {
-              label: 'A1',
-              children: [
-                {
-                  label: '홍홍',
-                },
-                {
-                  label: '콩콩',
-                },
-                {
-                  label: '둥둥',
-                },
-              ],
-            },
-            {
-              label: 'A2',
-              children: [
-                {
-                  label: '얄라리',
-                },
-                {
-                  label: '얄라',
-                },
-              ],
-            },
-            {
-              label: 'A3',
-            },
-          ],
-        },
-      ],
+      map: [],
       hashtag: [],
       // ...map,
       title: '',
@@ -253,7 +218,8 @@ export default {
       form.append('MindID', this.no);
 
       this.$store.dispatch('readMapData', form).then(() => {
-        console.log(this.$store.getters.getMessage.data);
+        this.map = this.$store.getters.getMessage.data
+        console.log(this.map)
       });
     },
     checkHandler() {
