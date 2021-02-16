@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.mindwiki.dao.LoginDao;
 import com.mindwiki.dao.MindDao;
 import com.mindwiki.model.LikeDto;
-import com.mindwiki.model.MindDetailDto;
+
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ScrapDto;
 
@@ -37,7 +37,7 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public MindDetailDto readByMindID(int no) throws SQLException { //여기가 service의 interface readbymindID
+	public MindDto readByMindID(int no) throws SQLException { //여기가 service의 interface readbymindID
 		session.getMapper(MindDao.class).updateViewCnt(no);
 		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
 		
@@ -129,6 +129,12 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void deleteHashtagList(int MindID) throws SQLException {
 		session.getMapper(MindDao.class).deleteHashtagList(MindID);
+		
+	}
+
+	@Override
+	public String getMindPorfilePic(int no) throws SQLException {
+		return session.getMapper(MindDao.class).getMindPorfilePic(no); 
 		
 	}
 
