@@ -22,6 +22,7 @@ public interface ProfileDao {
 	
 	public List<ProfileDto> memberList() throws SQLException;
 	
+	public String getProfilePic(String email) throws SQLException;
 //	public String getPassword(ProfileDto dto) throws SQLException;
 	
 	
