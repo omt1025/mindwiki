@@ -58,4 +58,10 @@ public class FollowerServiceImpl implements FollowerService {
 		return session.getMapper(FollowerDao.class).followerList(myEmail);
 	}
 
+	@Override
+	public String getProfilePic(String email) throws SQLException {
+		
+		return session.getMapper(FollowerDao.class).getProfilePic(email);
+	}
+
 }

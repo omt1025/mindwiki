@@ -13,6 +13,13 @@
 		select nickName from profile where email=#{followerEmail};
 	</select>
 	
+	
+	
+	<select id="getProfilePic" resultType="String">
+		select profileDefaultPic from profile where admin=#{email};
+	</select>
+	
+	
 	<select id="list" resultType="com.mindwiki.model.FollowerDto">
 	select * from followerList where myEmail=#{myEmail};
 	</select>
