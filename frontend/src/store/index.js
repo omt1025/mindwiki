@@ -256,13 +256,13 @@ export default new Vuex.Store({
     },
     // 회원탈퇴[YJS]
     withdraw(context, form) {
-      return axios.post(`${SERVER_URL}/profile/sendTempPassword`, form).then((response) => {
+      return axios.post(`${SERVER_URL}/profile/withdrawal`, form).then((response) => {
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },
     // 비밀번호 찾기[YJS]
     findpw(context, form) {
-      return axios.post(`${SERVER_URL}/profile/withdrawal`, form).then((response) => {
+      return axios.post(`${SERVER_URL}/profile/sendTempPassword`, form).then((response) => {
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
     },
