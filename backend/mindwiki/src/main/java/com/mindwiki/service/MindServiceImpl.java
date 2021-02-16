@@ -66,12 +66,13 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void scrap(int no,String email) throws SQLException {
 		session.getMapper(MindDao.class).scrap(no, email);
-		
+		session.getMapper(MindDao.class).scrapPlusCnt(no);
 	}
 	
 	@Override
 	public void like(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).like(no, email);
+		session.getMapper(MindDao.class).likePlusCnt(no);
 		
 	}
 
@@ -91,13 +92,14 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void deleteLike(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).deleteLike(no, email);
+		session.getMapper(MindDao.class).likeMinusCnt(no);
 		
 	}
 
 	@Override
 	public void deleteScrap(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).deleteScrap(no, email);
-		
+		session.getMapper(MindDao.class).scrapMinusCnt(no);
 	}
 
 	@Override

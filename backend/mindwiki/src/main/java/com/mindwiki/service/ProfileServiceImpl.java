@@ -249,4 +249,10 @@ public class ProfileServiceImpl implements ProfileService {
 		return session.getMapper(ProfileDao.class).memberList();
 	}
 
+	@Override
+	public String getProfilePic(String email) throws SQLException {
+	
+		return session.getMapper(ProfileDao.class).getProfilePic(email);
+	}
+
 }

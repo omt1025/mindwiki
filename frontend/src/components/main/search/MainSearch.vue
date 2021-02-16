@@ -1,7 +1,7 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : textfield css 및 옵션 수정
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 회원 프로필 검색 구현
     * 생성일자 : 2021-01-27
     * 최종수정일자 : 2021-02-16
   -->
@@ -36,7 +36,7 @@
                 <v-img
                   :src="creatorImage"
                   @error="imageError = true"
-                  @click="goUserProfile(item.email)"
+                  @click="getUserEmail(item.email, item.nickName)"
                 ></v-img>
               </v-list-item-avatar>
 
@@ -46,11 +46,6 @@
                 id="subtitle"
               ></v-list-item-subtitle>
 
-              <!-- 프로필 이메일 검색  -->
-              <v-list-item-subtitle
-                v-html="item.email.split('@')[0]"
-                id="subtitle"
-              ></v-list-item-subtitle>
             </v-list-item>
           </v-slide-item>
         </v-slide-group>
@@ -179,9 +174,10 @@ export default {
     clickParams(no) {
       this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
     },
-    // 회원 이메일 가져옴
-    goUserProfile(email) {
-      console.log(email);
+    // 회원 이메일, 닉네임 가져옴
+    // query : 새로고침 시 데이터 유지
+    getUserEmail(email, nickName) {
+      this.$router.push({ name: 'UserProfile', query: {email: email, nickName: nickName}})
     },
   },
   created() {

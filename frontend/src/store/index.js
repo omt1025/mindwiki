@@ -35,6 +35,9 @@ export default new Vuex.Store({
     commentData: null, // 댓글 리스트
     memberList: null, // 회원가입 한 전체 회원
     mapData: null, // 마인드맵 데이터
+    followingData: null, // 팔로잉 목록
+    followingMindData: null, // 팔로워의 마인드 목록
+    followerData: null, // 나를 팔로우한 사람 목록
   },
 
   // 연산된 state값을 접근
@@ -103,6 +106,18 @@ export default new Vuex.Store({
     // 회원가입 회원들 리턴
     memberList(state) {
       return state.memberList;
+    },
+    // 팔로잉
+    followingData(state) {
+      return state.followingData;
+    },
+    // 팔로우한 사람의 마인드 보기
+    followingMindData(state) {
+      return state.followingMindData;
+    },
+    // 나를 팔로우한 사람 목록
+    followerData(state) {
+      return state.followerData;
     },
   },
 
@@ -198,6 +213,18 @@ export default new Vuex.Store({
     // 회원가입 회원 변경
     setMemberList(state, val) {
       state.memberList = val;
+    },
+    // 팔로잉 변경
+    setfollowingData(state, val) {
+      state.followingData = val;
+    // 팔로우 한 사람 마인드맵 리스트 변경
+    },
+    setfollowingMindData(state, val) {
+      state.followingMindData = val;
+    },
+    // 팔로워 변경
+    setfollowerData(state, val) {
+      state.followerData = val;
     },
   },
 
@@ -468,6 +495,69 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/profile/memberList`, jwt).then((response) => {
         context.commit('setMemberList', response.data);
       });
+    },
+    // 팔로우하기[HYH]
+    userFollow(context, user) {
+      const form = new FormData();
+      form.append('jwt', user.get('jwt'));
+      form.append('followeremail', user.get('followeremail'));
+      return axios.post(`${SERVER_URL}/follower/save`, form).then((response) => {
+        context.commit('setMessage', response.data);
+      });
+    },
+    // 팔로잉 확인[HYH]
+    readFollowing(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/follower/list`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setfollowingData', response.data);
+        });
+    },
+    // 상대 팔로워 확인[HYH]
+    readUserFollower(context, form) {
+      return axios
+        .get(`${SERVER_URL}/follower/list`, {
+          params: { jwt: form.get('jwt'), followeremail: form.get('followeremail') },
+        })
+        .then((response) => {
+          context.commit('setFollowerData', response.data);
+        });
+    },
+
+    // 팔로우한 유저의 마인드 확인[HYH]
+    readfollowingMindData(context, form) {
+      return axios
+        .get(`${SERVER_URL}/follower/list/detail`, {
+          params: { jwt: form.get('jwt'), followeremail: form.get('followeremail') },
+        })
+        .then((response) => {
+          context.commit('setfollowingMindData', response.data);
+        });
+    },
+    // 팔로워 목록에서 제거[HYH]
+    deleteFollower(context, user) {
+      return axios
+        .delete(`${SERVER_URL}/follower/list/delete`, {
+          params: {
+            jwt: user.get('jwt'),
+            followeremail: user.get('followeremail'),
+          },
+        })
+        .then((response) => {
+          context.commit('setMessage', response.data);
+        });
+    },
+    // 팔로워 확인[HYH]
+    readFollower(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/follower/followerlist`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setfollowerData', response.data);
+        });
     },
   },
 });

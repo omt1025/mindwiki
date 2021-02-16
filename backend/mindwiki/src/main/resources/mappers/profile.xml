@@ -50,5 +50,10 @@
 	<select id="memberList" resultType="com.mindwiki.model.ProfileDto">
 		SELECT email, nickName FROM profile
 	</select>
+	
+	<select id="getProfilePic" resultType="String">
+		SELECT profileDefaultPic FROM profile where email=#{email}
+	</select>
+	
 		
 </mapper>

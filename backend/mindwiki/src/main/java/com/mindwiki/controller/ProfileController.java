@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -339,6 +340,32 @@ public class ProfileController {
 		}
 		
 		return new ResponseEntity<List<ProfileDto>> (allProfile, status);
+	}
+	
+	
+	@GetMapping("/profilepicture")
+	public ResponseEntity<Map<String,Object>> profilePicture(
+			@RequestParam(value="jwt", required=false) String jwt) throws UnsupportedEncodingException{
+		
+		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+		String email = (String)claimMap.get("email");
+		
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = null;
+		
+		String picUrl = null;
+		try {
+			picUrl = profileService.getProfilePic(email);
+			result.put("picture", picUrl);
+			result.put("message", "SUCCESS");
+			status = HttpStatus.ACCEPTED;
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			result.put("message", "ERROR");
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String,Object>> (result, status);
 	}
 
 }
