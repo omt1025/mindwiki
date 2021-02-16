@@ -343,7 +343,6 @@ public class MindController {
 			// returnMessage="마인드 등록 실패!";
 		}
 
-
 		System.out.println("일단 mind controller");
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}

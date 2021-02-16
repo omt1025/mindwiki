@@ -177,10 +177,11 @@ public class ProfileServiceImpl implements ProfileService {
 		ProfileResultDto resultDto = new ProfileResultDto();
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		if(hasFile(file)) {
-			String filePath = getFilePath(file);
-			dto.setProfileDefaultPic(filePath);
-		}
+		/* 여기에 함수로 만들어주시면 좋을것 같습니다*/
+//		if(hasFile(file)) {
+//			String filePath = getFilePath(file);
+//			dto.setProfileDefaultPic(filePath);
+//		}
 
 		if (profileMapper.updateProfile(dto) != 1) {
 			resultDto.setResult("FAIL");
@@ -200,39 +201,24 @@ public class ProfileServiceImpl implements ProfileService {
 		Date time = new Date();
 		String fileUploadTime = dateFormat.format(time);
 		fileUploadTime.replaceAll(":", "");
+		
+		String fileName = StringUtils.cleanPath(fileUploadTime + file.getOriginalFilename());
+		String filePath = "http://localhost:8000/mindwiki/image/" + fileName;
 
 		String userDir = System.getProperty("user.dir") + "/src/main/resources/static/img/";
-//		String dir = "/src/main/resources/static/img";
-
-//		String rootPath = userDir;// + dir;
-
-//		String filePath = rootPath + "/";// + file.getOriginalFilename();
-
-		// System.out.println("filePath : "+ StringUtils.cleanPath(dir));
-
-//		Path directory = Paths.get(filePath).toAbsolutePath().normalize();
 		Path directory = Paths.get(userDir).toAbsolutePath().normalize();
-		// File dest = new File(filePath);
-
-		String fileName = StringUtils.cleanPath(fileUploadTime + file.getOriginalFilename());
-		String pathDB = "http://localhost:8000/mindwiki/image/" + fileName;
-
-		Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
-
+		
 		Path targetPath = directory.resolve(fileName).normalize();
-
-		Assert.state(!Files.exists(targetPath), fileName + " File alerdy exists.");
+		
 		try {
 			file.transferTo(targetPath);
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return pathDB;// 어차피 업로드 로직은 실행되었기때문에 db에 넣을 thumbnail값을 출력한다.
+		return filePath;// 어차피 업로드 로직은 실행되었기때문에 db에 넣을 thumbnail값을 출력한다.
 	}
 
 	@Override

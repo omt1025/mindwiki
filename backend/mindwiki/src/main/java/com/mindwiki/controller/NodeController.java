@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
 import com.mindwiki.model.NodeDto;
 import com.mindwiki.model.NodeResultDto;
 import com.mindwiki.model.ProfileDto;
@@ -92,7 +93,12 @@ public class NodeController {
 
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
-				result.put("data", (Object)serviceResult.getNodeDto().getNodeData());
+				
+//				String str = serviceResult.getNodeDto().getNodeData();
+//				JsonObject jsonObj = new JsonObject(str);
+				
+//				System.out.println(obj.)
+//				result.put("data", jsonObj);
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
