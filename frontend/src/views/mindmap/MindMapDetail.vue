@@ -16,9 +16,16 @@
     </v-toolbar>
 
     <v-card class="mx-auto" width="100%" flat outlined style="">
-      <img :src="mindmap.profileDefaultPic" alt="">
-      <!-- 작성자 -->
-      <v-card-title>{{ mindmap.admin }}</v-card-title>
+        <!-- 작성자 -->
+      <v-card-title>
+        <div v-if="profileImage === null">
+          <v-img id="avatar" :src="defaultImage" alt=""></v-img>
+        </div>
+        <div v-else>
+          <v-img id="avatar" :src="profileImage" alt=""></v-img>
+        </div> 
+        {{ mindmap.admin }}
+      </v-card-title>
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
       <!--  -->
@@ -245,6 +252,8 @@ export default {
       menu: false,
       like: false,
       scrap: false,
+      profileImage: null,
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
       // 마인드맵 생성에 필요한 요소
       mindmap: '',
       useremail: this.$store.getters.userId,
@@ -302,13 +311,11 @@ export default {
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
-        console.log(this.mindmap)
         this.title = this.mindmap.title;
         this.explanation = this.mindmap.explanation;
         // 해시태그 임시
         if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',');
         this.subject = this.mindmap.subject;
-        // console.log(this.hashtag)
         for (var i=0; i<this.likecheck.length; i++) {
           if (this.likecheck[i]['mindID'] === this.mindmap.mindID) {
             this.like = true
@@ -321,7 +328,10 @@ export default {
             break;
           }
         }
-      });
+      })
+      this.$store.dispatch('readMindAdminImage', form).then(() => {
+        this.profileImage = this.$store.getters.getProfileImage.pic
+      })
     },
     // 마인드맵 수정 함수
     updatemind(no) {
@@ -409,6 +419,14 @@ export default {
 #mindTitle {
   text-align: left;
   margin: 10px 20px;
+}
+#avatar {
+  margin-right: 10px;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: inline-block;
 }
 #cardbottom {
   justify-content: space-around;

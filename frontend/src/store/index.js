@@ -39,6 +39,7 @@ export default new Vuex.Store({
     followingMindData: null, // 팔로워의 마인드 목록
     followerData: null, // 나를 팔로우한 사람 목록
     profile: null, // 회원정보
+    profileImage: null, // 프로필 사진
   },
 
   // 연산된 state값을 접근
@@ -124,6 +125,9 @@ export default new Vuex.Store({
     profile(state) {
       return state.profile;
     },
+    getProfileImage(state) {
+      return state.profileImage;
+    }
   },
 
   plugins: [createPersistedState()],
@@ -234,6 +238,10 @@ export default new Vuex.Store({
     // 프로필 변경
     setProfile(state, val) {
       state.profile = val;
+    },
+    // 프로필 사진 변경
+    setProfileImage(state, val) {
+      state.profileImage = val;
     },
   },
 
@@ -412,6 +420,15 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data);
         });
+    },
+    // 마인드맵 작성자 프로필 불러오기[OMT]
+    readMindAdminImage(context, user) {
+      const jwt = user.get('jwt');
+      return axios.get(`${SERVER_URL}/mind/read/profilepic/${user.get('no')}`, {
+        params: { jwt: jwt },
+      }).then((response) => {
+        context.commit('setProfileImage', response.data);
+      })
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
