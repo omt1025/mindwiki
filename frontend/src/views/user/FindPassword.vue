@@ -55,11 +55,34 @@
 </template>
 
 <style scoped>
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .login_back {
+    background-image: url(../../assets/images/user/bg-01.jpg);
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 360px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    /* https://knulab.com/archives/1185 */
+  }
+}
+#text_1 {
+  text-align: left;
+  margin-bottom: 2px;
+}
 .login_back {
   background-image: url(../../assets/images/user/bg-01.jpg);
   /* Set rules to fill background */
   min-height: 100%;
-  min-width: 375px;
+  min-width: 360px;
 
   /* Set up proportionate scaling */
   width: 100%;
@@ -72,10 +95,6 @@
 
   /* https://knulab.com/archives/1185 */
 }
-#text_1 {
-  text-align: left;
-  margin-bottom: 2px;
-}
 </style>
 
 <script>
@@ -87,7 +106,6 @@ import SlimDialog from 'v-slim-dialog';
 Vue.use(SlimDialog);
 Vue.use(VueRouter);
 
-import axios from 'axios';
 import '../../components/css/user.scss';
 
 export default {
@@ -116,44 +134,57 @@ export default {
       // https://negabaro.github.io/archive/vue-how-to-add-param-except-event
       // https://meaningone.tistory.com/318
     },
-    // 로그인 input 유효성 검사 메소드
+    //  비밀번호 찾기 input 유효성 검사 메소드
     checkHandler() {
       let err = true;
       let msg = '';
-      !this.user.userid &&
-        ((msg = '아이디를 입력해주세요'), (err = false), this.$refs.userid.focus());
-      err &&
-        !this.user.userpwd &&
-        ((msg = '비밀번호를 입력해주세요'), (err = false), this.$refs.userpwd.focus());
-      // if (!err) alert(msg);
-      if (!err) this.showAlert(msg);
-      else this.login();
-    },
-    // LOGIN 액션 실행
-    login() {
-      let form = new FormData();
-      form.append('id', this.user.userid);
-      form.append('pass', this.user.userpwd);
+      !this.user.useremail &&
+        ((msg = '이메일을 입력해주세요'), (err = false), this.$refs.useremail.focus());
 
-      axios.post(`http://localhost:8000/mindwiki/login`, form).then(({ data }) => {
-        // alert(data.message);
-        if (data.message === 'SUCCESS') this.$router.push('/main');
-        else this.showAlert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
-      });
+      if (!err) this.showAlert(msg, '비밀번호찾기 실패');
+      else this.findPW();
     },
-    // 카카오 로그인
-    loginWithKakao() {
-      const params = {
-        redirectUri: 'http://localhost:8000/mindwiki/oauth',
-      };
-      window.Kakao.Auth.authorize(params);
+    // 비밀번호 찾기 메소드 실행[YJS]
+    findPW() {
+      let form = new FormData(); // form : axios통신 할 값을 넣어 전달
+      form.append('email', this.user.useremail);
+
+      // 서버와 통신(axios)을 해 토큰값을 얻어야 하므로 Actions를 호출.
+      this.$store
+        .dispatch('findpw', form)
+        .then(() => {
+          this.message = this.$store.getters.getMessage;
+
+          // 비밀번호 찾기 성공
+          if (this.message === 'SUCCESS') {
+            this.showAlert(
+              '이메일로 임시 비밀번호가 발급되었습니다. 다시 로그인 해주세요.',
+              '비밀번호찾기 성공'
+            );
+            // this.$router.push(`/login`); // main페이지로 이동
+          }
+          if (this.$store.getters.getMessage === 'FAIL') {
+            // 비밀번호 찾기 실패 : 다이얼로그 띄우기
+            this.showAlert('이메일을 다시 한 번 확인해주세요.', '비밀번호찾기 실패');
+          }
+        })
+        .catch(({ message }) => (this.msg = message));
+
+      // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setMessage', null);
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
     },
     // 다이얼로그
     // https://vuejsexamples.com/slim-dialog-for-vuejs/
-    showAlert(msg) {
-      const options = { title: '로그인 실패', size: 'sm' };
+    showAlert(msg, title) {
+      const options = { title, size: 'sm' };
       this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res); // {ok: true|false|undefined}
+        // 비밀번호 찾기 성공시 모달창 ok버튼 누르면 로그인 페이지로 이동하기
+        if (title === '비밀번호찾기 성공' && res['ok'] === true) {
+          this.$store.dispatch('setMessage', null); // message 재사용 위해
+          this.$router.push(`/login`);
+        }
       });
     },
   },

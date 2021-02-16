@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 회원가입 유효성검사
+    * 내용 : chip css수정
     * 생성일자 : 2021-01-22
-    * 최종수정일자 : 2021-02-08
+    * 최종수정일자 : 2021-02-16
  -->
 
   <div class="login_back">
@@ -127,6 +127,7 @@
               multiple
               no-filter
               solo
+              hide-details="true"
               id="combobox"
             >
               <template v-slot:selection="{ attrs, item, select, selected }">
@@ -399,5 +400,17 @@ export default {
   color: red;
   font-size: 0.6rem;
   margin-bottom: 18px;
+}
+</style>
+<style>
+/* 배경색 없애기 */
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot,
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  max-height: none !important;
+  background-color: #fff !important;
+  font-size: 0.875rem;
+  box-shadow: none;
 }
 </style>

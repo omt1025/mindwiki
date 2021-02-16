@@ -34,7 +34,7 @@ export default new Vuex.Store({
     scrapData: null, // 스크랩한 마인드맵
     commentData: null, // 댓글 리스트
     memberList: null, // 회원가입 한 전체 회원
-    mapData: null,  // 마인드맵 데이터
+    mapData: null, // 마인드맵 데이터
   },
 
   // 연산된 state값을 접근
@@ -256,6 +256,12 @@ export default new Vuex.Store({
     },
     // 회원탈퇴[YJS]
     withdraw(context, form) {
+      return axios.post(`${SERVER_URL}/profile/sendTempPassword`, form).then((response) => {
+        context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+      });
+    },
+    // 비밀번호 찾기[YJS]
+    findpw(context, form) {
       return axios.post(`${SERVER_URL}/profile/withdrawal`, form).then((response) => {
         context.commit('setMessage', response.data['message']); // 응답을 message에 저장
       });
@@ -395,12 +401,13 @@ export default new Vuex.Store({
       form.append('disLike', user.get('disLike'));
       return axios.post(`${SERVER_URL}/mind/like/${user.get('no')}`, form).then((response) => {
         context.commit('setMessage', response.data);
-        return axios.get(`${SERVER_URL}/mind/like/read/`, {
-          params: { jwt: user.get('jwt') },
-        })
-        .then((response) => {
-          context.commit('setLikeData', response.data);
-        });
+        return axios
+          .get(`${SERVER_URL}/mind/like/read/`, {
+            params: { jwt: user.get('jwt') },
+          })
+          .then((response) => {
+            context.commit('setLikeData', response.data);
+          });
       });
     },
     // 마인드맵 스크랩[OMT]
@@ -447,13 +454,13 @@ export default new Vuex.Store({
     // 마인드맵 데이터 불러오기[OMT]
     readMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/getNode`, mind).then((response) => {
-        context.commit('setMessage', response.data); 
+        context.commit('setMessage', response.data);
       });
     },
     // 마인드맵 데이터 수정하기[OMT]
     updateMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/setNode`, mind).then((response) => {
-        context.commit('setMapData', response.data); 
+        context.commit('setMapData', response.data);
       });
     },
     // 전체 회원 불러오기[HYH]
