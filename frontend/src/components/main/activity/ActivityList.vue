@@ -6,7 +6,6 @@
     * 최종수정일자 : 2021-02-16
   -->
   <v-app>
-    <div>
     <v-card flat height="100%">
       <!-- 좋아요 누른 게시글 알림 -->
       <v-list three-line>
@@ -28,10 +27,12 @@
         </template>
       </v-list>
     </v-card>
-      <v-divider></v-divider>
+    
+    <v-divider></v-divider>
+
+    <!-- 스크랩 누른 게시글 알림 -->
     <v-card flat height="100%">
-      <!-- 스크랩 누른 게시글 알림 -->
-      <v-list three-line>
+      <v-list three-line id="list">
         <template v-for="scrap in scraps">
           <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
 
@@ -50,7 +51,6 @@
         </template>
       </v-list>
     </v-card>
-    </div>
   </v-app>
 </template>
 
@@ -92,19 +92,8 @@ export default {
 </script>
 
 <style scoped>
-.v-list-item__title {
-  text-align: left;
-}
-.v-list--three-line .v-list-item,
-.v-list-item--three-line {
-  min-height: auto;
-}
-.v-application--is-ltr .v-list-item__action:first-child,
-.v-application--is-ltr .v-list-item__icon:first-child {
-  margin-right: 0px;
-}
-.subtitle {
-  text-align: left;
-  margin-top: 6px;
+/* 영역 조정 */
+.v-list-item.theme--light {
+  margin-bottom: 5px;
 }
 </style>
