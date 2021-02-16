@@ -99,7 +99,7 @@ export default {
     return {
       title: '프로필정보 수정',
       chips: ['여행지', '음식', 'SNOW'], // 관심태그
-      // 회원가입 계정
+      // 계정
       user: {
         username: '', // 이름
         usernickName: '', // 닉네임

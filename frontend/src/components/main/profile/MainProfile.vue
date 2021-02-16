@@ -10,16 +10,16 @@
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
       <v-avatar class="user_avatar" size="120px">
-        <img src="../../../assets/images/profile/person.jpeg" alt="John" />
+        <img :src="user.files" alt="John" />
       </v-avatar>
 
       <!-- 사용자 계정 정보 -->
       <div class="user_nickname text-center p-t-22 p-b-3">
-        <span>{{ nickName }}</span>
+        <span>{{ user.usernickName }}</span>
         <i class="fa fa-pencil-square-o pencil" aria-hidden="true" @click="goRevise"></i>
       </div>
       <div class="txt1 text-center p-t-2 p-b-20">
-        <span>{{ userId }}</span>
+        <span>{{ user.useremail }}</span>
       </div>
 
       <!-- 팔로워, 팔로잉, 게시글 수 -->
@@ -114,6 +114,17 @@ export default {
       ], // 스크랩 MIND
       followings: [],
       followers: [],
+      // 계정
+      user: {
+        username: '', // 이름
+        usernickName: '', // 닉네임
+        useremail: '', // 이메일
+        phoneNumber: '', // 핸드폰
+        files: '', // 프로필사진
+      },
+      msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
+      message: '', // 오류 받아 올 변수
+      profile: '',
     };
   },
   computed: {
@@ -121,7 +132,24 @@ export default {
     ...mapGetters(['followingData']),
     ...mapGetters(['followerData']),
   },
-  created() {},
+  created() {
+    // 프로필 정보 받아오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('myProfile', form).then(() => {
+      // 응답 결과
+      this.message = this.$store.getters.message;
+      this.profile = this.$store.getters.profile;
+      if (this.message === 'FAIL')
+        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
+      else {
+        this.user.usernickName = this.profile.nickName;
+        this.user.useremail = this.profile.email;
+        this.user.files = this.profile.profileDefaultPic;
+      }
+    });
+  },
   mounted() {
     // 내 마인드맵 리스트 불러오기
     this.readmymindmap();
