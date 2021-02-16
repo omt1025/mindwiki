@@ -48,7 +48,7 @@
 	</select>
 	
 	<select id="memberList" resultType="com.mindwiki.model.ProfileDto">
-		SELECT email, nickName FROM profile
+		SELECT email, nickName, profileDefaultPic FROM profile
 	</select>
 	
 	<select id="getProfilePic" resultType="String">
