@@ -82,101 +82,11 @@
               <v-icon>mdi-lock-reset</v-icon>
               <span id="sp">비밀번호 변경</span>
               <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
+
               <v-spacer></v-spacer>
             </v-btn>
           </div>
 
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-trophy</v-icon>
-              <span id="sp1">업적 관리</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon color="#E040FB" v-show="!accountClick">mdi-account</v-icon>
-
-              <v-icon v-show="accountClick">mdi-account</v-icon>
-
-              <span id="sp2">프로필 공개</span>
-              <v-spacer></v-spacer>
-              <v-switch v-on:click="accountClick = !accountClick" color="#E040FB"></v-switch>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon color="#E040FB" v-show="!bellClick">mdi-bell</v-icon>
-
-              <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
-
-              <span id="sp3">푸시 알림 설정</span>
-              <v-spacer></v-spacer>
-              <v-switch v-on:click="bellClick = !bellClick" color="#E040FB"></v-switch>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-saw-blade</v-icon>
-              <span id="sp4">MIND 관리 및 설정</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-certificate</v-icon>
-              <span id="sp5">전문 자격 인증</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
           <div class="my-5">
             <v-btn
               x-large
