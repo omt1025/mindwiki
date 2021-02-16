@@ -444,6 +444,13 @@ export default new Vuex.Store({
       form.append('disScrap', user.get('disScrap'));
       return axios.post(`${SERVER_URL}/mind/scrap/${user.get('no')}`, user).then((response) => {
         context.commit('setMessage', response.data);
+        return axios
+        .get(`${SERVER_URL}/mind/scrap/read/`, {
+          params: { jwt: user.get('jwt') },
+        })
+        .then((response) => {
+          context.commit('setScrapData', response.data);
+        });
       });
     },
     // 마인드맵 댓글 생성[OMT]
