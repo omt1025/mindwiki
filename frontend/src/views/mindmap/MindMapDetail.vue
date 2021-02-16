@@ -18,7 +18,7 @@
     <v-card class="mx-auto" width="100%" flat outlined style="">
       <img :src="mindmap.profileDefaultPic" alt="">
       <!-- 작성자 -->
-      <v-card-title>{{ mindmap.profileDefaultPic }} {{ mindmap.admin }}</v-card-title>
+      <v-card-title>{{ mindmap.admin }}</v-card-title>
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
       <!--  -->
@@ -97,12 +97,11 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             id="dropdown"
-            dark
             v-bind="attrs"
             v-on="on"
             small
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>
         <v-list>
@@ -118,7 +117,7 @@
             <v-list-item>
               <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn v-bind="attrs" v-on="on">
+                  <v-btn id="updateBtn" v-bind="attrs" v-on="on">
                     마인드 수정
                   </v-btn>
                 </template>
@@ -303,7 +302,7 @@ export default {
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
-        // console.log(this.mindmap)
+        console.log(this.mindmap)
         this.title = this.mindmap.title;
         this.explanation = this.mindmap.explanation;
         // 해시태그 임시
@@ -399,7 +398,6 @@ export default {
   created: function() {
     this.readminddetail(this.no);
     this.readmapdata();
-    // console.log(this.likecheck[2]["mindID"])
   },
 };
 </script>
@@ -452,8 +450,16 @@ export default {
 /* 마인드맵 수정 / 삭제 버튼 위치 */
 #dropdown {
   position: fixed;
-  right: 10px;
-  top: 65px;
+  right: 3%;
+  top: 10%;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: none;
+}
+#updateBtn {
+  border: none;
+  background-color: #ffffff;
+  box-shadow: none;
 }
 #no-background-hover::before {
   background-color: transparent !important;
