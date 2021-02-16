@@ -49,13 +49,30 @@
             <v-list-item v-else :key="item.index">
               <!-- 댓글 이미지 첨부 -->
               <v-list-item-avatar>
-                <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
+                <!-- 프로필 사진에서 이미지 없을 때 default 이미지 -->
+                <v-img
+                  v-if="show === true"
+                  :src="creatorImage"
+                  @error="imageError = true"
+                  alt=""
+                ></v-img>
+
+                <!-- 프로필에서 사진 등록하면 이미지 변경 -->
+                <v-img
+                  v-else
+                  v-bind:getprofile="getprofile"
+                  :src="getprofile[1]['profileDefaultPic']"
+                  @error="imageError = true"
+                  alt=""
+                ></v-img>
+
               </v-list-item-avatar>
               <!-- 프로필 사진 옆 댓글 작성자의 이메일 출력 -->
               <v-list-item-subtitle
                 id="commentEmail"
                 v-html="item.email.split('@')[0]"
               ></v-list-item-subtitle>
+
 
               <v-list-item-title id="commentTitle" v-html="item.data"></v-list-item-title>
               <!-- 로그인 된 email과 댓글 작성 email 같을 때만 삭제 가능 -->
@@ -93,6 +110,8 @@ export default {
   name: 'MindComment',
   computed: {
     ...mapGetters(['commentData']),
+    // 멤버 목록 가져오기
+    ...mapGetters(['memberList']),
     // 사용자가 이미지 설정하지 않은 경우 default 이미지 첨부
     creatorImage() {
       return this.imageError ? this.defaultImage : 'creator-image.jpg';
@@ -115,6 +134,14 @@ export default {
       defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
       imageError: false,
       items: [],
+      user: {
+        files: '', // 프로필 사진
+      },
+      profile: '',
+      message: '',
+      profiles: [],
+      show: false,
+      getprofile: [{}],
     };
   },
   methods: {
@@ -152,9 +179,49 @@ export default {
     backPage: function() {
       this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
     },
+    readmemberlist() {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+
+      this.$store.dispatch('readMemberList', form).then(() => {
+        this.profiles = this.$store.getters.memberList;
+      });
+    },
   },
   created: function() {
     this.readcomment();  
+
+    this.readmemberlist();
+
+    // 프로필 정보 받아오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('myProfile', form).then(() => {
+      // 응답 결과
+      this.message = this.$store.getters.message;
+      this.profile = this.$store.getters.profile;
+      if (this.message === 'FAIL')
+        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
+      else {
+        this.user.files = this.profile.profileDefaultPic;
+      }
+    });
+
+    this.profiles = this.memberList;
+    for (var i in this.profiles) {
+      if (this.profiles[i]['profileDefaultPic'] !== null) {
+        this.show = true;
+        // console.log(this.profiles[i])
+        // 프로필 이메일과 댓글 이메일이 같을 때
+        // console.log(this.profiles[i]['email'])
+        // console.log(this.profiles[i]['profileDefaultPic'])
+        this.getprofile.push({ email: this.profiles[i]['email'], profileDefaultPic:this.profiles[i]['profileDefaultPic']})
+        console.log(this.getprofile)
+      } else {
+        this.show = false;
+      }
+    }
   },
 };
 </script>
