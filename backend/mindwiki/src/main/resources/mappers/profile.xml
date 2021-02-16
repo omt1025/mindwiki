@@ -56,7 +56,7 @@
 	</select>
 	
 	<select id="getMyProfile" resultType="com.mindwiki.model.ProfileDto">
-		SELECT email, realName, nickName, followerListID, phoneNumber FROM profile where email=#{email}
+		SELECT email, realName, nickName, followerListID, phoneNumber, profileDefaultPic FROM profile where email=#{email}
 	</select>
 	
 		
