@@ -97,7 +97,7 @@ export default new Vuex.Store({
       return state.commentData;
     },
     // 마인드맵 데이터 리턴
-    mapData(state) {
+    getMapData(state) {
       return state.mapData;
     },
     // 회원가입 회원들 리턴
@@ -454,7 +454,7 @@ export default new Vuex.Store({
     // 마인드맵 데이터 불러오기[OMT]
     readMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/getNode`, mind).then((response) => {
-        context.commit('setMessage', response.data);
+        context.commit('setMapData', response.data.data);
       });
     },
     // 마인드맵 데이터 수정하기[OMT]

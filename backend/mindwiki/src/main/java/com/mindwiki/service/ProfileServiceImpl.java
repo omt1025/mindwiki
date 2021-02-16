@@ -1,12 +1,21 @@
 package com.mindwiki.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.dao.ProfileDao;
 import com.mindwiki.model.ProfileDto;
@@ -47,12 +56,10 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		if(profileMapper.checkPassword(dto)!=SUCCESS) {
 			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
-			System.out.println("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
 			return result;
 		}
 		
 		if(profileMapper.withdrawal(dto)!=SUCCESS) {
-			System.out.println("WITHDRAWAL_FAIL_SERVER_ERROR");
 			result.setResult("WITHDRAWAL_FAIL_SERVER_ERROR");
 			return result;
 		}
@@ -70,14 +77,12 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		if(profileMapper.checkPassword(dto)!=SUCCESS) {
 			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
-			System.out.println("CHANGE_PASSWORD_FAIL_INCORRECT_PASSWORD");
 			return result;
 		}
 		
 		dto.setPassword(newPassword);
 		if(profileMapper.updatePassword(dto)!=SUCCESS) {
 			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
-			System.out.println("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			return result;
 		}
 		
@@ -129,7 +134,7 @@ public class ProfileServiceImpl implements ProfileService {
 		// 보내는 사람 EMail, 제목, 내용
 		String fromEmail = "mindwiki.manager@gmail.com";
 		String fromName = "mindwiki_admin";
-		String subject = "mindwiki temporary password";
+		String subject = "MindWiki temporary password";
 		String mainText = writeMainText(dto);
 		
 		try {
@@ -168,15 +173,66 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public ProfileResultDto changeProfile(ProfileDto dto) throws SQLException {
+	public ProfileResultDto changeProfile(ProfileDto dto, MultipartFile file) throws SQLException {
 		ProfileResultDto resultDto = new ProfileResultDto();
-
-		if (session.getMapper(ProfileDao.class).updateProfile(dto) == 1) {
-			resultDto.setResult("SUCCESS");
-		} else {
-			resultDto.setResult("FAIL");
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		
+		if(hasFile(file)) {
+			String filePath = getFilePath(file);
+			dto.setProfileDefaultPic(filePath);
 		}
+
+		if (profileMapper.updateProfile(dto) != 1) {
+			resultDto.setResult("FAIL");
+			return resultDto;
+		}
+		
+		resultDto.setResult("SUCCESS");
 		return resultDto;
+	}
+	
+	private boolean hasFile(MultipartFile file) {
+		return (file!=null);
+	}
+	
+	public String getFilePath(MultipartFile file) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date time = new Date();
+		String fileUploadTime = dateFormat.format(time);
+		fileUploadTime.replaceAll(":", "");
+
+		String userDir = System.getProperty("user.dir") + "/src/main/resources/static/img/";
+//		String dir = "/src/main/resources/static/img";
+
+//		String rootPath = userDir;// + dir;
+
+//		String filePath = rootPath + "/";// + file.getOriginalFilename();
+
+		// System.out.println("filePath : "+ StringUtils.cleanPath(dir));
+
+//		Path directory = Paths.get(filePath).toAbsolutePath().normalize();
+		Path directory = Paths.get(userDir).toAbsolutePath().normalize();
+		// File dest = new File(filePath);
+
+		String fileName = StringUtils.cleanPath(fileUploadTime + file.getOriginalFilename());
+		String pathDB = "http://localhost:8000/mindwiki/image/" + fileName;
+
+		Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
+
+		Path targetPath = directory.resolve(fileName).normalize();
+
+		Assert.state(!Files.exists(targetPath), fileName + " File alerdy exists.");
+		try {
+			file.transferTo(targetPath);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return pathDB;// 어차피 업로드 로직은 실행되었기때문에 db에 넣을 thumbnail값을 출력한다.
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ProfileResultDto;
@@ -216,6 +217,7 @@ public class ProfileController {
 	@PostMapping("/changeProfile")
 	public ResponseEntity<Map<String, Object>> changeProfile(HttpSession session,
 			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value = "files", required = false) MultipartFile file,
 			@RequestParam(value="phoneNumber", required=false) String phoneNumber,
 			@RequestParam(value="nickName", required=false) String nickName) throws UnsupportedEncodingException{
 
@@ -227,15 +229,15 @@ public class ProfileController {
 		profileDto.setPhoneNumber(phoneNumber);
 		profileDto.setNickName(nickName);
 
-		return processChangeProfile(profileDto);
+		return processChangeProfile(profileDto, file);
 	}
 	
-	private ResponseEntity<Map<String, Object>> processChangeProfile(ProfileDto dto){
+	private ResponseEntity<Map<String, Object>> processChangeProfile(ProfileDto dto, MultipartFile file){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status;
 		
 		try {
-			ProfileResultDto serviceResult = profileService.changeProfile(dto);
+			ProfileResultDto serviceResult = profileService.changeProfile(dto, file);
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				status = HttpStatus.ACCEPTED;

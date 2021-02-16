@@ -92,7 +92,7 @@ public class NodeController {
 
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
-				result.put("data", serviceResult.getNodeDto().getNodeData());
+				result.put("data", (Object)serviceResult.getNodeDto().getNodeData());
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");

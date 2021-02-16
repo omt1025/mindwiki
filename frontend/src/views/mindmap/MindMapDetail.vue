@@ -19,6 +19,7 @@
       <v-card-title>{{ title }}</v-card-title>
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
+      <div>{{ map }}</div>
       <v-img width="375px">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -62,7 +63,9 @@
         </v-row>
       </v-list-item>
     </v-card-actions>
-
+    <v-btn id="temp" color="purple" dark fab small @click="updatenode($route.params.no)">
+      <v-icon>mdi-pencil</v-icon>
+    </v-btn>
     <!-- 노드 추가 버튼 구현 -->
     <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
     <div v-if="mindmap.admin === useremail">
@@ -177,10 +180,13 @@
 
 <script>
 import mindMap from '../../components/mindmap/mind-map.vue';
-
+import { mapGetters } from 'vuex';
 export default {
   name: 'MindMapDetail',
   components: { mindMap },
+  computed: {
+    ...mapGetters({ map:'getMapData'})
+  },
   data() {
     const no = Number(this.$route.params.no);
     return {
@@ -191,43 +197,7 @@ export default {
       mindmap: '',
       useremail: this.$store.getters.userId,
       // 임시로 쓸 더미 데이터
-      map: [
-        {
-          label: '마인드맵',
-          root: true,
-          url: '',
-          children: [
-            {
-              label: 'A1',
-              children: [
-                {
-                  label: '홍홍',
-                },
-                {
-                  label: '콩콩',
-                },
-                {
-                  label: '둥둥',
-                },
-              ],
-            },
-            {
-              label: 'A2',
-              children: [
-                {
-                  label: '얄라리',
-                },
-                {
-                  label: '얄라',
-                },
-              ],
-            },
-            {
-              label: 'A3',
-            },
-          ],
-        },
-      ],
+      // map: [{ label: 'wwwwwwww', root:true, reason:0, url:'', children: [],},],
       hashtag: [],
       // ...map,
       title: '',
@@ -253,7 +223,8 @@ export default {
       form.append('MindID', this.no);
 
       this.$store.dispatch('readMapData', form).then(() => {
-        console.log(this.$store.getters.getMessage.data);
+        this.map = this.$store.getters.getMapData
+        console.log(typeof this.map)
       });
     },
     checkHandler() {
@@ -312,6 +283,10 @@ export default {
         this.$router.push('/main/mindmap/mymindlist');
       });
     },
+    // 마인드맵 제거 함수
+    updatenode() {
+      this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.no), map: this.map }})
+    },
     // 관심태그 삭제
     remove(item) {
       this.hashtag.splice(this.hashtag.indexOf(item), 1);
@@ -337,6 +312,7 @@ export default {
   created: function() {
     this.readminddetail(this.no);
     this.readmapdata();
+    console.log(this.map)
   },
 };
 </script>

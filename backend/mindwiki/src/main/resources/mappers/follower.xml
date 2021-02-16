@@ -17,6 +17,11 @@
 	select * from followerList where myEmail=#{myEmail};
 	</select>
 	
+	
+	<select id="followerList" resultType="String">
+	select myEmail from followerList where followerEmail=#{myEmail};
+	</select>
+	
 	<delete id="deleteByFollower">
 	delete from followerList where myEmail=#{myEmail} and followerEmail=#{followerEmail}
 	</delete>
