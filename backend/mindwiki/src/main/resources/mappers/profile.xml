@@ -37,7 +37,7 @@
 	
 	<update id="updateProfile" parameterType="com.mindwiki.model.ProfileDto">
 		UPDATE profile
-		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}
+		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}, profileDefaultPic=#{profileDefaultPic}
 		WHERE email=#{email}
 	</update>
 	

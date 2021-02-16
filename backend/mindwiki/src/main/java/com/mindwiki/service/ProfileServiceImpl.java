@@ -178,10 +178,10 @@ public class ProfileServiceImpl implements ProfileService {
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
 		/* 여기에 함수로 만들어주시면 좋을것 같습니다*/
-//		if(hasFile(file)) {
-//			String filePath = getFilePath(file);
-//			dto.setProfileDefaultPic(filePath);
-//		}
+		if(hasFile(file)) {
+			String filePath = getFilePath(file);
+			dto.setProfileDefaultPic(filePath);
+		}
 
 		if (profileMapper.updateProfile(dto) != 1) {
 			resultDto.setResult("FAIL");
