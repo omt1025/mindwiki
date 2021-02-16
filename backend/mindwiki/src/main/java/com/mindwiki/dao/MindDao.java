@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mindwiki.model.LikeDto;
+
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ScrapDto;
 
@@ -42,5 +43,7 @@ public interface MindDao {
 	void likeMinusCnt(int no) throws SQLException;
 	void scrapPlusCnt(int no) throws SQLException;
 	void scrapMinusCnt(int no) throws SQLException;
+	
+	String getMindPorfilePic(int no) throws SQLException;
 	
 }

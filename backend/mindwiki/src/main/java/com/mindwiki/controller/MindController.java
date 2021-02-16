@@ -47,8 +47,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ScrapDto;
 import com.mindwiki.model.LikeDto;
+
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.NodeDto;
+import com.mindwiki.model.NodeResultDto;
 import com.mindwiki.service.JwtService;
 import com.mindwiki.service.MindService;
 import com.mindwiki.service.NodeService;
@@ -308,7 +310,14 @@ public class MindController {
 					
 					mindSvc.make(mind);
 					MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
-					initNode(MindID, subject, hashtag);
+					
+					//**********0217 mm 변경된 부분입니다!
+					NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
+					if(result.getResult()!="SUCCESS"){
+					    resultMap.put("message", "init node fail");
+					    status = HttpStatus.OK;
+					    return new ResponseEntity<Map<String, Object>>(resultMap, status);
+					}
 
 					StringTokenizer st = new StringTokenizer(hashtag, ",");
 					int count = 0;
@@ -329,7 +338,15 @@ public class MindController {
 
 				mindSvc.make(mind);
 				MindID = mindSvc.getMindID(admin);// 인증된 이메일을 보냄
-				initNode(MindID, subject, hashtag);
+				
+				
+				//**********0217 mm 변경된 부분입니다!
+				NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
+				if(resul.getResult()!="SUCCESS"){
+				    resultMap.put("message", "init node fail");
+				    status = HttpStatus.OK;
+				    return new ResponseEntity<Map<String, Object>>(resultMap, status);
+				}
 
 				resultMap.put("message", "SUCCESS");
 				System.out.println("등록됨");
@@ -357,8 +374,8 @@ public class MindController {
 		nodeDto.setNodeJson(nodeJson);
 		
 		System.out.println(nodeJson);
-
-		nodeService.setNode(nodeDto);
+		NodeResultDto result = nodeService.setNode(nodeDto);
+		System.out.println(result.getResult());
 //		nodeDto.setNodeJson(buildNodeData(subject, hashtag));
 	}
 	
@@ -371,13 +388,12 @@ public class MindController {
 			hashtagObj = new JSONObject();
 			hashtagObj.put("label", st.nextToken());
 			hashtagObj.put("reason", String.valueOf(0));
-//			hashtagArray = new JSONArray();
 			hashtagArray.add(hashtagObj);
 		}
 		
 		nodeObj = new JSONObject();
 		nodeObj.put("label", subject);
-		nodeObj.put("root", "true");
+		nodeObj.put("root", true);
 		nodeObj.put("url", "");
 		nodeObj.put("children", hashtagArray);
 		
@@ -419,6 +435,18 @@ public class MindController {
 
 		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no), HttpStatus.OK);
 	}
+	
+	@GetMapping("/mind/read/profilepic/{no}")
+	public ResponseEntity<Map<String, Object>> detailMindProfile(@PathVariable int no) throws SQLException {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		resultMap.put("pic", mindSvc.getMindPorfilePic(no));
+		
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
+	
 
 	// mind read 임시조회 조회가 되어야 수정이되니까
 	@GetMapping("/mind/read")

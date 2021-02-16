@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.mindwiki.model.LikeDto;
+
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ScrapDto;
 
@@ -28,4 +29,5 @@ public interface MindService {
 	void deleteHashtagList(int MindID) throws SQLException;
 	
 	
+	String getMindPorfilePic(int no) throws SQLException;
 }

@@ -8,6 +8,11 @@
 		select * from mind
 	</select>
 	
+	
+	<select id="getMindPorfilePic" resultType="String">
+		select profileDefaultPic from profile where email=(select admin from mind where MindID=#{MindID})
+	</select>
+	
 	<select id="hashtagByMindID" resultType="String">
 		select hashtag from hashtagList where MindID=#{MindID}
 	</select>
