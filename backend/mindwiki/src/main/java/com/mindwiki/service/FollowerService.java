@@ -14,6 +14,6 @@ public interface FollowerService {
 	List<MindDto> listDetail(String followerEmail) throws SQLException;
 	void deleteByFollower(FollowerDto followInfo) throws SQLException;
 	String searchNameByEmail(String followerEmail) throws SQLException;
-	public List<FollowerDto> followerList(String myEmail) throws SQLException;
+	public List<String> followerList(String myEmail) throws SQLException;
 	
 }

@@ -54,7 +54,7 @@ public class FollowerServiceImpl implements FollowerService {
 
 
 	@Override
-	public List<FollowerDto> followerList(String myEmail) throws SQLException {
+	public List<String> followerList(String myEmail) throws SQLException {
 		return session.getMapper(FollowerDao.class).followerList(myEmail);
 	}
 

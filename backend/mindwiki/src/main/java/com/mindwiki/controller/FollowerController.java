@@ -137,7 +137,7 @@ public class FollowerController {
 	
 	//수정했음 0215 오류확인
 	@GetMapping("/followerlist")
-	public ResponseEntity<List<FollowerDto>> follower_list(
+	public ResponseEntity<List<String>> follower_list(
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
 		
@@ -152,10 +152,8 @@ public class FollowerController {
 			myEmail=followerEmail;
 		}
 	
-		  
 		
-		
-		return new ResponseEntity<List<FollowerDto>>(followSvc.followerList(myEmail),HttpStatus.OK);
+		return new ResponseEntity<List<String>>(followSvc.followerList(myEmail),HttpStatus.OK);
 	}
 	
 	
