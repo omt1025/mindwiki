@@ -47,6 +47,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ScrapDto;
 import com.mindwiki.model.LikeDto;
+import com.mindwiki.model.MindDetailDto;
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.NodeDto;
 import com.mindwiki.service.JwtService;
@@ -414,10 +415,10 @@ public class MindController {
 	}
 
 	@GetMapping("/mind/read/{no}")
-	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
+	public ResponseEntity<MindDetailDto> detailMind(@PathVariable int no) throws SQLException {
 		System.out.println(no);
 
-		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no), HttpStatus.OK);
+		return new ResponseEntity<MindDetailDto>(mindSvc.readByMindID(no), HttpStatus.OK);
 	}
 
 	// mind read 임시조회 조회가 되어야 수정이되니까

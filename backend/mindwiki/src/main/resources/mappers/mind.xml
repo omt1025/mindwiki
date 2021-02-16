@@ -30,8 +30,8 @@
 	</select>
 	
 	
-	<select id="readByMindID" resultType="com.mindwiki.model.MindDto">
-		select * from mind where mindID=#{mindID}
+	<select id="readByMindID" resultType="com.mindwiki.model.MindDetailDto">
+		select m.*, p.profileDefaultPic from mind as m, profile as p where m.admin = p.email and mindID=#{mindID}
 	</select>
 	
 	<update id="updateViewCnt" >
