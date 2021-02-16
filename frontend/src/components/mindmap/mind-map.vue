@@ -788,7 +788,7 @@ div {
 .tela {
   width: 3000px;
   height: 3000px;
-  background-color: #f9f9f9;
+  background-color: #00000006;
   transition: transform 0s;
   transform-origin: 0 0;
   font-size: 14px;
@@ -881,7 +881,7 @@ div {
 }
 
 ::v-deep .org-chart-node-label-inner {
-  background-color: rgb(248, 245, 248);
+  background-color: #f8f1f8;
   border-radius: 10px;
 }
 </style>

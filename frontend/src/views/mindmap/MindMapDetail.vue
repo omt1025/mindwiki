@@ -57,7 +57,7 @@
           <!-- 누적된 좋아요 수 -->
           <span class="subheading mr-2">256</span>
           <span class="mr-1">·</span>
-          <v-icon class="mr-1">mdi-share-variant</v-icon>
+          <v-icon class="mr-1">mdi-bookmark</v-icon>
           <!-- 누적된 스크랩 수 -->
           <span class="subheading">45</span>
         </v-row>
@@ -328,6 +328,7 @@ export default {
 /* 설명이 적을 때 위치 고정 */
 #cardAction {
   background-color: #fff;
+  width: 100%;
   position: fixed;
   bottom: 0;
 }
