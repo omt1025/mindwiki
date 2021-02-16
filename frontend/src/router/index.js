@@ -10,7 +10,6 @@ import FindPW from '@/views/user/FindPassword.vue';
 import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
 
-import MakeMind from '../views/main/MakeMind.vue';
 import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
 
 import MyLibrary from '../views/main/MyLibrary.vue';
@@ -56,11 +55,6 @@ const routes = [
     path: '/main',
     name: 'Main',
     component: Main,
-  },
-  {
-    path: '/main/makemind',
-    name: 'MakeMind',
-    component: MakeMind,
   },
   {
     path: '/main/createmind',

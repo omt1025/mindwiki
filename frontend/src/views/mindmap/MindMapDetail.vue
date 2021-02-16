@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 오민택
-    * 내용 : 뒤로가기 시 메인으로 이동, 마인드맵 변경
+    * 내용 : 마인드맵 수정 UI 수정 
     * 생성일자 : 2021-02-03
-    * 최종수정일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-16
   -->
   <v-app id="app">
     <!-- 상세 마인드맵 상단 네비게이션 -->
@@ -53,13 +53,15 @@
           <span>댓글 쓰기</span>
         </v-btn>
         <v-row align="center" justify="end">
-          <v-icon color="purple">mdi-heart</v-icon>
+          <v-icon v-if="this.mindmap.likeCnt === 0">mdi-heart</v-icon>
+          <v-icon v-else color="purple">mdi-heart</v-icon>
           <!-- 누적된 좋아요 수 -->
-          <span class="subheading mr-2">256</span>
+          <span class="subheading mr-2">{{ this.mindmap.likeCnt }}</span>
           <span class="mr-1">·</span>
-          <v-icon class="mr-1">mdi-share-variant</v-icon>
+          <v-icon v-if="this.mindmap.scrapCnt === 0" class="mr-1">mdi-bookmark</v-icon>
+          <v-icon v-else class="mr-1" color="purple">mdi-bookmark</v-icon>
           <!-- 누적된 스크랩 수 -->
-          <span class="subheading">45</span>
+          <span class="subheading">{{ this.mindmap.scrapCnt }}</span>
         </v-row>
       </v-list-item>
     </v-card-actions>
@@ -91,6 +93,7 @@
               <!-- 제목 -->
               <v-col cols="12">
                 <v-text-field
+                  class="mx-2"
                   label="제목 (최대 16자)"
                   required
                   id="title"
@@ -104,6 +107,7 @@
               <!-- 주제 -->
               <v-col cols="12">
                 <v-text-field
+                  class="mx-2"
                   label="주제"
                   required
                   id="subject"
@@ -116,10 +120,11 @@
               <!-- 해시태그 -->
               <div>
                 <div padding="10px">
-                  <p class="interestTagTitle">해시태그 설정</p>
+                  <p class="interestTagTitle mx-3">해시태그 설정</p>
                 </div>
 
                 <v-combobox
+                  class="mx-5"
                   append-icon
                   flat
                   v-model="hashtag"
@@ -134,7 +139,7 @@
                       v-bind="attrs"
                       :input-value="selected"
                       close
-                      class="ma-2"
+                      class="ma-1 mb-2"
                       color="purple"
                       text-color="white"
                       @click="select"
@@ -149,6 +154,7 @@
               <!-- 설명 -->
               <v-col cols="12">
                 <v-text-field
+                  class="mx-2"
                   label="설명 (최대 145자)"
                   required
                   id="explanation"
@@ -185,7 +191,7 @@ export default {
   name: 'MindMapDetail',
   components: { mindMap },
   computed: {
-    ...mapGetters({ map:'getMapData'})
+    ...mapGetters({ map:'getMapData'}),
   },
   data() {
     const no = Number(this.$route.params.no);
@@ -324,6 +330,7 @@ export default {
 /* 설명이 적을 때 위치 고정 */
 #cardAction {
   background-color: #fff;
+  width: 100%;
   position: fixed;
   bottom: 0;
 }

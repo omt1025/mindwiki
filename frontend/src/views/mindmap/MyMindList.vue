@@ -50,7 +50,7 @@ export default {
 
       this.$store.dispatch("readMyMindMap", form).then(() => {
         this.items = this.$store.getters.mindList;
-        // console.log(this.cards)
+        console.log(this.items)
       });
     },
     // 프로필을 통해 게시물로 접근한 경우, 뒤로갔을 때 프로필로 되돌아감

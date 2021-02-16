@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mindwiki.model.LikeDto;
+import com.mindwiki.model.MindDetailDto;
 import com.mindwiki.model.MindDto;
 import com.mindwiki.model.ScrapDto;
 
@@ -22,7 +23,7 @@ public interface MindDao {
 	void make(MindDto mind) throws SQLException;
 	void makeHashtag(int MindID,String hashtag) throws SQLException;
 	public List<MindDto> read() throws SQLException;
-	public MindDto readByMindID(int no) throws SQLException;
+	public MindDetailDto readByMindID(int no) throws SQLException;
 	void updateByMindID(MindDto mind) throws SQLException;
 	void deleteByMindID(MindDto mind) throws SQLException;
 	void updateViewCnt(int no) throws SQLException;

@@ -31,7 +31,6 @@
 
       <!-- 팔로우 하기, 메시지 보내기 -->
       <div class="user-num">
-        <!-- <w-card-title class="card-title">팔로워</w-card-title> -->
         <w-card-description class="card-description">
         </w-card-description>
       </div>
@@ -125,17 +124,13 @@ export default {
     // 팔로우 했을 때만 데이터 보여주기
     this.items = this.followingData;
     for (var i in this.items) {
-    // console.log(this.items)
-    // console.log(i)
-    // console.log(this.items[i]['followerEmail'])
     if (this.items[i]['followerEmail'] === this.$route.query.email) {
-      this.show = true
+      this.show = true;
     } else {
-      this.show = false
+      this.show = false;
     }
-    // console.log(this.show)
     }
-  }
+  },
 }
 </script>
 

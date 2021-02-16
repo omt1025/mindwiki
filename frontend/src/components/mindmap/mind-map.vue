@@ -110,8 +110,9 @@
       </div>
       <swipeable-bottom-sheet ref="swipeableBottomSheet">
         <v-col cols="12">
+          <span>현재 노드 수정</span>
           <v-text-field
-            label="현재 노드 수정"
+            class="mx-3"
             type="text"
             id="label"
             ref="label"
@@ -119,7 +120,7 @@
             @keypress.enter="onInputKeyword"
           >
             <template v-slot:append>
-              <v-icon>mdi-plus</v-icon>
+              <v-icon @click="close()">mdi-check</v-icon>
             </template>
           </v-text-field>
           <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
@@ -240,6 +241,9 @@ export default {
   methods: {
     open () {
       this.$refs.swipeableBottomSheet.setState("half")
+    },
+    close () {
+      this.$refs.swipeableBottomSheet.setState("close")
     },
     toggleZoomSelector() {
       this.$ratioSelector.style.display = this.ratioSelectorShowing ? 'none' : 'block';
@@ -784,7 +788,7 @@ div {
 .tela {
   width: 3000px;
   height: 3000px;
-  background-color: #f9f9f9;
+  background-color: #00000006;
   transition: transform 0s;
   transform-origin: 0 0;
   font-size: 14px;
@@ -874,5 +878,10 @@ div {
 
 ::v-deep .org-chart-node-label {
   margin: 0 $space;
+}
+
+::v-deep .org-chart-node-label-inner {
+  background-color: #f8f1f8;
+  border-radius: 10px;
 }
 </style>
