@@ -11,11 +11,24 @@
 
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
+        <!-- 프로필 사진 input -->
+        <span class="label-input100 p-b-7" style="float: left">프로필 사진</span>
+        <input
+          type="file"
+          class="upload p-b-7"
+          id="input-imgage"
+          @change="processFile($event)"
+          @keypress.enter="checkHandler"
+        />
+        <v-avatar class="user_avatar" size="120px">
+          <img src="@/assets/images/mindwiki_logo-color.png" id="preview-imgage" alt="John" />
+        </v-avatar>
+
         <!-- 이메일 input -->
-        <span class="label-input100 p-b-7" style="float: left">이메일 </span>
+        <span class="label-input100 p-t-20 p-b-7" style="float: left">이메일 </span>
         <!-- <p style="font-size: 10px; float:right">(16자 이내)</p> -->
         <w-input
-          class="m-b-10"
+          class="m-t-10"
           id="useremail"
           ref="useremail"
           v-model="user.useremail"
@@ -26,7 +39,7 @@
         />
 
         <!-- realName input -->
-        <span class="label-input100 p-t-25 p-b-7" style="float: left">이름</span>
+        <span class="label-input100 p-t-20 p-b-7" style="float: left">이름</span>
         <w-input
           class="m-t-10"
           required
@@ -36,6 +49,32 @@
           @keypress.enter="checkHandler"
           type="text"
           placeholder="이름을 입력해주세요."
+        />
+
+        <!-- nickName input -->
+        <span class="label-input100 p-t-20 p-b-7" style="float: left">닉네임</span>
+        <w-input
+          class="m-t-10"
+          required
+          id="usernickName"
+          ref="usernickName"
+          v-model="user.usernickName"
+          @keypress.enter="checkHandler"
+          type="text"
+          placeholder="닉네임을 입력해주세요."
+        />
+
+        <!-- 핸드폰번호 input -->
+        <span class="label-input100 p-t-20 p-b-7" style="float: left">핸드폰 번호</span>
+        <w-input
+          class="m-t-10"
+          required
+          id="phoneNumber"
+          ref="phoneNumber"
+          v-model="user.phoneNumber"
+          @keypress.enter="checkHandler"
+          type="text"
+          placeholder="핸드폰번호를 입력해주세요."
         />
       </div>
     </div>
@@ -55,9 +94,8 @@ export default {
         username: '', // 이름
         usernickName: '', // 닉네임
         useremail: '', // 이메일
-        userpwd: '', // 비밀번호
-        userpwd_check: '', // 비밀번호 확인
-        interest: {}, // 관심태그
+        phoneNumber: '', // 핸드폰
+        files: '', // 프로필사진
       },
       msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
       message: '', // 오류 받아 올 변수
@@ -71,6 +109,13 @@ export default {
       // 내 프로필 화면으로 이동
       this.$router.push('/main');
     },
+    processFile(event) {
+      this.user.files = event.target.files[0];
+
+      const previewImage = document.getElementById('preview-imgage');
+      previewImage.setAttribute('src', URL.createObjectURL(event.target.files[0]));
+    },
+
     // input 유효성 검사 메소드[YJS]
     checkHandler() {
       let err = true; // 에러 확인 변수
@@ -143,5 +188,15 @@ input:focus {
 }
 .v-input__slot {
   margin-bottom: 0px;
+}
+.upload {
+  width: 100%;
+  display: block;
+  padding-top: 3px;
+  padding-left: 2px;
+  /* background-color: #00000006; */
+  color: rgb(111, 115, 120);
+  font-size: 0.8rem;
+  height: auto;
 }
 </style>
