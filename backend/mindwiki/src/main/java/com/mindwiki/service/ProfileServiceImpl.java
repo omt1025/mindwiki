@@ -254,5 +254,15 @@ public class ProfileServiceImpl implements ProfileService {
 	
 		return session.getMapper(ProfileDao.class).getProfilePic(email);
 	}
+	
+	@Override
+	public ProfileDto getProfile(String email) throws Exception {
+		return session.getMapper(ProfileDao.class).getMyProfile(email);
+	}
+
+	@Override
+	public ProfileDto getMyProfile(String email) throws Exception {
+		return session.getMapper(ProfileDao.class).getMyProfile(email);
+	}
 
 }

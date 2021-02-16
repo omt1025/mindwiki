@@ -257,25 +257,62 @@ public class ProfileController {
 	
 	/******************************************************************************
 	 * 작성자 : 
-	 * 기능 : 해당 계정이 존재하는지 확인
-	 * 최종 수정일: 2021.02.08.
+	 * 기능 : 내 프로필 정보 리턴
+	 * 최종 수정일: 2021.02..
+	 * @throws Exception 
+	 *******************************************************************************/
+
+	// TODO
+	@PostMapping("/getMyProfile")
+	public ResponseEntity<Map<String, Object>> getMyProfile(HttpSession session,
+			@RequestParam(value="jwt", required=false) String jwt) throws Exception{
+
+		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
+		String email = (String)claimMap.get("email");
+
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+
+		try {
+			result.put("info", profileService.getMyProfile(email));
+			result.put("message", "SUCCESS");
+			
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			e.printStackTrace();
+		}
+
+		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
+	
+	/******************************************************************************
+	 * 작성자 : 
+	 * 기능 : 상대방 프로필 정보 리턴
+	 * 최종 수정일: 2021.02..
+	 * @throws Exception 
 	 * @throws UnsupportedEncodingException 
 	 *******************************************************************************/
 
 	// TODO
 	@PostMapping("/getProfile")
-	public ResponseEntity<ProfileDto> getProfile(HttpSession session,
-			@RequestParam(value="email", required=false) String email){
+	public ResponseEntity<Map<String, Object>> getProfile(HttpSession session,
+			@RequestParam(value="email", required=false) String email) throws Exception{
 
-		ProfileDto profileDto = new ProfileDto();
-		profileDto.setEmail(email);
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
 
-		ProfileDto resultProfile = new ProfileDto();
-		HttpStatus status = null;
+		try {
+			result.put("info", profileService.getMyProfile(email));
+			result.put("message", "SUCCESS");
+			
+		}catch(SQLException e) {
+			result.put("message", "SERVER_ERROR");
+			e.printStackTrace();
+		}
 
-		ProfileResultDto result = new ProfileResultDto();
-
-		return null;
+		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 
 	/******************************************************************************
@@ -320,7 +357,7 @@ public class ProfileController {
 
 	/******************************************************************************
 	 * 작성자 : 
-	 * 기능 : 해당 계정이 존재하는지 확인
+	 * 기능 : 회원목록 리턴
 	 * 최종 수정일: 2021.02.08.
 	 * @throws UnsupportedEncodingException 
 	 *******************************************************************************/

@@ -55,5 +55,9 @@
 		SELECT profileDefaultPic FROM profile where email=#{email}
 	</select>
 	
+	<select id="getMyProfile" resultType="com.mindwiki.model.ProfileDto">
+		SELECT email, realName, nickName, followerListID, phoneNumber FROM profile where email=#{email}
+	</select>
+	
 		
 </mapper>
