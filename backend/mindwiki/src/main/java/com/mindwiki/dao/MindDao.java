@@ -37,4 +37,10 @@ public interface MindDao {
 	public List<String> hashtagByMindID(int MindID) throws SQLException;
 	void deleteHashtag(int MindID, String hashtag) throws SQLException;
 	void deleteHashtagList(int MindID) throws SQLException;
+	
+	void likePlusCnt(int no) throws SQLException;
+	void likeMinusCnt(int no) throws SQLException;
+	void scrapPlusCnt(int no) throws SQLException;
+	void scrapMinusCnt(int no) throws SQLException;
+	
 }
