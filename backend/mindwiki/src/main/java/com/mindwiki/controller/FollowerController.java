@@ -111,46 +111,12 @@ public class FollowerController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	
-	
-	@GetMapping("/fname")
-	public ResponseEntity<Map<String, Object>> follower_name(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws UnsupportedEncodingException, SQLException {
-		
-		Map<String, Object> resultMap=new HashMap<>();
-		  
-		
-	
-		HttpStatus status=null;
-		
-		try {
-			String followerName=followSvc.searchNameByEmail(followerEmail);
-		
-			resultMap.put("name",followerName);
-			resultMap.put("message","SUCCESS");
-			
-			status = HttpStatus.OK;
-		} catch (SQLException e) {
-			resultMap.put("message","ERROR");
-			
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-		}
-		
-	
-		
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-	
-	
-	
-	
-	
+	//수정했음 0215 오류확인
 	@GetMapping("/list")
-	public ResponseEntity<List<FollowerDto>> follower_list(
+	public ResponseEntity<List<FollowerDto>> following_list(
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+		
 		String myEmail;
 		if(followerEmail==null) {
 			
@@ -165,9 +131,33 @@ public class FollowerController {
 		  
 		
 		
-		
 		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail),HttpStatus.OK);
 	}
+	
+	
+	//수정했음 0215 오류확인
+	@GetMapping("/followerlist")
+	public ResponseEntity<List<FollowerDto>> follower_list(
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+		
+		String myEmail;
+		if(followerEmail==null) {
+			
+			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			  
+			myEmail=(String) claimMap.get("email");
+		}
+		else {
+			myEmail=followerEmail;
+		}
+	
+		  
+		
+		
+		return new ResponseEntity<List<FollowerDto>>(followSvc.followerList(myEmail),HttpStatus.OK);
+	}
+	
 	
 	@GetMapping("/list/detail")
 	public ResponseEntity<List<MindDto>> follower_list_detail(
