@@ -343,6 +343,7 @@ public class MindController {
 			// returnMessage="마인드 등록 실패!";
 		}
 
+
 		System.out.println("일단 mind controller");
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
@@ -369,7 +370,7 @@ public class MindController {
 	}
 
 	// comment0126 수정해야함
-	@PutMapping("/mind/read/{no}/comment")
+	@PutMapping("/read/{no}/comment")
 	public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException {
 
 		// 1번 mymind 불러오기
