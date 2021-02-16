@@ -119,9 +119,12 @@ public class ProfileDto {
 
 	@Override
 	public String toString() {
-		return "memberDto [ProfileId=" + ProfileId + ", identification=" + identification + ", password=" + password
+		return "ProfileDto [ProfileId=" + ProfileId + ", identification=" + identification + ", password=" + password
 				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", follower=" + follower + ", realName="
 				+ realName + ", nickName=" + nickName + ", BookShelfID=" + BookShelfID + ", AchievementsID="
-				+ AchievementsID + ", ExpertID=" + ExpertID + "]";
+				+ AchievementsID + ", ExpertID=" + ExpertID + ", hashtag=" + hashtag + ", profileDefaultPic="
+				+ profileDefaultPic + "]";
 	}
+
+	
 }
