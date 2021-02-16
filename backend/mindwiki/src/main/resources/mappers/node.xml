@@ -9,13 +9,13 @@
 	</select>
 	
 	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto">
-		 INSERT INTO node (MindID, nodeData)
-                    VALUES (#{MindID}, #{nodeData})
-                    ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeData=#{nodeData};
+		 INSERT INTO node (MindID, nodeJson)
+                    VALUES (#{MindID}, json_array(#{nodeJson}))
+                    ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)};
 	</insert>
 	
-	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="string">
-		SELECT nodeData FROM node WHERE MindID=#{MindID}
-	</select>
+<!-- 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="map"> -->
+<!-- 		SELECT nodeJson FROM node WHERE MindID=#{MindID} -->
+<!-- 	</select> -->
 		
 </mapper>

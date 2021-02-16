@@ -3,6 +3,7 @@ package com.mindwiki.service;
 import java.sql.SQLException;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +50,13 @@ public class NodeServiceImpl implements NodeService{
 			return result;
 		}
 		
-//		String data = nodeMapper.getNode(dto);
-//		nodeDto.setNodeData(data);
-		result.setNodeDto(nodeDto);
-		
-		result.setResult("SUCCESS");
-		return result;
+//		JSONArray nodeJson = nodeMapper.getNode(dto);
+//		nodeDto.setNodeJson(nodeJson);
+//		result.setNodeDto(nodeDto);
+//		
+//		result.setResult("SUCCESS");
+//		return result;
+		return null;
 	}
 
 }

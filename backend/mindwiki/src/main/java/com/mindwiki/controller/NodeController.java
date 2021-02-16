@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,11 +95,9 @@ public class NodeController {
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				
-//				String str = serviceResult.getNodeDto().getNodeData();
-//				JsonObject jsonObj = new JsonObject(str);
-				
-//				System.out.println(obj.)
-//				result.put("data", jsonObj);
+				JSONArray nodeJson = serviceResult.getNodeDto().getNodeJson();
+				System.out.println(nodeJson);
+				result.put("data", nodeJson);
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");

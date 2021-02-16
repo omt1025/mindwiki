@@ -24,6 +24,8 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -350,9 +352,37 @@ public class MindController {
 	private void initNode(int MindID, String subject, String hashtag) throws SQLException {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-//		nodeDto.setNodeJson(buildNodeData(subject, hashtag));
+		JSONArray nodeJson = buildNodeJSONArray(subject, hashtag);
+		nodeDto.setNodeJson(nodeJson);
+		
+		System.out.println(nodeJson);
 
 		nodeService.setNode(nodeDto);
+//		nodeDto.setNodeJson(buildNodeData(subject, hashtag));
+	}
+	
+	private JSONArray buildNodeJSONArray(String subject, String hashtag) {
+		JSONObject hashtagObj, nodeObj;
+		JSONArray hashtagArray = new JSONArray(), allNodeArray = new JSONArray();
+		
+		StringTokenizer st = new StringTokenizer(hashtag, ",");
+		while(st.hasMoreTokens()) {
+			hashtagObj = new JSONObject();
+			hashtagObj.put("label", st.nextToken());
+			hashtagObj.put("reason", String.valueOf(0));
+//			hashtagArray = new JSONArray();
+			hashtagArray.add(hashtagObj);
+		}
+		
+		nodeObj = new JSONObject();
+		nodeObj.put("label", subject);
+		nodeObj.put("root", "true");
+		nodeObj.put("url", "");
+		nodeObj.put("children", hashtagArray);
+		
+		allNodeArray.add(nodeObj);
+		
+		return allNodeArray;
 	}
 	
 	private String buildNodeData(String subject, String hashtag) {
