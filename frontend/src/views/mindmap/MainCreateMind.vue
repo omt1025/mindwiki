@@ -156,7 +156,6 @@ export default {
 
     // input 유효성 검사 메소드[HYH]
     checkHandler() {
-      console.log('여긴왔니');
       let err = true; // 에러 확인 변수
       let msg = ''; // 다이얼로그에 띄울 메세지
 
