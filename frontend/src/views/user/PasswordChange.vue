@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     backPage: function() {
-      this.$router.push('/main/menu');
+      this.$router.push('/main');
     },
     // 비밀번호 유효성 검사 정규식 : 영어,숫자,특수문자 조합, 8글자 이상
     validatePassword(v, title) {

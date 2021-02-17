@@ -4,7 +4,8 @@
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
 
-      <v-app-bar-nav-icon @click="menu1"></v-app-bar-nav-icon>
+      <!-- 기존 메뉴 -->
+      <!-- <v-app-bar-nav-icon @click="menu1"></v-app-bar-nav-icon> -->
       <v-menu>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -22,17 +23,26 @@
             :key="menu"
             @click="() => {}"
           >
-            <v-list-item-title v-if="menu === '로그아웃'">
+            <v-list-item-title
+              v-if="menu === '로그아웃'"
+              @click="logout"
+            >
               <v-icon>mdi-logout</v-icon>
               {{ menu }}
             </v-list-item-title>
 
-            <v-list-item-title v-else-if="menu === '비밀번호 변경'">
+            <v-list-item-title 
+              v-else-if="menu === '비밀번호 변경'"
+              @click="goPasswordChange"
+            >
               <v-icon>mdi-lock-reset</v-icon>
               {{ menu }}
             </v-list-item-title>
 
-            <v-list-item-title v-else>
+            <v-list-item-title
+              v-else
+              @click="goWithdraw"
+            >
               <v-icon>mdi-account-remove</v-icon>
               {{ menu }}
             </v-list-item-title>  
@@ -79,7 +89,8 @@ export default {
       mainTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
       activity_items: ['내 활동 알림'],
-      menus: ['로그아웃', '비밀번호 변경', '회원탈퇴']
+      menus: ['로그아웃', '비밀번호 변경', '회원탈퇴'],
+      jwt: localStorage.getItem('jwt'),
     };
   },
   methods: {
@@ -96,6 +107,24 @@ export default {
       this.$emit('input-change', event.target.value);
       console.log('test')
     },
+    logout() {
+      // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$store.dispatch('setMessage', null);
+      // 로그아웃 처리
+      this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
+      // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
+      // this.$router.push('/login');
+    },
+    // 비밀번호 변경 페이지로 이동
+    goPasswordChange() {
+      this.$router.push('/main/menu/passwordchange');
+    },
+    // 회원탈퇴로 이동
+    goWithdraw() {
+      this.$router.push('/menu/withdraw');
+    }
   },
   // 새로고침 후 상단 탭 유지
     updated() {

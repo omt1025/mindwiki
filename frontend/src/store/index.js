@@ -509,6 +509,8 @@ export default new Vuex.Store({
           params: { no: no },
         })
         .then((response) => {
+          console.log("확인확인확인")
+          console.log(response.data);
           context.commit('setCommentData', response.data);
         });
     },
