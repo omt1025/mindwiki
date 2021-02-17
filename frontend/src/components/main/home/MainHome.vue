@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="mainhome">
     <div v-if="mainTab == 0">
       <v-card flat>
         <LivePopularMind />
@@ -67,6 +67,12 @@ export default {
   computed: {
     ...mapGetters(['mainTab']),
   },
+  created() {
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('readMemberList', form).then(() => {});
+  },
   data() {
     return {
       tab: null,
@@ -76,4 +82,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.mainhome {
+  padding: 0 10px;
+}
+</style>

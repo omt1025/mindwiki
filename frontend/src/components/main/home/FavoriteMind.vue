@@ -60,13 +60,27 @@ export default {
     CardForm,
   },
   computed: {
-    ...mapGetters(['cards']),
+    ...mapGetters(['cards', 'memberList']),
   },
   methods: {
+    // 작성자 프로필 사진 가져오기
+    getImage() {
+      for (var i = 0; i < this.items.length; i++) {
+        for (var j = 0; j < this.memberList.length; j++) {
+          if (this.items[i].admin === this.memberList[j].email) {
+            this.$set(this.items[i], 'profileDefaultPic', this.memberList[j].profileDefaultPic);
+            this.$set(this.items[i], 'nickName', this.memberList[j].nickName);
+            // console.log(this.items[i].profileDefaultPic);
+            break;
+          }
+        }
+      }
+    },
     // 관심태그와 같은 마인드맵을 받아옴
     readliketagmind() {
       this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
         this.items = this.$store.state.liketagData;
+        this.getImage();
       });
     },
     // 로그인된 유저가 설정한 관심태그를 받아옴
