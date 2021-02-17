@@ -21,7 +21,13 @@
           @keypress.enter="checkHandler"
         />
         <v-avatar class="user_avatar" size="120px">
-          <img src="@/assets/images/mindwiki_logo-color.png" id="preview-imgage" alt="John" />
+          <img v-if="profile.profileDefaultPic !== null" :src="user.origin" alt="John" />
+          <img
+            v-else
+            src="@/assets/images/mindwiki_logo-color.png"
+            id="preview-imgage"
+            alt="John"
+          />
         </v-avatar>
 
         <!-- 이메일 input -->
@@ -105,7 +111,8 @@ export default {
         usernickName: '', // 닉네임
         useremail: '', // 이메일
         phoneNumber: '', // 핸드폰
-        files: '', // 프로필사진
+        files: null, // 프로필사진
+        origin: '',
       },
       msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
       message: '', // 오류 받아 올 변수
@@ -128,6 +135,8 @@ export default {
       else {
         this.user.usernickName = this.profile.nickName;
         this.user.phoneNumber = this.profile.phoneNumber;
+        this.user.origin = this.profile.profileDefaultPic;
+        // console.log(this.profile.profileDefaultPic);
       }
     });
   },
@@ -161,7 +170,10 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('phoneNumber', this.user.phoneNumber);
       form.append('nickName', this.user.usernickName);
-      form.append('files', this.user.files);
+
+      if (this.user.files != null) {
+        form.append('files', this.user.files);
+      }
 
       this.$store.dispatch('changeProfile', form).then(() => {
         // 응답 결과
