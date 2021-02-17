@@ -33,17 +33,18 @@ public class NodeServiceImpl implements NodeService{
 
 		NodeDto dto = new NodeDto();
 		dto.setMindID(MindID);
-//		dto.setNodeString(builInitNodeToString(subject, hashtag));
-		dto.setNodeObject(builInitNodeToString(subject, hashtag));
+		
+		Object nodeObject = makeInitNode(subject, hashtag);
+		Gson gson = new Gson();
+		dto.setNodeObject(gson.toJson(nodeObject));
 
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
 
-		int insertResult = nodeMapper.initNode(dto);
-		System.out.println("insertResult: " + insertResult);
-		if(insertResult != SUCCESS) {
+		if(nodeMapper.initNode(dto) != SUCCESS) {
+			System.out.println("INIT_NODE_ERROR: InsertResultROWNum=" + nodeMapper.initNode(dto));
 			result.setResult("SET_NODES_ERROR");
 			return result;
 		}
@@ -51,65 +52,86 @@ public class NodeServiceImpl implements NodeService{
 		result.setResult("SUCCESS");
 		return result;
 	}
-
-	private Object builInitNodeToString(String subject, String hashtag) {
-		StringBuilder data = new StringBuilder();
-		data.append("[\r\n"
-				+ "{\"childred\": \r\n[");
-
+	
+	private Object makeInitNode(String subject, String hashtag) {
+		String[] hashtagArr = new String[3];
 		StringTokenizer st = new StringTokenizer(hashtag, ",");
-		while(st.hasMoreTokens()) {
-			data.append("{\"reason\":\"0\",\"label\":\"" + st.nextToken() + "\"}");
-			if(!st.hasMoreTokens()) {
-				data.append("]");
-			}
-			data.append(",\r\n");
+		int index=0;
+		while(st.hasMoreElements()) {
+			hashtagArr[index++] = st.nextToken();
 		}
 		
-		data.append("\"root\":\"true\",\r\n");
-		data.append("\"label\":\"" + subject + "\",\r\n");
-		data.append("\"url\":\"\"}\r\n]");
-
-//		return data.toString();
-//		StringBuilder data2 = new StringBuilder();
-//		data2.append("[\r\n" + 
-//				"    {\"children\":\r\n" + 
-//				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-//				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-//				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
-//				"    \"root\":\"true\",\r\n" + 
-//				"    \"label\":\"woong\",\r\n" + 
-//				"    \"url\":\"\"}\r\n" + 
-//				"]");
-//		return data2.toString();
-		
-		Object obj;
-		obj = "[\r\n" + 
-				"    {\"children\":\r\n" + 
-				"        [{\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
-				"        {\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
-				"        {\"reason\":\"0\",\"label\":\"0217_1643\"}],\r\n" + 
-				"    \"root\":\"true\",\r\n" + 
-				"    \"label\":\"0217_1643\",\r\n" + 
-				"    \"url\":\"\"}\r\n" + 
+		Object obj = "[\r\n" + 
+				"{\"children\":\r\n" + 
+				"[{\"reason\":\"0\",\"" + hashtagArr[0] + "\":\"0217_1643\"},\r\n" + 
+				"{\"reason\":\"0\",\"" +  hashtagArr[1] + "\":\"0217_1643\"},\r\n" + 
+				"{\"reason\":\"0\",\"" +  hashtagArr[2] + "\":\"0217_1643\"}],\r\n" + 
+				"\"root\":\"true\",\r\n" + 
+				"\"label\":\"" + subject + "\",\r\n" + 
+				"\"url\":\"\"}\r\n" + 
 				"]";
-		Gson gson = new Gson();
 		
-		return gson.toJson(obj);
+		return obj;
 	}
 
-	private String builInitNodeToString_old(String subject, String hashtag) {
-		StringBuilder data = new StringBuilder();
-		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
+//	private Object builInitNodeToString(String subject, String hashtag) {
+//		StringBuilder data = new StringBuilder();
+//		data.append("[\r\n"
+//				+ "{\"childred\": \r\n[");
+//
+//		StringTokenizer st = new StringTokenizer(hashtag, ",");
+//		while(st.hasMoreTokens()) {
+//			data.append("{\"reason\":\"0\",\"label\":\"" + st.nextToken() + "\"}");
+//			if(!st.hasMoreTokens()) {
+//				data.append("]");
+//			}
+//			data.append(",\r\n");
+//		}
+//		
+//		data.append("\"root\":\"true\",\r\n");
+//		data.append("\"label\":\"" + subject + "\",\r\n");
+//		data.append("\"url\":\"\"}\r\n]");
+//
+////		return data.toString();
+////		StringBuilder data2 = new StringBuilder();
+////		data2.append("[\r\n" + 
+////				"    {\"children\":\r\n" + 
+////				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+////				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+////				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
+////				"    \"root\":\"true\",\r\n" + 
+////				"    \"label\":\"woong\",\r\n" + 
+////				"    \"url\":\"\"}\r\n" + 
+////				"]");
+////		return data2.toString();
+//		
+//		Object obj;
+//		obj = "[\r\n" + 
+//				"    {\"children\":\r\n" + 
+//				"        [{\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
+//				"        {\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
+//				"        {\"reason\":\"0\",\"label\":\"0217_1643\"}],\r\n" + 
+//				"    \"root\":\"true\",\r\n" + 
+//				"    \"label\":\"0217_1643\",\r\n" + 
+//				"    \"url\":\"\"}\r\n" + 
+//				"]";
+//		Gson gson = new Gson();
+//		
+//		return gson.toJson(obj);
+//	}
 
-		StringTokenizer st = new StringTokenizer(hashtag, ",");
-		while(st.hasMoreTokens()) {
-			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
-		}
-		data.append("],},]");
-
-		return data.toString();
-	}
+//	private String builInitNodeToString_old(String subject, String hashtag) {
+//		StringBuilder data = new StringBuilder();
+//		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
+//
+//		StringTokenizer st = new StringTokenizer(hashtag, ",");
+//		while(st.hasMoreTokens()) {
+//			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
+//		}
+//		data.append("],},]");
+//
+//		return data.toString();
+//	}
 
 	@Override
 	public NodeResultDto setNode(NodeDto dto) throws SQLException {
@@ -120,9 +142,10 @@ public class NodeServiceImpl implements NodeService{
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
-
-		int insertResult = nodeMapper.setNode(dto);
-		System.out.println("insertResult: " + insertResult);
+		
+		Gson gson = new Gson();
+		Object obj = dto.getNodeObject();
+		dto.setNodeObject(gson.toJson(obj));
 
 		if(nodeMapper.setNode(dto)!=SUCCESS) {
 			result.setResult("SET_NODES_ERROR");
@@ -139,33 +162,18 @@ public class NodeServiceImpl implements NodeService{
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 
-		System.out.println("NodeServiceImpl]");
-
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
-			System.out.println("\t existByMindID error");
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
 
-		String nodeString = nodeMapper.getNode(dto);
-		if(nodeString==null) {
-			System.out.println("\t getNode error");
+		Object nodeObject = nodeMapper.getNode(dto);
+		if(nodeObject==null) {
 			result.setResult("GET_NODE_ERROR_NODE_IS_NULL");
 			return result;
 		}
-		System.out.println("\t success");
 
-		Gson gson = new Gson();
-
-		System.out.println("nodeString in getNode.NodeServiceImpl");
-		System.out.println(nodeString);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println(gson.toJson(nodeString));
-
-		nodeDto.setNodeString(nodeString);
+		nodeDto.setNodeObject(nodeObject);
 		result.setNodeDto(nodeDto);
 		result.setResult("SUCCESS");
 		return result;

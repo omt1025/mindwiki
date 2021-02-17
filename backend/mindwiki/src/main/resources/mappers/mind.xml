@@ -17,8 +17,6 @@
 		select hashtag from hashtagList where MindID=#{MindID}
 	</select>
 	
-	
-	
 	<select id="scrapRead" resultType="com.mindwiki.model.MindDto">
 		select * from mind where MindID in (select scrapedMindID from scrapList where email=#{email});
 	</select>
@@ -26,9 +24,6 @@
 	<select id="likeRead" resultType="com.mindwiki.model.MindDto">
 		select * from mind where MindID in (select likedMindID from likeList where email=#{email});
 	</select>
-	
-	
-	
 	
 	<select id="readByEmail" resultType="com.mindwiki.model.MindDto">
 		select * from mind where admin=#{email}

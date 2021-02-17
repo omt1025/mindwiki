@@ -4,7 +4,6 @@
 
 <mapper namespace="com.mindwiki.dao.ProfileDao">
 
-	<!-- TODO: hashtag column 추가 후 nickName->hashtag -->
 	<insert id="register" parameterType="com.mindwiki.model.ProfileDto">
 		 INSERT INTO profile (email, password, realName, nickName, hashtag)
                     VALUES  (#{email}, #{password}, #{realName}, #{nickName}, #{hashtag} ) 
@@ -22,12 +21,6 @@
 		DELETE FROM profile
 		WHERE email=#{email}
 	</delete>
-	
-<!-- 	<select id="getPassword" resultType="string" parameterType="com.mindwiki.model.ProfileDto"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM profile -->
-<!-- 		WHERE email=#{email} -->
-<!-- 	</select> -->
 	
 	<update id="updatePassword" parameterType="com.mindwiki.model.ProfileDto">
 		UPDATE profile
@@ -58,7 +51,6 @@
 		SET nickName=#{nickName}
 		WHERE email=#{email}
 	</update>
-
 	
 	<select id="getProfileID" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
 		SELECT ProfileID

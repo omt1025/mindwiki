@@ -311,6 +311,7 @@ public class MindController {
 					
 					mindSvc.make(mind);
 					
+					/* 노드 초기화 부분입니다. 초기화가 비정상이면 종료합니다*/
 					MindID = mindSvc.getMindID(admin);
 					NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
 					if(result.getResult()!="SUCCESS"){
@@ -338,6 +339,7 @@ public class MindController {
 
 				mindSvc.make(mind);
 				
+				/* 노드 초기화 부분입니다. 초기화가 비정상이면 종료합니다*/
 				MindID = mindSvc.getMindID(admin);
 				NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
 				if(result.getResult()!="SUCCESS"){
@@ -363,53 +365,6 @@ public class MindController {
 
 		System.out.println("일단 mind controller");
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
-	private void initNode(int MindID, String subject, String hashtag) throws SQLException {
-		NodeDto nodeDto = new NodeDto();
-		nodeDto.setMindID(MindID);
-		JSONArray nodeJson = buildNodeJSONArray(subject, hashtag);
-		nodeDto.setNodeJson(nodeJson);
-		
-		System.out.println(nodeJson);
-		NodeResultDto result = nodeService.setNode(nodeDto);
-		System.out.println(result.getResult());
-	}
-	
-	private JSONArray buildNodeJSONArray(String subject, String hashtag) {
-		JSONObject hashtagObj, nodeObj;
-		JSONArray hashtagArray = new JSONArray(), allNodeArray = new JSONArray();
-		
-		StringTokenizer st = new StringTokenizer(hashtag, ",");
-		while(st.hasMoreTokens()) {
-			hashtagObj = new JSONObject();
-			hashtagObj.put("label", st.nextToken());
-			hashtagObj.put("reason", String.valueOf(0));
-			hashtagArray.add(hashtagObj);
-		}
-		
-		nodeObj = new JSONObject();
-		nodeObj.put("label", subject);
-		nodeObj.put("root", true);
-		nodeObj.put("url", "");
-		nodeObj.put("children", hashtagArray);
-		
-		allNodeArray.add(nodeObj);
-		
-		return allNodeArray;
-	}
-	
-	private String buildNodeData(String subject, String hashtag) {
-		StringBuilder data = new StringBuilder();
-		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
-		
-		StringTokenizer st = new StringTokenizer(hashtag, ",");
-		while(st.hasMoreTokens()) {
-			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
-		}
-		data.append("],},]");
-		
-		return data.toString();
 	}
 
 	// comment0126 수정해야함
