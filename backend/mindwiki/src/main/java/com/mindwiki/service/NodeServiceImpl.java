@@ -73,11 +73,11 @@ public class NodeServiceImpl implements NodeService{
 		StringBuilder data2 = new StringBuilder();
 		data2.append("[\r\n" + 
 				"    {\"children\":\r\n" + 
-				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
+				"        [{\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
+				"        {\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
+				"        {\"reason\":\"0\",\"label\":\"0217_1643\"}],\r\n" + 
 				"    \"root\":\"true\",\r\n" + 
-				"    \"label\":\"woong\",\r\n" + 
+				"    \"label\":\"0217_1643\",\r\n" + 
 				"    \"url\":\"\"}\r\n" + 
 				"]");
 		return data2.toString();
