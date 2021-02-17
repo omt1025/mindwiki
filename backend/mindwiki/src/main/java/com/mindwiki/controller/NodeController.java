@@ -100,7 +100,7 @@ public class NodeController {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 		
-		Object obj = nodeService.getNode(nodeDto);
+		Object obj = nodeService.getNode(nodeDto).getNodeDto().getNodeObject();
 		Gson gson = new Gson();
 		return new ResponseEntity<Object>(gson.toJson(obj), HttpStatus.ACCEPTED);
 	}
