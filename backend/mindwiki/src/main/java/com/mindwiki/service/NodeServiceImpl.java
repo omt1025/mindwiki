@@ -19,10 +19,10 @@ import com.mindwiki.model.NodeResultDto;
 
 @Service
 public class NodeServiceImpl implements NodeService{
-	
+
 	@Autowired
 	private SqlSession session;
-	
+
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
 
@@ -30,82 +30,104 @@ public class NodeServiceImpl implements NodeService{
 	public NodeResultDto initNode(int MindID, String subject, String hashtag) throws SQLException {
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-		
+
 		NodeDto dto = new NodeDto();
 		dto.setMindID(MindID);
 		dto.setNodeString(builInitNodeToString(subject, hashtag));
-		
+
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
-		
-		int insertResult = nodeMapper.setNode(dto);
+
+		int insertResult = nodeMapper.initNode(dto);
 		System.out.println("insertResult: " + insertResult);
 		if(insertResult != SUCCESS) {
 			result.setResult("SET_NODES_ERROR");
 			return result;
 		}
-		
+
 		result.setResult("SUCCESS");
 		return result;
 	}
-	
+
 	private String builInitNodeToString(String subject, String hashtag) {
 		StringBuilder data = new StringBuilder();
-		data.append("\r\n"
-				+ "[\r\n"
-					+ "{\"label\":\"" + subject + "\",\r\n"
-					+ "\"root\":\"true\",\r\n"
-					+ "\"reason\":\"0\",\r\n"
-					+ "\"url\":\"\", \r\n"
-					+ "\"children\": "
-						+ "[");
-		//버그포인트
+		data.append("[\r\n"
+				+ "{\"childred\": \r\n[");
+
 		StringTokenizer st = new StringTokenizer(hashtag, ",");
 		while(st.hasMoreTokens()) {
-			data.append("{"
-						+ "\"reason\":\"0\","
-						+ "\"label\":\"" + st.nextToken() + "\"},\r\n");
+			data.append("{\"reason\":\"0\",\"label\":\"" + st.nextToken() + "\"}");
+			if(!st.hasMoreTokens()) {
+				data.append("]");
+			}
+			data.append(",\r\n");
 		}
 		
-		data.append("],\r\n}\r\n,]");
-		
+		data.append("\"root\":\"true\",\r\n");
+		data.append("\"label\":\"" + subject + "\",\r\n");
+		data.append("\"url\":\"\"}\r\n]");
+
+
+		//							+ ",\r\n");
+
+		//					+ "{\"label\":\"" + subject + "\",\r\n"
+		//					+ "\"root\":\"true\",\r\n"
+		//					+ "\"reason\":\"0\",\r\n"
+		//					+ "\"url\":\"\", \r\n"
+		//					+ "\"children\": "
+		//						+ "[");
+
+//
+//		"[\r\n" + 
+//		"    {\"children\":\r\n    ["
+//		+ "{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+//		"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+//		"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
+//		"    \"root\":\"true\",\r\n" + 
+//		"    \"label\":\"woong\",\r\n" + 
+//		"    \"url\":\"\"}\r\n" + 
+//		"]"
+
+		//버그포인트
+
+//		data.append("],\r\n}\r\n]");
+
 		return data.toString();
 	}
-	
+
 	private String builInitNodeToString_old(String subject, String hashtag) {
 		StringBuilder data = new StringBuilder();
 		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
-		
+
 		StringTokenizer st = new StringTokenizer(hashtag, ",");
 		while(st.hasMoreTokens()) {
 			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
 		}
 		data.append("],},]");
-		
+
 		return data.toString();
 	}
-	
+
 	@Override
 	public NodeResultDto setNode(NodeDto dto) throws SQLException {
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-		
+
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
-		
+
 		int insertResult = nodeMapper.setNode(dto);
 		System.out.println("insertResult: " + insertResult);
-		
-//		if(insertResult != SUCCESS) {
+
 		if(nodeMapper.setNode(dto)!=SUCCESS) {
 			result.setResult("SET_NODES_ERROR");
 			return result;
 		}
-		
+
 		result.setResult("SUCCESS");
 		return result;
 	}
@@ -115,15 +137,15 @@ public class NodeServiceImpl implements NodeService{
 		NodeDto nodeDto = new NodeDto();
 		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-		
+
 		System.out.println("NodeServiceImpl]");
-		
+
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			System.out.println("\t existByMindID error");
 			result.setResult("FIND_MIND_ID_ERROR");
 			return result;
 		}
-		
+
 		String nodeString = nodeMapper.getNode(dto);
 		if(nodeString==null) {
 			System.out.println("\t getNode error");
@@ -131,9 +153,9 @@ public class NodeServiceImpl implements NodeService{
 			return result;
 		}
 		System.out.println("\t success");
-		
+
 		Gson gson = new Gson();
-		
+
 		System.out.println("nodeString in getNode.NodeServiceImpl");
 		System.out.println(nodeString);
 		System.out.println();
@@ -141,7 +163,7 @@ public class NodeServiceImpl implements NodeService{
 		System.out.println();
 		System.out.println();
 		System.out.println(gson.toJson(nodeString));
-		
+
 		nodeDto.setNodeString(nodeString);
 		result.setNodeDto(nodeDto);
 		result.setResult("SUCCESS");
