@@ -309,11 +309,12 @@ export default {
       else this.updatemind(this.no);
     },
     // 서버로부터 마인드맵 데이터를 받아오는 함수
-    readminddetail(no) {
+    readminddetail(no, flag) {
       // jwt와 마인드 번호를 form에 담아서 보내야 함
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
+      form.append('flag', Number(flag))
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
@@ -397,6 +398,7 @@ export default {
 
       this.$store.dispatch('likeMind', form).then(() => {
         this.like = !this.like;
+        this.readminddetail(this.no, 1);
       });
     },
     // 스크랩 눌렀을 시 실행
@@ -408,11 +410,12 @@ export default {
 
       this.$store.dispatch('scrapMind', form).then(() => {
         this.scrap = !this.scrap;
+        this.readminddetail(this.no, 1);
       });
     },
   },
   created: function() {
-    this.readminddetail(this.no);
+    this.readminddetail(this.no, 0);
     this.readmapdata();
   },
 };

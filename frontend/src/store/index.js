@@ -415,7 +415,7 @@ export default new Vuex.Store({
       const jwt = user.get('jwt');
       return axios
         .get(`${SERVER_URL}/mind/read/${user.get('no')}`, {
-          params: { jwt: jwt },
+          params: { jwt: jwt, flag: user.get('flag') },
         })
         .then((response) => {
           context.commit('setMessage', response.data);
