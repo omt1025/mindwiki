@@ -426,10 +426,20 @@ public class MindController {
 	}
 
 	@GetMapping("/mind/read/{no}")
-	public ResponseEntity<MindDto> detailMind(@PathVariable int no) throws SQLException {
+	public ResponseEntity<MindDto> detailMind(@PathVariable int no
+			,@RequestParam(value = "flag", required = false) int flag) throws SQLException {
+		
+		
 		System.out.println(no);
-
-		return new ResponseEntity<MindDto>(mindSvc.readByMindID(no), HttpStatus.OK);
+		
+		if(flag==1) {//1이라면, 조회수 안올라가는거
+			return new ResponseEntity<MindDto>(mindSvc.readByMindIDNoCount(no), HttpStatus.OK);	
+		}else if(flag==0) {//0이라면 조회수가 올라가는거
+			return new ResponseEntity<MindDto>(mindSvc.readByMindID(no), HttpStatus.OK);
+		}else {//이건 없는경우일듯
+			return new ResponseEntity<MindDto>(mindSvc.readByMindID(no), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@GetMapping("/mind/read/profilepic/{no}")

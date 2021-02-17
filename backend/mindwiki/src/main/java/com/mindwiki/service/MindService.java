@@ -14,6 +14,8 @@ public interface MindService {
 	void makeHashtag(int MindID,String hashtag) throws SQLException;
 	public List<MindDto> read() throws SQLException;
 	public MindDto readByMindID(int no) throws SQLException;
+	public MindDto readByMindIDNoCount(int no) throws SQLException;
+	
 	void update(MindDto mind) throws SQLException;
 	void delete(MindDto mind) throws SQLException;
 	void scrap(int no, String email) throws SQLException;
