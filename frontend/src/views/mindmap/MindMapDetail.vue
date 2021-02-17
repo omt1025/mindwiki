@@ -284,7 +284,8 @@ export default {
       form.append('MindID', this.no);
 
       this.$store.dispatch('readMapData', form).then(() => {
-        this.map = this.$store.getters.getMapData
+        this.map = (Object)(this.$store.getters.getMapData)
+        console.log(this.map)
         console.log(typeof this.map)
       });
     },

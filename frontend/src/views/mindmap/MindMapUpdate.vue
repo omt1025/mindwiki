@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     {{ map }}
-    <v-btn @click="updatemapdata">임시 버튼</v-btn>
     <mind-map
       :data="map"
       width="360"
@@ -11,6 +10,7 @@
       @data-change="handleDataChange"
       @node-delete="handleNodeDelete"
     ></mind-map>
+    <v-btn @click="updatemapdata">임시 버튼</v-btn>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
       no: no,
       map: [
         {
-          label: '마인드맵',
+          label: '수정된값',
           root: true,
           reason: 0,
           url: '',
@@ -83,16 +83,30 @@ export default {
 
       callback(true);
     },
+     readmapdata() {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', this.no);
+
+      this.$store.dispatch('readMapData', form).then(() => {
+        this.map = this.$store.getters.getMapData
+        console.log(typeof this.map)
+      });
+    },
     updatemapdata() {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', this.no);
-      form.append('data', this.map);
+      form.append('data', JSON.stringify(this.map));
 
       this.$store.dispatch('updateMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
+
+        console.log(this.map)
+        console.log(typeof this.map)
       });
     },
+
   },
   created() {
     console.log(typeof this.map)
