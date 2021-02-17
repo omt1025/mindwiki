@@ -471,12 +471,12 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/mind/scrap/${user.get('no')}`, user).then((response) => {
         context.commit('setMessage', response.data);
         return axios
-        .get(`${SERVER_URL}/mind/scrap/read/`, {
-          params: { jwt: user.get('jwt') },
-        })
-        .then((response) => {
-          context.commit('setScrapData', response.data);
-        });
+          .get(`${SERVER_URL}/mind/scrap/read/`, {
+            params: { jwt: user.get('jwt') },
+          })
+          .then((response) => {
+            context.commit('setScrapData', response.data);
+          });
       });
     },
     // 마인드맵 댓글 생성[OMT]
@@ -597,6 +597,12 @@ export default new Vuex.Store({
         // console.log(response.data);
         context.commit('setProfile', response.data.info);
         context.commit('setMessage', response.data.message);
+      });
+    },
+    // 다른 사람 프로필 정보 가져오기[YJS]
+    profile(context, form) {
+      return axios.post(`${SERVER_URL}/profile/getProfile`, form).then((response) => {
+        context.commit('setProfile', response.data.info);
       });
     },
     // 회원정보 수정[YJS]

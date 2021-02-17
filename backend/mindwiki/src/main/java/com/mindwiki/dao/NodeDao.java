@@ -10,6 +10,7 @@ import com.mindwiki.model.NodeDto;
 public interface NodeDao {
 	public int existByMindID(NodeDto dto) throws SQLException;
 	public int setNode(NodeDto dto) throws SQLException;
+	public int initNode(NodeDto dto) throws SQLException;
 	public String getNode(NodeDto dto) throws SQLException;
 //	public JSONArray getNode(NodeDto dto) throws SQLException;
 	//asdfasdf
