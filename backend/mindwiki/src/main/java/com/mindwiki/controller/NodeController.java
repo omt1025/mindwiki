@@ -92,8 +92,18 @@ public class NodeController {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-
-		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
+		
+		return new ResponseEntity<Object>(	
+		"[\r\n" + 
+		"{\"children\":\r\n" + 
+		"[{\"reason\":\"0\",\"" + "이렇게" + "\":\"0217_1643\"},\r\n" + 
+		"{\"reason\":\"0\",\"" +  "하면" + "\":\"0217_1643\"},\r\n" + 
+		"{\"reason\":\"0\",\"" +  "되나요" + "\":\"0217_1643\"}],\r\n" + 
+		"\"root\":\"true\",\r\n" + 
+		"\"label\":\"" + "신기하네요" + "\",\r\n" + 
+		"\"url\":\"\"}\r\n" + 
+		"]", HttpStatus.ACCEPTED);
+//		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
 	}
 
 }

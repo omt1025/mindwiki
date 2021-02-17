@@ -49,33 +49,26 @@ public class ProfileController {
 			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
 
-		ProfileDto dot = new ProfileDto();
-		dot.setEmail(email);
-		dot.setPassword(password);
-		dot.setRealName(realName);
-		dot.setNickName(nickName);
-		dot.setHashtag(hashtag);
+		ProfileDto dto = new ProfileDto();
+		dto.setEmail(email);
+		dto.setPassword(password);
+		dto.setRealName(realName);
+		dto.setNickName(nickName);
+		dto.setHashtag(hashtag);
 		
 		Map<String, Object> response = new HashMap<>();
-		HttpStatus status;
+		
+		ProfileResultDto serviceResult = null;
 		
 		try {
-			if(profileService.register(dot).getResult()=="SUCCESS") {
-				response.put("message", "SUCCESS");
-				status = HttpStatus.ACCEPTED;
-			}else {
-				response.put("message", "FAIL");
-				status = HttpStatus.ACCEPTED;
-			}
+			serviceResult = profileService.register(dto);
 		}catch(SQLException e) {
-			response.put("message", "SERVER_ERROR");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(response, status);
+		response.put("message", serviceResult.getResult());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
-
 
 	/******************************************************************************
 	 * 작성자 : 서울 2반 4팀 김정웅
