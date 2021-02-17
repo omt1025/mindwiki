@@ -204,14 +204,16 @@ export default {
         .dispatch('makeMindMap', form)
         .then(() => {
           this.message = this.$store.getters.getMessage;
-
-          if (this.message === 'SUCCESS') {
+          if (this.message !== null) {
             this.$store.dispatch('setMessage', null);
+            console.log(this.message)
+            this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.message) } });
+            window.location.reload()
             // 생성 후 내 마인드 리스트 페이지로 이동
-            this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
-            this.$store.dispatch('setBottomNav', 'profile');
-            this.$router.push('/main');
-            this.$router.go(this.$router.currentRoute);
+            // this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+            // this.$store.dispatch('setBottomNav', 'profile');
+            // this.$router.push('/main');
+            // this.$router.go(this.$router.currentRoute);
           } else {
             this.showConfirm('로그인 필요! 로그인 페이지로 이동합니다.');
           }

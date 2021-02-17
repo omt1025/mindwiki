@@ -417,7 +417,7 @@ export default {
   },
   created: function() {
     this.readminddetail(this.no, 0);
-    this.readmapdata();
+    // this.readmapdata();
     console.log(typeof this.map)
     console.log(this.map)
   },

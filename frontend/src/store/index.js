@@ -349,7 +349,15 @@ export default new Vuex.Store({
       return axios
         .post(`${SERVER_URL}/mind`, mind, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then((response) => {
-          context.commit('setMessage', response.data['message']); // 응답을 message에 저장
+          context.commit('setMessage', response.data.message); // 응답을 message에 저장
+          const form = new FormData();
+          form.append('jwt', mind.get('jwt'))
+          form.append('hashtag', mind.get('hashtag'))
+          form.append('subject', mind.get('subject'))
+          // form.append('MindID', mindID)
+          axios.post(`${SERVER_URL}/node/getInitNode`, form).then((response) => {
+            context.commit('setMapData', response.data)
+          })
         });
     },
     // 전체 마인드맵 리스트 불러오기[OMT]
