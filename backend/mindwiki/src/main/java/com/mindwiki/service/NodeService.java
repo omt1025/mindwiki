@@ -13,7 +13,7 @@ public interface NodeService {
 	
 	public void setNode(String objectNode, int MindID) throws SQLException;
 	public NodeResultDto setNodeObject(NodeDto dto) throws SQLException;
-	public NodeResultDto getNode(NodeDto dto) throws SQLException;
+	public String getNode(int MindID) throws SQLException;
 	
 
 }

@@ -98,10 +98,11 @@ public class NodeController {
 	public ResponseEntity<Object> getNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID) throws SQLException{
 		
-		NodeDto nodeDto = new NodeDto();
-		nodeDto.setMindID(MindID);
+//		NodeDto nodeDto = new NodeDto();
+//		nodeDto.setMindID(MindID);
 		
-		Object obj = nodeService.getNode(nodeDto).getNodeDto().getNodeObject();
+//		Object obj = nodeService.getNode(nodeDto).getNodeDto().getNodeObject();
+		String obj = nodeService.getNode(MindID);
 		Gson gson = new Gson();
 		return new ResponseEntity<Object>(gson.toJson(obj), HttpStatus.ACCEPTED);
 	}

@@ -208,6 +208,7 @@ export default {
             this.$store.dispatch('setMessage', null);
             console.log(this.message)
             this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.message) } });
+            setTimeout(function(){}, 500);
             window.location.reload()
             // 생성 후 내 마인드 리스트 페이지로 이동
             // this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)

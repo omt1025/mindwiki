@@ -94,26 +94,28 @@ public class NodeServiceImpl implements NodeService{
 	}
 
 	@Override
-	public NodeResultDto getNode(NodeDto dto) throws SQLException {
-		NodeDto nodeDto = new NodeDto();
-		NodeResultDto result = new NodeResultDto();
+	public String getNode(int MindID) throws SQLException {
+//		NodeDto nodeDto = new NodeDto();
+//		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-
-		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
-			result.setResult("FIND_MIND_ID_ERROR");
-			return result;
-		}
-
-		Object nodeObject = nodeMapper.getNode(dto);
-		if(nodeObject==null) {
-			result.setResult("GET_NODE_ERROR_NODE_IS_NULL");
-			return result;
-		}
-
-		nodeDto.setNodeObject(nodeObject);
-		result.setNodeDto(nodeDto);
-		result.setResult("SUCCESS");
-		return result;
+//
+//		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
+//			result.setResult("FIND_MIND_ID_ERROR");
+//			return result;
+//		}
+//
+//		Object nodeObject = nodeMapper.getNode(dto);
+//		if(nodeObject==null) {
+//			result.setResult("GET_NODE_ERROR_NODE_IS_NULL");
+//			return result;
+//		}
+//
+//		nodeDto.setNodeObject(nodeObject);
+//		result.setNodeDto(nodeDto);
+//		result.setResult("SUCCESS");
+//		return result;
+		
+		return nodeMapper.getNode(MindID);
 	}
 
 	@Override

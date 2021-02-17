@@ -18,7 +18,7 @@
 		update node set nodeObject =#{nodeObject} WHERE MindID=#{MindID};    
 	</update>
 	
-	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="String">
+	<select id="getNode" resultType="String">
 		SELECT nodeObject 
 		FROM node 
 		WHERE MindID=#{MindID}

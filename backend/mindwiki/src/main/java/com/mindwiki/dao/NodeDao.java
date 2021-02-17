@@ -11,6 +11,6 @@ public interface NodeDao {
 	public int existByMindID(NodeDto dto) throws SQLException;
 	public void setNode(String nodeObject, int MindID) throws SQLException;
 	public int initNode(NodeDto dto) throws SQLException;
-	public String getNode(NodeDto dto) throws SQLException;
+	public String getNode(int MindID) throws SQLException;
 	
 }

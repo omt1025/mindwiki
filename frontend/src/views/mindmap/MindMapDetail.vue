@@ -291,8 +291,8 @@ export default {
 
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = (Object)(this.$store.getters.getMapData)
-        console.log(this.map)
-        console.log(typeof this.map)
+        // console.log(this.map)
+        // console.log(typeof this.map)
       });
     },
     checkHandler() {
@@ -417,7 +417,7 @@ export default {
   },
   created: function() {
     this.readminddetail(this.no, 0);
-    // this.readmapdata();
+    this.readmapdata();
     console.log(typeof this.map)
     console.log(this.map)
   },
