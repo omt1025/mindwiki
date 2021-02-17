@@ -15,6 +15,18 @@ public class CommentDto {
 	private String email;
 	private Date createTime;
 	
+	
+	private String profileDefaultPic;
+	
+	
+	public String getProfileDefaultPic() {
+		return profileDefaultPic;
+	}
+
+	public void setProfileDefaultPic(String profileDefaultPic) {
+		this.profileDefaultPic = profileDefaultPic;
+	}
+
 	public CommentDto() {
 		
 	}
@@ -63,11 +75,14 @@ public class CommentDto {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	@Override
 	public String toString() {
 		return "CommentDto [CommentID=" + CommentID + ", MindID=" + MindID + ", data=" + data + ", email=" + email
-				+ ", createTime=" + createTime + "]";
+				+ ", createTime=" + createTime + ", profileDefaultPic=" + profileDefaultPic + "]";
 	}
+	
+	
 	
 	
 	

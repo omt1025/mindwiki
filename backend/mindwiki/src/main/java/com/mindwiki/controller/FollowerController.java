@@ -134,6 +134,38 @@ public class FollowerController {
 	}
 	
 	
+	//추가된거 사진
+	@GetMapping("/list/profilepic")
+	public ResponseEntity<List<String>> list_pic(
+			@RequestParam(value="jwt", required=false) String jwt,
+			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+		
+		String myEmail;
+		if(followerEmail==null) {
+			
+			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+			  
+			myEmail=(String) claimMap.get("email");
+		}
+		else {
+			myEmail=followerEmail;
+		}
+	
+		
+		List<FollowerDto> a = followSvc.list(myEmail);
+		List<String> b=new ArrayList<>();
+		
+		for(int i=0; i < a.size(); i++) {
+			String email=a.get(i).getFollowerEmail();
+			b.add(followSvc.getProfilePic(email));
+		}
+		
+		return new ResponseEntity<List<String>>(b,HttpStatus.OK);
+	}
+			
+			
+	
+	
 	//수정했음 0215 오류확인
 	@GetMapping("/followerlist")
 	public ResponseEntity<List<String>> follower_list(
@@ -152,8 +184,41 @@ public class FollowerController {
 		}
 	
 		
+			
+		
+		
 		return new ResponseEntity<List<String>>(followSvc.followerList(myEmail),HttpStatus.OK);
 	}
+	
+	//추가된거 사진
+		@GetMapping("/followerlist/profilepic")
+		public ResponseEntity<List<String>> follower_list_pic(
+				@RequestParam(value="jwt", required=false) String jwt,
+				@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
+			
+			String myEmail;
+			if(followerEmail==null) {
+				
+				Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
+				  
+				myEmail=(String) claimMap.get("email");
+			}
+			else {
+				myEmail=followerEmail;
+			}
+		
+			
+			List<String> a = followSvc.followerList(myEmail);
+			List<String> b = new ArrayList<>();//결과 내보내줌 이메일로 검색해서
+			
+			for(int i=0; i < a.size(); i++) {
+				String email=a.get(i);
+				b.add(followSvc.getProfilePic(email));
+			}
+			
+			return new ResponseEntity<List<String>>(b,HttpStatus.OK);
+		}
+		
 	
 	
 	@GetMapping("/list/detail")

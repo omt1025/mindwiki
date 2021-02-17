@@ -9,6 +9,8 @@ import com.mindwiki.model.ProfileResultDto;
 
 public interface NodeService {
 	
+	public NodeResultDto initNode(int MindID, String subject, String hashtag) throws SQLException;
+	
 	public NodeResultDto setNode(NodeDto dto) throws SQLException;
 	public NodeResultDto getNode(NodeDto dto) throws SQLException;
 	

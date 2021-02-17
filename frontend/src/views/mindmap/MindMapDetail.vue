@@ -16,18 +16,23 @@
     </v-toolbar>
 
     <v-card class="mx-auto" width="100%" flat outlined style="">
-      <img :src="mindmap.profileDefaultPic" alt="">
-      <!-- 작성자 -->
-      <v-card-title>{{ mindmap.admin }}</v-card-title>
+        <!-- 작성자 -->
+      <v-card-title>
+        <div v-if="profileImage === null">
+          <v-img id="avatar" :src="defaultImage" alt=""></v-img>
+        </div>
+        <div v-else>
+          <v-img id="avatar" :src="profileImage" alt=""></v-img>
+        </div> 
+        {{ mindmap.admin }}
+      </v-card-title>
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
       <!--  -->
-      <v-card-text id="topExplanation">
-        <div>{{ explanation }}</div>
-      </v-card-text>
+      
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
-      <div>{{ map }}</div>
+      <!-- <div>{{ map }}</div> -->
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -40,6 +45,9 @@
           @node-delete="handleNodeDelete"
         ></mind-map>
       </v-img>
+      <v-card-text id="topExplanation">
+        <div>{{ explanation }}</div>
+      </v-card-text>
       <v-card-text id="bottomExplanation">
         <div>
           <!-- 누적된 좋아요 수 -->
@@ -106,13 +114,17 @@
         </template>
         <v-list>
           <v-list-item @click="updatenode($route.params.no)">
-            맵 수정
+            <v-btn id="updateBtn">
+              맵 수정
+            </v-btn>
           </v-list-item>
           <!-- 노드 추가 버튼 구현 -->
           <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
           <div v-if="mindmap.admin === useremail">
             <v-list-item @click="deletemind($route.params.no)">
-              마인드 삭제
+              <v-btn id="updateBtn">
+                마인드 삭제
+              </v-btn>
             </v-list-item>
             <v-list-item>
               <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
@@ -245,6 +257,8 @@ export default {
       menu: false,
       like: false,
       scrap: false,
+      profileImage: null,
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
       // 마인드맵 생성에 필요한 요소
       mindmap: '',
       useremail: this.$store.getters.userId,
@@ -265,7 +279,7 @@ export default {
       this.map = data;
     },
     handleNodeDelete(nodeData, callback) {
-      console.log(nodeData);
+      // console.log(nodeData);
 
       callback(true);
     },
@@ -275,7 +289,8 @@ export default {
       form.append('MindID', this.no);
 
       this.$store.dispatch('readMapData', form).then(() => {
-        this.map = this.$store.getters.getMapData
+        this.map = (Object)(this.$store.getters.getMapData)
+        console.log(this.map)
         console.log(typeof this.map)
       });
     },
@@ -294,21 +309,20 @@ export default {
       else this.updatemind(this.no);
     },
     // 서버로부터 마인드맵 데이터를 받아오는 함수
-    readminddetail(no) {
+    readminddetail(no, flag) {
       // jwt와 마인드 번호를 form에 담아서 보내야 함
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
+      form.append('flag', Number(flag))
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
-        console.log(this.mindmap)
         this.title = this.mindmap.title;
         this.explanation = this.mindmap.explanation;
         // 해시태그 임시
         if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',');
         this.subject = this.mindmap.subject;
-        // console.log(this.hashtag)
         for (var i=0; i<this.likecheck.length; i++) {
           if (this.likecheck[i]['mindID'] === this.mindmap.mindID) {
             this.like = true
@@ -321,7 +335,10 @@ export default {
             break;
           }
         }
-      });
+      })
+      this.$store.dispatch('readMindAdminImage', form).then(() => {
+        this.profileImage = this.$store.getters.getProfileImage.pic
+      })
     },
     // 마인드맵 수정 함수
     updatemind(no) {
@@ -381,6 +398,7 @@ export default {
 
       this.$store.dispatch('likeMind', form).then(() => {
         this.like = !this.like;
+        this.readminddetail(this.no, 1);
       });
     },
     // 스크랩 눌렀을 시 실행
@@ -392,11 +410,12 @@ export default {
 
       this.$store.dispatch('scrapMind', form).then(() => {
         this.scrap = !this.scrap;
+        this.readminddetail(this.no, 1);
       });
     },
   },
   created: function() {
-    this.readminddetail(this.no);
+    this.readminddetail(this.no, 0);
     this.readmapdata();
   },
 };
@@ -409,6 +428,14 @@ export default {
 #mindTitle {
   text-align: left;
   margin: 10px 20px;
+}
+#avatar {
+  margin-right: 10px;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: inline-block;
 }
 #cardbottom {
   justify-content: space-around;
@@ -460,6 +487,7 @@ export default {
   border: none;
   background-color: #ffffff;
   box-shadow: none;
+  justify-content: center;
 }
 #no-background-hover::before {
   background-color: transparent !important;

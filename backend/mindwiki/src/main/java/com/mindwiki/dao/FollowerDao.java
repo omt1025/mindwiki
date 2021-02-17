@@ -26,5 +26,6 @@ public interface FollowerDao {
 	void deleteByFollower(FollowerDto followInfo) throws SQLException;
 	String searchNameByEmail(String followerEmail) throws SQLException;
 	public List<String> followerList(String myEmail) throws SQLException;
+	public String getProfilePic(String email) throws SQLException;
 	
 }

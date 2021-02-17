@@ -32,8 +32,17 @@
           <v-slide-item v-for="item in searchProfileHandler" :key="item.email">
             <v-list-item :key="item.email" id="v-list-item" v-bind:userId="userId">
               <v-list-item-avatar>
+                <!-- 프로필 사진에서 이미지 없을 때 default 이미지 -->
                 <v-img
+                  v-if="item.profileDefaultPic === null"
                   :src="creatorImage"
+                  @error="imageError = true"
+                  @click="getUserEmail(item.email, item.nickName)"
+                ></v-img>
+                <!-- 프로필에서 사진 등록하면 이미지 변경 -->
+                <v-img
+                  v-else
+                  :src="item.profileDefaultPic"
                   @error="imageError = true"
                   @click="getUserEmail(item.email, item.nickName)"
                 ></v-img>
@@ -50,6 +59,7 @@
         </v-slide-group>
       </v-sheet>
     </template>
+
 
     <v-divider></v-divider>
 
@@ -155,6 +165,11 @@ export default {
       items: [],
       minditems: [],
       userId: localStorage.getItem('user-id'),
+      user: {
+        files: '', // 프로필사진
+      },
+      profile: '',
+      message: '',
     };
   },
   methods: {
@@ -178,8 +193,24 @@ export default {
   },
   created() {
     this.readmemberlist();
+
     this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
       this.minditems = this.$store.state.cards;
+    });
+    
+    // 프로필 정보 받아오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('myProfile', form).then(() => {
+      // 응답 결과
+      this.message = this.$store.getters.message;
+      this.profile = this.$store.getters.profile;
+      if (this.message === 'FAIL')
+        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
+      else {
+        this.user.files = this.profile.profileDefaultPic;
+      }
     });
   },
 };
