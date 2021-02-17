@@ -66,7 +66,7 @@ export default {
 
   },
   created() {
-    // this.readmapdata();
+    //this.readmapdata();
     console.log(typeof this.map)
   }
 };

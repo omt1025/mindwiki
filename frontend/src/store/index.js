@@ -538,7 +538,7 @@ export default new Vuex.Store({
     // 마인드맵 데이터 불러오기[OMT]
     readMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/getNode`, mind).then((response) => {
-        context.commit('setMapData', response.data);
+        context.commit('setMapData', JSON.parse(response.data));
       });
     },
     // 마인드맵 데이터 수정하기[OMT]

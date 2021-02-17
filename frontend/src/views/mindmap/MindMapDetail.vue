@@ -33,6 +33,7 @@
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
       <!-- <div>{{ map }}</div> -->
+      {{map}}
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -248,7 +249,7 @@ export default {
   name: 'MindMapDetail',
   components: { mindMap },
   computed: {
-    ...mapGetters({ map:Object('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
+    ...mapGetters({ map:('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
   },
   data() {
     const no = Number(this.$route.params.no);
@@ -417,7 +418,7 @@ export default {
   },
   created: function() {
     this.readminddetail(this.no, 0);
-    this.readmapdata();
+    //this.readmapdata();
     console.log(typeof this.map)
     console.log(this.map)
   },
