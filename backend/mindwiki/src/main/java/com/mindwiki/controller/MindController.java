@@ -316,6 +316,7 @@ public class MindController {
 					NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
 					if(result.getResult()!="SUCCESS"){
 					    resultMap.put("message", "NODE_INIT_FAIL");
+					    resultMap.put("MindID",MindID);
 					    status = HttpStatus.OK;
 					    return new ResponseEntity<Map<String, Object>>(resultMap, status);
 					}
@@ -329,6 +330,7 @@ public class MindController {
 					}
 
 					resultMap.put("message", "SUCCESS");
+					resultMap.put("MindID",MindID);
 					status = HttpStatus.OK;
 					return new ResponseEntity<Map<String, Object>>(resultMap, status);
 				} else {
