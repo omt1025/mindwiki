@@ -315,8 +315,8 @@ public class MindController {
 					MindID = mindSvc.getMindID(admin);
 					NodeResultDto result = nodeService.initNode(MindID, subject, hashtag);
 					if(result.getResult()!="SUCCESS"){
-					    resultMap.put("message", "NODE_INIT_FAIL");
-					    resultMap.put("MindID",MindID);
+					    resultMap.put("message", MindID);
+					    
 					    status = HttpStatus.OK;
 					    return new ResponseEntity<Map<String, Object>>(resultMap, status);
 					}
@@ -329,8 +329,8 @@ public class MindController {
 						mindSvc.makeHashtag(MindID, st.nextToken());// 해쉬태그들을 리스트로 넣음
 					}
 
-					resultMap.put("message", "SUCCESS");
-					resultMap.put("MindID",MindID);
+					resultMap.put("message", MindID);
+					
 					status = HttpStatus.OK;
 					return new ResponseEntity<Map<String, Object>>(resultMap, status);
 				} else {
