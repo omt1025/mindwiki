@@ -193,6 +193,9 @@ export default {
   background-color: white;
   display: block;
 }
+.card-footer[data-v-8bb473bc][data-v-3a752450] {
+  clear: both;
+}
 .v-btn--icon.v-size--default {
   float: left;
 }
@@ -217,7 +220,7 @@ export default {
   min-height: 0px;
   display: flex;
 }
-.col-xl,
+/* .col-xl,
 .col-xl-auto,
 .col-xl-12,
 .col-xl-11,
@@ -289,7 +292,7 @@ export default {
 .col-1 {
   padding-bottom: 0.15rem;
   display: flexbox;
-}
+} */
 .v-application .text-h4 {
   font-size: 1rem !important;
   float: left;

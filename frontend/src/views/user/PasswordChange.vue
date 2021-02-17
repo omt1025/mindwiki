@@ -228,4 +228,8 @@ export default {
     background-color: #00000006 !important;
   }
 }
+
+.container-login100 {
+  align-items: baseline;
+}
 </style>
