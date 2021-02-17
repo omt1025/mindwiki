@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : chip css수정
+    * 내용 : 비밀번호 길이 제한
     * 생성일자 : 2021-01-22
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-17
  -->
 
   <div class="login_back">
@@ -42,7 +42,7 @@
 
             <!-- realName input -->
             <div class="wrap-input100 validate-input" style="margin-top:18px">
-              <span class="label-input100" style="float: left">Username</span>
+              <span class="label-input100" style="float: left">Username </span>
               <div class="input_icon">
                 <i
                   class="fa fa-user-o"
@@ -65,7 +65,10 @@
 
             <!-- password input -->
             <div class="wrap-input100 validate-input m-t-15">
-              <span class="label-input100" style="float: left">Password</span>
+              <span class="label-input100" style="float: left"
+                >Password
+                <p style="font-size: 10px; float:right">(12자 이내)</p>
+              </span>
               <div class="input_icon">
                 <i
                   class="fa fa-lock"
@@ -79,6 +82,7 @@
                 type="password"
                 id="userpwd"
                 ref="userpwd"
+                :maxlength="max_pw"
                 v-model="user.userpwd"
                 placeholder="비밀번호를 입력해주세요."
                 @change="changeColor($event)"
@@ -89,7 +93,10 @@
 
             <!-- password check input -->
             <div class="wrap-input100 validate-input m-t-15">
-              <span class="label-input100" style="float: left">Password Check</span>
+              <span class="label-input100" style="float: left"
+                >Password Check
+                <p style="font-size: 10px; float:right">(12자 이내)</p>
+              </span>
               <div class="input_icon">
                 <i
                   class="fa fa-lock"
@@ -103,6 +110,7 @@
                 type="password"
                 id="userpwd_check"
                 ref="userpwd_check"
+                :maxlength="max_pw"
                 v-model="user.userpwd_check"
                 placeholder="비밀번호를 다시 입력해주세요."
                 @change="changeColor($event)"
@@ -192,6 +200,7 @@ export default {
       },
       message: '', // 오류 받아 올 변수
       msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
+      max_pw: 12, // 비밀번호 보안을 위해
     };
   },
   mounted() {
