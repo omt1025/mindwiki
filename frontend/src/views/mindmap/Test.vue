@@ -77,6 +77,16 @@ export default {
 
       callback(true);
     },
+    updatemapdata() {
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', this.no);
+      form.append('data', this.map);
+
+      this.$store.dispatch('readMapData', form).then(() => {
+        this.map = this.$store.getters.getMapData
+      });
+    },
   },
 };
 </script>

@@ -274,7 +274,7 @@ export default {
       this.map = data;
     },
     handleNodeDelete(nodeData, callback) {
-      console.log(nodeData);
+      // console.log(nodeData);
 
       callback(true);
     },
