@@ -62,6 +62,7 @@ export default {
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
+      // 페이지 변경이 아니라서 다시 로드 처리
       window.location.reload();
       window.close();
 

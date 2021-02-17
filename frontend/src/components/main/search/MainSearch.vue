@@ -11,7 +11,7 @@
       type="search"
       class="search"
       placeholder="검색"
-      outlined
+      rounded
       hide-details="true"
       v-model="search"
     >
@@ -53,13 +53,11 @@
                 v-html="item.email.split('@')[0]"
                 id="subtitle"
               ></v-list-item-subtitle>
-
             </v-list-item>
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
     </template>
-
 
     <v-divider></v-divider>
 
@@ -188,7 +186,10 @@ export default {
     // 회원 이메일, 닉네임 가져옴
     // query : 새로고침 시 데이터 유지
     getUserEmail(email, nickName, profileDefaultPic) {
-      this.$router.push({ name: 'UserProfile', query: {email: email, nickName: nickName, profileDefaultPic: profileDefaultPic,}})
+      this.$router.push({
+        name: 'UserProfile',
+        query: { email: email, nickName: nickName, profileDefaultPic: profileDefaultPic },
+      });
     },
   },
   created() {
@@ -197,7 +198,7 @@ export default {
     this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
       this.minditems = this.$store.state.cards;
     });
-    
+
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
@@ -221,6 +222,7 @@ export default {
 .search {
   height: 40px;
   padding: 0 5px;
+  margin-top: 10px;
 }
 /* 검색 돋보기 위치 */
 .mdi:before,
@@ -257,6 +259,7 @@ hr {
 
 #subtitle {
   font-family: 'Noto Sans KR';
+  height: 40px;
 }
 </style>
 
@@ -283,7 +286,7 @@ hr {
 .v-text-field--full-width > .v-input__control > .v-input__slot,
 .v-text-field--outlined > .v-input__control > .v-input__slot {
   align-items: stretch;
-  min-height: 33px;
+  min-height: 40px;
 }
 /* 돋보기 위치 조정 */
 .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
@@ -291,5 +294,21 @@ hr {
   > .v-input__slot,
 .v-text-field.v-text-field--enclosed .v-text-field__details {
   max-height: 12px;
+}
+.v-application--is-ltr .v-text-field .v-input__append-inner {
+  margin-top: 20px;
+}
+.v-text-field fieldset,
+.v-text-field .v-input__control {
+  background-color: #00000006 !important;
+  font-size: 0.875rem;
+  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(50, 50, 93, 0.15), 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+</style>
+
+<style>
+.v-input input {
+  max-height: 40px !important;
 }
 </style>
