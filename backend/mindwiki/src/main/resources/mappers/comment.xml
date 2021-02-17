@@ -8,7 +8,7 @@
 	</insert>
 
 	<select id="read" resultType="com.mindwiki.model.CommentDto">
-		select c.commentID, c.MindID, c.data, c.email, c.createTime, profileDefaultPic from comment c join profile p where c.MindID=#{MindID} and p.email in (select email from comment where MindID=#{MindID});
+		select distinct(c.commentID), c.MindID, c.data, c.email, c.createTime, p.profileDefaultPic from comment c join profile p where c.MindID=#{MindID} and p.email in (select email from comment where MindID=#{MindID});
 	</select>
 	
 	<update id="updateByCommentID">
