@@ -51,18 +51,21 @@
               <v-list-item-avatar>
                 <!-- 프로필 사진에서 이미지 없을 때 default 이미지 -->
                 <v-img
+                  v-if="item.profileDefaultPic === null"
                   :src="creatorImage"
                   @error="imageError = true"
-                  alt=""
                 ></v-img>
-
+                <!-- 프로필에서 사진 등록하면 이미지 변경 -->
+                <v-img
+                  v-else
+                  :src="item.profileDefaultPic"
+                ></v-img>
               </v-list-item-avatar>
               <!-- 프로필 사진 옆 댓글 작성자의 이메일 출력 -->
               <v-list-item-subtitle
                 id="commentEmail"
                 v-html="item.email.split('@')[0]"
               ></v-list-item-subtitle>
-
 
               <v-list-item-title id="commentTitle" v-html="item.data"></v-list-item-title>
               <!-- 로그인 된 email과 댓글 작성 email 같을 때만 삭제 가능 -->

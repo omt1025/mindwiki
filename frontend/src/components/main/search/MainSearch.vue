@@ -37,14 +37,14 @@
                   v-if="item.profileDefaultPic === null"
                   :src="creatorImage"
                   @error="imageError = true"
-                  @click="getUserEmail(item.email, item.nickName)"
+                  @click="getUserEmail(item.email, item.nickName, item.profileDefaultPic)"
                 ></v-img>
                 <!-- 프로필에서 사진 등록하면 이미지 변경 -->
                 <v-img
                   v-else
                   :src="item.profileDefaultPic"
                   @error="imageError = true"
-                  @click="getUserEmail(item.email, item.nickName)"
+                  @click="getUserEmail(item.email, item.nickName, item.profileDefaultPic)"
                 ></v-img>
               </v-list-item-avatar>
 
@@ -187,8 +187,8 @@ export default {
     },
     // 회원 이메일, 닉네임 가져옴
     // query : 새로고침 시 데이터 유지
-    getUserEmail(email, nickName) {
-      this.$router.push({ name: 'UserProfile', query: {email: email, nickName: nickName}})
+    getUserEmail(email, nickName, profileDefaultPic) {
+      this.$router.push({ name: 'UserProfile', query: {email: email, nickName: nickName, profileDefaultPic: profileDefaultPic,}})
     },
   },
   created() {

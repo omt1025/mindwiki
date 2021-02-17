@@ -17,7 +17,19 @@
     <div class="profile_info">
       <div class="user_info">
         <v-avatar class="user_avatar" size="120px">
-          <img src="../../../assets/images/profile/person.jpeg" alt="John" />
+          <!-- 이미지 있을 때 -->
+          <img
+            v-if="$route.query.profileDefaultPic !== null"
+            :src="$route.query.profileDefaultPic"
+            alt="" 
+          />
+          <!-- 이미지 없을 때 -->
+          <img 
+            v-else
+            :src="creatorImage"
+            @error="imageError = true"
+            alt=""
+          />
         </v-avatar>
       </div>
 
@@ -46,8 +58,6 @@
         class="profile_button" 
       >팔로잉</w-button>
 
-      <w-button>메시지</w-button>
-
       <v-divider></v-divider>
 
       <!-- 내가 팔로우한 사람의 MIND목록 -->
@@ -72,10 +82,15 @@ export default {
   computed: {
     ...mapGetters(['followingData']),
     ...mapGetters(['followingMindData']),
+    // default 이미지 설정
+    creatorImage() {
+      return this.imageError ? this.defaultImage : 'creator-image.jpg';
+    },
   },
   data() {
     return {
       user: {
+        files: '',
       },
       followeremail: '',
       message: '',
@@ -83,6 +98,9 @@ export default {
       minditems: [],
       followerlist: [],
       show: false,
+      profile: '',
+      defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
+      imageError: false,
     }
   },
   methods: {
@@ -130,6 +148,24 @@ export default {
       this.show = false;
     }
     }
+
+    // 프로필 정보 받아오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('myProfile', form).then(() => {
+      // 응답 결과
+      this.message = this.$store.getters.message;
+      this.profile = this.$store.getters.profile;
+      if (this.message === 'FAIL')
+        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
+      else {
+        this.user.usernickName = this.profile.nickName;
+        this.user.useremail = this.profile.email;
+        this.user.files = this.profile.profileDefaultPic;
+      }
+    });  
+
   },
 }
 </script>

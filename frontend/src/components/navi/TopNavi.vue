@@ -44,7 +44,7 @@ export default {
     return {
       mainTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
-      activity_items: ['알림', '메세지'],
+      activity_items: ['내 활동 알림'],
     };
   },
   methods: {
