@@ -8,7 +8,14 @@ public class NodeDto {
 	private int MindID;
 	private String nodeString;
 	private JSONArray nodeJson;
+	private Object nodeObject;
 	
+	public Object getNodeObject() {
+		return nodeObject;
+	}
+	public void setNodeObject(Object nodeObject) {
+		this.nodeObject = nodeObject;
+	}
 	public String getNodeString() {
 		return nodeString;
 	}
