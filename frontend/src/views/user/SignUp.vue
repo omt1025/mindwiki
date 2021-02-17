@@ -1,7 +1,7 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 비밀번호 길이 제한
+    * 내용 : 비밀번호 길이 제한, 태그 최대 3개
     * 생성일자 : 2021-01-22
     * 최종수정일자 : 2021-02-17
  -->
@@ -121,39 +121,44 @@
 
             <!-- 관심태그 추가 text -->
             <div class="m-t-15">
-              <p class="interestTagTitle">관심태그 추가</p>
-            </div>
+              <span class="label-input100 interestTagTitle" style="float: left"
+                >관심태그 추가
+                <p style="font-size: 10px; float:right">(최대 3개)</p>
+              </span>
 
-            <!-- 관심태그 box -->
-            <v-combobox
-              append-icon
-              flat
-              v-model="chips"
-              chips
-              clearable
-              label="Your favorite hobbies"
-              multiple
-              no-filter
-              solo
-              hide-details="true"
-              id="combobox"
-            >
-              <template v-slot:selection="{ attrs, item, select, selected }">
-                <v-chip
-                  v-bind="attrs"
-                  :input-value="selected"
-                  close
-                  class="ma-2"
-                  color="orange"
-                  text-color="white"
-                  @click="select"
-                  @click:close="remove(item)"
-                >
-                  <strong class="test">{{ item }}</strong
-                  >&nbsp;
-                </v-chip>
-              </template>
-            </v-combobox>
+              <!-- 관심태그 box -->
+              <v-combobox
+                append-icon
+                flat
+                v-model="chips"
+                chips
+                clearable
+                label="Your favorite hobbies"
+                multiple
+                no-filter
+                a
+                solo
+                hide-details="true"
+                id="combobox"
+              >
+                <template v-slot:selection="{ attrs, item, select, selected }">
+                  <v-chip
+                    v-bind="attrs"
+                    :input-value="selected"
+                    close
+                    class="ma-2"
+                    color="orange"
+                    text-color="white"
+                    @click="select"
+                    @click:close="remove(item)"
+                  >
+                    <strong class="test">{{ item }}</strong
+                    >&nbsp;
+                  </v-chip>
+                </template>
+              </v-combobox>
+            </div>
+            <!-- <span class="validation" v-if="msg.tag">{{ msg.tag }}</span> -->
 
             <!-- 회원가입 button -->
             <!-- checkHandler에서 유효성검사 후, signup메소드에서 회원가입 처리 시도 -->
@@ -189,7 +194,7 @@ import '../../components/css/tag.css';
 export default {
   data() {
     return {
-      chips: ['싸피', 'ssafy'], // 관심태그
+      chips: ['snow'], // 관심태그
       // 회원가입 계정
       user: {
         username: '', // 이름
@@ -238,13 +243,20 @@ export default {
     'user.userpwd_check'(value) {
       this.validatePassword(value, 'userpwd_check');
     },
+    // 관심태그 갯수 최대 3개
+    chips(value) {
+      this.validateTag(value);
+    },
   },
   methods: {
-    // setSNSJWT() {
-    //   if(this.$store.getters.getJWT !== null) {
-    //     console.log(this.$store.getters.userId);
-    //   }
-    // },
+    // 초기 관심태그는 최대 3개
+    validateTag() {
+      // 3개 이상 입력시 삭제처리
+      if (this.chips.length > 3) {
+        this.msg['tag'] = '관심태그는 최대 3개 입니다.';
+        this.remove(this.chips[this.chips.length - 1]);
+      } else this.msg['tag'] = '';
+    },
     // 이메일 유효성 검사 정규식 : @ .여부
     validateEmail(v) {
       if (
@@ -413,6 +425,10 @@ export default {
   color: red;
   font-size: 0.6rem;
   margin-bottom: 18px;
+}
+
+.v-text-field.v-text-field--enclosed {
+  clear: both;
 }
 </style>
 <style>
