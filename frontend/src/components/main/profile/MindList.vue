@@ -7,7 +7,7 @@
 -->
 
   <div>
-    <v-sheet class="mx-auto" max-width="375">
+    <v-sheet class="mx-auto">
       <v-slide-group multiple>
         <!-- Slide에 들어가는 card를 item만큼 만든다 -->
         <!-- key값이 중복되는 경우 에러가 나기 때문에 최대한 중복이 없는 마인드 생성시간으로 설정 -->
@@ -17,7 +17,7 @@
             <w-card class="card_item p-b-10">
               <!-- 게시글 썸네일 -->
               <!-- 썸네일 클릭 시 상세 페이지로 이동[OMT] -->
-              <img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)"/>
+              <img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)" />
               <!-- 게시글 내용 -->
               <w-card-body class="body-rule">
                 <w-card-title class="card-title">{{ item.title }}</w-card-title>
@@ -50,9 +50,9 @@ export default {
   methods: {
     // 썸네일 클릭 시 상세 페이지로 이동[OMT]
     clickParams(no) {
-      this.$router.push({name: 'MindMapDetail', params: {no: Number(no)}});
-    }
-  }
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    },
+  },
 };
 </script>
 
@@ -104,5 +104,37 @@ export default {
 }
 .text {
   font-size: 0.88rem;
+}
+.v-list-item {
+  flex: none;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .mx-auto {
+    max-width: 375px;
+  }
+}
+
+@media (min-width: 576px) {
+  .mx-auto {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mx-auto {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .mx-auto {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mx-auto {
+    max-width: 1140px;
+  }
 }
 </style>

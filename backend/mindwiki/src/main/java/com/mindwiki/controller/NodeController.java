@@ -101,6 +101,7 @@ public class NodeController {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 		
+<<<<<<< HEAD
 		Object obj = nodeService.getNode(nodeDto);
 		Gson gson = new Gson();
 		return new ResponseEntity<Object>(gson.toJson(obj), HttpStatus.ACCEPTED);
@@ -131,5 +132,21 @@ public class NodeController {
 //		"]", HttpStatus.ACCEPTED);
 ////		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
 //	}
+=======
+		
+		return new ResponseEntity<Object>(	
+		"[\r\n" + 
+		"{\"children\":\r\n" + 
+		"[{\"reason\":\"0\",\"" + "label" + "\":\""+"dfefeaf"+"\"},\r\n" + 
+		"{\"reason\":\"0\",\"" +  "label" + "\":\""+"dsfewfaewfawefdf"+"\"},\r\n" + 
+		"{\"reason\":\"0\",\"" +  "label" + "\":\""+"sdfwefwefwfewfsdf"+"\"}],\r\n" + 
+		"\"root\":\"true\",\r\n" + 
+		"\"label\":\"" + "신기하네요" + "\",\r\n" + 
+		"\"url\":\"\"}\r\n" + 
+		"]", HttpStatus.ACCEPTED);
+//		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
+	}
+
+>>>>>>> 817d0018e5d2be0dabb5085ea6efefb13c228289
 
 }

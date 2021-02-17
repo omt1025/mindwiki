@@ -18,7 +18,7 @@ export default {
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
-      this.$router.push('/main/menu');
+      this.$router.push('/main');
     },
   },
 };
