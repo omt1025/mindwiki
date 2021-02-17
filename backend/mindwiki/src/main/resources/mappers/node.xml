@@ -36,19 +36,7 @@
 		
 <!-- 		INSERT INTO node nodeJson=json_array(#{nodeJson}); -->
 <!-- 		SET @json = JSON_ARRAY(#{nodeJson}); -->
-
-<!-- 		INSERT INTO node  -->
-<!-- 		(MindId, nodeJson) -->
-<!-- 		values -->
-<!-- 		(#{MindID}, @json); -->
-<!-- 		(#{MindID}, JSON_SET(#{nodeJson})) -->
 		
-		
-<!-- 		) -->
-<!-- 		nodeJson=#{nodeJson}; -->
-<!-- 		 INSERT INTO node (MindID, nodeJson) -->
-<!--                     VALUES (#{MindID}, json_array(#{nodeJson})) -->
-<!--                     ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)}; -->
 	
 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="String">
 		SELECT nodeObject FROM node WHERE MindID=#{MindID}
