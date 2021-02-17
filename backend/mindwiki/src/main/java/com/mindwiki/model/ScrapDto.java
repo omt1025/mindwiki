@@ -9,6 +9,7 @@ public class ScrapDto {
 
 	private String email;
 	private int scrapedMindID;
+	private String time;
 	
 	
 	public String getEamil() {
@@ -23,11 +24,14 @@ public class ScrapDto {
 	public void setScrapedMindID(int scrapedMindID) {
 		this.scrapedMindID = scrapedMindID;
 	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	@Override
 	public String toString() {
-		return "ScrapDto [email=" + email + ", scrapedMindID=" + scrapedMindID + "]";
+		return "ScrapDto [email=" + email + ", scrapedMindID=" + scrapedMindID + ", time=" + time + "]";
 	}
-	
-	
-	
 }

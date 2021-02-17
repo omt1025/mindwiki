@@ -3,6 +3,7 @@ package com.mindwiki.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
 
 import com.mindwiki.model.MindDto;
@@ -32,4 +33,5 @@ public interface MindService {
 	
 	
 	String getMindPorfilePic(int no) throws SQLException;
+	public List<ActiveDto> readActiveList(String email) throws SQLException;
 }

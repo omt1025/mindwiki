@@ -9,6 +9,8 @@ package com.mindwiki.model;
 public class LikeDto {
 	private String email;
 	private int likedMindID;
+	private String time;
+	
 	public String getEamil() {
 		return email;
 	}
@@ -21,13 +23,14 @@ public class LikeDto {
 	public void setLikedMindID(int likedMindID) {
 		this.likedMindID = likedMindID;
 	}
-	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	@Override
 	public String toString() {
-		return "LikeDto [email=" + email + ", likedMindID=" + likedMindID + "]";
+		return "LikeDto [email=" + email + ", likedMindID=" + likedMindID + ", time=" + time + "]";
 	}
-	
-
-	
-	
 }

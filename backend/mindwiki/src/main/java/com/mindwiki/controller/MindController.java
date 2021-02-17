@@ -46,6 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.model.ProfileDto;
 import com.mindwiki.model.ScrapDto;
+import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
 
 import com.mindwiki.model.MindDto;
@@ -528,6 +529,19 @@ public class MindController {
 		}
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+	}
+	
+	// 내 마인드 스크랩, 좋아요 한 목록 받아오기
+	@PostMapping("/read/active")
+	public ResponseEntity<List<ActiveDto>> readActiveList(HttpSession hs,
+			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException {
+		
+		Map<String, Object> clamMap = jwtSvc.verifyJWT(jwt);
+		String email = (String) clamMap.get("email");
+
+
+		return new ResponseEntity<List<ActiveDto>>(mindSvc.readActiveList(email), HttpStatus.OK);
 
 	}
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
 
 import com.mindwiki.model.MindDto;
@@ -45,5 +46,6 @@ public interface MindDao {
 	void scrapMinusCnt(int no) throws SQLException;
 	
 	String getMindPorfilePic(int no) throws SQLException;
+	public List<ActiveDto> readActiveList(String email) throws SQLException;
 	
 }

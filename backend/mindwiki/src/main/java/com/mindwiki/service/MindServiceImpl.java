@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.mindwiki.dao.LoginDao;
 import com.mindwiki.dao.MindDao;
+import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
 
 import com.mindwiki.model.MindDto;
@@ -142,6 +143,11 @@ public class MindServiceImpl implements MindService {
 	public String getMindPorfilePic(int no) throws SQLException {
 		return session.getMapper(MindDao.class).getMindPorfilePic(no); 
 		
+	}
+
+	@Override
+	public List<ActiveDto> readActiveList(String email) throws SQLException {
+		return session.getMapper(MindDao.class).readActiveList(email);
 	}
 
 	

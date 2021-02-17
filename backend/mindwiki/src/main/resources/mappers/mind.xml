@@ -68,11 +68,13 @@
 	</update> -->
 	
 	<insert id="scrap">
-		insert into scrapList (email, scrapedMindID) values (#{email},#{no})
+		set @time := now();
+		insert into scrapList (email, scrapedMindID, time) values (#{email},#{no},@time)
 	</insert>
 	
 	<insert id="like">
-		insert into likeList (email, likedMindID) values (#{email},#{no})
+		set @time := now();
+		insert into likeList (email, likedMindID, time) values (#{email},#{no},@time)
 	</insert>
 	
 	<delete id="deleteScrap">
@@ -106,6 +108,13 @@
 	update mind set scrapCnt = scrapCnt-1 where MindID=#{no}
 	</update>
 		
+	<!-- 알림 :  내 게시물을 좋아요&스크랩한 목록 리턴 -->
+	<select id="readActiveList" resultType="com.mindwiki.model.ActiveDto">
+		(select l.email, l.time, m.title, m.MindID, '좋아요' as what from mind as m, likelist as l where m.MindID=l.likedMindID and m.admin=#{email} and l.email!=#{email})
+		union
+		(select s.email, s.time, m.title, m.MindID, '스크랩' as what from mind as m, scraplist as s where m.MindID=s.scrapedMindID and m.admin=#{email} and s.email!=#{email})
+		order by time desc;
+	</select>
 	
 		
 </mapper>
