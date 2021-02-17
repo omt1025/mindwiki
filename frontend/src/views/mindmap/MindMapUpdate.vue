@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    {{ map }}
-    <v-btn @click="updatemapdata">임시 버튼</v-btn>
+    <div>
+      <!-- {{ map }} -->
+    </div>
     <mind-map
       :data="map"
       width="360"
@@ -11,6 +12,7 @@
       @data-change="handleDataChange"
       @node-delete="handleNodeDelete"
     ></mind-map>
+    <v-btn @click="updatemapdata">임시 버튼</v-btn>
   </div>
 </template>
 
