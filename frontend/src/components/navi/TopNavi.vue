@@ -1,6 +1,6 @@
 <template>
   <v-card id="topnavi">
-    <v-toolbar id="navi_shadow" >
+    <v-toolbar id="navi_shadow">
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
 
@@ -8,44 +8,27 @@
       <!-- <v-app-bar-nav-icon @click="menu1"></v-app-bar-nav-icon> -->
       <v-menu>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
         <v-list>
-          <v-list-item
-            v-for="menu in menus"
-            :key="menu"
-            @click="() => {}"
-          >
-            <v-list-item-title
-              v-if="menu === '로그아웃'"
-              @click="logout"
-            >
+          <v-list-item v-for="menu in menus" :key="menu" @click="() => {}">
+            <v-list-item-title v-if="menu === '로그아웃'" @click="logout">
               <v-icon>mdi-logout</v-icon>
               {{ menu }}
             </v-list-item-title>
 
-            <v-list-item-title 
-              v-else-if="menu === '비밀번호 변경'"
-              @click="goPasswordChange"
-            >
+            <v-list-item-title v-else-if="menu === '비밀번호 변경'" @click="goPasswordChange">
               <v-icon>mdi-lock-reset</v-icon>
               {{ menu }}
             </v-list-item-title>
 
-            <v-list-item-title
-              v-else
-              @click="goWithdraw"
-            >
+            <v-list-item-title v-else @click="goWithdraw">
               <v-icon>mdi-account-remove</v-icon>
               {{ menu }}
-            </v-list-item-title>  
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -62,7 +45,7 @@
       </template>
 
       <!-- 활동 Tab -->
-      <template v-else-if="bottomNav === 'activity'" v-slot:extension>
+      <!-- <template v-else-if="bottomNav === 'activity'" v-slot:extension>
         <v-tabs v-model="mainTab" grow color="#a64bf4">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
 
@@ -70,7 +53,7 @@
             {{ item }}
           </v-tab>
         </v-tabs>
-      </template>
+      </template> -->
     </v-toolbar>
   </v-card>
 </template>
@@ -105,7 +88,7 @@ export default {
     },
     onInputKeyword: function(event) {
       this.$emit('input-change', event.target.value);
-      console.log('test')
+      console.log('test');
     },
     logout() {
       // 탭 초기화(재사용 위해)
@@ -124,18 +107,18 @@ export default {
     // 회원탈퇴로 이동
     goWithdraw() {
       this.$router.push('/menu/withdraw');
-    }
+    },
   },
   // 새로고침 후 상단 탭 유지
-    updated() {
-      this.$nextTick(() => {
-        this.mainTab = this.$store.getters.mainTab
-      })
+  updated() {
+    this.$nextTick(() => {
+      this.mainTab = this.$store.getters.mainTab;
+    });
   },
-    created() {
-      this.$nextTick(() => {
-        this.mainTab = this.$store.getters.mainTab
-      })
+  created() {
+    this.$nextTick(() => {
+      this.mainTab = this.$store.getters.mainTab;
+    });
   },
 };
 </script>

@@ -1,28 +1,34 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 내 활동 알림 구현중
+    * 생성일자 : 2021-01-22
+    * 최종수정일자 : 2021-02-18
+  -->
   <v-app>
-    <div v-if="mainTab == 0">
-      <v-card flat>
-        <activity-list></activity-list>
-      </v-card>
-    </div>
-    <div v-if="mainTab == 1">
+    <!-- <div v-if="mainTab == 0"> -->
+    <v-card flat>
+      <activity-list></activity-list>
+    </v-card>
+    <!-- </div> -->
+    <!-- <div v-if="mainTab == 1">
       <v-card flat>
         <activity-message></activity-message>
       </v-card>
-    </div>
+    </div> -->
   </v-app>
 </template>
 
 <script>
 import ActivityList from './ActivityList.vue';
-import ActivityMessage from './ActivityMessage.vue';
+// import ActivityMessage from './ActivityMessage.vue';
 
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
     ActivityList,
-    ActivityMessage,
+    // ActivityMessage,
   },
   computed: {
     ...mapGetters(['mainTab']),

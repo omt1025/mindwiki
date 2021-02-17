@@ -18,7 +18,7 @@
       </v-btn>
 
       <v-btn value="activity" @click="setState('activity')">
-        <span>활동</span>
+        <span>알림</span>
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
 

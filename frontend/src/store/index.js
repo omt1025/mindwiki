@@ -1,8 +1,8 @@
 /*
  * 작성자 : 서울2반 4팀 윤지선
- * 내용 : 비밀번호찾기, 회원탈퇴 생성, 로그인 수정
+ * 내용 : 내 활동 알림
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-15
+ * 최종수정일자 : 2021-02-18
  */
 
 import Vue from 'vue';
@@ -42,6 +42,7 @@ export default new Vuex.Store({
     profileImage: null, // 프로필 사진
     followerProfileImage: null, // 팔로워 이미지
     followingProfileImage: null, // 팔로잉 이미지
+    activeList: null, // 내 활동 알림
   },
 
   // 연산된 state값을 접근
@@ -135,6 +136,9 @@ export default new Vuex.Store({
     },
     followingProfileImage(state) {
       return state.followingProfileImage;
+    },
+    activeList(state) {
+      return state.activeList;
     },
   },
 
@@ -256,6 +260,9 @@ export default new Vuex.Store({
     },
     setFollowingProfileImage(state, val) {
       state.followingProfileImage = val;
+    },
+    setActiveList(state, val) {
+      state.activeList = val;
     },
   },
 
@@ -438,11 +445,13 @@ export default new Vuex.Store({
     // 마인드맵 작성자 프로필 불러오기[OMT]
     readMindAdminImage(context, user) {
       const jwt = user.get('jwt');
-      return axios.get(`${SERVER_URL}/mind/read/profilepic/${user.get('no')}`, {
-        params: { jwt: jwt },
-      }).then((response) => {
-        context.commit('setProfileImage', response.data);
-      })
+      return axios
+        .get(`${SERVER_URL}/mind/read/profilepic/${user.get('no')}`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setProfileImage', response.data);
+        });
     },
     // 마인드맵 수정[OMT]
     updateMind(context, mind) {
@@ -509,7 +518,7 @@ export default new Vuex.Store({
           params: { no: no },
         })
         .then((response) => {
-          console.log("확인확인확인")
+          console.log('확인확인확인');
           console.log(response.data);
           context.commit('setCommentData', response.data);
         });
@@ -646,6 +655,12 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setFollowingProfileImage', response.data);
         });
+    },
+    // 내 게시물을 좋아요, 스크랩 한 목록
+    readActiveList(context, jwt) {
+      return axios.post(`${SERVER_URL}/read/active`, jwt).then((response) => {
+        context.commit('setActiveList', response.data);
+      });
     },
   },
 });

@@ -1,110 +1,97 @@
 <template>
-  <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 내 활동 알림
-    * 생성일자 : 2021-01-22
-    * 최종수정일자 : 2021-02-16
-  -->
-  <v-app>
-    <v-card flat height="100%">
-      <!-- 좋아요 누른 게시글 알림 -->
-      <v-list three-line>
-        <template v-for="item in items">
-          <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
+  <v-list two-line>
+    <template v-for="(item, index) in items">
+      <!-- <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader> -->
+      <!-- <v-divider :key="index"></v-divider> -->
 
-          <v-list-item v-else :key="item.index">
+      <v-list-item :key="index">
+        <v-list-item-action></v-list-item-action>
 
-            <v-list-item-subtitle class="commentTitle" v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
-            <v-list-item-title
-              class="itemTitle"
-              @click="clickParams(item.mindID)"
-              v-html="item.title"
-            ></v-list-item-title>
-            <v-list-item-subtitle v-html="'조회수'"></v-list-item-subtitle>
-            <v-list-item-subtitle class="viewcnt" v-html="item.viewCnt"></v-list-item-subtitle>
-          </v-list-item>
-        </template>
-      </v-list>
-    </v-card>
-    
-    <v-divider></v-divider>
+        <v-list-item-icon>
+          <v-icon v-if="item.what === '좋아요'">mdi-heart</v-icon>
+          <v-icon v-else>mdi-bookmark</v-icon>
+        </v-list-item-icon>
 
-    <!-- 스크랩 누른 게시글 알림 -->
-    <v-card flat height="100%">
-      <v-list three-line id="list">
-        <template v-for="scrap in scraps">
-          <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
+        <v-list-item-action></v-list-item-action>
 
-          <v-list-item v-else :key="scrap.index">
+        <v-list-item-content>
+          <v-list-item-title
+            >'{{ item.nickName }}님이 {{ item.what }} 하셨습니다.</v-list-item-title
+          >
+          <!-- <v-list-item-subtitle class="subtitle"
+            >{{ item.nickName }}님이 {{ item.what }} 하셨습니다.</v-list-item-subtitle
+          > -->
+          <v-list-item-subtitle class="subtitle">
+            <p style="float: left">제목 : {{ item.title }}</p>
+            <p style="float: right">{{ item.day }}</p>
+          </v-list-item-subtitle>
 
-            <v-list-item-subtitle class="commentTitle" v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
-            <v-list-item-title
-              class="itemTitle"
-              @click="clickParams(scrap.mindID)"
-              v-html="scrap.title"
-            ></v-list-item-title>
-            <v-list-item-subtitle v-html="'조회수'"></v-list-item-subtitle>
-            <v-list-item-subtitle class="viewcnt" v-html="scrap.viewCnt"></v-list-item-subtitle>            
-          </v-list-item>
-        </template>
-      </v-list>
-    </v-card>
-  </v-app>
+          <!-- <v-list-item-subtitle class="subtitle2">{{ item.day }}</v-list-item-subtitle> -->
+        </v-list-item-content>
+      </v-list-item>
+    </template>
+  </v-list>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
-
 export default {
-  name: 'MyActivity',
-  components: {  },
-  computed: {
-    ...mapGetters(['likeData, scrapData']),
-    creatorImage() {
-      return this.imageError ? this.defaultImage : 'creator-image.jpg';
-    },
-  },
+  name: 'ActivityMessage',
+
   data: () => ({
-    defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
-    imageError: false,
-    items: [],
-    scraps: [],
-    }),
-  // 좋아요 누른 게시글을 가져옴
+    items: null,
+    members: null,
+  }),
   created() {
-    this.$store.dispatch('readLikeMindMap', this.$store.getters.getJWT).then(() => {
-      this.items = this.$store.getters.likeData;
+    // 회원 목록 가져오기
+    let form1 = new FormData();
+    form1.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('readMemberList', form1).then(() => {
+      this.members = this.$store.getters.memberList;
     });
-    this.$store.dispatch('readScrapMindMap', this.$store.getters.getJWT).then(() => {
-      this.scraps = this.$store.getters.scrapData;
+
+    // 내 게시물을 좋아요, 스크랩한 목록 가져오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+    this.$store.dispatch('readActiveList', form).then(() => {
+      this.items = this.$store.getters.activeList;
+
+      this.getNickName();
     });
   },
   methods: {
-    // 라우터에 마인드 아이디를 보냄
-    clickParams(no) {
-      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    getNickName() {
+      for (var i = 0; i < this.items.length; i++) {
+        for (var j = 0; j < this.members.length; j++) {
+          if (this.items[i].email === this.members[j].email) {
+            if (this.members[j].nickName === null)
+              this.$set(this.items[i], 'nickName', '(탈퇴회원)');
+            else this.$set(this.items[i], 'nickName', this.members[j].nickName);
+
+            if (this.items[i].time !== null)
+              this.$set(this.items[i], 'day', this.items[i].time.split(' ')[0]);
+          }
+        }
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-/* 영역 조정 */
-.v-list-item.theme--light {
-  margin-bottom: 5px;
+.v-list-item__title {
+  text-align: left;
 }
-/* 알림 크기 조절 */
-.commentTitle {
-  font-size: 0.8em;
+.v-list--three-line .v-list-item,
+.v-list-item--three-line {
+  min-height: auto;
 }
-/* 조회수 위치 */
-.viewcnt{
-  position: fixed;
-  right: 5%;
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+  margin-right: 0px;
 }
-/* 게시글 제목 생략 방지 */
-.itemTitle {
-  white-space: normal;
+.subtitle {
+  display: block;
+  margin-top: 6px;
 }
 </style>
