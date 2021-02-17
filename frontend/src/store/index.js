@@ -40,6 +40,8 @@ export default new Vuex.Store({
     followerData: null, // 나를 팔로우한 사람 목록
     profile: null, // 회원정보
     profileImage: null, // 프로필 사진
+    followerProfileImage: null, // 팔로워 이미지
+    followingProfileImage: null, // 팔로잉 이미지
   },
 
   // 연산된 state값을 접근
@@ -127,7 +129,13 @@ export default new Vuex.Store({
     },
     getProfileImage(state) {
       return state.profileImage;
-    }
+    },
+    followerProfileImage(state) {
+      return state.followerProfileImage;
+    },
+    followingProfileImage(state) {
+      return state.followingProfileImage;
+    },
   },
 
   plugins: [createPersistedState()],
@@ -242,6 +250,12 @@ export default new Vuex.Store({
     // 프로필 사진 변경
     setProfileImage(state, val) {
       state.profileImage = val;
+    },
+    setFollowerProfileImage(state, val) {
+      state.followerProfileImage = val;
+    },
+    setFollowingProfileImage(state, val) {
+      state.followingProfileImage = val;
     },
   },
 
@@ -514,7 +528,7 @@ export default new Vuex.Store({
     // 마인드맵 데이터 불러오기[OMT]
     readMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/getNode`, mind).then((response) => {
-        context.commit('setMapData', response.data.data);
+        context.commit('setMapData', response.data);
       });
     },
     // 마인드맵 데이터 수정하기[OMT]
@@ -604,6 +618,26 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/profile/changeProfile`, form).then((response) => {
         context.commit('setMessage', response.data.message);
       });
+    },
+    // 팔로워 사진 확인[HYH]
+    readFollowerProfileImage(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/follower/followerlist/profilepic`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setFollowerProfileImage', response.data);
+        });
+    },
+    // 팔로잉 사진 확인[HYH]
+    readFollowingProfileImage(context, jwt) {
+      return axios
+        .get(`${SERVER_URL}/follower/list/profilepic`, {
+          params: { jwt: jwt },
+        })
+        .then((response) => {
+          context.commit('setFollowingProfileImage', response.data);
+        });
     },
   },
 });
