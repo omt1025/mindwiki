@@ -144,7 +144,14 @@ export default {
     },
     // 라우터에 마인드 아이디를 보냄
     clickParams(mind) {
-      this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', mind.mindID);
+
+      this.$store.dispatch('readMapData', form).then(() => {
+        this.map = (Object)(this.$store.getters.getMapData)
+        this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
+      });
     },
   },
 };
