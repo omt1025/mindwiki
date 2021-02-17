@@ -87,18 +87,18 @@ public class NodeController {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 
-		return processGetNode(nodeDto);
-	}
-
-//	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
-	private ResponseEntity<Object> processGetNode(NodeDto dto){
+//		return processGetNode(nodeDto);
+//	}
+//
+////	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
+//	private ResponseEntity<Object> processGetNode(NodeDto dto){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = null;
 		Gson gson = new Gson();
 		String nodeString = "";
 
 		try {
-			NodeResultDto serviceResult = nodeService.getNode(dto);
+			NodeResultDto serviceResult = nodeService.getNode(nodeDto);
 			System.out.println("processGetNode result:");
 			System.out.println(serviceResult.getResult());
 			
@@ -128,6 +128,46 @@ public class NodeController {
 //		return new ResponseEntity<Map<String, Object>>(result, status);
 		return new ResponseEntity<Object>(gson.toJson(nodeString), HttpStatus.ACCEPTED);
 	}
+	
+	
+////	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
+//	private ResponseEntity<Object> processGetNode(NodeDto dto){
+//		Map<String, Object> result = new HashMap<>();
+//		HttpStatus status = null;
+//		Gson gson = new Gson();
+//		String nodeString = "";
+//
+//		try {
+//			NodeResultDto serviceResult = nodeService.getNode(dto);
+//			System.out.println("processGetNode result:");
+//			System.out.println(serviceResult.getResult());
+//			
+//
+//			if(serviceResult.getResult()=="SUCCESS") {
+//				result.put("message", "SUCCESS");
+//				
+//				nodeString = serviceResult.getNodeDto().getNodeString();
+//				
+//				System.out.println(nodeString);
+//				
+//				result.put("data", gson.toJson(nodeString));
+//				status = HttpStatus.ACCEPTED;
+//			}else {
+//				result.put("message", "FAIL");
+//				status = HttpStatus.ACCEPTED;
+//			}
+//		}catch(SQLException e) {
+//			result.put("message", "SERVER_ERROR");
+//			status = HttpStatus.INTERNAL_SERVER_ERROR;
+//			e.printStackTrace();
+//		}
+//
+//		//System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+//		System.out.println("nodeString");
+//		System.out.println(nodeString);
+////		return new ResponseEntity<Map<String, Object>>(result, status);
+//		return new ResponseEntity<Object>(gson.toJson(nodeString), HttpStatus.ACCEPTED);
+//	}
 	
 
 }
