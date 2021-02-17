@@ -50,7 +50,7 @@
       <w-button
         v-if="this.show === false"
         class="profile_button"
-        @click="[userfollow()]"  
+        @click="userfollow()"  
       >팔로우</w-button>
 
       <w-button
@@ -112,6 +112,8 @@ export default {
 
       this.$store.dispatch('userFollow', form).then(() => {
         this.message = this.$store.getters.getMessage;
+        this.show = ! this.show;
+
       })
     },
     // 팔로우한 유저의 마인드 조회
@@ -138,16 +140,6 @@ export default {
   created: function () {
     this.readfollowingminddata()
     this.readfollowing()
-
-    // 팔로우 했을 때만 데이터 보여주기
-    this.items = this.followingData;
-    for (var i in this.items) {
-    if (this.items[i]['followerEmail'] === this.$route.query.email) {
-      this.show = true;
-    } else {
-      this.show = false;
-    }
-    }
 
     // 프로필 정보 받아오기
     let form = new FormData();
