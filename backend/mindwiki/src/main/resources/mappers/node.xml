@@ -9,7 +9,7 @@
 	</select>
 	
 <!-- 	<insert id="setNode" parameterType="object" > -->
-	<insert id="setNode" parameterType="com.mindwiki.model.NodeDto" >
+	<insert id="setNode" parameterType="object" >
 	
 		INSERT INTO
 			node  (MindID, nodeString)
