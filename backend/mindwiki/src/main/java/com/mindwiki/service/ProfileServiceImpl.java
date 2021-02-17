@@ -175,19 +175,36 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileResultDto changeProfile(ProfileDto dto, MultipartFile file) throws SQLException {
 		ProfileResultDto resultDto = new ProfileResultDto();
 		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
-		
+		// phonenumber
+		// nickname
+		// 사진
 		if(hasFile(file)) {
 			String filePath = getFilePath(file);
 			dto.setProfileDefaultPic(filePath);
+			
+			if(profileMapper.updateProfileDefaultPic(dto)!=SUCCESS){
+				resultDto.setResult("PIC_CHANGE_FAIL");
+				return resultDto;
+			}
+				
 		}
 
-		if (profileMapper.updateProfile(dto) != 1) {
-			resultDto.setResult("FAIL");
-			return resultDto;
+		if(dto.getPhoneNumber()!=null) {
+			profileMapper.updatePhonenumber(dto);
 		}
+		
+		if(dto.getNickName()!=null) {
+			profileMapper.updateNickname(dto);
+		}
+
+//		if (profileMapper.updateProfile(dto) != 1) {
+//			resultDto.setResult("FAIL");
+//			return resultDto;
+//		}
 		
 		resultDto.setResult("SUCCESS");
 		return resultDto;
+		
 	}
 	
 	private boolean hasFile(MultipartFile file) {

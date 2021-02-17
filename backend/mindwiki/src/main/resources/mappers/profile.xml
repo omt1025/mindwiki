@@ -41,6 +41,25 @@
 		WHERE email=#{email}
 	</update>
 	
+	<update id="updateProfileDefaultPic" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET profileDefaultPic=#{profileDefaultPic}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updatePhonenumber" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET phoneNumber=#{phoneNumber}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updateNickname" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET nickName=#{nickName}
+		WHERE email=#{email}
+	</update>
+
+	
 	<select id="getProfileID" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
 		SELECT ProfileID
 		FROM profile
