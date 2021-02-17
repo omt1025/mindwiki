@@ -69,7 +69,7 @@ public class NodeServiceImpl implements NodeService{
 	}
 
 	@Override
-	public void setNode(String nodeObject, int MindID) throws SQLException {
+	public void setNode(Object nodeObject, int MindID) throws SQLException {
 		
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
 //		
@@ -78,7 +78,7 @@ public class NodeServiceImpl implements NodeService{
 //			return result;
 //		}
 //		
-//		Gson gson = new Gson();
+		Gson gson = new Gson();
 //		Object obj = dto.getNodeObject();
 //		dto.setNodeObject(gson.toJson(obj));
 //
@@ -94,7 +94,7 @@ public class NodeServiceImpl implements NodeService{
 	}
 
 	@Override
-	public String getNode(int MindID) throws SQLException {
+	public Object getNode(int MindID) throws SQLException {
 //		NodeDto nodeDto = new NodeDto();
 //		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);

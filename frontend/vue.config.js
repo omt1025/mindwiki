@@ -31,6 +31,21 @@ module.exports = {
             // 프록시 요청을 보낼 서버의 주소
             target: 'http://localhost:8000',
             changeOrigin: true,      
+        },
+        '/mindwiki/node/getNode' : {
+            // 프록시 요청을 보낼 서버의 주소
+            target: 'http://localhost:8000',
+            changeOrigin: true,      
+        },
+        '/mindwiki/mind/like' : {
+            // 프록시 요청을 보낼 서버의 주소
+            target: 'http://localhost:8000',
+            changeOrigin: true,      
+        },
+        '/mindwiki/mind/scrap' : {
+            // 프록시 요청을 보낼 서버의 주소
+            target: 'http://localhost:8000',
+            changeOrigin: true,      
         }
     }
   }

@@ -11,9 +11,9 @@ public interface NodeService {
 	
 	public NodeResultDto initNode(int MindID, String subject, String hashtag) throws SQLException;
 	
-	public void setNode(String objectNode, int MindID) throws SQLException;
+	public void setNode(Object objectNode, int MindID) throws SQLException;
 	public NodeResultDto setNodeObject(NodeDto dto) throws SQLException;
-	public String getNode(int MindID) throws SQLException;
+	public Object getNode(int MindID) throws SQLException;
 	
 
 }

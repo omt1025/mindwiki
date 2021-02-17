@@ -77,7 +77,7 @@ public class NodeController {
 	@PostMapping("/setNode")
 	public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID,
-			@RequestParam(value="data", required=false) Object nodeData) throws SQLException{
+			@RequestParam(value="data", required=false) String nodeData) throws SQLException{
 		
 		Map<String, Object> reponse = new HashMap<>();
 		
@@ -102,9 +102,9 @@ public class NodeController {
 //		nodeDto.setMindID(MindID);
 		
 //		Object obj = nodeService.getNode(nodeDto).getNodeDto().getNodeObject();
-		String obj = nodeService.getNode(MindID);
+		Object obj = nodeService.getNode(MindID);
 		Gson gson = new Gson();
-		return new ResponseEntity<Object>(gson.toJson(obj), HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>(obj, HttpStatus.ACCEPTED);
 	}
 
 }

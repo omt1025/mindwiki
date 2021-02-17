@@ -113,7 +113,7 @@
 		(select l.email, l.time, m.title, m.MindID, '좋아요' as what from mind as m, likelist as l where m.MindID=l.likedMindID and m.admin=#{email} and l.email!=#{email})
 		union
 		(select s.email, s.time, m.title, m.MindID, '스크랩' as what from mind as m, scraplist as s where m.MindID=s.scrapedMindID and m.admin=#{email} and s.email!=#{email})
-		order by time desc;
+		order by time desc limit 20;
 	</select>
 	
 		
