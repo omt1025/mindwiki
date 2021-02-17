@@ -10,7 +10,9 @@
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
       <v-avatar class="user_avatar" size="120px">
-        <img :src="user.files" alt="John" />
+        <!-- <img :src="user.files" alt="John" /> -->
+        <img v-if="user.files == null" src="@/assets/images/mindwiki_logo-03.png" alt="John" />
+        <img v-else :src="user.files" alt="John" />
       </v-avatar>
 
       <!-- 사용자 계정 정보 -->
