@@ -13,16 +13,15 @@
           <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
 
           <v-list-item v-else :key="item.index">
-            <!-- 프로필 사진 -->
-            <v-list-item-avatar>
-              <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
-            </v-list-item-avatar>
 
-            <v-list-item-subtitle v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
+            <v-list-item-subtitle class="commentTitle" v-html="'회원님이 좋아요한 게시글'"></v-list-item-subtitle>
             <v-list-item-title
+              class="itemTitle"
               @click="clickParams(item.mindID)"
               v-html="item.title"
             ></v-list-item-title>
+            <v-list-item-subtitle v-html="'조회수'"></v-list-item-subtitle>
+            <v-list-item-subtitle class="viewcnt" v-html="item.viewCnt"></v-list-item-subtitle>
           </v-list-item>
         </template>
       </v-list>
@@ -37,16 +36,15 @@
           <v-subheader v-if="scrap.header" :key="scrap.header" v-text="scrap.header"></v-subheader>
 
           <v-list-item v-else :key="scrap.index">
-            <!-- 프로필 사진 -->
-            <v-list-item-avatar>
-              <v-img :src="creatorImage" @error="imageError = true" alt=""> </v-img>
-            </v-list-item-avatar>
 
-            <v-list-item-subtitle v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
+            <v-list-item-subtitle class="commentTitle" v-html="'회원님이 스크랩한 게시글'"></v-list-item-subtitle>
             <v-list-item-title
+              class="itemTitle"
               @click="clickParams(scrap.mindID)"
               v-html="scrap.title"
             ></v-list-item-title>
+            <v-list-item-subtitle v-html="'조회수'"></v-list-item-subtitle>
+            <v-list-item-subtitle class="viewcnt" v-html="scrap.viewCnt"></v-list-item-subtitle>            
           </v-list-item>
         </template>
       </v-list>
@@ -95,5 +93,18 @@ export default {
 /* 영역 조정 */
 .v-list-item.theme--light {
   margin-bottom: 5px;
+}
+/* 알림 크기 조절 */
+.commentTitle {
+  font-size: 0.8em;
+}
+/* 조회수 위치 */
+.viewcnt{
+  position: fixed;
+  right: 5%;
+}
+/* 게시글 제목 생략 방지 */
+.itemTitle {
+  white-space: normal;
 }
 </style>
