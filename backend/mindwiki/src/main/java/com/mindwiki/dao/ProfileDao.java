@@ -26,6 +26,16 @@ public interface ProfileDao {
 	
 	public ProfileDto getProfile(String email) throws SQLException;
 	public ProfileDto getMyProfile(String email) throws SQLException;
+	
+	
+	
+	
+	public int updateProfileDefaultPic(ProfileDto dto) throws SQLException;
+	public int updatePhonenumber(ProfileDto dto) throws SQLException;
+	public int updateNickname(ProfileDto dto) throws SQLException;
+	
+	
+	
 //	public String getPassword(ProfileDto dto) throws SQLException;
 	
 	

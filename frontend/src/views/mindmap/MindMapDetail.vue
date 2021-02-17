@@ -134,109 +134,110 @@
                   </v-btn>
                 </template>
 
-                <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
-                <v-card>
-                  <v-card-title class="justify-center">
-                    <span class="headline">마인드 수정</span>
-                  </v-card-title>
 
-                  <v-card-text>
-                    <v-row>
-                      <!-- 제목 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="제목 (최대 16자)"
-                          required
-                          id="title"
-                          ref="title"
-                          v-model="title"
-                          @keypress.enter="checkHandler"
-                          type="text"
-                          :maxlength="max_title"
-                        ></v-text-field>
-                      </v-col>
-                      <!-- 주제 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="주제"
-                          required
-                          id="subject"
-                          ref="subject"
-                          v-model="subject"
-                          @keypress.enter="checkHandler"
-                          type="text"
-                        ></v-text-field>
-                      </v-col>
-                      <!-- 해시태그 -->
-                      <div>
-                        <div padding="10px">
-                          <p class="interestTagTitle mx-3">해시태그 설정</p>
-                        </div>
+            <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
+            <v-card>
+              <v-card-title class="justify-center">
+                <span class="headline">마인드 수정</span>
+              </v-card-title>
 
-                        <v-combobox
-                          class="mx-5"
-                          append-icon
-                          flat
-                          v-model="hashtag"
-                          hashtag
-                          clearable
-                          multiple
-                          no-filter
-                          id="combobox"
+              <v-card-text>
+                <v-row>
+                  <!-- 제목 -->
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mx-2"
+                      label="제목 (최대 16자)"
+                      required
+                      id="title"
+                      ref="title"
+                      v-model="title"
+                      @keypress.enter="checkHandler"
+                      type="text"
+                      :maxlength="max_title"
+                    ></v-text-field>
+                  </v-col>
+                  <!-- 주제 -->
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mx-2"
+                      label="주제"
+                      required
+                      id="subject"
+                      ref="subject"
+                      v-model="subject"
+                      @keypress.enter="checkHandler"
+                      type="text"
+                    ></v-text-field>
+                  </v-col>
+                  <!-- 해시태그 -->
+                  <div>
+                    <div padding="10px">
+                      <p class="interestTagTitle mx-3">해시태그 설정</p>
+                    </div>
+
+                    <v-combobox
+                      class="mx-5"
+                      append-icon
+                      flat
+                      v-model="hashtag"
+                      hashtag
+                      clearable
+                      multiple
+                      no-filter
+                      id="combobox"
+                    >
+                      <template v-slot:selection="{ attrs, item, select, selected }">
+                        <v-chip
+                          v-bind="attrs"
+                          :input-value="selected"
+                          close
+                          class="ma-1 mb-2"
+                          color="purple"
+                          text-color="white"
+                          @click="select"
+                          @click:close="remove(item)"
                         >
-                          <template v-slot:selection="{ attrs, item, select, selected }">
-                            <v-chip
-                              v-bind="attrs"
-                              :input-value="selected"
-                              close
-                              class="ma-1 mb-2"
-                              color="purple"
-                              text-color="white"
-                              @click="select"
-                              @click:close="remove(item)"
-                            >
-                              <strong class="test">{{ item }}</strong
-                              >&nbsp;
-                            </v-chip>
-                          </template>
-                        </v-combobox>
-                      </div>
-                      <!-- 설명 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="설명 (최대 145자)"
-                          required
-                          id="explanation"
-                          ref="explanation"
-                          v-model="explanation"
-                          :maxlength="max_explanation"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
+                          <strong class="test">{{ item }}</strong
+                          >&nbsp;
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </div>
+                  <!-- 설명 -->
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mx-2"
+                      label="설명 (최대 145자)"
+                      required
+                      id="explanation"
+                      ref="explanation"
+                      v-model="explanation"
+                      :maxlength="max_explanation"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-card-text>
 
-                  <v-divider></v-divider>
+              <v-divider></v-divider>
 
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text @click="menu = false">
-                      Cancel
-                    </v-btn>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text @click="menu = false">
+                  Cancel
+                </v-btn>
 
-                    <v-btn text @click="checkHandler">
-                      OK
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-menu>
-            </v-list-item>
-          </div>
-        </v-list>
-      </v-menu>
-    </div>
+                <v-btn text @click="checkHandler">
+                  OK
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-list-item>
+      </div>
+    </v-list>
+  </v-menu>
+</div>
   </v-app>
 </template>
 
@@ -423,6 +424,7 @@ export default {
 };
 </script>
 
+
 <style lang="scss" scoped>
 #app {
   background-color: #f1f5f8;
@@ -442,14 +444,14 @@ export default {
 #cardbottom {
   justify-content: space-around;
 }
-/* 설명이 적을 때 위치 고정 */
+/* 설명이 적을 때 위치 고정 /
 #cardAction {
   background-color: #fff;
   width: 100%;
   position: fixed;
   bottom: 0;
 }
-/* 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) */
+/ 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) /
 #topExplanation {
   height: 10%;
   text-align: left;
@@ -476,7 +478,7 @@ export default {
 #app {
   height: 100%;
 }
-/* 마인드맵 수정 / 삭제 버튼 위치 */
+/ 마인드맵 수정 / 삭제 버튼 위치 */
 #dropdown {
   position: fixed;
   right: 3%;
