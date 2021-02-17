@@ -16,7 +16,7 @@
 
 <script>
 import mindMap from '../../components/mindmap/mind-map.vue';
-
+import { mapGetters } from 'vuex';
 export default {
   name: 'MindMapUpdate',
   data() {
@@ -25,10 +25,12 @@ export default {
     return {
       // map: map
       no: no,
-      map: [],
     };
   },
   components: { mindMap },
+  computed: {
+    ...mapGetters({ map:Object('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
+  },
   methods: {
     handleDataChange(data) {
       this.map = data;
@@ -64,7 +66,7 @@ export default {
 
   },
   created() {
-    this.readmapdata();
+    // this.readmapdata();
     console.log(typeof this.map)
   }
 };

@@ -148,10 +148,10 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', mind.mindID);
 
-      // this.$store.dispatch('readMapData', form).then(() => {
-      //   this.map = (Object)(this.$store.getters.getMapData)
+      this.$store.dispatch('readMapData', form).then(() => {
+        this.map = (Object)(this.$store.getters.getMapData)
         this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
-      // });
+      });
     },
   },
 };
