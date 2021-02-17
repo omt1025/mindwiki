@@ -33,9 +33,6 @@ public class NodeController {
 	@Autowired
 	private NodeService nodeService;
 
-	private static final int SUCCESS = 1;
-	private static final int FAIL = -1;
-
 	@PostMapping("/setNode")
 	public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID,
@@ -77,10 +74,8 @@ public class NodeController {
 	}
 
 	@PostMapping("/getNode")
-	//public ResponseEntity<Map<String, Object>> getNode(HttpSession session,
 	public ResponseEntity<Object> getNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID){
-
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 
@@ -89,10 +84,10 @@ public class NodeController {
 
 		try {
 			NodeResultDto serviceResult = nodeService.getNode(nodeDto);
-
 			if(serviceResult.getResult()=="SUCCESS") {
 				nodeObject = serviceResult.getNodeDto().getNodeObject();
 			}else {
+				System.out.println("/getNode service error");
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
