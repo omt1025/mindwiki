@@ -208,7 +208,7 @@ export default {
 .profile_info {
   background-image: url(../../../assets/images/profile/hero_mini.svg);
   min-height: auto;
-  min-width: 375px;
+  min-width: 360px;
   width: 100%;
   /* height: 100%; */
   position: relative;

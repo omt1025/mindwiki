@@ -1,18 +1,13 @@
 package com.mindwiki.service;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.mindwiki.dao.MindDao;
 import com.mindwiki.dao.NodeDao;
 import com.mindwiki.model.NodeDto;
 import com.mindwiki.model.NodeResultDto;
@@ -24,7 +19,6 @@ public class NodeServiceImpl implements NodeService{
 	private SqlSession session;
 
 	private static final int SUCCESS = 1;
-	private static final int FAIL = -1;
 
 	@Override
 	public NodeResultDto initNode(int MindID, String subject, String hashtag) throws SQLException {
@@ -43,7 +37,7 @@ public class NodeServiceImpl implements NodeService{
 			return result;
 		}
 
-		if(nodeMapper.initNode(dto) != SUCCESS) {
+		if(nodeMapper.initNode(dto)!=SUCCESS) {
 			System.out.println("INIT_NODE_ERROR: InsertResultROWNum=" + nodeMapper.initNode(dto));
 			result.setResult("SET_NODES_ERROR");
 			return result;
@@ -63,9 +57,9 @@ public class NodeServiceImpl implements NodeService{
 		
 		Object obj = "[\r\n" + 
 				"{\"children\":\r\n" + 
-				"[{\"reason\":\"0\",\"" + hashtagArr[0] + "\":\"0217_1643\"},\r\n" + 
-				"{\"reason\":\"0\",\"" +  hashtagArr[1] + "\":\"0217_1643\"},\r\n" + 
-				"{\"reason\":\"0\",\"" +  hashtagArr[2] + "\":\"0217_1643\"}],\r\n" + 
+				"[{\"reason\":\"0\",\"label\":\""+hashtagArr[0] + "\"},\r\n" + 
+				"{\"reason\":\"0\",\"label\":\""+ hashtagArr[1] + "\"},\r\n" + 
+				"{\"reason\":\"0\",\"label\":\""+ hashtagArr[2] +"\"}],\r\n" + 
 				"\"root\":\"true\",\r\n" + 
 				"\"label\":\"" + subject + "\",\r\n" + 
 				"\"url\":\"\"}\r\n" + 
@@ -73,65 +67,6 @@ public class NodeServiceImpl implements NodeService{
 		
 		return obj;
 	}
-
-//	private Object builInitNodeToString(String subject, String hashtag) {
-//		StringBuilder data = new StringBuilder();
-//		data.append("[\r\n"
-//				+ "{\"childred\": \r\n[");
-//
-//		StringTokenizer st = new StringTokenizer(hashtag, ",");
-//		while(st.hasMoreTokens()) {
-//			data.append("{\"reason\":\"0\",\"label\":\"" + st.nextToken() + "\"}");
-//			if(!st.hasMoreTokens()) {
-//				data.append("]");
-//			}
-//			data.append(",\r\n");
-//		}
-//		
-//		data.append("\"root\":\"true\",\r\n");
-//		data.append("\"label\":\"" + subject + "\",\r\n");
-//		data.append("\"url\":\"\"}\r\n]");
-//
-////		return data.toString();
-////		StringBuilder data2 = new StringBuilder();
-////		data2.append("[\r\n" + 
-////				"    {\"children\":\r\n" + 
-////				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-////				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-////				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
-////				"    \"root\":\"true\",\r\n" + 
-////				"    \"label\":\"woong\",\r\n" + 
-////				"    \"url\":\"\"}\r\n" + 
-////				"]");
-////		return data2.toString();
-//		
-//		Object obj;
-//		obj = "[\r\n" + 
-//				"    {\"children\":\r\n" + 
-//				"        [{\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
-//				"        {\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
-//				"        {\"reason\":\"0\",\"label\":\"0217_1643\"}],\r\n" + 
-//				"    \"root\":\"true\",\r\n" + 
-//				"    \"label\":\"0217_1643\",\r\n" + 
-//				"    \"url\":\"\"}\r\n" + 
-//				"]";
-//		Gson gson = new Gson();
-//		
-//		return gson.toJson(obj);
-//	}
-
-//	private String builInitNodeToString_old(String subject, String hashtag) {
-//		StringBuilder data = new StringBuilder();
-//		data.append("[{ label: '" + subject + "', root:true, reason:0, url:'', children: [");
-//
-//		StringTokenizer st = new StringTokenizer(hashtag, ",");
-//		while(st.hasMoreTokens()) {
-//			data.append("{ label: '" + st.nextToken() + "', reason:0, },");
-//		}
-//		data.append("],},]");
-//
-//		return data.toString();
-//	}
 
 	@Override
 	public NodeResultDto setNode(NodeDto dto) throws SQLException {
@@ -177,6 +112,12 @@ public class NodeServiceImpl implements NodeService{
 		result.setNodeDto(nodeDto);
 		result.setResult("SUCCESS");
 		return result;
+	}
+
+	@Override
+	public NodeResultDto setNodeObject(NodeDto dto) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

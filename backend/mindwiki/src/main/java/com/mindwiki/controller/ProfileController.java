@@ -57,12 +57,12 @@ public class ProfileController {
 		dto.setHashtag(hashtag);
 		
 		Map<String, Object> response = new HashMap<>();
-		
 		ProfileResultDto serviceResult = null;
 		
 		try {
 			serviceResult = profileService.register(dto);
 		}catch(SQLException e) {
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
@@ -82,31 +82,23 @@ public class ProfileController {
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="password", required=false) String password) throws UnsupportedEncodingException{
 
-		Map<String, Object> claimMap =  jwtService.verifyJWT(jwt);
-		String email = (String)claimMap.get("email");
-
 		ProfileDto dto = new ProfileDto();
 		dto.setPassword(password);
+		String email = (String)jwtService.verifyJWT(jwt).get("email");
 		dto.setEmail(email);
 
 		Map<String, Object> response = new HashMap<>();
-		HttpStatus status;
+		ProfileResultDto serviceResult = null;
 		
 		try {
-			if(profileService.withdrawal(dto).getResult()=="SUCCESS") {
-				response.put("message", "SUCCESS");
-				status = HttpStatus.ACCEPTED;
-			}else {
-				response.put("message", "FAIL");
-				status = HttpStatus.ACCEPTED;
-			}
+			serviceResult = profileService.withdrawal(dto);
 		}catch(SQLException e) {
-			response.put("message", "SERVER_ERROR");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(response, status);
+		response.put("message", serviceResult.getResult());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 
 	/******************************************************************************
@@ -131,25 +123,21 @@ public class ProfileController {
 		
 		ProfileResultDto serviceResult;
 		Map<String, Object> response = new HashMap<>();
-		HttpStatus status;
 		
 		try {
 			serviceResult = profileService.changePassword(dto, newPW);
 			
 			if(serviceResult.getResult()=="SUCCESS") {
 				response.put("message", "SUCCESS");
-				status = HttpStatus.ACCEPTED;
 			}else {
 				response.put("message", serviceResult.getResult());
-				status = HttpStatus.ACCEPTED;
 			}
 		}catch(SQLException e) {
-			response.put("message", "SERVER_ERROR");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(response, status);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 	
 	/******************************************************************************

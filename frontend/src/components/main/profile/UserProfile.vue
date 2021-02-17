@@ -21,15 +21,10 @@
           <img
             v-if="$route.query.profileDefaultPic !== null"
             :src="$route.query.profileDefaultPic"
-            alt="" 
-          />
-          <!-- 이미지 없을 때 -->
-          <img 
-            v-else
-            :src="creatorImage"
-            @error="imageError = true"
             alt=""
           />
+          <!-- 이미지 없을 때 -->
+          <img v-else :src="creatorImage" @error="imageError = true" alt="" />
         </v-avatar>
       </div>
 
@@ -43,20 +38,14 @@
 
       <!-- 팔로우 하기, 메시지 보내기 -->
       <div class="user-num">
-        <w-card-description class="card-description">
-        </w-card-description>
+        <w-card-description class="card-description"> </w-card-description>
       </div>
 
-      <w-button
-        v-if="this.show === false"
-        class="profile_button"
-        @click="userfollow()"  
-      >팔로우</w-button>
+      <w-button v-if="this.show === false" class="profile_button" @click="userfollow()"
+        >팔로우</w-button
+      >
 
-      <w-button
-        v-if="this.show === true"
-        class="profile_button" 
-      >팔로잉</w-button>
+      <w-button v-if="this.show === true" class="profile_button">팔로잉</w-button>
 
       <v-divider></v-divider>
 
@@ -65,16 +54,14 @@
         <div class="txt2 p-t-15 p-b-15">
           <span>{{ $route.query.nickName }}님의 MIND</span>
         </div>
-        <mind-list
-          :mindlist="minditems">
-        </mind-list>
+        <mind-list :mindlist="minditems"> </mind-list>
       </div>
     </div>
   </v-app>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 import MindList from './MindList.vue';
 export default {
   components: { MindList },
@@ -101,7 +88,7 @@ export default {
       profile: '',
       defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
       imageError: false,
-    }
+    };
   },
   methods: {
     // 팔로우 하기
@@ -112,34 +99,33 @@ export default {
 
       this.$store.dispatch('userFollow', form).then(() => {
         this.message = this.$store.getters.getMessage;
-        this.show = ! this.show;
-
-      })
+        this.show = !this.show;
+      });
     },
     // 팔로우한 유저의 마인드 조회
     readfollowingminddata() {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('followeremail', this.$route.query.email);
-      
+
       this.$store.dispatch('readfollowingMindData', form).then(() => {
-        this.minditems = this.$store.getters.followingMindData
-      })
+        this.minditems = this.$store.getters.followingMindData;
+      });
     },
     // 검색페이지로 이동
     backPage() {
-      this.$router.push('/main')
+      this.$router.push('/main');
     },
     // 팔로잉 확인
     readfollowing() {
       this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
-        this.items = this.$store.getters.followingData
-      })
+        this.items = this.$store.getters.followingData;
+      });
     },
   },
-  created: function () {
-    this.readfollowingminddata()
-    this.readfollowing()
+  created: function() {
+    this.readfollowingminddata();
+    this.readfollowing();
 
     // 프로필 정보 받아오기
     let form = new FormData();
@@ -156,17 +142,16 @@ export default {
         this.user.useremail = this.profile.email;
         this.user.files = this.profile.profileDefaultPic;
       }
-    });  
-
+    });
   },
-}
+};
 </script>
 
 <style scoped>
 .profile_info {
   background-image: url(../../../assets/images/profile/hero_mini.svg);
   min-height: auto;
-  min-width: 375px;
+  min-width: 360px;
   width: 100%;
   /* height: 100%; */
   position: relative;
@@ -220,5 +205,4 @@ export default {
 .card-body {
   padding: 1rem;
 }
-
 </style>
