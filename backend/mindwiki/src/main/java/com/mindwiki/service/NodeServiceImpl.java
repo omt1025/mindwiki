@@ -33,7 +33,8 @@ public class NodeServiceImpl implements NodeService{
 
 		NodeDto dto = new NodeDto();
 		dto.setMindID(MindID);
-		dto.setNodeString(builInitNodeToString(subject, hashtag));
+//		dto.setNodeString(builInitNodeToString(subject, hashtag));
+		dto.setNodeObject(builInitNodeToString(subject, hashtag));
 
 		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
 			result.setResult("FIND_MIND_ID_ERROR");
@@ -51,7 +52,7 @@ public class NodeServiceImpl implements NodeService{
 		return result;
 	}
 
-	private String builInitNodeToString(String subject, String hashtag) {
+	private Object builInitNodeToString(String subject, String hashtag) {
 		StringBuilder data = new StringBuilder();
 		data.append("[\r\n"
 				+ "{\"childred\": \r\n[");
@@ -70,8 +71,20 @@ public class NodeServiceImpl implements NodeService{
 		data.append("\"url\":\"\"}\r\n]");
 
 //		return data.toString();
-		StringBuilder data2 = new StringBuilder();
-		data2.append("[\r\n" + 
+//		StringBuilder data2 = new StringBuilder();
+//		data2.append("[\r\n" + 
+//				"    {\"children\":\r\n" + 
+//				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+//				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+//				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
+//				"    \"root\":\"true\",\r\n" + 
+//				"    \"label\":\"woong\",\r\n" + 
+//				"    \"url\":\"\"}\r\n" + 
+//				"]");
+//		return data2.toString();
+		
+		Object obj;
+		obj = "[\r\n" + 
 				"    {\"children\":\r\n" + 
 				"        [{\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
 				"        {\"reason\":\"0\",\"label\":\"0217_1643\"},\r\n" + 
@@ -79,8 +92,10 @@ public class NodeServiceImpl implements NodeService{
 				"    \"root\":\"true\",\r\n" + 
 				"    \"label\":\"0217_1643\",\r\n" + 
 				"    \"url\":\"\"}\r\n" + 
-				"]");
-		return data2.toString();
+				"]";
+		Gson gson = new Gson();
+		
+		return gson.toJson(obj);
 	}
 
 	private String builInitNodeToString_old(String subject, String hashtag) {
