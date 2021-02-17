@@ -69,32 +69,18 @@ public class NodeServiceImpl implements NodeService{
 		data.append("\"label\":\"" + subject + "\",\r\n");
 		data.append("\"url\":\"\"}\r\n]");
 
-
-		//							+ ",\r\n");
-
-		//					+ "{\"label\":\"" + subject + "\",\r\n"
-		//					+ "\"root\":\"true\",\r\n"
-		//					+ "\"reason\":\"0\",\r\n"
-		//					+ "\"url\":\"\", \r\n"
-		//					+ "\"children\": "
-		//						+ "[");
-
-//
-//		"[\r\n" + 
-//		"    {\"children\":\r\n    ["
-//		+ "{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-//		"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
-//		"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
-//		"    \"root\":\"true\",\r\n" + 
-//		"    \"label\":\"woong\",\r\n" + 
-//		"    \"url\":\"\"}\r\n" + 
-//		"]"
-
-		//버그포인트
-
-//		data.append("],\r\n}\r\n]");
-
-		return data.toString();
+//		return data.toString();
+		StringBuilder data2 = new StringBuilder();
+		data2.append("[\r\n" + 
+				"    {\"children\":\r\n" + 
+				"        [{\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+				"        {\"reason\":\"0\",\"label\":\"123\"},\r\n" + 
+				"        {\"reason\":\"0\",\"label\":\"123\"}],\r\n" + 
+				"    \"root\":\"true\",\r\n" + 
+				"    \"label\":\"woong\",\r\n" + 
+				"    \"url\":\"\"}\r\n" + 
+				"]");
+		return data2.toString();
 	}
 
 	private String builInitNodeToString_old(String subject, String hashtag) {
