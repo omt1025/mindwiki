@@ -25,52 +25,53 @@ export default {
     return {
       // map: map
       no: no,
-      map: [
-        {
-          label: '수정된값',
-          root: true,
-          reason: 0,
-          url: '',
-          children: [
-            {
-              label: 'A1',
-              reason: 0,
-              children: [
-                {
-                  label: '홍홍',
-                  reason: 0,
-                },
-                {
-                  label: '콩콩',
-                  reason: 0,
-                },
-                {
-                  label: '둥둥',
-                  reason: 0,
-                },
-              ],
-            },
-            {
-              label: 'A2',
-              reason: 0,
-              children: [
-                {
-                  label: '얄라리',
-                  reason: 0,
-                },
-                {
-                  label: '얄라',
-                  reason: 0,
-                },
-              ],
-            },
-            {
-              label: 'A3',
-              reason: 0,
-            },
-          ],
-        },
-      ],
+      map: [],
+      // map: [
+      //   {
+      //     label: '수정된값',
+      //     root: true,
+      //     reason: 0,
+      //     url: '',
+      //     children: [
+      //       {
+      //         label: 'A1',
+      //         reason: 0,
+      //         children: [
+      //           {
+      //             label: '홍홍',
+      //             reason: 0,
+      //           },
+      //           {
+      //             label: '콩콩',
+      //             reason: 0,
+      //           },
+      //           {
+      //             label: '둥둥',
+      //             reason: 0,
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         label: 'A2',
+      //         reason: 0,
+      //         children: [
+      //           {
+      //             label: '얄라리',
+      //             reason: 0,
+      //           },
+      //           {
+      //             label: '얄라',
+      //             reason: 0,
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         label: 'A3',
+      //         reason: 0,
+      //       },
+      //     ],
+      //   },
+      // ],
     };
   },
   components: { mindMap },
@@ -90,7 +91,7 @@ export default {
 
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
-        console.log(typeof this.map)
+        console.log(this.map)
       });
     },
     updatemapdata() {
@@ -109,6 +110,7 @@ export default {
 
   },
   created() {
+    this.readmapdata();
     console.log(typeof this.map)
   }
 };

@@ -247,7 +247,7 @@ export default {
   name: 'MindMapDetail',
   components: { mindMap },
   computed: {
-    ...mapGetters({ map:'getMapData', likecheck:'likeData', scrapcheck:'scrapData'}),
+    ...mapGetters({ map:Object('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
   },
   data() {
     const no = Number(this.$route.params.no);
@@ -417,6 +417,8 @@ export default {
   created: function() {
     this.readminddetail(this.no, 0);
     this.readmapdata();
+    console.log(typeof this.map)
+    console.log(this.map)
   },
 };
 </script>

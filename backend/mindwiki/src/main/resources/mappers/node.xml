@@ -12,16 +12,16 @@
 	<insert id="setNode" parameterType="object" >
 	
 		INSERT INTO
-			node  (nodeString)
-			values(#{nodeString})
+			node  (nodeObject)
+			values(#{nodeObject})
 		WHERE MindID=#{MindID};
 	</insert>
 	
 	<insert id="initNode" parameterType="object" >
 	
 		INSERT INTO
-			node  (MindID, nodeString)
-			values(#{MindID}, #{nodeString})
+			node  (MindID, nodeObject)
+			values(#{MindID}, #{nodeObject})
 	</insert>
 	
 <!-- 		insert into node(MindID, nodeJson) values(#{MindID},json_object( -->
@@ -51,7 +51,7 @@
 <!--                     ON DUPLICATE KEY UPDATE MindID=#{MindID}, nodeJson=json_array(#{nodeJson)}; -->
 	
 	<select id="getNode" parameterType="com.mindwiki.model.NodeDto" resultType="String">
-		SELECT nodeString FROM node WHERE MindID=#{MindID}
+		SELECT nodeObject FROM node WHERE MindID=#{MindID}
 	</select>
 		
 </mapper>

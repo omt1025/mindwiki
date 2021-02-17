@@ -51,17 +51,7 @@
               <v-list-item-avatar>
                 <!-- 프로필 사진에서 이미지 없을 때 default 이미지 -->
                 <v-img
-                  v-if="show === true"
                   :src="creatorImage"
-                  @error="imageError = true"
-                  alt=""
-                ></v-img>
-
-                <!-- 프로필에서 사진 등록하면 이미지 변경 -->
-                <v-img
-                  v-else
-                  v-bind:getprofile="getprofile"
-                  :src="getprofile[1]['profileDefaultPic']"
                   @error="imageError = true"
                   alt=""
                 ></v-img>
@@ -110,8 +100,6 @@ export default {
   name: 'MindComment',
   computed: {
     ...mapGetters(['commentData']),
-    // 멤버 목록 가져오기
-    ...mapGetters(['memberList']),
     // 사용자가 이미지 설정하지 않은 경우 default 이미지 첨부
     creatorImage() {
       return this.imageError ? this.defaultImage : 'creator-image.jpg';
@@ -139,9 +127,6 @@ export default {
       },
       profile: '',
       message: '',
-      profiles: [],
-      show: false,
-      getprofile: [{}],
     };
   },
   methods: {
@@ -160,6 +145,7 @@ export default {
     readcomment() {
       this.$store.dispatch('readComment', this.no).then(() => {
         this.items = this.$store.getters.commentData;
+        console.log(this.items)
       });
     },
     deletecomment(commentID) {
@@ -179,19 +165,9 @@ export default {
     backPage: function() {
       this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
     },
-    readmemberlist() {
-      let form = new FormData();
-      form.append('jwt', this.$store.getters.getJWT);
-
-      this.$store.dispatch('readMemberList', form).then(() => {
-        this.profiles = this.$store.getters.memberList;
-      });
-    },
   },
   created: function() {
     this.readcomment();  
-
-    this.readmemberlist();
 
     // 프로필 정보 받아오기
     let form = new FormData();
@@ -207,21 +183,6 @@ export default {
         this.user.files = this.profile.profileDefaultPic;
       }
     });
-
-    this.profiles = this.memberList;
-    for (var i in this.profiles) {
-      if (this.profiles[i]['profileDefaultPic'] !== null) {
-        this.show = true;
-        // console.log(this.profiles[i])
-        // 프로필 이메일과 댓글 이메일이 같을 때
-        // console.log(this.profiles[i]['email'])
-        // console.log(this.profiles[i]['profileDefaultPic'])
-        this.getprofile.push({ email: this.profiles[i]['email'], profileDefaultPic:this.profiles[i]['profileDefaultPic']})
-        console.log(this.getprofile)
-      } else {
-        this.show = false;
-      }
-    }
   },
 };
 </script>

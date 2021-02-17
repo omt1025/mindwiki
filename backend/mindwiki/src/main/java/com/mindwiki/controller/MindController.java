@@ -174,6 +174,7 @@ public class MindController {
 		return new ResponseEntity<List<MindDto>>(mindSvc.scrapRead(email), HttpStatus.OK);
 	}
 
+	
 	// 임시
 	@GetMapping("/mind/like/read")
 	public ResponseEntity<List<MindDto>> likeRead(@RequestParam(value = "jwt", required = false) String jwt)
