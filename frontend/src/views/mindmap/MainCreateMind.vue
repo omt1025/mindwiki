@@ -45,7 +45,7 @@
         <!-- 해시태그 box -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left"
           >해시 태그
-          <p style="font-size: 10px; float:right">(145자 이내)</p>
+          <p style="font-size: 10px; float:right">(145자 이내, 최대 3개)</p>
         </span>
         <v-combobox
           append-icon
@@ -144,7 +144,21 @@ export default {
   components: {
     BackNavi,
   },
+  watch: {
+    // 관심태그 갯수 최대 3개
+    chips(value) {
+      this.validateTag(value);
+    },
+  },
   methods: {
+    // 초기 관심태그는 최대 3개
+    validateTag() {
+      // 3개 이상 입력시 삭제처리
+      if (this.chips.length > 3) {
+        this.msg['tag'] = '관심태그는 최대 3개 입니다.';
+        this.remove(this.chips[this.chips.length - 1]);
+      } else this.msg['tag'] = '';
+    },
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
       this.$store.dispatch('setBottomNav', 'home');
@@ -190,14 +204,17 @@ export default {
         .dispatch('makeMindMap', form)
         .then(() => {
           this.message = this.$store.getters.getMessage;
-
-          if (this.message === 'SUCCESS') {
+          if (this.message !== null) {
             this.$store.dispatch('setMessage', null);
+            console.log(this.message)
+            this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.message) } });
+            setTimeout(function(){}, 500);
+            window.location.reload()
             // 생성 후 내 마인드 리스트 페이지로 이동
-            this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
-            this.$store.dispatch('setBottomNav', 'profile');
-            this.$router.push('/main');
-            this.$router.go(this.$router.currentRoute);
+            // this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+            // this.$store.dispatch('setBottomNav', 'profile');
+            // this.$router.push('/main');
+            // this.$router.go(this.$router.currentRoute);
           } else {
             this.showConfirm('로그인 필요! 로그인 페이지로 이동합니다.');
           }

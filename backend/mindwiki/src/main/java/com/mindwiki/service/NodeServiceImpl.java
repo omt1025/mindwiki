@@ -69,49 +69,53 @@ public class NodeServiceImpl implements NodeService{
 	}
 
 	@Override
-	public NodeResultDto setNode(NodeDto dto) throws SQLException {
-		NodeResultDto result = new NodeResultDto();
-		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-
-		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
-			result.setResult("FIND_MIND_ID_ERROR");
-			return result;
-		}
+	public void setNode(String nodeObject, int MindID) throws SQLException {
 		
-		Gson gson = new Gson();
-		Object obj = dto.getNodeObject();
-		dto.setNodeObject(gson.toJson(obj));
-
-		if(nodeMapper.setNode(dto)!=SUCCESS) {
-			result.setResult("SET_NODES_ERROR");
-			return result;
-		}
-
-		result.setResult("SUCCESS");
-		return result;
+		NodeDao nodeMapper = session.getMapper(NodeDao.class);
+//		
+//		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
+//			result.setResult("FIND_MIND_ID_ERROR");
+//			return result;
+//		}
+//		
+//		Gson gson = new Gson();
+//		Object obj = dto.getNodeObject();
+//		dto.setNodeObject(gson.toJson(obj));
+//
+//		if(nodeMapper.setNode(dto)!=SUCCESS) {
+//			result.setResult("SET_NODES_ERROR");
+//			return result;
+//		}
+		
+		nodeMapper.setNode(nodeObject, MindID);
+//
+//		result.setResult("SUCCESS");
+//		return result;
 	}
 
 	@Override
-	public NodeResultDto getNode(NodeDto dto) throws SQLException {
-		NodeDto nodeDto = new NodeDto();
-		NodeResultDto result = new NodeResultDto();
+	public String getNode(int MindID) throws SQLException {
+//		NodeDto nodeDto = new NodeDto();
+//		NodeResultDto result = new NodeResultDto();
 		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-
-		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
-			result.setResult("FIND_MIND_ID_ERROR");
-			return result;
-		}
-
-		Object nodeObject = nodeMapper.getNode(dto);
-		if(nodeObject==null) {
-			result.setResult("GET_NODE_ERROR_NODE_IS_NULL");
-			return result;
-		}
-
-		nodeDto.setNodeObject(nodeObject);
-		result.setNodeDto(nodeDto);
-		result.setResult("SUCCESS");
-		return result;
+//
+//		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
+//			result.setResult("FIND_MIND_ID_ERROR");
+//			return result;
+//		}
+//
+//		Object nodeObject = nodeMapper.getNode(dto);
+//		if(nodeObject==null) {
+//			result.setResult("GET_NODE_ERROR_NODE_IS_NULL");
+//			return result;
+//		}
+//
+//		nodeDto.setNodeObject(nodeObject);
+//		result.setNodeDto(nodeDto);
+//		result.setResult("SUCCESS");
+//		return result;
+		
+		return nodeMapper.getNode(MindID);
 	}
 
 	@Override
