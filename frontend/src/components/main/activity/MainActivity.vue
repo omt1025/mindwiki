@@ -7,7 +7,7 @@
   -->
   <v-app>
     <!-- <div v-if="mainTab == 0"> -->
-    <v-card flat>
+    <v-card flat id="act">
       <activity-list></activity-list>
     </v-card>
     <!-- </div> -->
@@ -42,4 +42,39 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+@media (min-width: 320px) and (max-width: 480px) {
+  #act {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  #act {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #act {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  #act {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  #act {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+</style>
