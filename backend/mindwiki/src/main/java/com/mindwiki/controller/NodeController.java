@@ -78,7 +78,8 @@ public class NodeController {
 	}
 
 	@PostMapping("/getNode")
-	public ResponseEntity<Map<String, Object>> getNode(HttpSession session,
+	//public ResponseEntity<Map<String, Object>> getNode(HttpSession session,
+	public ResponseEntity<Object> getNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID){
 		System.out.println("NodeController] /getNode/ ");
 		System.out.println("MindID: " + MindID);
@@ -89,9 +90,12 @@ public class NodeController {
 		return processGetNode(nodeDto);
 	}
 
-	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
+//	private ResponseEntity<Map<String, Object>> processGetNode(NodeDto dto){
+	private ResponseEntity<Object> processGetNode(NodeDto dto){
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = null;
+		Gson gson = new Gson();
+		String nodeString = "";
 
 		try {
 			NodeResultDto serviceResult = nodeService.getNode(dto);
@@ -102,8 +106,7 @@ public class NodeController {
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				
-				Gson gson = new Gson();
-				String nodeString = serviceResult.getNodeDto().getNodeString();
+				nodeString = serviceResult.getNodeDto().getNodeString();
 				
 				System.out.println(nodeString);
 				
@@ -119,8 +122,11 @@ public class NodeController {
 			e.printStackTrace();
 		}
 
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
-		return new ResponseEntity<Map<String, Object>>(result, status);
+		//System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
+		System.out.println("nodeString");
+		System.out.println(nodeString);
+//		return new ResponseEntity<Map<String, Object>>(result, status);
+		return new ResponseEntity<Object>(gson.toJson(nodeString), HttpStatus.ACCEPTED);
 	}
 	
 
