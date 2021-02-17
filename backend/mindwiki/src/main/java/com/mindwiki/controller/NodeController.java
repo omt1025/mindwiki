@@ -59,7 +59,7 @@ public class NodeController {
 		String[] hashtagArr = new String[3];
 		int idx = 0;
 		while(st.hasMoreTokens()) {
-			hashtagArr[idx] = st.nextToken();
+			hashtagArr[idx++] = st.nextToken();
 		}
 		
 		return new ResponseEntity<Object>(	
@@ -93,7 +93,6 @@ public class NodeController {
 		return new ResponseEntity<Map<String, Object>>(reponse, HttpStatus.ACCEPTED);
 	}
 	
-	
 	@PostMapping("/getNode")
 	public ResponseEntity<Object> getNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID) throws SQLException{
@@ -101,52 +100,9 @@ public class NodeController {
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
 		
-//<<<<<<< HEAD
 		Object obj = nodeService.getNode(nodeDto);
 		Gson gson = new Gson();
 		return new ResponseEntity<Object>(gson.toJson(obj), HttpStatus.ACCEPTED);
 	}
-
-//		Object nodeObject = "";
-//
-//		try {
-//			NodeResultDto serviceResult = nodeService.getNode(nodeDto);
-//			if(serviceResult.getResult()=="SUCCESS") {
-//				nodeObject = serviceResult.getNodeDto().getNodeObject();
-//			}else {
-//				System.out.println("/getNode service error");
-//			}
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return new ResponseEntity<Object>(	
-//		"[\r\n" + 
-//		"{\"children\":\r\n" + 
-//		"[{\"reason\":\"0\",\"" + "이렇게" + "\":\"0217_1643\"},\r\n" + 
-//		"{\"reason\":\"0\",\"" +  "하면" + "\":\"0217_1643\"},\r\n" + 
-//		"{\"reason\":\"0\",\"" +  "되나요" + "\":\"0217_1643\"}],\r\n" + 
-//		"\"root\":\"true\",\r\n" + 
-//		"\"label\":\"" + "신기하네요" + "\",\r\n" + 
-//		"\"url\":\"\"}\r\n" + 
-//		"]", HttpStatus.ACCEPTED);
-////		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
-//	}
-//=======
-		
-//		return new ResponseEntity<Object>(	
-//		"[\r\n" + 
-//		"{\"children\":\r\n" + 
-//		"[{\"reason\":\"0\",\"" + "label" + "\":\""+"dfefeaf"+"\"},\r\n" + 
-//		"{\"reason\":\"0\",\"" +  "label" + "\":\""+"dsfewfaewfawefdf"+"\"},\r\n" + 
-//		"{\"reason\":\"0\",\"" +  "label" + "\":\""+"sdfwefwefwfewfsdf"+"\"}],\r\n" + 
-//		"\"root\":\"true\",\r\n" + 
-//		"\"label\":\"" + "신기하네요" + "\",\r\n" + 
-//		"\"url\":\"\"}\r\n" + 
-//		"]", HttpStatus.ACCEPTED);
-////		return new ResponseEntity<Object>(gson.toJson(nodeObject), HttpStatus.ACCEPTED);
-//	}
-//
-//>>>>>>> 817d0018e5d2be0dabb5085ea6efefb13c228289
 
 }
