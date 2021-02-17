@@ -69,26 +69,28 @@ public class NodeServiceImpl implements NodeService{
 	}
 
 	@Override
-	public NodeResultDto setNode(NodeDto dto) throws SQLException {
-		NodeResultDto result = new NodeResultDto();
-		NodeDao nodeMapper = session.getMapper(NodeDao.class);
-
-		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
-			result.setResult("FIND_MIND_ID_ERROR");
-			return result;
-		}
+	public void setNode(String nodeObject, int MindID) throws SQLException {
 		
-		Gson gson = new Gson();
-		Object obj = dto.getNodeObject();
-		dto.setNodeObject(gson.toJson(obj));
-
-		if(nodeMapper.setNode(dto)!=SUCCESS) {
-			result.setResult("SET_NODES_ERROR");
-			return result;
-		}
-
-		result.setResult("SUCCESS");
-		return result;
+		NodeDao nodeMapper = session.getMapper(NodeDao.class);
+//		
+//		if(nodeMapper.existByMindID(dto)!=SUCCESS) {
+//			result.setResult("FIND_MIND_ID_ERROR");
+//			return result;
+//		}
+//		
+//		Gson gson = new Gson();
+//		Object obj = dto.getNodeObject();
+//		dto.setNodeObject(gson.toJson(obj));
+//
+//		if(nodeMapper.setNode(dto)!=SUCCESS) {
+//			result.setResult("SET_NODES_ERROR");
+//			return result;
+//		}
+		
+		nodeMapper.setNode(nodeObject, MindID);
+//
+//		result.setResult("SUCCESS");
+//		return result;
 	}
 
 	@Override

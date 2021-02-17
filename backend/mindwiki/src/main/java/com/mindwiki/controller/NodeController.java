@@ -78,18 +78,19 @@ public class NodeController {
 	public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID,
 			@RequestParam(value="data", required=false) Object nodeData) throws SQLException{
+		
 		Map<String, Object> reponse = new HashMap<>();
 		
 		Gson gson = new Gson();
 
-		NodeDto dto = new NodeDto();
-		dto.setMindID(MindID);
-		String nodeString = gson.toJson(nodeData);
-		dto.setNodeString(nodeString);
+		
+		
+		
+		
 
-		NodeResultDto serviceResult = nodeService.setNode(dto);
+		nodeService.setNode(gson.toJson(nodeData),MindID);
 
-		reponse.put("message", serviceResult.getResult());
+		reponse.put("message", "SUCCESS");
 		return new ResponseEntity<Map<String, Object>>(reponse, HttpStatus.ACCEPTED);
 	}
 	
