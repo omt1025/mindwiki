@@ -29,12 +29,10 @@
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
       <!--  -->
-      <v-card-text id="topExplanation">
-        <div>{{ explanation }}</div>
-      </v-card-text>
+      
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
-      <div>{{ map }}</div>
+      <!-- <div>{{ map }}</div> -->
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -47,6 +45,9 @@
           @node-delete="handleNodeDelete"
         ></mind-map>
       </v-img>
+      <v-card-text id="topExplanation">
+        <div>{{ explanation }}</div>
+      </v-card-text>
       <v-card-text id="bottomExplanation">
         <div>
           <!-- 누적된 좋아요 수 -->
@@ -113,13 +114,17 @@
         </template>
         <v-list>
           <v-list-item @click="updatenode($route.params.no)">
-            맵 수정
+            <v-btn id="updateBtn">
+              맵 수정
+            </v-btn>
           </v-list-item>
           <!-- 노드 추가 버튼 구현 -->
           <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
           <div v-if="mindmap.admin === useremail">
             <v-list-item @click="deletemind($route.params.no)">
-              마인드 삭제
+              <v-btn id="updateBtn">
+                마인드 삭제
+              </v-btn>
             </v-list-item>
             <v-list-item>
               <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
@@ -479,6 +484,7 @@ export default {
   border: none;
   background-color: #ffffff;
   box-shadow: none;
+  justify-content: center;
 }
 #no-background-hover::before {
   background-color: transparent !important;
