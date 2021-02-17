@@ -25,6 +25,7 @@ export default {
     return {
       // map: map
       no: no,
+      map: [],
       map: [
         {
           label: '수정된값',
@@ -90,7 +91,7 @@ export default {
 
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
-        console.log(typeof this.map)
+        console.log(this.map)
       });
     },
     updatemapdata() {
@@ -109,6 +110,7 @@ export default {
 
   },
   created() {
+    this.readmapdata();
     console.log(typeof this.map)
   }
 };
