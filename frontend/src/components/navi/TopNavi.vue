@@ -4,7 +4,41 @@
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
 
-      <v-app-bar-nav-icon @click="menu"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="menu1"></v-app-bar-nav-icon>
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="menu in menus"
+            :key="menu"
+            @click="() => {}"
+          >
+            <v-list-item-title v-if="menu === '로그아웃'">
+              <v-icon>mdi-logout</v-icon>
+              {{ menu }}
+            </v-list-item-title>
+
+            <v-list-item-title v-else-if="menu === '비밀번호 변경'">
+              <v-icon>mdi-lock-reset</v-icon>
+              {{ menu }}
+            </v-list-item-title>
+
+            <v-list-item-title v-else>
+              <v-icon>mdi-account-remove</v-icon>
+              {{ menu }}
+            </v-list-item-title>  
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <!-- 홈 Tab -->
       <template v-if="bottomNav === 'home'" v-slot:extension>
@@ -45,10 +79,11 @@ export default {
       mainTab: '0',
       items: ['실시간', '관심태그', 'My Wiki'],
       activity_items: ['내 활동 알림'],
+      menus: ['로그아웃', '비밀번호 변경', '회원탈퇴']
     };
   },
   methods: {
-    menu: function() {
+    menu1: function() {
       this.$router.push('/main/menu');
     },
     setTab(index) {
@@ -96,11 +131,6 @@ export default {
   box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 3%), 0px 4px 5px 0px rgb(0 0 0 / 3%),
     0px 1px 10px 0px rgb(0 0 0 / 3%);
 }
-/* .v-card__text {
-  position: fixed;
-  bottom: 0px;
-  right: 0px;
-} */
 </style>
 
 <style lang="scss">
