@@ -42,6 +42,12 @@ public class MindServiceImpl implements MindService {
 		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
 		
 	}
+	
+	@Override
+	public MindDto readByMindIDNoCount(int no) throws SQLException { //여기가 service의 interface readbymindID
+		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
+		
+	}
 
 	@Override
 	public void update(MindDto mind) throws SQLException {

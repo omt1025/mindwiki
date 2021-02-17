@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.swing.filechooser.FileSystemView;
+import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class LoginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(HttpSession hs,
-			@RequestParam(value="id", required=false) String id,
+			@Email @RequestParam(value="id", required=false)  String id,
 			@RequestParam(value="pass", required=false) String pw){
 		
 		System.out.println("일단 login controller");
@@ -56,8 +57,9 @@ public class LoginController {
 		ProfileDto temp_mem=new ProfileDto();
 		
 		
-		
-	
+		if(pw.length()>12) {
+		pw=pw.substring(0,12);
+		}
 		
 		temp_mem.setEmail(id);
 		temp_mem.setPassword(pw);

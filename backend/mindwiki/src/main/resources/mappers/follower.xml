@@ -16,7 +16,7 @@
 	
 	
 	<select id="getProfilePic" resultType="String">
-		select profileDefaultPic from profile where admin=#{email};
+		select profileDefaultPic from profile where email=#{email};
 	</select>
 	
 	

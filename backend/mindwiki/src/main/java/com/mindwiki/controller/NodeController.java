@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mindwiki.model.NodeDto;
 import com.mindwiki.model.NodeResultDto;
@@ -38,13 +39,16 @@ public class NodeController {
 	@PostMapping("/setNode")
 	public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
 			@RequestParam(value="MindID", required=false) int MindID,
-			@RequestParam(value="data", required=false) String data){
+			@RequestParam(value="data", required=false) Object nodeData){
 		System.out.print("NodeController] /setNode/ ");
-		System.out.println("MindID: " + MindID + " data:" + data);
+		System.out.println("MindID: " + MindID + " data:" + nodeData);
+		
+		Gson gson = new Gson();
+		String nodeString = gson.toJson(nodeData);
 
 		NodeDto nodeDto = new NodeDto();
 		nodeDto.setMindID(MindID);
-//		nodeDto.setNodeData(data);
+		nodeDto.setNodeString(nodeString);
 
 		return processSetNode(nodeDto);
 	}
@@ -91,13 +95,19 @@ public class NodeController {
 
 		try {
 			NodeResultDto serviceResult = nodeService.getNode(dto);
+			System.out.println("processGetNode result:");
+			System.out.println(serviceResult.getResult());
+			
 
 			if(serviceResult.getResult()=="SUCCESS") {
 				result.put("message", "SUCCESS");
 				
-				JSONArray nodeJson = serviceResult.getNodeDto().getNodeJson();
-				System.out.println(nodeJson);
-				result.put("data", nodeJson);
+				Gson gson = new Gson();
+				String nodeString = serviceResult.getNodeDto().getNodeString();
+				
+				System.out.println(nodeString);
+				
+				result.put("data", gson.toJson(nodeString));
 				status = HttpStatus.ACCEPTED;
 			}else {
 				result.put("message", "FAIL");
@@ -112,5 +122,6 @@ public class NodeController {
 		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
+	
 
 }

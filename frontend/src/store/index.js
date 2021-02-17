@@ -429,7 +429,7 @@ export default new Vuex.Store({
       const jwt = user.get('jwt');
       return axios
         .get(`${SERVER_URL}/mind/read/${user.get('no')}`, {
-          params: { jwt: jwt },
+          params: { jwt: jwt, flag: user.get('flag') },
         })
         .then((response) => {
           context.commit('setMessage', response.data);
@@ -485,12 +485,12 @@ export default new Vuex.Store({
       return axios.post(`${SERVER_URL}/mind/scrap/${user.get('no')}`, user).then((response) => {
         context.commit('setMessage', response.data);
         return axios
-        .get(`${SERVER_URL}/mind/scrap/read/`, {
-          params: { jwt: user.get('jwt') },
-        })
-        .then((response) => {
-          context.commit('setScrapData', response.data);
-        });
+          .get(`${SERVER_URL}/mind/scrap/read/`, {
+            params: { jwt: user.get('jwt') },
+          })
+          .then((response) => {
+            context.commit('setScrapData', response.data);
+          });
       });
     },
     // 마인드맵 댓글 생성[OMT]
@@ -534,7 +534,7 @@ export default new Vuex.Store({
     // 마인드맵 데이터 수정하기[OMT]
     updateMapData(context, mind) {
       return axios.post(`${SERVER_URL}/node/setNode`, mind).then((response) => {
-        context.commit('setMapData', response.data);
+        context.commit('setMapData', JSON.parse(response.data));
       });
     },
     // 전체 회원 불러오기[HYH]
@@ -611,6 +611,12 @@ export default new Vuex.Store({
         // console.log(response.data);
         context.commit('setProfile', response.data.info);
         context.commit('setMessage', response.data.message);
+      });
+    },
+    // 다른 사람 프로필 정보 가져오기[YJS]
+    profile(context, form) {
+      return axios.post(`${SERVER_URL}/profile/getProfile`, form).then((response) => {
+        context.commit('setProfile', response.data.info);
       });
     },
     // 회원정보 수정[YJS]

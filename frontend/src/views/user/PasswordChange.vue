@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 비밀번호 변경 구현
+    * 내용 : 비밀번호 길이 제한
     * 생성일자 : 2021-01-21
-    * 최종수정일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-17
  -->
 
   <div>
@@ -25,13 +25,17 @@
         />
 
         <!-- 새 비밀번호 -->
-        <span class="label-input100 p-t-25 p-b-7" style="float: left">새 비밀번호</span>
+        <span class="label-input100 p-t-25 p-b-7" style="float: left"
+          >새 비밀번호
+          <p style="font-size: 10px; float:right">(12자 이내)</p>
+        </span>
         <w-input
           class="m-t-10"
           id="userpwd"
           ref="userpwd"
           v-model="user.userpwd"
           type="password"
+          :maxlength="max_pw"
           placeholder="새 비밀번호"
         />
         <span class="validation" v-if="msg.pass">{{ msg.pass }}</span>
@@ -42,6 +46,7 @@
           type="password"
           id="userpwd_check"
           ref="userpwd_check"
+          :maxlength="max_pw"
           v-model="user.userpwd_check"
           placeholder="새 비밀번호 확인"
         />
@@ -85,6 +90,7 @@ export default {
       },
       msg: [], // 유효성검사 후, 출력할 메세지 담을 배열
       message: '', // 오류 받아 올 변수
+      max_pw: 12, // 비밀번호 길이 제한
     };
   },
   components: {
