@@ -59,7 +59,7 @@ import com.mindwiki.service.NodeService;
 @RestController
 @RequestMapping("/mindwiki")
 public class MindController {
-	
+
 	@Autowired
 	private MindService mindSvc;
 
@@ -205,13 +205,13 @@ public class MindController {
 		Path directory = Paths.get(filePath).toAbsolutePath().normalize();
 
 		plusTime.replaceAll(":", "");
-
-		String fileOriginName = file.getOriginalFilename();
-
-		if (fileOriginName.length() > 5) {
-			fileOriginName.substring(0, 5);
+		
+		String fileOriginName=file.getOriginalFilename();
+		
+		if(fileOriginName.length()>5) {
+			fileOriginName.substring(0,5);
 		}
-		String fileName = StringUtils.cleanPath(plusTime + fileOriginName);// 시간을 추가한 네임
+		String fileName = StringUtils.cleanPath(plusTime + fileOriginName);//시간을 추가한 네임
 
 		String pathDB = "http://localhost:8000/mindwiki/image/" + fileName;
 
@@ -324,7 +324,7 @@ public class MindController {
 					int count = 0;
 					count = st.countTokens();
 					for (int i = 0; i < count; i++) {
-
+					
 						mindSvc.makeHashtag(MindID, st.nextToken());
 					}
 
@@ -368,6 +368,7 @@ public class MindController {
 	@PutMapping("/read/{no}/comment")
 	public ResponseEntity<List<MindDto>> comment(HttpSession hs, @PathVariable int no) throws SQLException {
 
+
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
 
 	}
@@ -398,8 +399,10 @@ public class MindController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 
+
 	@GetMapping("/mind/read")
 	public ResponseEntity<List<MindDto>> read(HttpSession hs) throws SQLException {
+
 
 		return new ResponseEntity<List<MindDto>>(mindSvc.read(), HttpStatus.OK);
 
@@ -494,36 +497,6 @@ public class MindController {
 			resultMap.put("message", "정상삭제완료");
 		} catch (SQLException e) {
 			resultMap.put("message", "서버오류삭제실패");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
-	}
-
-	@PostMapping("/capture/tuhmbnail")
-	public ResponseEntity<Map<String, Object>> capture_upload(
-			@RequestParam(value = "files", required = false) MultipartFile file,
-			@RequestParam(value = "jwt", required = false) String jwt,
-			@RequestParam(value = "MindID", required = false) int MindID) {
-
-		Map<String, Object> resultMap = new HashMap<>();
-
-		HttpStatus status = null;
-		try {
-			if (file != null) {
-				String thumbnail = fileUpload(file);
-				mindSvc.updateThumbNail(thumbnail, MindID);
-				
-				
-				status = HttpStatus.OK;
-				resultMap.put("message", "SUCCESS");
-			} else {
-				resultMap.put("message", "FAIL");
-			}
-		} catch (SQLException e) {
-			resultMap.put("message", "FAIL");
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}

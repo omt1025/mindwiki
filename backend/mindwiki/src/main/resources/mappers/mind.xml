@@ -42,7 +42,7 @@
 	
 	
 	<update id="updateByMindID">
-		update mind set title=#{title}, subject=#{subject}, hashtag=#{hashtag}, explanation=#{explanation} where MindID=#{MindID}
+		update mind set title=#{title}, subject=#{subject}, hashtag=#{hashtag}, explanation=#{explanation}, thumbnail=#{thumbnail} where MindID=#{MindID}
 	</update>
 	
 	<delete id="deleteByMindID">
@@ -116,11 +116,6 @@
 		(select s.email, s.time, m.title, m.MindID, '스크랩' as what from mind as m, scraplist as s where m.MindID=s.scrapedMindID and m.admin=#{email} and s.email!=#{email})
 		order by time desc limit 20;
 	</select>
-	
-	<update id="updateThumbNail">
-		update mind set thumbnail=#{thumbnail} where MindID=#{MindID}
-	</update>
-	
 	
 		
 </mapper>

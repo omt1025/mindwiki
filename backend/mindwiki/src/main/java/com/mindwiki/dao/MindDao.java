@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
@@ -48,6 +47,5 @@ public interface MindDao {
 	
 	String getMindPorfilePic(int no) throws SQLException;
 	public List<ActiveDto> readActiveList(String email) throws SQLException;
-	public void updateThumbNail(String thumbnail, int MindID) throws SQLException;
 	
 }
