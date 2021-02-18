@@ -1,9 +1,9 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 팔로워 리스트 프로필 사진 수정
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 반응형 수정
     * 생성일자 : 2021-01-22
-    * 최종수정일자 : 2021-02-17
+    * 최종수정일자 : 2021-02-19
   -->
   <!-- 나를 팔로우한 사람을 보여준다. -->
   <div id="app">
@@ -127,5 +127,39 @@ hr {
 }
 .v-list-item {
   padding: 0 25px;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  #app {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  #app {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 }
 </style>

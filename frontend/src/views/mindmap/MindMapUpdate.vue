@@ -12,7 +12,6 @@
     <mind-map
       :data="map"
       id="mind"
-      width="360"
       height="700"
       :show-reason="false"
       :data-template="{ label: ' ', reason: 0 }"
@@ -71,5 +70,44 @@ export default {
 
 ::v-deep .drawing-board {
   border-radius: 4px;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  #mind {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .mindmap_detail {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  #mind {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #mind {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  #mind {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  #mind {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 팔로워, 팔로잉 게시물 수 구현
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 배경화면 pc에서 깨지는 것 수정
     * 생성일자 : 2021-02-04
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-19
   -->
   <div class="profile_info">
     <div class="user_info">
@@ -27,7 +27,7 @@
       <w-card>
         <w-card-body>
           <!-- 본인이 작성한 게시물 수 -->
-          <div class="user-num" @click="goMind">
+          <div class="user-num">
             <w-card-title class="card-title">게시물</w-card-title>
             <w-card-description class="card-description">
               {{ myMindList.length }}
@@ -146,9 +146,6 @@ export default {
       this.$store.dispatch('setBottomNav', 'follow');
       this.$router.push('/main/mylibrary/follow');
     },
-    goMind() {
-      this.$router.push('/main/mindmap/mymindlist');
-    },
     goRevise() {
       this.$router.push('/main/profile/revise');
     },
@@ -185,6 +182,7 @@ export default {
 <style scoped>
 .profile_info {
   background-image: url(../../../assets/images/profile/hero_mini.svg);
+
   min-height: auto;
   min-width: 360px;
   width: 100%;
@@ -245,5 +243,92 @@ export default {
   font-size: 22px;
   margin-left: 10px;
   color: #ffffffbb;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+    background-size: contain;
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+    background-size: contain;
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
 }
 </style>

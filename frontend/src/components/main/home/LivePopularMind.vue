@@ -55,7 +55,7 @@ export default {
 }
 @media (min-width: 320px) and (max-width: 480px) {
   #list {
-    max-width: 375px;
+    max-width: 360px;
     margin: 0 auto;
   }
 }
@@ -69,21 +69,21 @@ export default {
 
 @media (min-width: 768px) {
   #list {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 992px) {
   #list {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 1200px) {
   #list {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }

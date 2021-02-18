@@ -81,7 +81,6 @@
         <!-- 마인드맵 a -->
         <mind-map
           :data="map"
-          width="360"
           height="600px"
           :show-reason="false"
           :data-template="{ label: ' ', reason: 0 }"
@@ -477,6 +476,10 @@ hr {
   #app {
     background-color: #f1f5f8;
   }
+  .mind-map-item {
+    max-width: 375px;
+    margin: 0 auto;
+  }
 }
 
 @media (min-width: 576px) {
@@ -484,25 +487,41 @@ hr {
     max-width: 540px;
     margin: 0 auto;
   }
+  .mind-map-item {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 }
 
 @media (min-width: 768px) {
   .mindmap_detail {
-    max-width: 540px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .mind-map-item {
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 992px) {
   .mindmap_detail {
-    max-width: 540px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .mind-map-item {
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 1200px) {
   .mindmap_detail {
-    max-width: 540px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .mind-map-item {
+    max-width: 720px;
     margin: 0 auto;
   }
 }

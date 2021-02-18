@@ -7,8 +7,8 @@
   -->
   <v-app>
     <!-- <div v-if="mainTab == 0"> -->
-    <v-card flat id="act">
-      <activity-list></activity-list>
+    <v-card flat>
+      <activity-list id="act"></activity-list>
     </v-card>
   </v-app>
 </template>
@@ -50,21 +50,21 @@ export default {
 
 @media (min-width: 768px) {
   #act {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 992px) {
   #act {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 1200px) {
   #act {
-    max-width: 540px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
