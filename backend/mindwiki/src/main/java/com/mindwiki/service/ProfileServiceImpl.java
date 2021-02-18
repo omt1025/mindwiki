@@ -32,15 +32,15 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public ProfileResultDto register(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		if(dao.sameEmailCnt(dto)!=0) {
-			result.setResult("FAIL");
+		if(profileMapper.sameEmailCnt(dto)!=0) {
+			result.setResult("REGISTER_FAIL_ALREADY_EXISTS_EMAIL");
 			return result;
 		}
 		
-		if(dao.register(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.register(dto)!=SUCCESS) {
+			result.setResult("REGISTER_FAIL_SERVER_ERROR");
 			return result;
 		}
 		
@@ -51,18 +51,19 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public ProfileResultDto withdrawal(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		if(dao.checkPassword(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.checkPassword(dto)!=SUCCESS) {
+			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
 			return result;
 		}
 		
-		if(dao.withdrawal(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.withdrawal(dto)!=SUCCESS) {
+			result.setResult("WITHDRAWAL_FAIL_SERVER_ERROR");
 			return result;
 		}
 		
+		System.out.println("SUCCESS");
 		result.setResult("SUCCESS");
 		return result;
 	}
@@ -70,16 +71,17 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public ProfileResultDto changePassword(ProfileDto dto, String newPassword) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		System.out.println(dto);
 		
-		if(dao.checkPassword(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.checkPassword(dto)!=SUCCESS) {
+			result.setResult("WITHDRAWAL_FAIL_INCORRECT_PASSWORD");
 			return result;
 		}
 		
 		dto.setPassword(newPassword);
-		if(dao.updatePassword(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.updatePassword(dto)!=SUCCESS) {
+			result.setResult("CHANGE_PASSWORD_FAIL_SERVER_ERROR");
 			return result;
 		}
 		
@@ -90,21 +92,22 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public ProfileResultDto sendTempPassword(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		if(dao.sameEmailCnt(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		if(profileMapper.sameEmailCnt(dto)!=1) {
+			result.setResult("EMAIL_ERROR");
 			return result;
 		}
 		
-		dto.setPassword(tempPassword());
-		if(dao.updatePassword(dto)!=SUCCESS) {
-			result.setResult("FAIL");
+		String tmpPW = createTmpPW();
+		dto.setPassword(tmpPW);
+		if(profileMapper.updatePassword(dto)!=SUCCESS) {
+			result.setResult("UPDATE_PW_ERROR");
 			return result;
 		}
 		
-		if(sendTempPasswordViaEmail(dto)==FAIL) {
-			result.setResult("FAIL");
+		if(sendTempPWToEmail(dto)==FAIL) {
+			result.setResult("MAIL_SEND_FAIL");
 			return result;
 		}
 		
@@ -112,7 +115,7 @@ public class ProfileServiceImpl implements ProfileService {
 		return result;
 	}
 	
-	private String tempPassword() {
+	private String createTmpPW() {
 		String pw = "";
 		for(int i=0; i<12; i++) {
 			pw += (char) ((Math.random() * 26) + 97);
@@ -120,12 +123,14 @@ public class ProfileServiceImpl implements ProfileService {
 		return pw;
 	}
 	
-	private int sendTempPasswordViaEmail(ProfileDto dto){
+	private int sendTempPWToEmail(ProfileDto dto){
+		// Mail Server 설정
 		String charSet = "utf-8";
 		String hostSMTP = "smtp.gmail.com";
 		String hostSMTPid = "mindwiki.manager@gmail.com";
 		String hostSMTPpwd = "ssafy2021!@";
 
+		// 보내는 사람 EMail, 제목, 내용
 		String fromEmail = "mindwiki.manager@gmail.com";
 		String fromName = "mindwiki_admin";
 		String subject = "MindWiki temporary password";
@@ -145,10 +150,9 @@ public class ProfileServiceImpl implements ProfileService {
 			email.setFrom(fromEmail, fromName, charSet);
 			email.setSubject(subject);
 			email.setHtmlMsg(mainText);
-			
 			email.send();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("send temp pw to email error : " + e);
 			return FAIL;
 		}
 		return SUCCESS;
@@ -169,33 +173,33 @@ public class ProfileServiceImpl implements ProfileService {
 	
 	@Override
 	public ProfileResultDto changeProfile(ProfileDto dto, MultipartFile file) throws SQLException {
-		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
-		
+		ProfileResultDto resultDto = new ProfileResultDto();
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		// phonenumber
+		// nickname
+		// 사진
 		if(hasFile(file)) {
 			String filePath = getFilePath(file);
 			dto.setProfileDefaultPic(filePath);
 			
-			if(dao.updateProfileDefaultPic(dto)!=SUCCESS){
-				result.setResult("FAIL");
-				return result;
+			if(profileMapper.updateProfileDefaultPic(dto)!=SUCCESS){
+				resultDto.setResult("PIC_CHANGE_FAIL");
+				return resultDto;
 			}
+				
 		}
 
-		if(dto.getPhoneNumber()!=null && dao.updatePhonenumber(dto)!=SUCCESS) {
-			result.setResult("FAIL");
-			return result;
-//			dao.updatePhonenumber(dto);
+		if(dto.getPhoneNumber()!=null) {
+			profileMapper.updatePhonenumber(dto);
 		}
 		
-		if(dto.getNickName()!=null && dao.updateNickname(dto)!=SUCCESS) {
-			result.setResult("FAIL");
-			return result;
-//			dao.updateNickname(dto);
+		if(dto.getNickName()!=null) {
+			profileMapper.updateNickname(dto);
 		}
 		
-		result.setResult("SUCCESS");
-		return result;
+		resultDto.setResult("SUCCESS");
+		return resultDto;
+		
 	}
 	
 	private boolean hasFile(MultipartFile file) {
@@ -233,45 +237,24 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
-	public ProfileResultDto getMyProfile(String email) throws Exception {
-		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+	public ProfileDto getProfile(ProfileDto profileDto) throws SQLException {
 		
-		ProfileDto dto = new ProfileDto();
-		dto.setEmail(email);
-		
-		if(dao.sameEmailCnt(dto)!=0) {
-			result.setResult("FAIL");
-			return result;
-		}
-		
-		result.setProfileDto(dao.getMyProfile(email));
-		result.setResult("SUCCESS");
-		return result;
-//		return session.getMapper(ProfileDao.class).getMyProfile(email);
+		return null;
 	}
-	
-	@Override
-	public ProfileResultDto getProfile(String email) throws Exception {
-		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
-		ProfileDto profile = profileMapper.getMyProfile(email);
-		
-		ProfileResultDto result = new ProfileResultDto();
-		result.setProfileDto(profile);
-		result.setResult("SUCCESS");
-		return result;
-	}
-	
+
+
 	@Override
 	public ProfileResultDto isExist(ProfileDto dto) throws SQLException {
 		ProfileResultDto result = new ProfileResultDto();
-		ProfileDao dao = session.getMapper(ProfileDao.class);
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
 		
-		if(dao.sameEmailCnt(dto)!=0) {
+		// 해당 이메일로 가입된 계정이 존재하면,
+		if(profileMapper.sameEmailCnt(dto)!=0) {
 			result.setResult("EXIST");
 			return result;
 		}
 		
+		// 존재하지 않는경우
 		result.setResult("NOT EXIST");
 		return result;
 	}
@@ -287,6 +270,27 @@ public class ProfileServiceImpl implements ProfileService {
 		return session.getMapper(ProfileDao.class).getProfilePic(email);
 	}
 	
+	@Override
+	public ProfileResultDto getProfile(String email) throws Exception {
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		ProfileDto profile = profileMapper.getMyProfile(email);
+		
+		ProfileResultDto result = new ProfileResultDto();
+		result.setProfileDto(profile);
+		result.setResult("SUCCESS");
+		return result;
+	}
 
+	@Override
+	public ProfileResultDto getMyProfile(String email) throws Exception {
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		ProfileDto profile = profileMapper.getMyProfile(email);
+		
+		ProfileResultDto result = new ProfileResultDto();
+		result.setProfileDto(profile);
+		result.setResult("SUCCESS");
+		return result;
+//		return session.getMapper(ProfileDao.class).getMyProfile(email);
+	}
 
 }
