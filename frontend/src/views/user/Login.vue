@@ -238,14 +238,15 @@ export default {
         .dispatch('LOGIN', form)
         .then(() => {
           this.message = this.$store.getters.getMessage;
-
+          console.log(this.message);
           // 로그인 성공
           if (this.message === 'SUCCESS') {
+            console.log('성공');
             this.$store.dispatch('setMessage', null); // message 재사용 위해
             this.$router.push(`/main`); // main페이지로 이동
-          }
-          if (this.$store.getters.getMessage === 'FAIL') {
+          } else {
             // 로그인 실패 : 다이얼로그 띄우기
+            console.log('실패');
             this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
           }
         })

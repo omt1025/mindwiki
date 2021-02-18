@@ -253,6 +253,8 @@ import Vue from 'vue';
 import VTooltip from 'v-tooltip';
 import BackNavi from '../navi/BackNavi.vue';
 
+import { mapGetters } from 'vuex';
+
 Vue.use(VTooltip);
 
 export default {
@@ -331,6 +333,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['cards']),
     levelNodes() {
       const levelNodes = [];
       let currentLevel = this.mapData;
@@ -658,8 +661,18 @@ export default {
       // 노드 수정 반영
       this.updatemapdata();
 
-      // 썸네일 반영
-      this.print(no);
+      // 현재 썸네일이 캡쳐된 썸네일 일때 새로 캡쳐 반영
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].mindID === no) {
+          if (this.cards[i].thumbnail.search('capture.img') === -1) {
+            // console.log('없어');
+            break;
+          } else {
+            // console.log('캡쳐');
+            this.print(no);
+          }
+        }
+      }
     },
     // 뒤로 가기 버튼[YJS]
     backPage: function() {

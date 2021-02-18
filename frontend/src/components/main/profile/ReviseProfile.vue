@@ -145,7 +145,7 @@ export default {
     processFile(event) {
       this.user.files = event.target.files[0];
       const previewImage = document.getElementById('preview-imgage');
-      previewImage.setAttribute('src', URL.createObjectURL(event.target.files[0]));
+      previewImage.setAttribute('src', URL.createObjectURL(this.user.files));
     },
     // input 유효성 검사 메소드[YJS]
     checkHandler() {
