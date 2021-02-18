@@ -832,7 +832,7 @@ div {
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  margin-top: 56px;
+  margin-top: 43px;
 }
 
 .full-screen {
@@ -850,7 +850,7 @@ div {
 
 .tools {
   position: absolute;
-  top: -5%;
+  top: -6%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;

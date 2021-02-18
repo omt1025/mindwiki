@@ -6,220 +6,216 @@
     * 최종수정일자 : 2021-02-18
   -->
   <v-app id="app">
-    <!-- 상세 마인드맵 상단 네비게이션 -->
-    <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
-    <!-- <v-toolbar>
-      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
-      <v-spacer></v-spacer>
-      <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
-      <v-spacer></v-spacer>
-    </v-toolbar> -->
-
     <!-- 상단 Navi -->
-    <back-navi :title="naviTitle" v-on:backbtn="backPage"></back-navi>
+    <!-- title : 게시물 제목 -->
+    <back-navi :title="title" :sub="naviTitle" v-on:backbtn="backPage"></back-navi>
 
-    <!-- 카드 타이틀 -->
-    <v-card class="mx-auto" width="100%" flat outlined style="">
-      <!-- 작성자 -->
-      <v-card-title>
-        <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
-        <div v-if="profileImage === null">
-          <v-img id="avatar" :src="defaultImage" alt=""></v-img>
-        </div>
-        <div v-else>
-          <v-img id="avatar" :src="profileImage" alt=""></v-img>
-        </div>
-        {{ mindmap.admin }}
-      </v-card-title>
-      <!-- 제목 -->
-      <div id="mindTitle">{{ title }}</div>
+    <div class="mindmap_detail">
+      <!-- 카드 타이틀 -->
+      <v-card class="mx-auto" width="100%" flat outlined style="margin-top: 8px">
+        <!-- 작성자 -->
+        <v-card-title>
+          <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
+          <div v-if="profileImage === null">
+            <v-img id="avatar" :src="defaultImage" alt=""></v-img>
+          </div>
+          <div v-else>
+            <v-img id="avatar" :src="profileImage" alt=""></v-img>
+          </div>
+          <p class="admin">{{ mindmap.admin }}</p>
+        </v-card-title>
 
-      <v-img width="100%" height="60%">
-        <!-- 마인드맵 api 사용 -->
-        <mind-map
-          :data="map"
-          width="360"
-          height="500"
-          :show-reason="false"
-          :data-template="{ label: ' ', reason: 0 }"
-          :button="false"
-        ></mind-map>
-      </v-img>
-      <v-card-text id="topExplanation">
-        <div>{{ explanation }}</div>
-      </v-card-text>
-      <v-card-text id="bottomExplanation">
-        <div>
+        <!-- 게시물 설명 -->
+        <v-card-text id="topExplanation" style="padding-top:0px">
+          <div>{{ explanation }}</div>
+        </v-card-text>
+
+        <v-card-text id="num_card" style="padding-bottom:0px">
           <!-- 누적된 좋아요 수 -->
           <span class="subheading ma-2">좋아요 {{ mindmap.likeCnt }}개</span>
           <!-- 누적된 스크랩 수 -->
           <span class="subheading ma-2">스크랩 {{ mindmap.scrapCnt }}회</span>
           <!-- 누적된 조회수 -->
           <span class="subheading ma-2">조회 {{ mindmap.viewCnt }}회</span>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <!-- 댓글 / 좋아요 / 스크랩 하는 곳 -->
-    <v-card-actions id="cardAction">
-      <v-list-item class="grow">
-        <v-row id="cardbottom">
-          <!-- 좋아요 -->
-          <v-btn id="no-background-hover" :ripple="false" depressed color="white">
-            <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)"
-              >mdi-heart</v-icon
-            >
-            <v-icon class="mx-1" v-else @click="likemindmap(no, 0)">mdi-heart</v-icon>
-            <span>좋아요</span>
-          </v-btn>
-          <!-- 댓글 쓰기 -->
-          <v-btn
-            id="no-background-hover"
-            :ripple="false"
-            depressed
-            color="white"
-            @click="goMindComment(no)"
-          >
-            <v-icon class="mr-2">mdi-comment-outline</v-icon>
-            <span>댓글 쓰기</span>
-          </v-btn>
-          <!-- 스크랩 -->
-          <v-btn id="no-background-hover" :ripple="false" depressed color="white">
-            <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)"
-              >mdi-bookmark</v-icon
-            >
-            <v-icon class="mx-1" v-else @click="scrapmindmap(no, 0)">mdi-bookmark</v-icon>
-            <span>스크랩</span>
-          </v-btn>
-        </v-row>
-      </v-list-item>
-    </v-card-actions>
-    <div class="text-center">
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn id="dropdown" v-bind="attrs" v-on="on" small>
-            <v-icon>mdi-dots-horizontal</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item @click="updatenode($route.params.no)">
-            <v-btn id="updateBtn">
-              맵 수정
-            </v-btn>
+        </v-card-text>
+        <v-divider></v-divider>
+        <!-- 댓글 / 좋아요 / 스크랩 하는 곳 -->
+        <v-card-actions id="cardAction">
+          <v-list-item class="grow">
+            <v-row id="cardbottom">
+              <!-- 좋아요 -->
+              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+                <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)"
+                  >mdi-heart</v-icon
+                >
+                <v-icon class="mx-1" v-else @click="likemindmap(no, 0)">mdi-heart-outline</v-icon>
+                <span>좋아요</span>
+              </v-btn>
+              <!-- 댓글 쓰기 -->
+              <v-btn
+                id="no-background-hover"
+                :ripple="false"
+                depressed
+                color="white"
+                @click="goMindComment(no)"
+              >
+                <v-icon class="mr-2">mdi-comment-outline</v-icon>
+                <span>댓글 쓰기</span>
+              </v-btn>
+              <!-- 스크랩 -->
+              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+                <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)"
+                  >mdi-bookmark</v-icon
+                >
+                <v-icon class="mx-1" v-else @click="scrapmindmap(no, 0)"
+                  >mdi-bookmark-outline</v-icon
+                >
+                <span>스크랩</span>
+              </v-btn>
+            </v-row>
           </v-list-item>
-          <!-- 노드 추가 버튼 구현 -->
-          <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
-          <div v-if="mindmap.admin === useremail">
-            <v-list-item @click="deletemind($route.params.no)">
+        </v-card-actions>
+      </v-card>
+
+      <div width="100%" height="100%">
+        <!-- 마인드맵 a -->
+        <mind-map
+          :data="map"
+          width="360"
+          height="600px"
+          :show-reason="false"
+          :data-template="{ label: ' ', reason: 0 }"
+          :button="false"
+        ></mind-map>
+      </div>
+
+      <div class="text-center">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn id="dropdown" v-bind="attrs" v-on="on" small>
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="updatenode($route.params.no)">
               <v-btn id="updateBtn">
-                마인드 삭제
+                맵 수정
               </v-btn>
             </v-list-item>
-            <v-list-item>
-              <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn id="updateBtn" v-bind="attrs" v-on="on">
-                    마인드 수정
-                  </v-btn>
-                </template>
+            <!-- 노드 추가 버튼 구현 -->
+            <!-- 로그인 한 유저와 작성자가 같을 때만 수정과 삭제 가능 -->
+            <div v-if="mindmap.admin === useremail">
+              <v-list-item @click="deletemind($route.params.no)">
+                <v-btn id="updateBtn">
+                  마인드 삭제
+                </v-btn>
+              </v-list-item>
+              <v-list-item>
+                <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn id="updateBtn" v-bind="attrs" v-on="on">
+                      마인드 수정
+                    </v-btn>
+                  </template>
 
-                <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
-                <v-card>
-                  <v-card-title class="justify-center">
-                    <span class="headline">마인드 수정</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-row>
-                      <!-- 제목 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="제목 (최대 16자)"
-                          required
-                          id="title"
-                          ref="title"
-                          v-model="title"
-                          @keypress.enter="checkHandler"
-                          type="text"
-                          :maxlength="max_title"
-                        ></v-text-field>
-                      </v-col>
-                      <!-- 주제 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="주제"
-                          required
-                          id="subject"
-                          ref="subject"
-                          v-model="subject"
-                          @keypress.enter="checkHandler"
-                          type="text"
-                        ></v-text-field>
-                      </v-col>
-                      <!-- 해시태그 -->
-                      <div>
-                        <div padding="10px">
-                          <p class="interestTagTitle mx-3">해시태그 설정</p>
+                  <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
+                  <v-card>
+                    <v-card-title class="justify-center">
+                      <span class="headline">마인드 수정</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <!-- 제목 -->
+                        <v-col cols="12">
+                          <v-text-field
+                            class="mx-2"
+                            label="제목 (최대 16자)"
+                            required
+                            id="title"
+                            ref="title"
+                            v-model="title"
+                            @keypress.enter="checkHandler"
+                            type="text"
+                            :maxlength="max_title"
+                          ></v-text-field>
+                        </v-col>
+                        <!-- 주제 -->
+                        <v-col cols="12">
+                          <v-text-field
+                            class="mx-2"
+                            label="주제"
+                            required
+                            id="subject"
+                            ref="subject"
+                            v-model="subject"
+                            @keypress.enter="checkHandler"
+                            type="text"
+                          ></v-text-field>
+                        </v-col>
+                        <!-- 해시태그 -->
+                        <div>
+                          <div padding="10px">
+                            <p class="interestTagTitle mx-3">해시태그 설정</p>
+                          </div>
+                          <v-combobox
+                            class="mx-5"
+                            append-icon
+                            flat
+                            v-model="hashtag"
+                            hashtag
+                            clearable
+                            multiple
+                            no-filter
+                            id="combobox"
+                          >
+                            <template v-slot:selection="{ attrs, item, select, selected }">
+                              <v-chip
+                                v-bind="attrs"
+                                :input-value="selected"
+                                close
+                                class="ma-1 mb-2"
+                                color="purple"
+                                text-color="white"
+                                @click="select"
+                                @click:close="remove(item)"
+                              >
+                                <strong class="test">{{ item }}</strong
+                                >&nbsp;
+                              </v-chip>
+                            </template>
+                          </v-combobox>
                         </div>
-                        <v-combobox
-                          class="mx-5"
-                          append-icon
-                          flat
-                          v-model="hashtag"
-                          hashtag
-                          clearable
-                          multiple
-                          no-filter
-                          id="combobox"
-                        >
-                          <template v-slot:selection="{ attrs, item, select, selected }">
-                            <v-chip
-                              v-bind="attrs"
-                              :input-value="selected"
-                              close
-                              class="ma-1 mb-2"
-                              color="purple"
-                              text-color="white"
-                              @click="select"
-                              @click:close="remove(item)"
-                            >
-                              <strong class="test">{{ item }}</strong
-                              >&nbsp;
-                            </v-chip>
-                          </template>
-                        </v-combobox>
-                      </div>
-                      <!-- 설명 -->
-                      <v-col cols="12">
-                        <v-text-field
-                          class="mx-2"
-                          label="설명 (최대 145자)"
-                          required
-                          id="explanation"
-                          ref="explanation"
-                          v-model="explanation"
-                          :maxlength="max_explanation"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text @click="menu = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn text @click="checkHandler">
-                      OK
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-menu>
-            </v-list-item>
-          </div>
-        </v-list>
-      </v-menu>
+                        <!-- 설명 -->
+                        <v-col cols="12">
+                          <v-text-field
+                            class="mx-2"
+                            label="설명 (최대 145자)"
+                            required
+                            id="explanation"
+                            ref="explanation"
+                            v-model="explanation"
+                            :maxlength="max_explanation"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn text @click="menu = false">
+                        Cancel
+                      </v-btn>
+                      <v-btn text @click="checkHandler">
+                        OK
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
+              </v-list-item>
+            </div>
+          </v-list>
+        </v-menu>
+      </div>
     </div>
   </v-app>
 </template>
@@ -253,6 +249,7 @@ export default {
       max_title: 16,
       max_explanation: 145,
       naviTitle: '게시물 상세 보기',
+      time: '',
     };
   },
   methods: {
@@ -382,9 +379,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app {
-  background-color: #f1f5f8;
-}
 #mindTitle {
   text-align: left;
   margin: 10px 20px;
@@ -405,8 +399,11 @@ export default {
   text-align: left;
 }
 #bottomExplanation {
-  height: 10%;
+  height: 56px;
   text-align: right;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 /* 설명이 적을 때 위치 고정 /
 #cardAction {
@@ -451,5 +448,74 @@ export default {
 }
 #no-background-hover::before {
   background-color: transparent !important;
+}
+.v-card__title {
+  font-size: 1rem;
+}
+.v-card__subtitle,
+.v-card__text,
+.v-card__title {
+  padding: 10px;
+  padding-left: 12px;
+}
+.v-card__actions {
+  padding: 0px;
+}
+.num_card {
+  padding: 0px !important;
+  float: right;
+}
+.admin {
+  color: #000;
+  font-size: 1rem;
+  text-align: left;
+  clear: both;
+  margin-bottom: 0px;
+}
+.time {
+  text-align: left;
+  clear: both;
+  margin-bottom: 0px;
+}
+hr {
+  margin-bottom: 0px;
+  margin-top: 0.5rem;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .mindmap_detail {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+  #app {
+    background-color: #f1f5f8;
+  }
+}
+
+@media (min-width: 576px) {
+  .mindmap_detail {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .mindmap_detail {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .mindmap_detail {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mindmap_detail {
+    max-width: 540px;
+    margin: 0 auto;
+  }
 }
 </style>

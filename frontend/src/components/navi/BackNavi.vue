@@ -11,7 +11,7 @@
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon
-        v-if="title !== '알림' && title !== '게시물 상세 보기'"
+        v-if="title !== '알림' && sub !== '게시물 상세 보기'"
         @click="checkbtn"
         color="#a64bf4"
         >mdi-check</v-icon
@@ -25,6 +25,7 @@ export default {
   name: 'BackPageNavi',
   props: {
     title: null,
+    sub: null,
   },
   methods: {
     backPage: function() {
