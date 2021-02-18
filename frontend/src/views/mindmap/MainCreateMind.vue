@@ -194,7 +194,7 @@ export default {
             // 초기화 시킨 후
             this.$store.dispatch('setMessage', null);
             // 해당 마인드맵 상세 페이지로 이동
-            this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.message) } });
+            this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.message) } });
             setTimeout(function() {}, 500);
             window.location.reload();
           } else {
