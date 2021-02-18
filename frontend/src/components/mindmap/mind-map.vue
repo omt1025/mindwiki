@@ -1,9 +1,9 @@
 <template>
   <div ref="mind-map-item" class="mind-map-item">
-    <div id='saveBtn' v-if="button === true">
+    <div id="saveBtn" v-if="button === true">
       <v-btn @click="updatemapdata">저장</v-btn>
     </div>
-    
+
     <div class="tools">
       <div v-tooltip.bottom="'화면 비율'" class="operation normal-icon" @click="toggleZoomSelector">
         <span>{{ Math.round(ratio * 100) }}%</span>
@@ -115,13 +115,7 @@
       <swipeable-bottom-sheet ref="swipeableBottomSheet">
         <v-col cols="12">
           <span>현재 노드 수정</span>
-          <v-text-field
-            class="mx-3"
-            type="text"
-            id="label"
-            ref="label"
-            v-model="currentData.label"
-          >
+          <v-text-field class="mx-3" type="text" id="label" ref="label" v-model="currentData.label">
             <template v-slot:append>
               <v-icon @click="close()">mdi-check</v-icon>
             </template>
@@ -161,7 +155,7 @@ export default {
         { img: 'inbox.png', title: 'Inbox' },
         { img: 'hangouts.png', title: 'Hangouts' },
         { img: 'messenger.png', title: 'Messenger' },
-        { img: 'google.png', title: 'Google+' }
+        { img: 'google.png', title: 'Google+' },
       ],
       direction: 'horizontal',
       $toVert: null,
@@ -191,7 +185,7 @@ export default {
     };
   },
   mounted() {
-    this.$refs.swipeableBottomSheet.setState("close")
+    this.$refs.swipeableBottomSheet.setState('close');
     const $refs = this.$refs;
 
     this.$toVert = $refs.toVert;
@@ -211,9 +205,9 @@ export default {
     }
 
     if (this.direction === 'vertical') {
-      this.$mapTree.style.transform = `translate3d(1050px, ${this.inFullScreen ? 75 : 35}px, 0)`;
+      this.$mapTree.style.transform = `translate3d(0px, ${this.inFullScreen ? 75 : 35}px, 0)`;
     } else {
-      this.$mapTree.style.transform = 'translate3d(35px, 1340px, 0)';
+      this.$mapTree.style.transform = 'translate3d(0px, 0px, 0)';
     }
 
     this.handleRelocation();
@@ -241,11 +235,11 @@ export default {
     },
   },
   methods: {
-    open () {
-      this.$refs.swipeableBottomSheet.setState("open")
+    open() {
+      this.$refs.swipeableBottomSheet.setState('open');
     },
-    close () {
-      this.$refs.swipeableBottomSheet.setState("close")
+    close() {
+      this.$refs.swipeableBottomSheet.setState('close');
     },
     toggleZoomSelector() {
       this.$ratioSelector.style.display = this.ratioSelectorShowing ? 'none' : 'block';
@@ -303,13 +297,13 @@ export default {
           mapTreeRect.y - telaRect.y - 80
         );
 
-        this.$mapTree.style.transform = `translate3d(1050px, ${this.inFullScreen ? 75 : 35}px, 0)`;
+        this.$mapTree.style.transform = `translate3d(0px, ${this.inFullScreen ? 75 : 35}px, 0)`;
 
         this.$toVert.classList.add('active');
       } else {
         $drawingBoard.scrollTo(0, mapTreeRect.y - telaRect.y - (this.inFullScreen ? 220 : 10));
 
-        this.$mapTree.style.transform = 'translate3d(35px, 1340px, 0)';
+        this.$mapTree.style.transform = 'translate3d(0px, 0px, 0)';
 
         this.$toHori.classList.add('active');
       }
@@ -423,9 +417,7 @@ export default {
       );
 
       $ele.addEventListener('input', (e) => {
-
         if (isInputZh) return;
-
 
         this.inputContent = e.target.innerText;
       });
@@ -524,7 +516,7 @@ export default {
 
       this.contextMenuVisible = false;
 
-      this.$refs.swipeableBottomSheet.setState("close")
+      this.$refs.swipeableBottomSheet.setState('close');
     },
     handleRemove() {
       this.$emit('node-delete', this.currentData, (val) => {
@@ -536,7 +528,7 @@ export default {
       });
     },
     updatemapdata() {
-      this.$emit('send', this.mapData)
+      this.$emit('send', this.mapData);
     },
   },
 };

@@ -358,13 +358,13 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('setMessage', response.data.message); // 응답을 message에 저장
           const form = new FormData();
-          form.append('jwt', mind.get('jwt'))
-          form.append('hashtag', mind.get('hashtag'))
-          form.append('subject', mind.get('subject'))
+          form.append('jwt', mind.get('jwt'));
+          form.append('hashtag', mind.get('hashtag'));
+          form.append('subject', mind.get('subject'));
           // form.append('MindID', mindID)
           axios.post(`${SERVER_URL}/node/getInitNode`, form).then((response) => {
-            context.commit('setMapData', response.data)
-          })
+            context.commit('setMapData', response.data);
+          });
         });
     },
     // 전체 마인드맵 리스트 불러오기[OMT]
@@ -670,6 +670,12 @@ export default new Vuex.Store({
     readActiveList(context, jwt) {
       return axios.post(`${SERVER_URL}/read/active`, jwt).then((response) => {
         context.commit('setActiveList', response.data);
+      });
+    },
+    // 마인드 썸네일 캡처한 이미지로 수정
+    captureImage(context, form) {
+      return axios.post(`${SERVER_URL}/capture/tuhmbnail`, form).then((response) => {
+        context.commit('setMessage', response.data);
       });
     },
   },

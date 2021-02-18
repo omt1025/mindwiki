@@ -31,7 +31,11 @@ import 'vue-mindmap/dist/vue-mindmap.css';
 import Wolfi from '@xarples/wolfi-vue';
 
 // tree
-import VueTree from '@ssthouse/vue-tree-chart'
+import VueTree from '@ssthouse/vue-tree-chart';
+
+// 화면 캡처
+import '@babel/polyfill'; // 없으면 에러나요 npm i --save '@babel/polyfill'
+import VueHtml2Canvas from 'vue-html2canvas';
 
 library.add(faUserSecret);
 
@@ -43,7 +47,8 @@ Vue.use(Vuex);
 Vue.use(VueGlide);
 Vue.use(Mindmap);
 Vue.use(Wolfi);
-Vue.component('vue-tree', VueTree)
+Vue.component('vue-tree', VueTree);
+Vue.use(VueHtml2Canvas);
 
 Vue.config.productionTip = false;
 
