@@ -101,7 +101,7 @@
       <v-sheet class="mx-auto" max-width="375">
         <v-slide-group multiple>
           <!-- Slide에 들어가는 card를 item만큼 만든다 -->
-          <v-slide-item v-for="item in minditems" :key="item.email">
+          <v-slide-item v-for="item in searchHashtagHandler" :key="item.email">
             <v-list-item>
               <v-card class="mx-auto" max-width="400">
                 <v-img
@@ -149,11 +149,11 @@ export default {
       });
     },
     // 해시태그 검색
-    // searchHashtagHandler() {
-    //   return this.minditems.filter(elem => {
-    //     return elem.hashtag.toLowerCase().includes(this.search.toLowerCase());
-    //   });
-    // },
+    searchHashtagHandler() {
+      return this.minditems.filter(elem => {
+        return elem.hashtag.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
   data() {
     return {

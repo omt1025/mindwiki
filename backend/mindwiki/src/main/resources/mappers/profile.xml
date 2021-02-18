@@ -5,8 +5,8 @@
 <mapper namespace="com.mindwiki.dao.ProfileDao">
 
 	<insert id="register" parameterType="com.mindwiki.model.ProfileDto">
-		 INSERT INTO profile (email, password, realName, nickName, hashtag)
-                    VALUES  (#{email}, #{password}, #{realName}, #{nickName}, #{hashtag} ) 
+		 insert into profile (email, password, realName, nickName, hashtag)
+                    values (#{email}, #{password}, #{realName}, #{nickName}, #{hashtag}) 
 	</insert>
 	
 	<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
@@ -69,6 +69,7 @@
 	<select id="getMyProfile" resultType="com.mindwiki.model.ProfileDto">
 		SELECT email, realName, nickName, followerListID, phoneNumber, profileDefaultPic FROM profile where email=#{email}
 	</select>
+	
 	
 		
 </mapper>
