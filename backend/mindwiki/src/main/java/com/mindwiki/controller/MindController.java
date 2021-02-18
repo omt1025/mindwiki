@@ -505,6 +505,37 @@ public class MindController {
 
 	}
 
+	@PostMapping("/capture/tuhmbnail")
+	public ResponseEntity<Map<String, Object>> capture_upload(
+			@RequestParam(value = "files", required = false) MultipartFile file,
+			@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "MindID", required = false) int MindID) {
+
+		Map<String, Object> resultMap = new HashMap<>();
+
+		HttpStatus status = null;
+		try {
+			if (file != null) {
+				String thumbnail = fileUpload(file);
+				mindSvc.updateThumbNail(thumbnail, MindID);
+				
+				
+				status = HttpStatus.OK;
+				resultMap.put("message", "SUCCESS");
+			} else {
+				resultMap.put("message", "FAIL");
+			}
+		} catch (SQLException e) {
+			resultMap.put("message", "FAIL");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+	}
+
+	
 	// 내 마인드 스크랩, 좋아요 한 목록 받아오기
 	@PostMapping("/read/active")
 	public ResponseEntity<List<ActiveDto>> readActiveList(HttpSession hs,
@@ -517,5 +548,7 @@ public class MindController {
 		return new ResponseEntity<List<ActiveDto>>(mindSvc.readActiveList(email), HttpStatus.OK);
 
 	}
+	
+	
 
 }

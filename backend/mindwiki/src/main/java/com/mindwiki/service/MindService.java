@@ -34,4 +34,5 @@ public interface MindService {
 	
 	String getMindPorfilePic(int no) throws SQLException;
 	public List<ActiveDto> readActiveList(String email) throws SQLException;
+	public void updateThumbNail(String thumbnail, int MindID) throws SQLException;
 }

@@ -147,5 +147,13 @@ public class MindServiceImpl implements MindService {
 	public List<ActiveDto> readActiveList(String email) throws SQLException {
 		return session.getMapper(MindDao.class).readActiveList(email);
 	}
+	
+	@Override
+	public void updateThumbNail(String thumbnail, int MindID) throws SQLException {
+
+		session.getMapper(MindDao.class).updateThumbNail(thumbnail, MindID);
+		
+	}
+
 
 }
