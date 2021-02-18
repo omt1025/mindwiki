@@ -1,32 +1,27 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 메뉴 수정
+    * 생성일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-17
+  -->
   <v-list two-line>
     <template v-for="(item, index) in items">
-      <!-- <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader> -->
-      <!-- <v-divider :key="index"></v-divider> -->
-
       <v-list-item :key="index">
         <v-list-item-action></v-list-item-action>
-
         <v-list-item-icon>
           <v-icon v-if="item.what === '좋아요'">mdi-heart</v-icon>
           <v-icon v-else>mdi-bookmark</v-icon>
         </v-list-item-icon>
-
         <v-list-item-action></v-list-item-action>
-
         <v-list-item-content>
           <v-list-item-title
             >'{{ item.nickName }}님이 {{ item.what }} 하셨습니다.</v-list-item-title
           >
-          <!-- <v-list-item-subtitle class="subtitle"
-            >{{ item.nickName }}님이 {{ item.what }} 하셨습니다.</v-list-item-subtitle
-          > -->
           <v-list-item-subtitle class="subtitle">
             <p style="float: left">제목 : {{ item.title }}</p>
             <p style="float: right">{{ item.day }}</p>
           </v-list-item-subtitle>
-
-          <!-- <v-list-item-subtitle class="subtitle2">{{ item.day }}</v-list-item-subtitle> -->
         </v-list-item-content>
       </v-list-item>
     </template>

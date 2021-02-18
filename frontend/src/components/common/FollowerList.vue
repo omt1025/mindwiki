@@ -12,7 +12,6 @@
         v-if="follower.header"
         :key="follower.header"
       ></v-subheader>
-
       <v-list-item
       v-else
       :key="follower.index"
@@ -79,7 +78,7 @@ export default {
           this.followersImage = this.$store.getters.followerProfileImage
           for (var j = 0; j < this.$store.state.followerData.length; j++) {
             // 현재 프로필 사진 순서와 팔로우 주인 순서가 같다.
-            // // followingData에 items 순서대로 넣어주기
+            // followingData에 items 순서대로 넣어주기
             const form = []
             this.$set(form, 'email', this.followers[j])
             this.$set(form, 'profileDefaultPic', this.followersImage[j]);
@@ -95,7 +94,7 @@ export default {
         this.followersImage = this.$store.getters.followerProfileImage
         for (var j = 0; j < this.$store.state.followerData.length; j++) {
         // 현재 프로필 사진 순서와 팔로우 주인 순서가 같다.
-        // // followingData에 items 순서대로 넣어주기
+        // followingData에 items 순서대로 넣어주기
         this.$set(this.followers[j], 'profileDefaultPic', this.followersImage[j]);
       }              
       });
@@ -103,14 +102,10 @@ export default {
   },
   // 팔로워 확인
   created: function() {
-    this.readfollower()
-
-    // this.readfollowerprofileimage()
-  
+    this.readfollower()  
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;
@@ -120,8 +115,7 @@ export default {
       else {
         this.user.files = this.profile.profileDefaultPic;
       }
-    });  
-  
+    });
   }
 }
 </script>

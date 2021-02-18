@@ -5,7 +5,6 @@
     * 생성일자 : 2021-02-04
     * 최종수정일자 : 2021-02-16
   -->
-
   <div class="profile_info">
     <div class="user_info">
       <!-- 사용자 프로필 이미지 -->
@@ -94,26 +93,7 @@ export default {
   data: function() {
     return {
       myMindList: {}, // 내 MIND
-      // 스크랩 MIND기능 미 구현으로 임시로 데이터 박아두기...[YJS]
-      scrapList: [
-        // {
-        //   title: '스타벅스 MD',
-        //   hashtag: '크리스마스md, 벚꽃md, 새해md',
-        //   thumbnail:
-        //     'https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile3.uf.tistory.com%2Fimage%2F99A2DB485C6639A328054E',
-        // },
-        // {
-        //   title: '꽃보다남자',
-        //   hashtag: '구준표,신화그룹,잔디세탁',
-        //   thumbnail:
-        //     'https://t1.daumcdn.net/liveboard/cineplay/7d6049e657b44cf2bc1b4f5a02540ff5.JPG',
-        // },
-        // {
-        //   title: '다꾸',
-        //   hashtag: '컨페티,씰스,인스',
-        //   thumbnail: 'http://weekly.chosun.com/up_fd/wc_news/2123/bimg_org/2123_74_01.jpg',
-        // },
-      ], // 스크랩 MIND
+      scrapList: [], // 스크랩 MIND
       followings: [],
       followers: [],
       // 계정
@@ -138,7 +118,6 @@ export default {
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;
@@ -177,7 +156,6 @@ export default {
     readmymindmap() {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
-
       this.$store.dispatch('readMyMindMap', form).then(() => {
         this.myMindList = this.$store.getters.mindList; // 응답 결과 저장된 마인드를 자식 컴포넌트에 전달
       });

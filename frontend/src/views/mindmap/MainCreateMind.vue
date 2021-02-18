@@ -5,11 +5,9 @@
     * 생성일자 : 2021-02-02
     * 최종수정일자 : 2021-02-16
  -->
-
   <div>
     <!-- 상단 Navi -->
     <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
-
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
         <!-- 마인드 제목 input -->
@@ -28,7 +26,6 @@
           :maxlength="max_title"
           placeholder="작성할 마인드의 제목"
         />
-
         <!-- 주제 input -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left">마인드 주제</span>
         <w-input
@@ -41,7 +38,6 @@
           type="text"
           placeholder="작성할 마인드의 주제"
         />
-
         <!-- 해시태그 box -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left"
           >해시 태그
@@ -77,7 +73,6 @@
             </v-chip>
           </template>
         </v-combobox>
-
         <!-- 마인드 설명 textarea -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left">설명</span>
         <v-textarea
@@ -93,24 +88,14 @@
           @keypress.enter="checkHandler"
           :maxlength="max_explanation"
         ></v-textarea>
-
         <!-- 썸네일 -->
         <span class="label-input100 p-t-25 p-b-7" style="float: left">썸네일 설정</span>
-
-        <!-- <img class="popupImageItem" :src="uploadImageFile" /> -->
         <input
           type="file"
           class="upload"
           @change="processFile($event)"
           @keypress.enter="checkHandler"
         />
-        <!-- <w-button
-            color="secondary"
-            class="upload"
-            @change="processFile($event)"
-            @keypress.enter="checkHandler"
-            >업로드</w-button
-          > -->
       </div>
     </div>
   </div>
@@ -205,17 +190,14 @@ export default {
         .dispatch('makeMindMap', form)
         .then(() => {
           this.message = this.$store.getters.getMessage;
+          // 메세지에 마인드 번호가 담겨오면
           if (this.message !== null) {
+            // 초기화 시킨 후
             this.$store.dispatch('setMessage', null);
-            console.log(this.message);
+            // 해당 마인드맵 상세 페이지로 이동
             this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.message) } });
             setTimeout(function() {}, 500);
             window.location.reload();
-            // 생성 후 내 마인드 리스트 페이지로 이동
-            // this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
-            // this.$store.dispatch('setBottomNav', 'profile');
-            // this.$router.push('/main');
-            // this.$router.go(this.$router.currentRoute);
           } else {
             this.showConfirm('로그인 필요! 로그인 페이지로 이동합니다.');
           }

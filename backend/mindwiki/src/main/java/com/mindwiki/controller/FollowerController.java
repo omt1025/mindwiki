@@ -5,7 +5,6 @@
 *******************************************************************************/
 package com.mindwiki.controller;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,214 +57,174 @@ public class FollowerController {
 
 	@Autowired
 	private MindService mindSvc;
-	
+
 	@Autowired
 	private FollowerService followSvc;
-	
+
 	@Autowired
 	private JwtService jwtSvc;
-	
-	
-	//Create Read Delete
-	
+
+	// Create Read Delete
+
 	@PostMapping("/save")
-	public ResponseEntity<Map<String, Object>> follower_save(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws UnsupportedEncodingException, SQLException {
-		
-		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-		  
-		String myEmail=(String) claimMap.get("email");
-		
-		String followerName=followSvc.searchNameByEmail(followerEmail);
-		System.out.println("이름 가져옴 "+ followerName);
-		
-		FollowerDto followInfo=new FollowerDto(myEmail,followerEmail,followerName);
-		
-		
+	public ResponseEntity<Map<String, Object>> follower_save(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws UnsupportedEncodingException, SQLException {
+
+		Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+		String myEmail = (String) claimMap.get("email");
+
+		String followerName = followSvc.searchNameByEmail(followerEmail);
+		System.out.println("이름 가져옴 " + followerName);
+
+		FollowerDto followInfo = new FollowerDto(myEmail, followerEmail, followerName);
+
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status=null;
-		
+		HttpStatus status = null;
+
 		try {
 			followSvc.save(followInfo);
 			System.out.println("저장완료");
-			resultMap.put("message","SAVE");
+			resultMap.put("message", "SAVE");
 			status = HttpStatus.OK;
 		} catch (SQLException e) {
-			resultMap.put("message","ERROR");
+			resultMap.put("message", "ERROR");
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
-		}//저장해줌
-		
-		
-		
+		}
 
-
-
-		
-		
-		
-		//내이메일이랑, followerEmail을 이메일
-		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	//수정했음 0215 오류확인
+
+
 	@GetMapping("/list")
-	public ResponseEntity<List<FollowerDto>> following_list(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
-		
+	public ResponseEntity<List<FollowerDto>> following_list(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws SQLException, UnsupportedEncodingException {
+
 		String myEmail;
-		if(followerEmail==null) {
-			
-			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-			  
-			myEmail=(String) claimMap.get("email");
+		if (followerEmail == null) {
+
+			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+			myEmail = (String) claimMap.get("email");
+		} else {
+			myEmail = followerEmail;
 		}
-		else {
-			myEmail=followerEmail;
-		}
-	
-		  
-		
-		
-		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail),HttpStatus.OK);
+
+		return new ResponseEntity<List<FollowerDto>>(followSvc.list(myEmail), HttpStatus.OK);
 	}
-	
-	
-	//추가된거 사진
+
+
 	@GetMapping("/list/profilepic")
-	public ResponseEntity<List<String>> list_pic(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
-		
+	public ResponseEntity<List<String>> list_pic(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws SQLException, UnsupportedEncodingException {
+
 		String myEmail;
-		if(followerEmail==null) {
-			
-			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-			  
-			myEmail=(String) claimMap.get("email");
+		if (followerEmail == null) {
+
+			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+			myEmail = (String) claimMap.get("email");
+		} else {
+			myEmail = followerEmail;
 		}
-		else {
-			myEmail=followerEmail;
-		}
-	
-		
+
 		List<FollowerDto> a = followSvc.list(myEmail);
-		List<String> b=new ArrayList<>();
-		
-		for(int i=0; i < a.size(); i++) {
-			String email=a.get(i).getFollowerEmail();
+		List<String> b = new ArrayList<>();
+
+		for (int i = 0; i < a.size(); i++) {
+			String email = a.get(i).getFollowerEmail();
 			b.add(followSvc.getProfilePic(email));
 		}
-		
-		return new ResponseEntity<List<String>>(b,HttpStatus.OK);
+
+		return new ResponseEntity<List<String>>(b, HttpStatus.OK);
 	}
-			
-			
-	
-	
-	//수정했음 0215 오류확인
+
+
 	@GetMapping("/followerlist")
-	public ResponseEntity<List<String>> follower_list(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
-		
+	public ResponseEntity<List<String>> follower_list(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws SQLException, UnsupportedEncodingException {
+
 		String myEmail;
-		if(followerEmail==null) {
-			
-			Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-			  
-			myEmail=(String) claimMap.get("email");
+		if (followerEmail == null) {
+
+			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+			myEmail = (String) claimMap.get("email");
+		} else {
+			myEmail = followerEmail;
 		}
-		else {
-			myEmail=followerEmail;
-		}
-	
-		
-			
-		
-		
-		return new ResponseEntity<List<String>>(followSvc.followerList(myEmail),HttpStatus.OK);
+
+		return new ResponseEntity<List<String>>(followSvc.followerList(myEmail), HttpStatus.OK);
 	}
-	
-	//추가된거 사진
-		@GetMapping("/followerlist/profilepic")
-		public ResponseEntity<List<String>> follower_list_pic(
-				@RequestParam(value="jwt", required=false) String jwt,
-				@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException, UnsupportedEncodingException{
-			
-			String myEmail;
-			if(followerEmail==null) {
-				
-				Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-				  
-				myEmail=(String) claimMap.get("email");
-			}
-			else {
-				myEmail=followerEmail;
-			}
-		
-			
-			List<String> a = followSvc.followerList(myEmail);
-			List<String> b = new ArrayList<>();//결과 내보내줌 이메일로 검색해서
-			
-			for(int i=0; i < a.size(); i++) {
-				String email=a.get(i);
-				b.add(followSvc.getProfilePic(email));
-			}
-			
-			return new ResponseEntity<List<String>>(b,HttpStatus.OK);
+
+
+	@GetMapping("/followerlist/profilepic")
+	public ResponseEntity<List<String>> follower_list_pic(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws SQLException, UnsupportedEncodingException {
+
+		String myEmail;
+		if (followerEmail == null) {
+
+			Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+			myEmail = (String) claimMap.get("email");
+		} else {
+			myEmail = followerEmail;
 		}
-		
-	
-	
+
+		List<String> a = followSvc.followerList(myEmail);
+		List<String> b = new ArrayList<>();// 결과 내보내줌 이메일로 검색해서
+
+		for (int i = 0; i < a.size(); i++) {
+			String email = a.get(i);
+			b.add(followSvc.getProfilePic(email));
+		}
+
+		return new ResponseEntity<List<String>>(b, HttpStatus.OK);
+	}
+
 	@GetMapping("/list/detail")
-	public ResponseEntity<List<MindDto>> follower_list_detail(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws SQLException{
-		
+	public ResponseEntity<List<MindDto>> follower_list_detail(@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail) throws SQLException {
+
 		mindSvc.readByEmail(followerEmail);
-		
+
 		return new ResponseEntity<List<MindDto>>(mindSvc.readByEmail(followerEmail), HttpStatus.OK);
 	}
-	
-	
+
 	@DeleteMapping("/list/delete")
 	public ResponseEntity<Map<String, Object>> follower_list_delete(
-			@RequestParam(value="jwt", required=false) String jwt,
-			@RequestParam(value="followeremail", required=false) String followerEmail) throws UnsupportedEncodingException{
-		
-		Map<String, Object> claimMap=jwtSvc.verifyJWT(jwt);
-		  
-		String myEmail=(String) claimMap.get("email");
-		
-		String followerName=null;
-		
-		FollowerDto followInfo=new FollowerDto(myEmail,followerEmail,followerName);
+			@RequestParam(value = "jwt", required = false) String jwt,
+			@RequestParam(value = "followeremail", required = false) String followerEmail)
+			throws UnsupportedEncodingException {
+
+		Map<String, Object> claimMap = jwtSvc.verifyJWT(jwt);
+
+		String myEmail = (String) claimMap.get("email");
+
+		String followerName = null;
+
+		FollowerDto followInfo = new FollowerDto(myEmail, followerEmail, followerName);
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status=null;
-		
+		HttpStatus status = null;
+
 		try {
 			followSvc.deleteByFollower(followInfo);
-			System.out.println("삭제완료");
-			resultMap.put("message","DELETE");
+			resultMap.put("message", "DELETE");
 			status = HttpStatus.OK;
 		} catch (SQLException e) {
-			
-			resultMap.put("message","ERROR");
+			resultMap.put("message", "ERROR");
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-		
 
-		
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	
-	
-	
-	
+
 }

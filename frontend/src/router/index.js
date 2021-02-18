@@ -1,41 +1,37 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import store from '@/store';
+// Start Page
+import Home from '../views/Home.vue';
 // User
 import Login from '@/views/user/Login.vue';
 import SignUp from '@/views/user/SignUp.vue';
 import PasswordChange from '@/views/user/PasswordChange.vue';
 import FindPW from '@/views/user/FindPassword.vue';
 // Main
-import Home from '../views/Home.vue';
 import Main from '../views/Main.vue';
-
-import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
-
-import MyLibrary from '../views/main/MyLibrary.vue';
+// Main Menu
 import MainMenu from '../components/main/menu/MainMenu.vue';
 import Withdraw from '../views/main/menu/Withdraw.vue';
-// MyLibrary
-import Follow from '../views/main/mylibrary/Follow.vue';
 // MindMap
+import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
-import MyMindList from '../views/mindmap/MyMindList.vue';
 import MindComment from '../views/mindmap/MindComment.vue';
 import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
-import Test from '../views/mindmap/Test.vue';
-
-// Profile Revisee
+// Profile Revise
 import ReviseProfile from '../components/main/profile/ReviseProfile.vue';
-
 import UserProfile from '@/components/main/profile/UserProfile.vue';
+
 Vue.use(VueRouter);
 
 const routes = [
+  // Start Page
   {
     path: '/',
     name: 'Home',
     component: Home,
   },
+  // User
   {
     path: '/login',
     name: 'Login',
@@ -47,25 +43,22 @@ const routes = [
     component: SignUp,
   },
   {
+    path: '/main/menu/passwordchange',
+    name: 'PasswordChange',
+    component: PasswordChange,
+  },
+  {
     path: '/findpw',
     name: 'FindPW',
     component: FindPW,
   },
+  // Main
   {
     path: '/main',
     name: 'Main',
     component: Main,
   },
-  {
-    path: '/main/createmind',
-    name: 'MainCreateMind',
-    component: MainCreateMind,
-  },
-  {
-    path: '/main/mylibrary',
-    name: 'MyLibrary',
-    component: MyLibrary,
-  },
+  // Main Menu
   {
     path: '/main/menu',
     name: 'MainMenu',
@@ -76,25 +69,16 @@ const routes = [
     name: 'Withdraw',
     component: Withdraw,
   },
+  // MindMap
   {
-    path: '/main/mylibrary/follow',
-    name: 'Follow',
-    component: Follow,
-  },
-  {
-    path: '/main/menu/passwordchange',
-    name: 'PasswordChange',
-    component: PasswordChange,
+    path: '/main/createmind',
+    name: 'MainCreateMind',
+    component: MainCreateMind,
   },
   {
     path: '/main/mindmap/mindmapdetail/:no',
     name: 'MindMapDetail',
     component: MindMapDetail,
-  },
-  {
-    path: '/main/mindmap/mymindlist',
-    name: 'MyMindList',
-    component: MyMindList,
   },
   {
     path: '/main/mindmap/mindmapdetail/:no/mindcomment',
@@ -106,11 +90,7 @@ const routes = [
     name: 'MindMapUpdate',
     component: MindMapUpdate,
   },
-  {
-    path: '/main/mindmap/test',
-    name: 'Test',
-    component: Test,
-  },
+  // Profile Revise
   {
     path: '/main/profile/revise',
     name: 'ReviseProfile',

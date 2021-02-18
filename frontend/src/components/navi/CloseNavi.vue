@@ -32,9 +32,6 @@ export default {
   font-family: 'Fredoka One';
   padding-left: 25px;
 }
-// .v-toolbar__title {
-//   font-family: 'Black Han Sans';
-// }
 .closenavi {
   max-height: 56px;
   height: 56px;

@@ -8,11 +8,9 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.mindwiki.model.NodeDto;
-import com.mindwiki.model.NodeResultDto;
-import com.mindwiki.model.ProfileDto;
-import com.mindwiki.model.ProfileResultDto;
 import com.mindwiki.service.JwtService;
 import com.mindwiki.service.MindService;
 import com.mindwiki.service.NodeService;
@@ -48,12 +41,6 @@ public ResponseEntity<Object> getInitNode(HttpSession session,
         @RequestParam(value = "jwt", required = false) String jwt,
         @RequestParam(value = "hashtag", required = false) String hashtag,
         @RequestParam(value = "subject", required = false) String subject) throws UnsupportedEncodingException, SQLException{
-    /*
-    String admin = (String) jwtService.verifyJWT(jwt).get("email");
-    int MindID = mindService.getMindID(admin);
-    nodeService.initNode(MindID, subject, hashtag);
-    System.out.println("end of set initNode");
-    */
     
     StringTokenizer st = new StringTokenizer(hashtag, ",");
     String[] hashtagArr = new String[3];
@@ -82,11 +69,6 @@ public ResponseEntity<Map<String, Object>> setNode(HttpSession session,
     Map<String, Object> reponse = new HashMap<>();
     
     Gson gson = new Gson();
-
-    
-    
-    
-    
 
     nodeService.setNode(gson.toJson(nodeData),MindID);
 

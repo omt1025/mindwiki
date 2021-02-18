@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 코드 정리
+    * 생성일자 : 2021-01-22
+    * 최종수정일자 : 2021-02-18
+  -->
   <v-col cols="12" id="col">
     <w-card height="100%">
       <w-card-category>
@@ -9,7 +15,6 @@
         <p style="font-size: 1.1rem; color:black">{{ card.nickName }}</p>
         <p style="float:right; margin-right:10px">{{ card.initCreateTime.split(' ')[0] }}</p>
       </w-card-category>
-
       <!-- 썸네일 이미지 -->
       <v-img
         :src="card.thumbnail"
@@ -19,14 +24,10 @@
         @click="clickParams(card)"
       >
       </v-img>
-      <!-- class="justify-around" -->
       <!-- 게시글 정보가 담길 흰색 박스 -->
       <w-card-body>
         <!-- 제목 -->
         <w-card-title>{{ card.title }}</w-card-title>
-
-        <!-- <w-card-description></w-card-description> -->
-
         <w-card-footer>
           <v-container>
             <v-row no-gutters>
@@ -45,7 +46,6 @@
                   </v-btn>
                 </div>
               </v-col>
-
               <!-- 스크랩 버튼 토글 -->
               <v-col>
                 <div v-if="card.scrap" class="footer_btn">
@@ -61,7 +61,7 @@
                   </v-btn>
                 </div>
               </v-col>
-
+              <!-- 조회수 버튼 -->
               <v-col>
                 <div class="footer_btn">
                   <v-btn icon class="mx-1">
@@ -126,7 +126,6 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disLike', isLike);
-
       this.$store.dispatch('likeMind', form).then(() => {
         this.card.like = !this.card.like;
       });
@@ -137,7 +136,6 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
       form.append('disScrap', isScrap);
-
       this.$store.dispatch('scrapMind', form).then(() => {
         this.card.scrap = !this.card.scrap;
       });
@@ -147,7 +145,6 @@ export default {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', mind.mindID);
-
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = (Object)(this.$store.getters.getMapData)
         this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
