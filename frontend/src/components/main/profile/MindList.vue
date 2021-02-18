@@ -16,7 +16,7 @@
             <w-card class="card_item p-b-10">
               <!-- 게시글 썸네일 -->
               <!-- 썸네일 클릭 시 상세 페이지로 이동[OMT] -->
-              <img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)" />
+              <v-img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)" />
               <!-- 게시글 내용 -->
               <w-card-body class="body-rule">
                 <w-card-title class="card-title">{{ item.title }}</w-card-title>
@@ -105,6 +105,9 @@ export default {
 }
 .v-list-item {
   flex: none;
+}
+.v-image__image {
+  background-position: top !important;
 }
 @media (min-width: 320px) and (max-width: 480px) {
   .mx-auto {

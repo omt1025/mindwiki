@@ -8,54 +8,41 @@
   <!-- 내가 팔로우한 사람들(팔로잉)을 보여준다. -->
   <div id="app">
     <template v-for="item in items">
-      <v-subheader
-        v-if="item.header"
-        :key="item.header"
-      ></v-subheader>
-      <v-list-item
-      v-else
-      :key="item.data"
-      >
+      <v-subheader v-if="item.header" :key="item.header"></v-subheader>
+      <v-list-item v-else :key="item.data">
         <v-list-item-avatar>
           <!-- 이미지 있을 때 -->
           <v-img
-            v-if="item.profileDefaultPic !== null "
+            v-if="item.profileDefaultPic !== null"
             v-bind:followingsImage="followingsImage"
             alt=""
             :src="item.profileDefaultPic"
           ></v-img>
           <!-- 이미지 없을 때 -->
-          <v-img
-            v-else
-            alt=""
-            :src="creatorImage"
-            @error="imageError = true"
-          ></v-img>
+          <v-img v-else alt="" :src="creatorImage" @error="imageError = true"></v-img>
         </v-list-item-avatar>
-        <!-- 내가 팔로잉한 사람의 이메일을 보여준다. -->
+        <!-- 내가 팔로잉한 사람의 닉네임을 보여준다. -->
         <v-list-item-content>
-          <v-list-item-title v-text="item.followerEmail.split('@')[0]"></v-list-item-title>
+          <v-list-item-title v-text="item.name"></v-list-item-title>
         </v-list-item-content>
-      <!-- 팔로잉 목록에서 제거 -->
-      <v-icon
-        @click="[deletefollower(item.followerEmail)]"
-      >mdi-trash-can</v-icon>
+        <!-- 팔로잉 목록에서 제거 -->
+        <v-icon @click="[deletefollower(item.followerEmail)]">mdi-trash-can</v-icon>
       </v-list-item>
     </template>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "FollowingList",
+  name: 'FollowingList',
   computed: {
-    ...mapGetters({followers: 'followingData'}),
+    ...mapGetters({ followers: 'followingData' }),
     ...mapGetters(['followingProfileImage']),
     // 사용자가 이미지 설정하지 않은 경우 default 이미지 첨부
     creatorImage() {
-      return this.imageError ? this.defaultImage : "creator-image.jpg"
+      return this.imageError ? this.defaultImage : 'creator-image.jpg';
     },
   },
   data() {
@@ -71,25 +58,27 @@ export default {
       profile: '',
       message: '',
       profileDefaultPic: '',
-    }
+    };
   },
   methods: {
     // 팔로잉 확인
     readfollowing() {
       this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
-        this.items = this.$store.getters.followingData
-      })
+        this.items = this.$store.getters.followingData;
+        console.log(this.items);
+      });
     },
     // 팔로잉 사진 확인
     readfollowingimage() {
       this.$store.dispatch('readFollowingProfileImage', this.$store.getters.getJWT).then(() => {
-        this.followingsImage = this.$store.getters.followingProfileImage
+        this.followingsImage = this.$store.getters.followingProfileImage;
         for (var i = 0; i < this.$store.state.followingData.length; i++) {
-        // 현재 프로필 사진 순서와 팔로우 주인 순서가 같다.
-        // followingData에 items 순서대로 넣어주기
-        this.$set(this.items[i], 'profileDefaultPic', this.followingsImage[i]);
-      }        
-    })
+          // 현재 프로필 사진 순서와 팔로우 주인 순서가 같다.
+          // followingData에 items 순서대로 넣어주기
+          if (this.followingsImage[i] === null) this.$set(this.items[i], 'profileDefaultPic', null);
+          else this.$set(this.items[i], 'profileDefaultPic', this.followingsImage[i]);
+        }
+      });
     },
     // 팔로잉 목록에서 제거
     deletefollower(followeremail) {
@@ -97,18 +86,17 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('followeremail', followeremail);
       this.$store.dispatch('deleteFollower', form).then(() => {
-        this.items = this.$store.getters.followingData
+        this.items = this.$store.getters.followingData;
         this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
-          this.items = this.$store.getters.followingData
-        })        
-      })
+          this.items = this.$store.getters.followingData;
+        });
+      });
     },
-    
   },
   // 팔로워 확인
   created: function() {
-    this.readfollowing()
-    this.readfollowingimage()
+    this.readfollowing();
+    this.readfollowingimage();
 
     // 프로필 정보 받아오기
     let form = new FormData();
@@ -123,8 +111,8 @@ export default {
         this.user.files = this.profile.profileDefaultPic;
       }
     });
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -136,12 +124,15 @@ export default {
   margin-top: 6px;
 }
 .v-list-item__content {
-  padding: 11px 0;
+  padding: 11px 11px;
 }
 hr {
   margin-top: 0.4rem;
   margin-bottom: 0.4rem;
   margin-left: 1.1rem;
   margin-right: 1.1rem;
+}
+.v-list-item {
+  padding: 0 25px;
 }
 </style>

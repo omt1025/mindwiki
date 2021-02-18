@@ -49,10 +49,7 @@
               </v-list-item-avatar>
 
               <!-- 프로필 이메일 검색  -->
-              <v-list-item-subtitle
-                v-html="item.email.split('@')[0]"
-                id="subtitle"
-              ></v-list-item-subtitle>
+              <v-list-item-subtitle v-html="item.nickName" id="subtitle"></v-list-item-subtitle>
             </v-list-item>
           </v-slide-item>
         </v-slide-group>
@@ -139,7 +136,7 @@ export default {
     // 닉네임이 null 값일 경우 에러가 나기 때문에 email 검색
     searchProfileHandler() {
       return this.items.filter((elem) => {
-        return elem.email.toLowerCase().includes(this.search.toLowerCase());
+        return elem.nickName.toLowerCase().includes(this.search.toLowerCase());
       });
     },
     // 제목 검색

@@ -1,9 +1,9 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 오민택
-    * 내용 : 마인드맵 저장 후 불러오기 구현
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 아이디 -> 닉네임 변경
     * 생성일자 : 2021-02-03
-    * 최종수정일자 : 2021-02-18
+    * 최종수정일자 : 2021-02-19
   -->
   <v-app id="app">
     <!-- 상단 Navi -->
@@ -22,7 +22,7 @@
           <div v-else>
             <v-img id="avatar" :src="profileImage" alt=""></v-img>
           </div>
-          <p class="admin">{{ mindmap.admin }}</p>
+          <p class="admin">{{ nickName }}</p>
         </v-card-title>
 
         <!-- 게시물 설명 -->
@@ -250,6 +250,8 @@ export default {
       max_explanation: 145,
       naviTitle: '게시물 상세 보기',
       time: '',
+      members: null,
+      nickName: '',
     };
   },
   methods: {
@@ -373,7 +375,19 @@ export default {
     },
   },
   created: function() {
+    // 마인드맵 불러오기
     this.readminddetail(this.no, 0);
+
+    // 회원 목록 가져오기
+    let form1 = new FormData();
+    form1.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('readMemberList', form1).then(() => {
+      this.members = this.$store.getters.memberList;
+      for (var j = 0; j < this.members.length; j++) {
+        if (this.members[j].email === this.mindmap.admin) this.nickName = this.members[j].nickName;
+      }
+    });
   },
 };
 </script>
@@ -405,33 +419,7 @@ export default {
   bottom: 0;
   width: 100%;
 }
-/* 설명이 적을 때 위치 고정 /
-#cardAction {
-  background-color: #fff;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
-/ 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) /
-.interestTagTitle {
-  font-family: Poppins-Regular;
-  font-size: 14px;
-  color: #333333;
-  line-height: 1.5;
-  padding-left: 7px;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 7px;
-}
-.mindmap-svg {
-  position: fixed;
-  top: -50px;
-  left: 40px;
-}
-#app {
-  height: 100%;
-}
-/ 마인드맵 수정 / 삭제 버튼 위치 */
+/* 마인드맵 수정 / 삭제 버튼 위치 */
 #dropdown {
   position: fixed;
   right: 3%;
