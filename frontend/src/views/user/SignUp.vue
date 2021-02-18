@@ -392,6 +392,7 @@ export default {
 <style scoped>
 .login_back {
   background-image: url(../../assets/images/user/bg-01.jpg);
+  background-size: cover;
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 360px;

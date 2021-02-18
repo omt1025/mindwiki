@@ -46,6 +46,16 @@
               * 이메일 서비스 제공자 사정에 의해 즉시 도착하지 않을 수 있으니, 최대 30분 정도
               기다리신 후 다시 시도해주세요.
             </div>
+
+            <!-- 로그인 text -->
+            <div class="flex-col-c p-t-30">
+              <span class="txt1 p-b-10">
+                이미 회원이신가요?
+              </span>
+
+              <!-- 로그인 button -->
+              <router-link to="/login" class="txt2">Login</router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -58,6 +68,7 @@
 @media screen and (min-width: 320px) and (max-width: 480px) {
   .login_back {
     background-image: url(../../assets/images/user/bg-01.jpg);
+    background-size: cover;
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 360px;
@@ -80,6 +91,7 @@
 }
 .login_back {
   background-image: url(../../assets/images/user/bg-01.jpg);
+  background-size: cover;
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 360px;
