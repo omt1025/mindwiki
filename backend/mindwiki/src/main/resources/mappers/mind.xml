@@ -117,5 +117,10 @@
 		order by time desc limit 20;
 	</select>
 	
+	<update id="updateThumbNail">
+		update mind set thumbnail=#{thumbnail} where MindID=#{MindID}
+	</update>
+	
+	
 		
 </mapper>

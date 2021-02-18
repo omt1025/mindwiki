@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.dao.LoginDao;
 import com.mindwiki.dao.MindDao;
@@ -146,6 +147,13 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public List<ActiveDto> readActiveList(String email) throws SQLException {
 		return session.getMapper(MindDao.class).readActiveList(email);
+	}
+
+	@Override
+	public void updateThumbNail(MultipartFile file, int MindID) throws SQLException {
+
+		session.getMapper(MindDao.class).updateThumbNail(file, MindID);
+		
 	}
 
 }
