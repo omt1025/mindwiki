@@ -1,5 +1,9 @@
 <template>
   <div ref="mind-map-item" class="mind-map-item">
+    <div id='saveBtn' v-if="button === true">
+      <v-btn @click="updatemapdata">저장</v-btn>
+    </div>
+    
     <div class="tools">
       <div v-tooltip.bottom="'화면 비율'" class="operation normal-icon" @click="toggleZoomSelector">
         <span>{{ Math.round(ratio * 100) }}%</span>
@@ -117,7 +121,6 @@
             id="label"
             ref="label"
             v-model="currentData.label"
-            @keypress.enter="onInputKeyword"
           >
             <template v-slot:append>
               <v-icon @click="close()">mdi-check</v-icon>
@@ -144,7 +147,7 @@ Vue.use(VTooltip);
 
 export default {
   name: 'MindMap',
-  props: ['data', 'width', 'height', 'showReason', 'dataTemplate'],
+  props: ['data', 'width', 'height', 'showReason', 'dataTemplate', 'no', 'button'],
   components: {
     VueOkrTree,
     ContextMenu,
@@ -188,7 +191,6 @@ export default {
     };
   },
   mounted() {
-    console.log("자식 실행")
     this.$refs.swipeableBottomSheet.setState("close")
     const $refs = this.$refs;
 
@@ -240,7 +242,7 @@ export default {
   },
   methods: {
     open () {
-      this.$refs.swipeableBottomSheet.setState("half")
+      this.$refs.swipeableBottomSheet.setState("open")
     },
     close () {
       this.$refs.swipeableBottomSheet.setState("close")
@@ -521,6 +523,8 @@ export default {
       this.$refs.tree.append(Object.assign({}, this.dataTemplate), this.currentNode);
 
       this.contextMenuVisible = false;
+
+      this.$refs.swipeableBottomSheet.setState("close")
     },
     handleRemove() {
       this.$emit('node-delete', this.currentData, (val) => {
@@ -530,6 +534,9 @@ export default {
           this.contextMenuVisible = false;
         }
       });
+    },
+    updatemapdata() {
+      this.$emit('send', this.mapData)
     },
   },
 };
@@ -875,7 +882,11 @@ div {
     }
   }
 }
-
+#saveBtn {
+  position: fixed;
+  right: 3%;
+  top: 10%;
+}
 ::v-deep .org-chart-node-label {
   margin: 0 $space;
 }

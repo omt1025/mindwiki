@@ -552,8 +552,10 @@ export default new Vuex.Store({
     },
     // 마인드맵 데이터 수정하기[OMT]
     updateMapData(context, mind) {
-      return axios.post(`${SERVER_URL}/node/setNode`, mind).then((response) => {
-        context.commit('setMapData', JSON.parse(response.data));
+      return axios.post(`${SERVER_URL}/node/setNode`, mind).then(() => {
+        return axios.post(`${SERVER_URL}/node/getNode`, mind).then((response) => {
+          context.commit('setMapData', JSON.parse(response.data));
+        });
       });
     },
     // 전체 회원 불러오기[HYH]

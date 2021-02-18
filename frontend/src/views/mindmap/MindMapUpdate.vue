@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    {{ map }}
     <mind-map
       :data="map"
       width="360"
       height="600"
       :show-reason="false"
       :data-template="{ label: ' ', reason: 0 }"
+      :no="no"
+      :button="true"
+      @send="updatemapdata"
       @data-change="handleDataChange"
       @node-delete="handleNodeDelete"
     ></mind-map>
-    <v-btn @click="updatemapdata">임시 버튼</v-btn>
   </div>
 </template>
 
@@ -47,27 +48,23 @@ export default {
 
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
-        console.log(this.map)
       });
     },
-    updatemapdata() {
+    updatemapdata(mapData) {
+      console.log(mapData)
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', this.no);
-      form.append('data', JSON.stringify(this.map));
+      form.append('data', JSON.stringify(mapData));
 
       this.$store.dispatch('updateMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
-
-        console.log(this.map)
-        console.log(typeof this.map)
+        this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
       });
     },
 
   },
   created() {
-    //this.readmapdata();
-    console.log(typeof this.map)
   }
 };
 </script>

@@ -32,8 +32,6 @@
       
       <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
       <!-- 모바일 고려한 크기 조절 필요 -->
-      <!-- <div>{{ map }}</div> -->
-      {{map}}
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -292,8 +290,6 @@ export default {
 
       this.$store.dispatch('readMapData', form).then(() => {
         this.map = (Object)(this.$store.getters.getMapData)
-        // console.log(this.map)
-        // console.log(typeof this.map)
       });
     },
     checkHandler() {
@@ -351,7 +347,6 @@ export default {
       form.append('explanation', this.explanation);
       form.append('hashtag', this.hashtag);
       form.append('MindID', no);
-      // console.log(no)
       this.$store.dispatch('updateMind', form).then(() => {
         this.showAlert('수정이 완료되었습니다.');
       });
@@ -379,7 +374,6 @@ export default {
     showAlert(msg) {
       const options = { title: '알림', size: 'sm' };
       this.$dialogs.alert(msg, options).then(() => {
-        // console.log(res);
         this.menu = false;
       });
     },
@@ -419,8 +413,6 @@ export default {
   created: function() {
     this.readminddetail(this.no, 0);
     //this.readmapdata();
-    console.log(typeof this.map)
-    console.log(this.map)
   },
 };
 </script>
