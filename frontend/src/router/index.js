@@ -22,6 +22,8 @@ import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
 import ReviseProfile from '../components/main/profile/ReviseProfile.vue';
 import UserProfile from '@/components/main/profile/UserProfile.vue';
 
+import Test from '../views/mindmap/Test.vue';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -100,6 +102,11 @@ const routes = [
     path: '/main/userprofile/',
     name: 'UserProfile',
     component: UserProfile,
+  },
+  {
+    path: '/main/mindmap/test',
+    name: 'Test',
+    component: Test,
   },
 ];
 

@@ -135,7 +135,7 @@ export default {
 
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', '140');
+      form.append('MindID', 140);
       form.append('files', file);
 
       this.$store.dispatch('captureImage', form).then(() => {

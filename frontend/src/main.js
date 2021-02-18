@@ -1,8 +1,8 @@
 /*
  * 작성자 : 서울2반 4팀 윤지선
- * 내용 : card 오픈소스 사용위해 wolfi import
+ * 내용 : card 오픈소스 사용위해 VueHtml2Canvasimport
  * 생성일자 : 2021-01-20
- * 최종수정일자 : 2021-02-04
+ * 최종수정일자 : 2021-02-18
  */
 
 import Vue from 'vue';

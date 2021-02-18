@@ -17,9 +17,18 @@
       </w-card-category>
       <!-- 썸네일 이미지 -->
       <v-img
+        v-if="card.thumbnail == null"
         :src="card.thumbnail"
         class="white--text align-end "
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+        height="200px"
+        @click="clickParams(card)"
+      >
+      </v-img>
+      <v-img
+        v-else
+        :src="card.thumbnail"
+        class="white--text align-end "
         height="200px"
         @click="clickParams(card)"
       >
@@ -146,7 +155,7 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', mind.mindID);
       this.$store.dispatch('readMapData', form).then(() => {
-        this.map = (Object)(this.$store.getters.getMapData)
+        this.map = Object(this.$store.getters.getMapData);
         this.$router.push({ name: 'MindMapDetail', params: { no: Number(mind.mindID) } });
       });
     },

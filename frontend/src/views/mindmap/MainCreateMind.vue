@@ -151,7 +151,6 @@ export default {
     },
     processFile(event) {
       this.newmind.files = event.target.files[0];
-      console.log(event.target.files[0]);
     },
 
     // input 유효성 검사 메소드[HYH]
