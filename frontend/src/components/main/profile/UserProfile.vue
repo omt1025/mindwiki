@@ -13,7 +13,6 @@
       <img src="@/assets/images/user/mindwiki_logo.png" alt="" height="23px" />
       <v-spacer></v-spacer>
     </v-toolbar>
-
     <div class="profile_info">
       <div class="user_info">
         <v-avatar class="user_avatar" size="120px">
@@ -27,7 +26,6 @@
           <img v-else :src="creatorImage" @error="imageError = true" alt="" />
         </v-avatar>
       </div>
-
       <!-- 사용자 계정 정보 -->
       <div class="user_nickname text-center p-t-22 p-b-3">
         <span>{{ $route.query.nickName }}</span>
@@ -35,20 +33,15 @@
       <div class="txt1 text-center p-t-2 p-b-20">
         <span>{{ $route.query.email }}</span>
       </div>
-
       <!-- 팔로우 하기, 메시지 보내기 -->
       <div class="user-num">
         <w-card-description class="card-description"> </w-card-description>
       </div>
-
       <w-button v-if="this.show === false" class="profile_button" @click="userfollow()"
         >팔로우</w-button
       >
-
       <w-button v-if="this.show === true" class="profile_button">팔로잉</w-button>
-
       <v-divider></v-divider>
-
       <!-- 내가 팔로우한 사람의 MIND목록 -->
       <div class="mymind_list p-t-60 p-b-20">
         <div class="txt2 p-t-15 p-b-15">
@@ -96,7 +89,6 @@ export default {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('followeremail', this.$route.query.email);
-
       this.$store.dispatch('userFollow', form).then(() => {
         this.message = this.$store.getters.getMessage;
         this.show = !this.show;
@@ -107,7 +99,6 @@ export default {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('followeremail', this.$route.query.email);
-
       this.$store.dispatch('readfollowingMindData', form).then(() => {
         this.minditems = this.$store.getters.followingMindData;
       });
@@ -126,11 +117,9 @@ export default {
   created: function() {
     this.readfollowingminddata();
     this.readfollowing();
-
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;

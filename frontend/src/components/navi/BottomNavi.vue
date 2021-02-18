@@ -5,23 +5,19 @@
         <span>홈</span>
         <v-icon>mdi-home-outline</v-icon>
       </v-btn>
-
       <v-btn value="search" @click="setState('search')">
         <span>검색</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-
       <!-- to="/main/MindMapDetail" -->
       <v-btn value="mindmap" @click="setState('mindmap')">
         <span>생성</span>
         <v-icon>mdi-head-plus-outline</v-icon>
       </v-btn>
-
       <v-btn value="activity" @click="setState('activity')">
         <span>알림</span>
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
-
       <!-- to="/main/mylibrary" -->
       <v-btn value="profile" @click="setState('profile')">
         <span>프로필</span>
@@ -32,9 +28,6 @@
 </template>
 
 <script>
-// created() {
-
-// },
 export default {
   name: 'BottomNavi',
   data() {

@@ -10,25 +10,16 @@
     <v-card flat id="act">
       <activity-list></activity-list>
     </v-card>
-    <!-- </div> -->
-    <!-- <div v-if="mainTab == 1">
-      <v-card flat>
-        <activity-message></activity-message>
-      </v-card>
-    </div> -->
   </v-app>
 </template>
 
 <script>
 import ActivityList from './ActivityList.vue';
-// import ActivityMessage from './ActivityMessage.vue';
-
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
     ActivityList,
-    // ActivityMessage,
   },
   computed: {
     ...mapGetters(['mainTab']),

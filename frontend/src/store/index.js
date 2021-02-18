@@ -1,6 +1,6 @@
 /*
- * 작성자 : 서울2반 4팀 윤지선
- * 내용 : 내 활동 알림
+ * 작성자 : 서울2반 4팀 오민택
+ * 내용 : 맵 업데이트 수정
  * 생성일자 : 2021-01-20
  * 최종수정일자 : 2021-02-18
  */
@@ -112,31 +112,35 @@ export default new Vuex.Store({
     memberList(state) {
       return state.memberList;
     },
-    // 팔로잉
+    // 팔로잉 리턴
     followingData(state) {
       return state.followingData;
     },
-    // 팔로우한 사람의 마인드 보기
+    // 팔로우한 사람의 마인드 리턴
     followingMindData(state) {
       return state.followingMindData;
     },
-    // 나를 팔로우한 사람 목록
+    // 나를 팔로우한 사람 목록 리턴
     followerData(state) {
       return state.followerData;
     },
-    // 회원 정보
+    // 회원 정보 리턴
     profile(state) {
       return state.profile;
     },
+    // 회원 프로필 이미지 리턴
     getProfileImage(state) {
       return state.profileImage;
     },
+    // 팔로워 프로필 이미지 리턴
     followerProfileImage(state) {
       return state.followerProfileImage;
     },
+    // 팔로잉 프로필 이미지 리턴
     followingProfileImage(state) {
       return state.followingProfileImage;
     },
+    // 활동 리스트 리턴
     activeList(state) {
       return state.activeList;
     },
@@ -150,7 +154,6 @@ export default new Vuex.Store({
     LOGIN(state, payload) {
       state.jwt = payload['jwt'];
       state.message = payload['message'];
-
       var decodedJWT = jwt_decode(state.jwt);
       state.userId = decodedJWT['email'];
       state.nickName = decodedJWT['nickName'];
@@ -164,12 +167,10 @@ export default new Vuex.Store({
     // SNS로그인 후 받은 jwt로 state, localStorage에 반영[YJS]
     setJWT(state, jwt) {
       var decodedJWT = jwt_decode(jwt); // JWT 디코딩
-
       // store 변수 갱신
       state.jwt = jwt;
       state.userId = decodedJWT['email'];
       state.nickName = decodedJWT['nickName'];
-
       // localStorage 변수 갱신
       localStorage.setItem('jwt', jwt);
       localStorage.setItem('user-id', state.userId);
@@ -238,8 +239,8 @@ export default new Vuex.Store({
     // 팔로잉 변경
     setfollowingData(state, val) {
       state.followingData = val;
-      // 팔로우 한 사람 마인드맵 리스트 변경
     },
+    // 팔로우 한 사람 마인드맵 리스트 변경
     setfollowingMindData(state, val) {
       state.followingMindData = val;
     },
@@ -255,12 +256,15 @@ export default new Vuex.Store({
     setProfileImage(state, val) {
       state.profileImage = val;
     },
+    // 팔로워 프로필 사진 변경
     setFollowerProfileImage(state, val) {
       state.followerProfileImage = val;
     },
+    // 팔로잉 프로필 사진 변경
     setFollowingProfileImage(state, val) {
       state.followingProfileImage = val;
     },
+    // 활동 리스트 변경
     setActiveList(state, val) {
       state.activeList = val;
     },
@@ -275,29 +279,23 @@ export default new Vuex.Store({
         context.commit('LOGIN', response.data); // 응답을 mutations으로 전달
         let token = `${response.data['jwt']}`;
         context.commit('setJWT', token); // 응답을 mutations으로 전달
-
         // jwt 디코딩
         var decodedJWT = jwt_decode(token);
         let userId = decodedJWT['email'];
         let nickName = decodedJWT['nickName'];
-
         // localStorage에 저장
         localStorage.setItem('jwt', token);
         localStorage.setItem('user-id', userId);
         localStorage.setItem('user-nickname', nickName);
-
-        // axios.defaults.headers.common['jwt'] = token;
       });
     },
     // 로그아웃[YJS]
     LOGOUT(context) {
       axios.defaults.headers.common['jwt'] = undefined;
-
       // localStorage에 저장된 값 지우기
       localStorage.removeItem('jwt');
       localStorage.removeItem('user-id');
       localStorage.removeItem('user-nickname');
-
       // muatation에 있는 state값 날리기
       context.commit('LOGOUT');
     },
@@ -361,7 +359,6 @@ export default new Vuex.Store({
           form.append('jwt', mind.get('jwt'))
           form.append('hashtag', mind.get('hashtag'))
           form.append('subject', mind.get('subject'))
-          // form.append('MindID', mindID)
           axios.post(`${SERVER_URL}/node/getInitNode`, form).then((response) => {
             context.commit('setMapData', response.data)
           })

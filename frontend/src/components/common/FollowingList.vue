@@ -12,7 +12,6 @@
         v-if="item.header"
         :key="item.header"
       ></v-subheader>
-
       <v-list-item
       v-else
       :key="item.data"
@@ -33,17 +32,14 @@
             @error="imageError = true"
           ></v-img>
         </v-list-item-avatar>
-
         <!-- 내가 팔로잉한 사람의 이메일을 보여준다. -->
         <v-list-item-content>
           <v-list-item-title v-text="item.followerEmail.split('@')[0]"></v-list-item-title>
         </v-list-item-content>
-      
       <!-- 팔로잉 목록에서 제거 -->
       <v-icon
         @click="[deletefollower(item.followerEmail)]"
       >mdi-trash-can</v-icon>
-
       </v-list-item>
     </template>
   </div>
@@ -112,13 +108,11 @@ export default {
   // 팔로워 확인
   created: function() {
     this.readfollowing()
-
     this.readfollowingimage()
 
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;

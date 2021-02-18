@@ -5,18 +5,15 @@
     * 생성일자 : 2021-01-21
     * 최종수정일자 : 2021-02-17
  -->
-
   <v-app>
     <!-- <MenuNavi /> -->
     <back-navi :title="title" v-on:backbtn="backPage"></back-navi>
-
     <v-row align="center">
       <v-col>
         <div class="my-5">
           <span></span>
           <v-spacer></v-spacer>
         </div>
-
         <!-- 비회원일 때 보여줌 -->
         <div v-bind:jwt="jwt" v-if="jwt == 'undefined'">
           <!-- <div v-if="getJWT!='undefined'"> -->
@@ -50,8 +47,6 @@
             </v-btn>
           </div>
         </div>
-        <!--  -->
-
         <!-- 회원일 때 보여줌 -->
         <div v-else>
           <div class="my-5">
@@ -82,11 +77,9 @@
               <v-icon>mdi-lock-reset</v-icon>
               <span id="sp">비밀번호 변경</span>
               <v-spacer></v-spacer>
-
               <v-spacer></v-spacer>
             </v-btn>
           </div>
-
           <div class="my-5">
             <v-btn
               x-large
@@ -109,14 +102,11 @@
 </template>
 
 <script>
-// import MenuNavi from '@/components/navi/MenuNavi.vue';
 import BackNavi from '../../navi/BackNavi.vue';
-// import axios from 'axios';
 
 export default {
   name: 'MainMenu',
   components: {
-    // MenuNavi
     BackNavi,
   },
   data: () => ({
@@ -126,7 +116,6 @@ export default {
     color: 'white',
     logoutcheck: '',
     jwt: localStorage.getItem('jwt'),
-    // jwt:getJWT,
   }),
   methods: {
     logout() {
@@ -136,8 +125,6 @@ export default {
       this.$store.dispatch('setMessage', null);
       // 로그아웃 처리
       this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
-      // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
-      // this.$router.push('/login');
     },
     backPage: function() {
       this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
