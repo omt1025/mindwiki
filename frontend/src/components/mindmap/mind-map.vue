@@ -5,130 +5,145 @@
     * 생성일자 : 2021-02-11
     * 최종수정일자 : 2021-02-18
   -->
-  <div ref="mind-map-item" class="mind-map-item">
-    <div id="saveBtn" v-if="button === true">
-      <v-btn @click="updatemapdata">저장</v-btn>
-    </div>
+  <div>
+    <!-- 상단 Navi -->
+    <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
 
-    <div class="tools">
-      <div v-tooltip.bottom="'화면 비율'" class="operation normal-icon" @click="toggleZoomSelector">
-        <span>{{ Math.round(ratio * 100) }}%</span>
-        <i
-          ref="ratio-selector"
-          class="icon simple-vue-mind-map icon_arrow_down"
-          style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
-        ></i>
-        <ul ref="ratio-selector" class="ratio-selector">
-          <li
-            v-for="rt in selectableRatios"
-            :key="rt"
-            :class="{ active: rt === ratio }"
-            @click="handleSelectZoomingRate(rt)"
+    <div ref="mind-map-item" class="mind-map-item">
+      <div id="saveBtn" v-if="button === true">
+        <v-btn @click="updatemapdata">저장</v-btn>
+      </div>
+
+      <div class="tools">
+        <div
+          v-tooltip.bottom="'화면 비율'"
+          class="operation normal-icon"
+          @click="toggleZoomSelector"
+        >
+          <span>{{ Math.round(ratio * 100) }}%</span>
+          <i
+            ref="ratio-selector"
+            class="icon simple-vue-mind-map icon_arrow_down"
+            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
+          ></i>
+          <ul ref="ratio-selector" class="ratio-selector">
+            <li
+              v-for="rt in selectableRatios"
+              :key="rt"
+              :class="{ active: rt === ratio }"
+              @click="handleSelectZoomingRate(rt)"
+            >
+              {{ rt * 100 }}%
+            </li>
+          </ul>
+        </div>
+
+        <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomin"
+            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
+          ></i>
+        </div>
+        <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomout"
+            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
+          ></i>
+        </div>
+        <div class="separator"></div>
+        <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
+          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
+        </div>
+        <div class="separator"></div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toHori"
+          class="operation"
+          @click="handleToStructureHori"
+          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
+        </div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toVert"
+          class="operation"
+          @click="handleToStructureVert"
+          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
+        </div>
+        <div v-if="showReason" class="separator"></div>
+        <div
+          v-if="showReason"
+          v-tooltip.bottom="'부모노드 생성'"
+          class="operation"
+          @click="handleSetAsReason"
+        >
+          <i
+            class="normal-icon"
+            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
+            :class="{ active: currentData.reason > 0 }"
+            >부모노드</i
           >
-            {{ rt * 100 }}%
-          </li>
-        </ul>
-      </div>
-
-      <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
-        <i
-          class="normal-icon icon simple-vue-mind-map icon_zoomin"
-          :class="{ disabled: this.ratio >= this.MAX_RATIO }"
-        ></i>
-      </div>
-      <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
-        <i
-          class="normal-icon icon simple-vue-mind-map icon_zoomout"
-          :class="{ disabled: this.ratio <= this.MIN_RATIO }"
-        ></i>
-      </div>
-      <div class="separator"></div>
-      <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
-        <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
-      </div>
-      <div class="separator"></div>
-      <div
-        v-tooltip.bottom="'트리구조'"
-        ref="toHori"
-        class="operation"
-        @click="handleToStructureHori"
-        style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
-      </div>
-      <div
-        v-tooltip.bottom="'트리구조'"
-        ref="toVert"
-        class="operation"
-        @click="handleToStructureVert"
-        style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
-      </div>
-      <div v-if="showReason" class="separator"></div>
-      <div
-        v-if="showReason"
-        v-tooltip.bottom="'부모노드 생성'"
-        class="operation"
-        @click="handleSetAsReason"
-      >
-        <i
-          class="normal-icon"
-          style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
-          :class="{ active: currentData.reason > 0 }"
-          >부모노드</i
+        </div>
+        <div class="separator"></div>
+        <div
+          v-if="inFullScreen"
+          v-tooltip.bottom="'전체화면 해제'"
+          class="operation"
+          @click="handleExitFullScreen"
         >
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
+        </div>
+        <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
+        </div>
       </div>
-      <div class="separator"></div>
-      <div
-        v-if="inFullScreen"
-        v-tooltip.bottom="'전체화면 해제'"
-        class="operation"
-        @click="handleExitFullScreen"
-      >
-        <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
-      </div>
-      <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
-        <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
-      </div>
-    </div>
-    <div ref="drawing-board" class="drawing-board">
-      <div
-        ref="tela"
-        class="tela"
-        @transitionstart="handleTransitionstart"
-        @transitionend="handleTransitionend"
-        @click="handleTelaClick"
-      >
-        <vue-okr-tree
-          ref="tree"
-          :direction="direction"
-          :data="mapData"
-          :render-content="handleRenderContent"
-          @node-click="handleNodeClick"
+      <div ref="drawing-board" class="drawing-board">
+        <div
+          ref="tela"
+          class="tela"
+          @transitionstart="handleTransitionstart"
+          @transitionend="handleTransitionend"
+          @click="handleTelaClick"
         >
-        </vue-okr-tree>
-        <context-menu
-          :show="contextMenuVisible"
-          :offset="contextMenuOffset"
-          @update:show="(show) => (contextMenuVisible = show)"
-        >
-          <a @click="handleSetAsReason">부모 노드</a>
-          <a @click="handleAppendChild">노드추가</a>
-          <a @click="handleRemove">노드 삭제</a>
-        </context-menu>
+          <vue-okr-tree
+            ref="tree"
+            :direction="direction"
+            :data="mapData"
+            :render-content="handleRenderContent"
+            @node-click="handleNodeClick"
+          >
+          </vue-okr-tree>
+          <context-menu
+            :show="contextMenuVisible"
+            :offset="contextMenuOffset"
+            @update:show="(show) => (contextMenuVisible = show)"
+          >
+            <a @click="handleSetAsReason">부모 노드</a>
+            <a @click="handleAppendChild">노드추가</a>
+            <a @click="handleRemove">노드 삭제</a>
+          </context-menu>
+        </div>
+        <swipeable-bottom-sheet ref="swipeableBottomSheet">
+          <v-col cols="12">
+            <span>현재 노드 수정</span>
+            <v-text-field
+              class="mx-3"
+              type="text"
+              id="label"
+              ref="label"
+              v-model="currentData.label"
+            >
+              <template v-slot:append>
+                <v-icon @click="close()">mdi-check</v-icon>
+              </template>
+            </v-text-field>
+            <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
+          </v-col>
+        </swipeable-bottom-sheet>
       </div>
-      <swipeable-bottom-sheet ref="swipeableBottomSheet">
-        <v-col cols="12">
-          <span>현재 노드 수정</span>
-          <v-text-field class="mx-3" type="text" id="label" ref="label" v-model="currentData.label">
-            <template v-slot:append>
-              <v-icon @click="close()">mdi-check</v-icon>
-            </template>
-          </v-text-field>
-          <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
-        </v-col>
-      </swipeable-bottom-sheet>
     </div>
   </div>
 </template>
@@ -142,6 +157,7 @@ import '@gahing/vcontextmenu/lib/vcontextmenu.css';
 import '../../assets/css/iconfont.css';
 import Vue from 'vue';
 import VTooltip from 'v-tooltip';
+import BackNavi from '../navi/BackNavi.vue';
 
 Vue.use(VTooltip);
 
@@ -152,9 +168,11 @@ export default {
     VueOkrTree,
     ContextMenu,
     SwipeableBottomSheet,
+    BackNavi,
   },
   data() {
     return {
+      title: '마인드맵 수정',
       sheet: false,
       tiles: [
         { img: 'keep.png', title: 'Keep' },
@@ -535,6 +553,13 @@ export default {
     },
     updatemapdata() {
       this.$emit('send', this.mapData);
+    },
+    // 수정 완료 버튼[YJS]
+    checkHandler() {},
+    // 뒤로 가기 버튼[YJS]
+    backPage: function() {
+      // 내 프로필 화면으로 이동
+      this.$router.push('/main');
     },
   },
 };

@@ -7,9 +7,6 @@
   -->
 
   <div id="app">
-    <!-- 상단 Navi -->
-    <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
-
     <div ref="printMe" id="printMe">
       <!-- 마인드맵 api 사용 -->
       <mind-map
@@ -28,7 +25,6 @@
 </template>
 
 <script>
-import BackNavi from '../../components/navi/BackNavi.vue';
 import mindMap from '../../components/mindmap/mind-map.vue';
 import { mapGetters } from 'vuex';
 export default {
@@ -38,10 +34,9 @@ export default {
     const no = Number(this.$route.params.no);
     return {
       no: no,
-      title: '마인드맵 수정',
     };
   },
-  components: { mindMap, BackNavi },
+  components: { mindMap },
   computed: {
     ...mapGetters({ map: Object('getMapData'), likecheck: 'likeData', scrapcheck: 'scrapData' }),
   },
@@ -98,13 +93,6 @@ export default {
       }
 
       return new File([u8arr], fileName, { type: mime });
-    },
-    // 수정 완료 버튼[YJS]
-    checkHandler() {},
-    // 뒤로 가기 버튼[YJS]
-    backPage: function() {
-      // 내 프로필 화면으로 이동
-      this.$router.push('/main');
     },
   },
 };
