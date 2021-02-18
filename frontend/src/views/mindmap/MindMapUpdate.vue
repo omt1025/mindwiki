@@ -5,7 +5,11 @@
     * 생성일자 : 2021-01-25
     * 최종수정일자 : 2021-02-18
   -->
+
   <div id="app">
+    <!-- 상단 Navi -->
+    <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
+
     <div ref="printMe" id="printMe">
       <!-- 마인드맵 api 사용 -->
       <mind-map
@@ -24,6 +28,7 @@
 </template>
 
 <script>
+import BackNavi from '../../components/navi/BackNavi.vue';
 import mindMap from '../../components/mindmap/mind-map.vue';
 import { mapGetters } from 'vuex';
 export default {
@@ -33,14 +38,15 @@ export default {
     const no = Number(this.$route.params.no);
     return {
       no: no,
+      title: '마인드맵 수정',
     };
   },
-  components: { mindMap },
+  components: { mindMap, BackNavi },
   computed: {
     ...mapGetters({ map: Object('getMapData'), likecheck: 'likeData', scrapcheck: 'scrapData' }),
   },
   methods: {
-    // 맵 업데이트
+    // 맵 업데이트[YJS]
     updatemapdata(mapData) {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
@@ -79,7 +85,7 @@ export default {
         else console.log('성공');
       });
     },
-    // 파일 변환 메소드
+    // 파일 변환 메소드[YJS]
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
@@ -93,6 +99,13 @@ export default {
 
       return new File([u8arr], fileName, { type: mime });
     },
+    // 수정 완료 버튼[YJS]
+    checkHandler() {},
+    // 뒤로 가기 버튼[YJS]
+    backPage: function() {
+      // 내 프로필 화면으로 이동
+      this.$router.push('/main');
+    },
   },
 };
 </script>
@@ -104,7 +117,7 @@ export default {
 }
 
 #app {
-  margin-top: 50px;
+  // margin-top: 50px;
 }
 
 ::v-deep .drawing-board {
