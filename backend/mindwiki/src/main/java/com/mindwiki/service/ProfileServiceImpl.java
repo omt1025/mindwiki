@@ -212,7 +212,12 @@ public class ProfileServiceImpl implements ProfileService {
 		String fileUploadTime = dateFormat.format(time);
 		fileUploadTime.replaceAll(":", "");
 		
-		String fileName = StringUtils.cleanPath(fileUploadTime + file.getOriginalFilename());
+		String fileOriginName=file.getOriginalFilename();
+		
+		if(fileOriginName.length()>5) {
+			fileOriginName.substring(0,5);
+		}
+		String fileName = StringUtils.cleanPath(fileUploadTime + fileOriginName);//시간을 추가한 네임
 		String filePath = "http://localhost:8000/mindwiki/image/" + fileName;
 
 		String userDir = System.getProperty("user.dir") + "/src/main/resources/static/img/";
