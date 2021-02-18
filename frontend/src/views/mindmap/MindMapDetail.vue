@@ -7,16 +7,20 @@
   -->
   <v-app id="app">
     <!-- 상세 마인드맵 상단 네비게이션 -->
-    <v-toolbar>
-      <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
+    <!-- 뒤로가기 누르면 전체 마인드맵 조회 페이지로 이동 -->
+    <!-- <v-toolbar>
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-spacer></v-spacer>
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
-    </v-toolbar>
+    </v-toolbar> -->
+
+    <!-- 상단 Navi -->
+    <back-navi :title="naviTitle" v-on:backbtn="backPage"></back-navi>
+
     <!-- 카드 타이틀 -->
     <v-card class="mx-auto" width="100%" flat outlined style="">
-        <!-- 작성자 -->
+      <!-- 작성자 -->
       <v-card-title>
         <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
         <div v-if="profileImage === null">
@@ -24,12 +28,12 @@
         </div>
         <div v-else>
           <v-img id="avatar" :src="profileImage" alt=""></v-img>
-        </div> 
+        </div>
         {{ mindmap.admin }}
       </v-card-title>
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
-      
+
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -60,13 +64,10 @@
       <v-list-item class="grow">
         <v-row id="cardbottom">
           <!-- 좋아요 -->
-          <v-btn
-            id="no-background-hover"
-            :ripple="false"
-            depressed
-            color="white"
-          >
-            <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)">mdi-heart</v-icon>
+          <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+            <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)"
+              >mdi-heart</v-icon
+            >
             <v-icon class="mx-1" v-else @click="likemindmap(no, 0)">mdi-heart</v-icon>
             <span>좋아요</span>
           </v-btn>
@@ -82,13 +83,10 @@
             <span>댓글 쓰기</span>
           </v-btn>
           <!-- 스크랩 -->
-          <v-btn
-            id="no-background-hover"
-            :ripple="false"
-            depressed
-            color="white"
-          >
-            <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)">mdi-bookmark</v-icon>
+          <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+            <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)"
+              >mdi-bookmark</v-icon
+            >
             <v-icon class="mx-1" v-else @click="scrapmindmap(no, 0)">mdi-bookmark</v-icon>
             <span>스크랩</span>
           </v-btn>
@@ -98,12 +96,7 @@
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            id="dropdown"
-            v-bind="attrs"
-            v-on="on"
-            small
-          >
+          <v-btn id="dropdown" v-bind="attrs" v-on="on" small>
             <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>
@@ -129,115 +122,116 @@
                   </v-btn>
                 </template>
 
-            <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
-            <v-card>
-              <v-card-title class="justify-center">
-                <span class="headline">마인드 수정</span>
-              </v-card-title>
-              <v-card-text>
-                <v-row>
-                  <!-- 제목 -->
-                  <v-col cols="12">
-                    <v-text-field
-                      class="mx-2"
-                      label="제목 (최대 16자)"
-                      required
-                      id="title"
-                      ref="title"
-                      v-model="title"
-                      @keypress.enter="checkHandler"
-                      type="text"
-                      :maxlength="max_title"
-                    ></v-text-field>
-                  </v-col>
-                  <!-- 주제 -->
-                  <v-col cols="12">
-                    <v-text-field
-                      class="mx-2"
-                      label="주제"
-                      required
-                      id="subject"
-                      ref="subject"
-                      v-model="subject"
-                      @keypress.enter="checkHandler"
-                      type="text"
-                    ></v-text-field>
-                  </v-col>
-                  <!-- 해시태그 -->
-                  <div>
-                    <div padding="10px">
-                      <p class="interestTagTitle mx-3">해시태그 설정</p>
-                    </div>
-                    <v-combobox
-                      class="mx-5"
-                      append-icon
-                      flat
-                      v-model="hashtag"
-                      hashtag
-                      clearable
-                      multiple
-                      no-filter
-                      id="combobox"
-                    >
-                      <template v-slot:selection="{ attrs, item, select, selected }">
-                        <v-chip
-                          v-bind="attrs"
-                          :input-value="selected"
-                          close
-                          class="ma-1 mb-2"
-                          color="purple"
-                          text-color="white"
-                          @click="select"
-                          @click:close="remove(item)"
+                <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
+                <v-card>
+                  <v-card-title class="justify-center">
+                    <span class="headline">마인드 수정</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <!-- 제목 -->
+                      <v-col cols="12">
+                        <v-text-field
+                          class="mx-2"
+                          label="제목 (최대 16자)"
+                          required
+                          id="title"
+                          ref="title"
+                          v-model="title"
+                          @keypress.enter="checkHandler"
+                          type="text"
+                          :maxlength="max_title"
+                        ></v-text-field>
+                      </v-col>
+                      <!-- 주제 -->
+                      <v-col cols="12">
+                        <v-text-field
+                          class="mx-2"
+                          label="주제"
+                          required
+                          id="subject"
+                          ref="subject"
+                          v-model="subject"
+                          @keypress.enter="checkHandler"
+                          type="text"
+                        ></v-text-field>
+                      </v-col>
+                      <!-- 해시태그 -->
+                      <div>
+                        <div padding="10px">
+                          <p class="interestTagTitle mx-3">해시태그 설정</p>
+                        </div>
+                        <v-combobox
+                          class="mx-5"
+                          append-icon
+                          flat
+                          v-model="hashtag"
+                          hashtag
+                          clearable
+                          multiple
+                          no-filter
+                          id="combobox"
                         >
-                          <strong class="test">{{ item }}</strong
-                          >&nbsp;
-                        </v-chip>
-                      </template>
-                    </v-combobox>
-                  </div>
-                  <!-- 설명 -->
-                  <v-col cols="12">
-                    <v-text-field
-                      class="mx-2"
-                      label="설명 (최대 145자)"
-                      required
-                      id="explanation"
-                      ref="explanation"
-                      v-model="explanation"
-                      :maxlength="max_explanation"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text @click="menu = false">
-                  Cancel
-                </v-btn>
-                <v-btn text @click="checkHandler">
-                  OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
-        </v-list-item>
-      </div>
-    </v-list>
-  </v-menu>
-</div>
+                          <template v-slot:selection="{ attrs, item, select, selected }">
+                            <v-chip
+                              v-bind="attrs"
+                              :input-value="selected"
+                              close
+                              class="ma-1 mb-2"
+                              color="purple"
+                              text-color="white"
+                              @click="select"
+                              @click:close="remove(item)"
+                            >
+                              <strong class="test">{{ item }}</strong
+                              >&nbsp;
+                            </v-chip>
+                          </template>
+                        </v-combobox>
+                      </div>
+                      <!-- 설명 -->
+                      <v-col cols="12">
+                        <v-text-field
+                          class="mx-2"
+                          label="설명 (최대 145자)"
+                          required
+                          id="explanation"
+                          ref="explanation"
+                          v-model="explanation"
+                          :maxlength="max_explanation"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="menu = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn text @click="checkHandler">
+                      OK
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-menu>
+            </v-list-item>
+          </div>
+        </v-list>
+      </v-menu>
+    </div>
   </v-app>
 </template>
 
 <script>
+import BackNavi from '../../components/navi/BackNavi.vue';
 import mindMap from '../../components/mindmap/mind-map.vue';
 import { mapGetters } from 'vuex';
 export default {
   name: 'MindMapDetail',
-  components: { mindMap },
+  components: { mindMap, BackNavi },
   computed: {
-    ...mapGetters({ map:('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
+    ...mapGetters({ map: 'getMapData', likecheck: 'likeData', scrapcheck: 'scrapData' }),
   },
   data() {
     const no = Number(this.$route.params.no);
@@ -257,6 +251,7 @@ export default {
       explanation: '',
       max_title: 16,
       max_explanation: 145,
+      naviTitle: '게시물 상세 보기',
     };
   },
   methods: {
@@ -266,7 +261,7 @@ export default {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
-      form.append('flag', Number(flag))
+      form.append('flag', Number(flag));
       // actions의 readMindDetail 함수 실행
       this.$store.dispatch('readMindDetail', form).then(() => {
         this.mindmap = this.$store.getters.getMessage;
@@ -275,22 +270,22 @@ export default {
         // 해시태그 임시
         if (this.mindmap.hashtag) this.hashtag = this.mindmap.hashtag.split(',');
         this.subject = this.mindmap.subject;
-        for (var i=0; i<this.likecheck.length; i++) {
+        for (var i = 0; i < this.likecheck.length; i++) {
           if (this.likecheck[i]['mindID'] === this.mindmap.mindID) {
-            this.like = true
+            this.like = true;
             break;
           }
         }
-        for (var j=0; j<this.scrapcheck.length; j++) {
+        for (var j = 0; j < this.scrapcheck.length; j++) {
           if (this.scrapcheck[j]['mindID'] === this.mindmap.mindID) {
-            this.scrap = true
+            this.scrap = true;
             break;
           }
         }
-      })
+      });
       this.$store.dispatch('readMindAdminImage', form).then(() => {
-        this.profileImage = this.$store.getters.getProfileImage.pic
-      })
+        this.profileImage = this.$store.getters.getProfileImage.pic;
+      });
     },
     // 마인드맵 수정메뉴에서 항목 작성 체크
     checkHandler() {
@@ -332,7 +327,7 @@ export default {
     },
     // 마인드맵 업데이트 페이지로 이동
     updatenode() {
-      this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.no), map: this.map }})
+      this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.no), map: this.map } });
     },
     // 관심태그 삭제
     remove(item) {
@@ -384,7 +379,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 #app {

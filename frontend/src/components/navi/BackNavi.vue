@@ -10,7 +10,12 @@
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-icon v-if="title !== '알림'" @click="checkbtn" color="#a64bf4">mdi-check</v-icon>
+      <v-icon
+        v-if="title !== '알림' && title !== '게시물 상세 보기'"
+        @click="checkbtn"
+        color="#a64bf4"
+        >mdi-check</v-icon
+      >
     </v-toolbar>
   </v-card>
 </template>

@@ -43,14 +43,14 @@
               <v-col>
                 <!-- 좋아요 버튼 토글 -->
                 <div v-if="card.like" class="footer_btn">
-                  <v-btn icon color="purple" @click="likemindmap(card.mindID, 1)">
-                    <v-icon>mdi-heart</v-icon>
+                  <v-btn icon color="purple">
+                    <v-icon @click="likemindmap(card.mindID, 1)">mdi-heart</v-icon>
                     <p style="margin-left:.2rem">좋아요</p>
                   </v-btn>
                 </div>
                 <div v-else-if="!card.like" class="footer_btn">
-                  <v-btn icon @click="likemindmap(card.mindID, 0)">
-                    <v-icon>mdi-heart-outline</v-icon>
+                  <v-btn icon>
+                    <v-icon @click="likemindmap(card.mindID, 0)">mdi-heart-outline</v-icon>
                     <p style="margin-left:.2rem">좋아요</p>
                   </v-btn>
                 </div>
@@ -58,14 +58,14 @@
               <!-- 스크랩 버튼 토글 -->
               <v-col>
                 <div v-if="card.scrap" class="footer_btn">
-                  <v-btn icon color="purple" @click="scrapmindmap(card.mindID, 1)">
-                    <v-icon>mdi-bookmark</v-icon>
+                  <v-btn icon color="purple">
+                    <v-icon @click="scrapmindmap(card.mindID, 1)">mdi-bookmark</v-icon>
                     <p style="margin-left:.2rem">스크랩</p>
                   </v-btn>
                 </div>
                 <div v-else-if="!card.scrap" class="footer_btn">
-                  <v-btn icon @click="scrapmindmap(card.mindID, 0)">
-                    <v-icon>mdi-bookmark-outline</v-icon>
+                  <v-btn icon>
+                    <v-icon @click="scrapmindmap(card.mindID, 0)">mdi-bookmark-outline</v-icon>
                     <p style="margin-left:.2rem">스크랩</p>
                   </v-btn>
                 </div>

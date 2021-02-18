@@ -15,9 +15,9 @@
     ></back-navi>
 
     <div ref="mind-map-item" class="mind-map-item">
-      <div id="saveBtn" v-if="button === true">
+      <!-- <div id="saveBtn" v-if="button === true">
         <v-btn @click="updatemapdata">저장</v-btn>
-      </div>
+      </div> -->
 
       <div class="tools">
         <div
@@ -105,49 +105,139 @@
           <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
         </div>
       </div>
-      <div ref="drawing-board" class="drawing-board">
+
+      <div class="tools updateTool" v-if="where === 'update'">
         <div
-          ref="tela"
-          class="tela"
-          @transitionstart="handleTransitionstart"
-          @transitionend="handleTransitionend"
-          @click="handleTelaClick"
+          v-tooltip.bottom="'화면 비율'"
+          class="operation normal-icon"
+          @click="toggleZoomSelector"
         >
-          <vue-okr-tree
-            ref="tree"
-            :direction="direction"
-            :data="mapData"
-            :render-content="handleRenderContent"
-            @node-click="handleNodeClick"
-          >
-          </vue-okr-tree>
-          <context-menu
-            :show="contextMenuVisible"
-            :offset="contextMenuOffset"
-            @update:show="(show) => (contextMenuVisible = show)"
-          >
-            <a @click="handleSetAsReason">부모 노드</a>
-            <a @click="handleAppendChild">노드추가</a>
-            <a @click="handleRemove">노드 삭제</a>
-          </context-menu>
-        </div>
-        <swipeable-bottom-sheet ref="swipeableBottomSheet">
-          <v-col cols="12">
-            <span>현재 노드 수정</span>
-            <v-text-field
-              class="mx-3"
-              type="text"
-              id="label"
-              ref="label"
-              v-model="currentData.label"
+          <span>{{ Math.round(ratio * 100) }}%</span>
+          <i
+            ref="ratio-selector"
+            class="icon simple-vue-mind-map icon_arrow_down"
+            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
+          ></i>
+          <ul ref="ratio-selector" class="ratio-selector">
+            <li
+              v-for="rt in selectableRatios"
+              :key="rt"
+              :class="{ active: rt === ratio }"
+              @click="handleSelectZoomingRate(rt)"
             >
-              <template v-slot:append>
-                <v-icon @click="close()">mdi-check</v-icon>
-              </template>
-            </v-text-field>
-            <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
-          </v-col>
-        </swipeable-bottom-sheet>
+              {{ rt * 100 }}%
+            </li>
+          </ul>
+        </div>
+
+        <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomin"
+            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
+          ></i>
+        </div>
+        <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomout"
+            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
+          ></i>
+        </div>
+        <div class="separator"></div>
+        <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
+          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
+        </div>
+        <div class="separator"></div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toHori"
+          class="operation"
+          @click="handleToStructureHori"
+          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
+        </div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toVert"
+          class="operation"
+          @click="handleToStructureVert"
+          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
+        </div>
+        <div v-if="showReason" class="separator"></div>
+        <div
+          v-if="showReason"
+          v-tooltip.bottom="'부모노드 생성'"
+          class="operation"
+          @click="handleSetAsReason"
+        >
+          <i
+            class="normal-icon"
+            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
+            :class="{ active: currentData.reason > 0 }"
+            >부모노드</i
+          >
+        </div>
+        <div class="separator"></div>
+        <div
+          v-if="inFullScreen"
+          v-tooltip.bottom="'전체화면 해제'"
+          class="operation"
+          @click="handleExitFullScreen"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
+        </div>
+        <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
+        </div>
+      </div>
+
+      <div ref="printMe" id="printMe">
+        <div ref="drawing-board" class="drawing-board">
+          <div
+            ref="tela"
+            class="tela"
+            @transitionstart="handleTransitionstart"
+            @transitionend="handleTransitionend"
+            @click="handleTelaClick"
+          >
+            <vue-okr-tree
+              ref="tree"
+              :direction="direction"
+              :data="mapData"
+              :render-content="handleRenderContent"
+              @node-click="handleNodeClick"
+            >
+            </vue-okr-tree>
+            <context-menu
+              :show="contextMenuVisible"
+              :offset="contextMenuOffset"
+              @update:show="(show) => (contextMenuVisible = show)"
+            >
+              <a @click="handleSetAsReason">부모 노드</a>
+              <a @click="handleAppendChild">노드추가</a>
+              <a @click="handleRemove">노드 삭제</a>
+            </context-menu>
+          </div>
+          <swipeable-bottom-sheet ref="swipeableBottomSheet">
+            <v-col cols="12">
+              <span>현재 노드 수정</span>
+              <v-text-field
+                class="mx-3"
+                type="text"
+                id="label"
+                ref="label"
+                v-model="currentData.label"
+              >
+                <template v-slot:append>
+                  <v-icon @click="close()">mdi-check</v-icon>
+                </template>
+              </v-text-field>
+              <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
+            </v-col>
+          </swipeable-bottom-sheet>
+        </div>
       </div>
     </div>
   </div>
@@ -560,7 +650,11 @@ export default {
       this.$emit('send', this.mapData);
     },
     // 수정 완료 버튼[YJS]
-    checkHandler() {},
+    checkHandler() {
+      // 노드 수정 반영
+      this.updatemapdata;
+      // 썸네일 반영
+    },
     // 뒤로 가기 버튼[YJS]
     backPage: function() {
       // 내 프로필 화면으로 이동
@@ -731,6 +825,7 @@ div {
   margin: 0 auto;
   width: 100%;
   height: 100%;
+  margin-top: 56px;
 }
 
 .full-screen {
@@ -739,9 +834,10 @@ div {
   left: 0;
   right: 0;
   bottom: 0;
+  margin-top: 100px;
 
   .tools {
-    top: 16px;
+    top: -40px;
   }
 }
 
@@ -815,7 +911,7 @@ div {
 
 .drawing-board {
   width: 100%;
-  height: 100%;
+  height: 600px;
   overflow: scroll;
   background-color: #f9f9f9;
 }
@@ -922,5 +1018,7 @@ div {
 ::v-deep .org-chart-node-label-inner {
   background-color: #f8f1f8;
   border-radius: 10px;
+}
+@media (min-width: 320px) and (max-width: 480px) {
 }
 </style>

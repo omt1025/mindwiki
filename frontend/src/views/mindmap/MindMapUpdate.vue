@@ -7,22 +7,22 @@
   -->
 
   <div id="app">
-    <div ref="printMe" id="printMe">
-      <!-- 마인드맵 api 사용 -->
-      <mind-map
-        :data="map"
-        id="mind"
-        width="360"
-        height="600"
-        :show-reason="false"
-        :data-template="{ label: ' ', reason: 0 }"
-        :no="no"
-        :button="true"
-        :where="where"
-        @send="updatemapdata"
-      ></mind-map>
-    </div>
+    <!-- <div ref="printMe" id="printMe"> -->
+    <!-- 마인드맵 api 사용 -->
+    <mind-map
+      :data="map"
+      id="mind"
+      width="360"
+      height="600px"
+      :show-reason="false"
+      :data-template="{ label: ' ', reason: 0 }"
+      :no="no"
+      :button="true"
+      :where="where"
+      @send="updatemapdata"
+    ></mind-map>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
