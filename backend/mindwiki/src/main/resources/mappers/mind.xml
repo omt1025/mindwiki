@@ -46,7 +46,8 @@
 	</update>
 	
 	<delete id="deleteByMindID">
-	delete from mind where MindID=#{MindID}
+	delete from mind where MindID=#{MindID};
+	delete from node where MindID=#{MindID};
 	</delete>
 	
 	<insert id="make">
