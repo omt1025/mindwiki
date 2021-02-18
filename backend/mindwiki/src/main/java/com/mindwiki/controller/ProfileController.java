@@ -121,22 +121,17 @@ public class ProfileController {
 		dto.setEmail(email);
 		dto.setPassword(oldPW);
 		
-		ProfileResultDto serviceResult;
+		ProfileResultDto serviceResult = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			serviceResult = profileService.changePassword(dto, newPW);
-			
-			if(serviceResult.getResult()=="SUCCESS") {
-				response.put("message", "SUCCESS");
-			}else {
-				response.put("message", serviceResult.getResult());
-			}
 		}catch(SQLException e) {
 			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
+		response.put("message", serviceResult.getResult());
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 	
@@ -153,25 +148,17 @@ public class ProfileController {
 		dto.setEmail(email);
 		
 		Map<String, Object> response = new HashMap<>();
-		HttpStatus status;
+		ProfileResultDto serviceResult = null;
 		
 		try {
-			ProfileResultDto serviceResult = profileService.sendTempPassword(dto);
-			
-			if(serviceResult.getResult()=="SUCCESS") {
-				response.put("message", "SUCCESS");
-				status = HttpStatus.ACCEPTED;
-			}else {
-				response.put("message", serviceResult.getResult());
-				status = HttpStatus.ACCEPTED;
-			}
+			serviceResult = profileService.sendTempPassword(dto);
 		}catch(SQLException e) {
-			response.put("message", "SERVER_ERROR");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(response, status);
+		response.put("message", serviceResult.getResult());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 
 	/******************************************************************************
@@ -197,25 +184,17 @@ public class ProfileController {
 		dto.setNickName(nickName);
 
 		Map<String, Object> response = new HashMap<>();
-		HttpStatus status;
+		ProfileResultDto serviceResult = null;
 		
 		try {
-			ProfileResultDto serviceResult = profileService.changeProfile(dto, file);
-			
-			if(serviceResult.getResult()=="SUCCESS") {
-				response.put("message", "SUCCESS");
-				status = HttpStatus.ACCEPTED;
-			}else {
-				response.put("message", serviceResult.getResult());
-				status = HttpStatus.ACCEPTED;
-			}
+			serviceResult = profileService.changeProfile(dto, file);
 		}catch(SQLException e) {
-			response.put("message", "SERVER_ERROR");
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(response, status);
+		response.put("message", serviceResult.getResult());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 	
 	/******************************************************************************
@@ -232,20 +211,19 @@ public class ProfileController {
 
 		String email = (String)jwtService.verifyJWT(jwt).get("email");
 
-		Map<String, Object> result = new HashMap<>();
-		HttpStatus status = HttpStatus.ACCEPTED;
-
+		Map<String, Object> response = new HashMap<>();
+		ProfileResultDto serviceResult = null;
 		try {
-			result.put("info", profileService.getMyProfile(email));
-			result.put("message", "SUCCESS");
-			
+			serviceResult = profileService.getMyProfile(email);
 		}catch(SQLException e) {
-			result.put("message", "SERVER_ERROR");
+			response.put("exception", "SQLException");
 			e.printStackTrace();
 		}
-
-		System.out.println(new ResponseEntity<Map<String, Object>>(result, status));
-		return new ResponseEntity<Map<String, Object>>(result, status);
+		
+//		response.put("info", profileService.getMyProfile(email));
+		response.put("info", serviceResult.getProfileDto());
+		response.put("message", serviceResult.getResult());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
 	}
 	
 	/******************************************************************************

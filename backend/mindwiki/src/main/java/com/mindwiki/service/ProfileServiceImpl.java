@@ -196,11 +196,6 @@ public class ProfileServiceImpl implements ProfileService {
 		if(dto.getNickName()!=null) {
 			profileMapper.updateNickname(dto);
 		}
-
-//		if (profileMapper.updateProfile(dto) != 1) {
-//			resultDto.setResult("FAIL");
-//			return resultDto;
-//		}
 		
 		resultDto.setResult("SUCCESS");
 		return resultDto;
@@ -271,13 +266,26 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public ProfileDto getProfile(String email) throws Exception {
-		return session.getMapper(ProfileDao.class).getMyProfile(email);
+	public ProfileResultDto getProfile(String email) throws Exception {
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		ProfileDto profile = profileMapper.getMyProfile(email);
+		
+		ProfileResultDto result = new ProfileResultDto();
+		result.setProfileDto(profile);
+		result.setResult("SUCCESS");
+		return result;
 	}
 
 	@Override
-	public ProfileDto getMyProfile(String email) throws Exception {
-		return session.getMapper(ProfileDao.class).getMyProfile(email);
+	public ProfileResultDto getMyProfile(String email) throws Exception {
+		ProfileDao profileMapper = session.getMapper(ProfileDao.class);
+		ProfileDto profile = profileMapper.getMyProfile(email);
+		
+		ProfileResultDto result = new ProfileResultDto();
+		result.setProfileDto(profile);
+		result.setResult("SUCCESS");
+		return result;
+//		return session.getMapper(ProfileDao.class).getMyProfile(email);
 	}
 
 }
