@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mindwiki.model.ProfileDto;
+import com.mindwiki.model.ProfileResultDto;
 
 @Repository
 public interface ProfileDao {

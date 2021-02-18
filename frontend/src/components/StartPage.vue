@@ -92,14 +92,12 @@ export default {
       var jwt = this.$route.query.jwt;
       let form = new FormData(); // form : axios통신 할 값을 넣어 전달
       form.append('jwt', jwt);
-
       // 서버와 통신(axios)을 해 아이디 존재 여부를 message에 가져옴
       this.$store
         .dispatch('isExist', form)
         .then(() => {
           this.$store.dispatch('setJWT', jwt); // jwt를 로컬스토리지에 저장
           this.message = this.$store.getters.getMessage;
-
           // 해당 계정이 존재하는 경우 => main페이지로 이동
           if (this.message === 'EXIST') {
             this.$store.dispatch('setMessage', null); // message 재사용 위해

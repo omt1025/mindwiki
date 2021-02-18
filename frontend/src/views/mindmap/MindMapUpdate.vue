@@ -1,5 +1,12 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 맵 업데이트 구현
+    * 생성일자 : 2021-01-25
+    * 최종수정일자 : 2021-02-18
+  -->
   <div id="app">
+    <!-- 마인드맵 api 사용 -->
     <mind-map
       :data="map"
       width="360"
@@ -9,8 +16,6 @@
       :no="no"
       :button="true"
       @send="updatemapdata"
-      @data-change="handleDataChange"
-      @node-delete="handleNodeDelete"
     ></mind-map>
   </div>
 </template>
@@ -21,10 +26,9 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'MindMapUpdate',
   data() {
-    // const map = this.$route.params.map
+    // 마인드맵 번호
     const no = Number(this.$route.params.no)
     return {
-      // map: map
       no: no,
     };
   },
@@ -33,25 +37,8 @@ export default {
     ...mapGetters({ map:Object('getMapData'), likecheck:'likeData', scrapcheck:'scrapData'}),
   },
   methods: {
-    handleDataChange(data) {
-      this.map = data;
-    },
-    handleNodeDelete(nodeData, callback) {
-      console.log(nodeData);
-
-      callback(true);
-    },
-     readmapdata() {
-      let form = new FormData();
-      form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', this.no);
-
-      this.$store.dispatch('readMapData', form).then(() => {
-        this.map = this.$store.getters.getMapData
-      });
-    },
+    // 맵 업데이트
     updatemapdata(mapData) {
-      console.log(mapData)
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', this.no);
@@ -59,12 +46,10 @@ export default {
 
       this.$store.dispatch('updateMapData', form).then(() => {
         this.map = this.$store.getters.getMapData
+        // 저장 후 상세 마인드맵 페이지로 이동
         this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
       });
     },
-
-  },
-  created() {
   }
 };
 </script>

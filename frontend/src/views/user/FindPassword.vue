@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : 배경 화면 변경
+    * 생성일자 : 2021-01-25
+    * 최종수정일자 : 2021-02-18
+  -->
   <div class="login_back">
     <div class="limiter">
       <div class="container-login100">

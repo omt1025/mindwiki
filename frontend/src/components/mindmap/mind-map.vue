@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 수정 완료 후 마인드맵 저장 구현
+    * 생성일자 : 2021-02-11
+    * 최종수정일자 : 2021-02-18
+  -->
   <div ref="mind-map-item" class="mind-map-item">
     <div id='saveBtn' v-if="button === true">
       <v-btn @click="updatemapdata">저장</v-btn>

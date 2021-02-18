@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 오민택
-    * 내용 : 마인드맵 수정 UI 수정 
+    * 내용 : 마인드맵 저장 후 불러오기 구현
     * 생성일자 : 2021-02-03
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-18
   -->
   <v-app id="app">
     <!-- 상세 마인드맵 상단 네비게이션 -->
@@ -14,10 +14,11 @@
       <img src="@/assets/images/user/mindwiki_logo.png" height="23px" />
       <v-spacer></v-spacer>
     </v-toolbar>
-
+    <!-- 카드 타이틀 -->
     <v-card class="mx-auto" width="100%" flat outlined style="">
         <!-- 작성자 -->
       <v-card-title>
+        <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
         <div v-if="profileImage === null">
           <v-img id="avatar" :src="defaultImage" alt=""></v-img>
         </div>
@@ -28,10 +29,7 @@
       </v-card-title>
       <!-- 제목 -->
       <div id="mindTitle">{{ title }}</div>
-      <!--  -->
       
-      <!-- 마인드맵 이미지 영역을 임의로 넓힘 -->
-      <!-- 모바일 고려한 크기 조절 필요 -->
       <v-img width="100%" height="60%">
         <!-- 마인드맵 api 사용 -->
         <mind-map
@@ -40,8 +38,6 @@
           height="500"
           :show-reason="false"
           :data-template="{ label: ' ', reason: 0 }"
-          @data-change="handleDataChange"
-          @node-delete="handleNodeDelete"
         ></mind-map>
       </v-img>
       <v-card-text id="topExplanation">
@@ -133,13 +129,11 @@
                   </v-btn>
                 </template>
 
-
             <!-- 추가 버튼 클릭 시 팝업 창 활성화 -->
             <v-card>
               <v-card-title class="justify-center">
                 <span class="headline">마인드 수정</span>
               </v-card-title>
-
               <v-card-text>
                 <v-row>
                   <!-- 제목 -->
@@ -174,7 +168,6 @@
                     <div padding="10px">
                       <p class="interestTagTitle mx-3">해시태그 설정</p>
                     </div>
-
                     <v-combobox
                       class="mx-5"
                       append-icon
@@ -217,15 +210,12 @@
                   </v-col>
                 </v-row>
               </v-card-text>
-
               <v-divider></v-divider>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text @click="menu = false">
                   Cancel
                 </v-btn>
-
                 <v-btn text @click="checkHandler">
                   OK
                 </v-btn>
@@ -259,53 +249,17 @@ export default {
       scrap: false,
       profileImage: null,
       defaultImage: require('@/assets/images/mindwiki_logo-color.png'),
-      // 마인드맵 생성에 필요한 요소
       mindmap: '',
       useremail: this.$store.getters.userId,
-      // 임시로 쓸 더미 데이터
-      // map: [{ label: 'wwwwwwww', root:true, reason:0, url:'', children: [],},],
       hashtag: [],
-      // ...map,
       title: '',
       subject: '',
       explanation: '',
-      // 제목, 설명 글자 수 제한
       max_title: 16,
       max_explanation: 145,
     };
   },
   methods: {
-    handleDataChange(data) {
-      this.map = data;
-    },
-    handleNodeDelete(nodeData, callback) {
-      // console.log(nodeData);
-
-      callback(true);
-    },
-    readmapdata() {
-      let form = new FormData();
-      form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', this.no);
-
-      this.$store.dispatch('readMapData', form).then(() => {
-        this.map = (Object)(this.$store.getters.getMapData)
-      });
-    },
-    checkHandler() {
-      let err = true;
-      let msg = '';
-      !this.title && ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
-      err &&
-        !this.subject &&
-        ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
-      err &&
-        !this.explanation &&
-        ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
-      // if (!err) alert(msg);
-      if (!err) this.showAlert(msg);
-      else this.updatemind(this.no);
-    },
     // 서버로부터 마인드맵 데이터를 받아오는 함수
     readminddetail(no, flag) {
       // jwt와 마인드 번호를 form에 담아서 보내야 함
@@ -338,6 +292,21 @@ export default {
         this.profileImage = this.$store.getters.getProfileImage.pic
       })
     },
+    // 마인드맵 수정메뉴에서 항목 작성 체크
+    checkHandler() {
+      let err = true;
+      let msg = '';
+      !this.title && ((msg = '제목을 입력해주세요.'), (err = false), this.$refs.title.focus());
+      err &&
+        !this.subject &&
+        ((msg = '부모 노드를 입력해주세요.'), (err = false), this.$refs.subject.focus());
+      err &&
+        !this.explanation &&
+        ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
+      // if (!err) alert(msg);
+      if (!err) this.showAlert(msg);
+      else this.updatemind(this.no);
+    },
     // 마인드맵 수정 함수
     updatemind(no) {
       let form = new FormData();
@@ -361,7 +330,7 @@ export default {
         this.$router.push('/main/mindmap/mymindlist');
       });
     },
-    // 마인드맵 제거 함수
+    // 마인드맵 업데이트 페이지로 이동
     updatenode() {
       this.$router.push({ name: 'MindMapUpdate', params: { no: Number(this.no), map: this.map }})
     },
@@ -412,7 +381,6 @@ export default {
   },
   created: function() {
     this.readminddetail(this.no, 0);
-    //this.readmapdata();
   },
 };
 </script>
@@ -437,14 +405,6 @@ export default {
 #cardbottom {
   justify-content: space-around;
 }
-/* 설명이 적을 때 위치 고정 /
-#cardAction {
-  background-color: #fff;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
-/ 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) /
 #topExplanation {
   height: 10%;
   text-align: left;
@@ -453,6 +413,14 @@ export default {
   height: 10%;
   text-align: right;
 }
+/* 설명이 적을 때 위치 고정 /
+#cardAction {
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+/ 설명부분 글자수 제한 가정 (적정 : 115자 ~ 145자) /
 .interestTagTitle {
   font-family: Poppins-Regular;
   font-size: 14px;
