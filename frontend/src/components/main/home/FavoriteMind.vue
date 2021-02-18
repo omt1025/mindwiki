@@ -99,9 +99,9 @@ export default {
       form.append('hashtag', hashtagform);
 
       this.$store.dispatch('updateHashTag', form).then(() => {
-        this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
-          this.items = this.$store.state.liketagData;
-        });
+        this.readliketagmind();
+        this.getImage();
+        this.readliketagmind();
       });
     },
     // 관심태그 삭제
@@ -115,9 +115,9 @@ export default {
       form.append('hashtag', hashtagform);
 
       this.$store.dispatch('updateHashTag', form).then(() => {
-        this.$store.dispatch('readLikeTagMindMap', this.$store.getters.getJWT).then(() => {
-          this.items = this.$store.state.liketagData;
-        });
+        this.readliketagmind();
+        this.getImage();
+        this.readliketagmind();
       });
     },
   },
