@@ -5,7 +5,6 @@
     * 생성일자 : 2021-02-05
     * 최종수정일자 : 2021-02-16
 -->
-
   <div>
     <v-sheet class="mx-auto">
       <v-slide-group multiple>
@@ -40,7 +39,6 @@ export default {
   props: {
     mindlist: {}, // 내 MIND목록 건내준것 받아오기
   },
-
   data() {
     return {
       search: '',

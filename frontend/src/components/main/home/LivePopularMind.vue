@@ -5,7 +5,6 @@
     * 생성일자 : 2021-01-18
     * 최종수정일자 : 2021-02-17
   -->
-
   <v-row dense id="list">
     <!-- CardForm 컴포넌트로 데이터를 보냄 -->
     <CardForm v-for="(card, index) in items" :key="index" :card="card" />
@@ -29,7 +28,6 @@ export default {
   created() {
     this.$store.dispatch('readLiveRankingMindMap', this.$store.getters.getJWT).then(() => {
       this.items = this.$store.state.cards;
-
       this.getImage();
     });
   },
@@ -41,7 +39,6 @@ export default {
           if (this.items[i].admin === this.memberList[j].email) {
             this.$set(this.items[i], 'profileDefaultPic', this.memberList[j].profileDefaultPic);
             this.$set(this.items[i], 'nickName', this.memberList[j].nickName);
-            // console.log(this.items[i].profileDefaultPic);
             break;
           }
         }

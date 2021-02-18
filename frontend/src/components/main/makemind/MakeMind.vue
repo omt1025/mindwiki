@@ -11,7 +11,6 @@
       <v-card-title>
         <span class="headline">마인드맵 생성</span>
       </v-card-title>
-
       <v-card-text>
         <v-row>
           <!-- 제목 -->
@@ -152,7 +151,6 @@ export default {
       this.newmind.files = event.target.files[0];
     },
     checkHandler() {
-      console.log(this.newmind.files);
       let err = true;
       let msg = '';
       !this.newmind.title &&
@@ -163,7 +161,6 @@ export default {
       err &&
         !this.newmind.explanation &&
         ((msg = '설명을 적어주세요.'), (err = false), this.$refs.explanation.focus());
-      // if (!err) alert(msg);
       if (!err) this.showAlert(msg);
       else this.makemindmap();
     },
@@ -176,13 +173,11 @@ export default {
       form.append('explanation', this.newmind.explanation);
       form.append('hashtag', this.chips);
       form.append('files', this.newmind.files);
-
       // Actions를 호출
       this.$store
         .dispatch('makeMindMap', form)
         .then(() => {
           this.message = this.$store.getters.getMessage;
-
           if (this.message === 'SUCCESS') {
             this.$store.dispatch('setMessage', null);
             // 생성 후 내 마인드 리스트 페이지로 이동
@@ -201,19 +196,16 @@ export default {
       this.chips.splice(this.chips.indexOf(item), 1);
       this.chips = [...this.chips];
     },
-
     // 다이얼로그 1
     showAlert(msg) {
       const options = { title: '알림', size: 'sm' };
-      this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res);
+      this.$dialogs.alert(msg, options).then(() => {
       });
     },
     // 다이얼로그 2
     showConfirm(msg) {
       const options = { title: '알림', cancelLabel: 'CANCEL' };
-      this.$dialogs.confirm(msg, options).then((res) => {
-        console.log(res);
+      this.$dialogs.confirm(msg, options).then(() => {
         this.$router.push('/login');
       });
     },

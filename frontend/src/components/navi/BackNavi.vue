@@ -5,7 +5,6 @@
     * 생성일자 : 2021-02-15
     * 최종수정일자 : 2021-02-16
  -->
-
   <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
@@ -27,7 +26,6 @@ export default {
       this.$emit('backbtn');
     },
     checkbtn: function() {
-      //   console.log('왔니');
       this.$emit('checkbtn');
     },
   },

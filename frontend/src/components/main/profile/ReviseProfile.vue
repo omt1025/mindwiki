@@ -8,7 +8,6 @@
   <div>
     <!-- 상단 Navi -->
     <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
-
     <div class="container-login100">
       <div class="wrap-login100 p-l-55 p-r-55 p-t-20 p-b-35">
         <!-- 프로필 사진 input -->
@@ -125,7 +124,6 @@ export default {
   created() {
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;
@@ -136,7 +134,6 @@ export default {
         this.user.usernickName = this.profile.nickName;
         this.user.phoneNumber = this.profile.phoneNumber;
         this.user.origin = this.profile.profileDefaultPic;
-        // console.log(this.profile.profileDefaultPic);
       }
     });
   },
@@ -147,7 +144,6 @@ export default {
     },
     processFile(event) {
       this.user.files = event.target.files[0];
-
       const previewImage = document.getElementById('preview-imgage');
       previewImage.setAttribute('src', URL.createObjectURL(event.target.files[0]));
     },
@@ -155,13 +151,10 @@ export default {
     checkHandler() {
       let err = true; // 에러 확인 변수
       let msg = ''; // 다이얼로그에 띄울 메세지
-
       // 닉네임 input이 공백인 경우
       !this.user.usernickName && ((msg = '닉네임을 입력해주세요.'), (err = false));
-
       // 핸드폰번호 input이 공백인 경우
       err && !this.user.phoneNumber && ((msg = '핸드폰 번호를 입력해주세요.'), (err = false));
-
       if (!err) this.showAlert(msg, '양식 오류');
       else this.revise();
     },
@@ -170,7 +163,6 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('phoneNumber', this.user.phoneNumber);
       form.append('nickName', this.user.usernickName);
-
       if (this.user.files != null) {
         form.append('files', this.user.files);
       }

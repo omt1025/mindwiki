@@ -10,12 +10,11 @@ import PasswordChange from '@/views/user/PasswordChange.vue';
 import FindPW from '@/views/user/FindPassword.vue';
 // Main
 import Main from '../views/Main.vue';
-import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
-import MyLibrary from '../views/main/MyLibrary.vue';
 // Main Menu
 import MainMenu from '../components/main/menu/MainMenu.vue';
 import Withdraw from '../views/main/menu/Withdraw.vue';
 // MindMap
+import MainCreateMind from '../views/mindmap/MainCreateMind.vue';
 import MindMapDetail from '../views/mindmap/MindMapDetail.vue';
 import MindComment from '../views/mindmap/MindComment.vue';
 import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
@@ -59,16 +58,6 @@ const routes = [
     name: 'Main',
     component: Main,
   },
-  {
-    path: '/main/createmind',
-    name: 'MainCreateMind',
-    component: MainCreateMind,
-  },
-  {
-    path: '/main/mylibrary',
-    name: 'MyLibrary',
-    component: MyLibrary,
-  },
   // Main Menu
   {
     path: '/main/menu',
@@ -81,6 +70,11 @@ const routes = [
     component: Withdraw,
   },
   // MindMap
+  {
+    path: '/main/createmind',
+    name: 'MainCreateMind',
+    component: MainCreateMind,
+  },
   {
     path: '/main/mindmap/mindmapdetail/:no',
     name: 'MindMapDetail',
