@@ -513,7 +513,10 @@ public class MindController {
 		HttpStatus status = null;
 		try {
 			if (file != null) {
-				mindSvc.updateThumbNail(file, MindID);
+				String thumbnail = fileUpload(file);
+				mindSvc.updateThumbNail(thumbnail, MindID);
+				
+				
 				status = HttpStatus.OK;
 				resultMap.put("message", "SUCCESS");
 			} else {

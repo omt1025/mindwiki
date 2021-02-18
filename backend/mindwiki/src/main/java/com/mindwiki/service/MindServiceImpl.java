@@ -150,9 +150,9 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public void updateThumbNail(MultipartFile file, int MindID) throws SQLException {
+	public void updateThumbNail(String thumbnail, int MindID) throws SQLException {
 
-		session.getMapper(MindDao.class).updateThumbNail(file, MindID);
+		session.getMapper(MindDao.class).updateThumbNail(thumbnail, MindID);
 		
 	}
 
