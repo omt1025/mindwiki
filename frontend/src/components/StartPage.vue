@@ -51,24 +51,6 @@
                   로그인
                 </v-btn>
               </transition>
-
-              <!-- 비회원 접속 button -->
-              <!-- 비회원일 경우, 메인화면으로 바로 이동가능 하지만 주요 서비스 이용 불가 -->
-              <transition name="slide-fade3">
-                <v-btn
-                  v-if="expand"
-                  height="50px"
-                  width="300px"
-                  class="font-weight-bold mx-auto ma-4"
-                  :ripple="false"
-                  id="no-background-hover"
-                  color="#ffffffbb"
-                  rounded
-                  @click="goTest"
-                >
-                  비회원으로 접속하기
-                </v-btn>
-              </transition>
             </div>
           </div>
         </div>

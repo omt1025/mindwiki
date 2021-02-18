@@ -64,8 +64,11 @@
 
             <!-- 비밀번호찾기 button -->
             <div class="text-right p-t-8 p-b-31">
-              <router-link to="/findpw">
+              <router-link to="/findpw" style="margin-right: 8px">
                 비밀번호 찾기
+              </router-link>
+              <router-link to="/signup">
+                회원가입
               </router-link>
             </div>
 
