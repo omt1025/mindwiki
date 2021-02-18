@@ -49,15 +49,15 @@ public class ProfileController {
 			@RequestParam(value="nickName", required=false) String nickName,
 			@RequestParam(value="hashtag", required=false) String hashtag){
 
+		Map<String, Object> response = new HashMap<>();
+		ProfileResultDto serviceResult = null;
+		
 		ProfileDto dto = new ProfileDto();
 		dto.setEmail(email);
 		dto.setPassword(password);
 		dto.setRealName(realName);
 		dto.setNickName(nickName);
 		dto.setHashtag(hashtag);
-		
-		Map<String, Object> response = new HashMap<>();
-		ProfileResultDto serviceResult = null;
 		
 		try {
 			serviceResult = profileService.register(dto);
@@ -82,13 +82,13 @@ public class ProfileController {
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="password", required=false) String password) throws UnsupportedEncodingException{
 
+		Map<String, Object> response = new HashMap<>();
+		ProfileResultDto serviceResult = null;
+		
 		ProfileDto dto = new ProfileDto();
 		dto.setPassword(password);
 		String email = (String)jwtService.verifyJWT(jwt).get("email");
 		dto.setEmail(email);
-
-		Map<String, Object> response = new HashMap<>();
-		ProfileResultDto serviceResult = null;
 		
 		try {
 			serviceResult = profileService.withdrawal(dto);
@@ -113,16 +113,13 @@ public class ProfileController {
 			@RequestParam(value="jwt", required=false) String jwt,
 			@RequestParam(value="oldPassword", required=false) String oldPW,
 			@RequestParam(value="newPassword", required=false) String newPW) throws UnsupportedEncodingException{
-
-		Map<String, Object> jwtData =  jwtService.verifyJWT(jwt);
-		String email = (String)jwtData.get("email");
+		Map<String, Object> response = new HashMap<>();
+		ProfileResultDto serviceResult = null;
 
 		ProfileDto dto = new ProfileDto();
-		dto.setEmail(email);
 		dto.setPassword(oldPW);
-		
-		ProfileResultDto serviceResult = null;
-		Map<String, Object> response = new HashMap<>();
+		String email = (String)jwtService.verifyJWT(jwt).get("email");
+		dto.setEmail(email);
 		
 		try {
 			serviceResult = profileService.changePassword(dto, newPW);
