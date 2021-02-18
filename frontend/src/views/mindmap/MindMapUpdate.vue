@@ -18,6 +18,7 @@
         :data-template="{ label: ' ', reason: 0 }"
         :no="no"
         :button="true"
+        :where="where"
         @send="updatemapdata"
       ></mind-map>
     </div>
@@ -34,6 +35,7 @@ export default {
     const no = Number(this.$route.params.no);
     return {
       no: no,
+      where: 'update',
     };
   },
   components: { mindMap },

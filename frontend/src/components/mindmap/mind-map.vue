@@ -7,7 +7,12 @@
   -->
   <div>
     <!-- 상단 Navi -->
-    <back-navi :title="title" v-on:checkbtn="checkHandler" v-on:backbtn="backPage"></back-navi>
+    <back-navi
+      v-if="where === 'update'"
+      :title="title"
+      v-on:checkbtn="checkHandler"
+      v-on:backbtn="backPage"
+    ></back-navi>
 
     <div ref="mind-map-item" class="mind-map-item">
       <div id="saveBtn" v-if="button === true">
@@ -163,7 +168,7 @@ Vue.use(VTooltip);
 
 export default {
   name: 'MindMap',
-  props: ['data', 'width', 'height', 'showReason', 'dataTemplate', 'no', 'button'],
+  props: ['data', 'width', 'height', 'showReason', 'dataTemplate', 'no', 'button', 'where'],
   components: {
     VueOkrTree,
     ContextMenu,
