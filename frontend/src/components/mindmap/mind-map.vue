@@ -1,5 +1,6 @@
 <template>
   <div ref="mind-map-item" class="mind-map-item">
+    <div>{{ mapData }}</div>
     <div id='saveBtn' v-if="button === true">
       <v-btn @click="updatemapdata">저장</v-btn>
     </div>

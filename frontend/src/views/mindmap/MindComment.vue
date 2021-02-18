@@ -133,6 +133,7 @@ export default {
     };
   },
   methods: {
+    // 댓글 생성
     createcomment() {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
@@ -145,12 +146,14 @@ export default {
         this.write = '';
       });
     },
+    // 댓글 불러오기
     readcomment() {
       this.$store.dispatch('readComment', this.no).then(() => {
         this.items = this.$store.getters.commentData;
         console.log(this.items)
       });
     },
+    // 댓글 삭제
     deletecomment(commentID) {
       const form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
@@ -161,6 +164,7 @@ export default {
         this.readcomment();
       });
     },
+    // 엔터키 눌렀을 때 이벤트
     onInputKeyword: function(event) {
       this.$emit('input-change', event.target.value);
     },
