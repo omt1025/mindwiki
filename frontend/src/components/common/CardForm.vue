@@ -6,6 +6,7 @@
     * 최종수정일자 : 2021-02-18
   -->
   <v-col cols="12" id="col">
+    <!-- style="position:relative"  -->
     <w-card height="100%">
       <w-card-category>
         <v-avatar class="user_avatar" size="30px">
@@ -28,8 +29,9 @@
       <v-img
         v-else
         :src="card.thumbnail"
-        class="white--text align-end "
+        class="white--text"
         height="200px"
+        style="background-position: none;"
         @click="clickParams(card)"
       >
       </v-img>
@@ -164,6 +166,9 @@ export default {
 </script>
 
 <style>
+.v-image__image {
+  background-position: top !important;
+}
 #col {
   padding: 10px 20px;
 }

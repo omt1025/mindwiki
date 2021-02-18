@@ -54,46 +54,6 @@ export default {
         // 저장 후 상세 마인드맵 페이지로 이동
         this.$router.push({ name: 'MindMapDetail', params: { no: Number(this.no) } });
       });
-
-      this.print();
-    },
-    async print() {
-      let el = this.$refs.printMe;
-      el.appendChild(document.getElementById('mind'));
-
-      let options = {
-        type: 'dataURL',
-      };
-      this.output = await this.$html2canvas(el, options);
-
-      var file = this.dataURLtoFile(this.output, 'capture.img');
-      console.log(file);
-
-      let form = new FormData();
-      form.append('jwt', this.$store.getters.getJWT);
-      form.append('MindID', this.no);
-      form.append('files', file);
-
-      this.$store.dispatch('captureImage', form).then(() => {
-        // 응답 결과
-        this.message = this.$store.getters.message;
-        if (this.message === 'FAIL') console.log('실패');
-        else console.log('성공');
-      });
-    },
-    // 파일 변환 메소드[YJS]
-    dataURLtoFile(dataurl, fileName) {
-      var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-
-      return new File([u8arr], fileName, { type: mime });
     },
   },
 };

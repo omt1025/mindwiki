@@ -517,6 +517,7 @@ public class MindController {
 		try {
 			if (file != null) {
 				String thumbnail = fileUpload(file);
+				System.out.println(thumbnail);
 				mindSvc.updateThumbNail(thumbnail, MindID);
 				
 				

@@ -10,7 +10,7 @@
     <back-navi
       v-if="where === 'update'"
       :title="title"
-      v-on:checkbtn="checkHandler"
+      v-on:checkbtn="checkHandler(no)"
       v-on:backbtn="backPage"
     ></back-navi>
 
@@ -18,94 +18,6 @@
       <!-- <div id="saveBtn" v-if="button === true">
         <v-btn @click="updatemapdata">저장</v-btn>
       </div> -->
-
-      <div class="tools">
-        <div
-          v-tooltip.bottom="'화면 비율'"
-          class="operation normal-icon"
-          @click="toggleZoomSelector"
-        >
-          <span>{{ Math.round(ratio * 100) }}%</span>
-          <i
-            ref="ratio-selector"
-            class="icon simple-vue-mind-map icon_arrow_down"
-            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
-          ></i>
-          <ul ref="ratio-selector" class="ratio-selector">
-            <li
-              v-for="rt in selectableRatios"
-              :key="rt"
-              :class="{ active: rt === ratio }"
-              @click="handleSelectZoomingRate(rt)"
-            >
-              {{ rt * 100 }}%
-            </li>
-          </ul>
-        </div>
-
-        <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
-          <i
-            class="normal-icon icon simple-vue-mind-map icon_zoomin"
-            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
-          ></i>
-        </div>
-        <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
-          <i
-            class="normal-icon icon simple-vue-mind-map icon_zoomout"
-            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
-          ></i>
-        </div>
-        <div class="separator"></div>
-        <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
-          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
-        </div>
-        <div class="separator"></div>
-        <div
-          v-tooltip.bottom="'트리구조'"
-          ref="toHori"
-          class="operation"
-          @click="handleToStructureHori"
-          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
-        </div>
-        <div
-          v-tooltip.bottom="'트리구조'"
-          ref="toVert"
-          class="operation"
-          @click="handleToStructureVert"
-          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
-        </div>
-        <div v-if="showReason" class="separator"></div>
-        <div
-          v-if="showReason"
-          v-tooltip.bottom="'부모노드 생성'"
-          class="operation"
-          @click="handleSetAsReason"
-        >
-          <i
-            class="normal-icon"
-            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
-            :class="{ active: currentData.reason > 0 }"
-            >부모노드</i
-          >
-        </div>
-        <div class="separator"></div>
-        <div
-          v-if="inFullScreen"
-          v-tooltip.bottom="'전체화면 해제'"
-          class="operation"
-          @click="handleExitFullScreen"
-        >
-          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
-        </div>
-        <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
-          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
-        </div>
-      </div>
-
       <div class="tools updateTool" v-if="where === 'update'">
         <div
           v-tooltip.bottom="'화면 비율'"
@@ -193,8 +105,95 @@
         </div>
       </div>
 
+      <div v-else class="tools">
+        <div
+          v-tooltip.bottom="'화면 비율'"
+          class="operation normal-icon"
+          @click="toggleZoomSelector"
+        >
+          <span>{{ Math.round(ratio * 100) }}%</span>
+          <i
+            ref="ratio-selector"
+            class="icon simple-vue-mind-map icon_arrow_down"
+            style="margin-left: 3px;font-size: 6px;vertical-align: middle;"
+          ></i>
+          <ul ref="ratio-selector" class="ratio-selector">
+            <li
+              v-for="rt in selectableRatios"
+              :key="rt"
+              :class="{ active: rt === ratio }"
+              @click="handleSelectZoomingRate(rt)"
+            >
+              {{ rt * 100 }}%
+            </li>
+          </ul>
+        </div>
+
+        <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomin"
+            :class="{ disabled: this.ratio >= this.MAX_RATIO }"
+          ></i>
+        </div>
+        <div v-tooltip.bottom="'축소'" class="operation" @click="handleZoomOut()">
+          <i
+            class="normal-icon icon simple-vue-mind-map icon_zoomout"
+            :class="{ disabled: this.ratio <= this.MIN_RATIO }"
+          ></i>
+        </div>
+        <div class="separator"></div>
+        <div v-tooltip.bottom="'가운데로 화면 이동'" class="operation" @click="handleRelocation">
+          <i class="normal-icon icon simple-vue-mind-map icon_centerset"></i>
+        </div>
+        <div class="separator"></div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toHori"
+          class="operation"
+          @click="handleToStructureHori"
+          style="margin-right: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-radius: 4px 0 0 4px;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_hori"></i>
+        </div>
+        <div
+          v-tooltip.bottom="'트리구조'"
+          ref="toVert"
+          class="operation"
+          @click="handleToStructureVert"
+          style="margin-left: 0;width: 40px;height: 24px;line-height: 24px;border: 1px solid #979797;border-left: 0;border-radius: 0 4px 4px 0;"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_structure_vert"></i>
+        </div>
+        <div v-if="showReason" class="separator"></div>
+        <div
+          v-if="showReason"
+          v-tooltip.bottom="'부모노드 생성'"
+          class="operation"
+          @click="handleSetAsReason"
+        >
+          <i
+            class="normal-icon"
+            style="padding: 3px 6px;font-size: 12px;font-style: normal;border: 1px solid #979797;border-radius: 2px;"
+            :class="{ active: currentData.reason > 0 }"
+            >부모노드</i
+          >
+        </div>
+        <div class="separator"></div>
+        <div
+          v-if="inFullScreen"
+          v-tooltip.bottom="'전체화면 해제'"
+          class="operation"
+          @click="handleExitFullScreen"
+        >
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_mini"></i>
+        </div>
+        <div v-else v-tooltip.bottom="'전체화면'" class="operation" @click="handleFullScreen">
+          <i class="normal-icon icon simple-vue-mind-map icon_widonws_max"></i>
+        </div>
+      </div>
+
       <div ref="printMe" id="printMe">
-        <div ref="drawing-board" class="drawing-board">
+        <div ref="drawing-board" class="drawing-board" id="mind">
           <div
             ref="tela"
             class="tela"
@@ -301,6 +300,8 @@ export default {
       currentComponent: null,
       inputContent: '',
       reasonCount: 0,
+      output: null,
+      message: '',
     };
   },
   mounted() {
@@ -328,13 +329,6 @@ export default {
     } else {
       this.$mapTree.style.transform = 'translate3d(0px, 0px, 0)';
     }
-
-    // this.handleRelocation();
-    // if (this.button === true) {
-    //   this.handleFullScreen();
-    // } else {
-    //   this.inFullScreen = false
-    // }
   },
   computed: {
     levelNodes() {
@@ -653,19 +647,64 @@ export default {
         }
       });
     },
+
+    // 부모 컴포넌트와의 통신을 위함
+    // 바뀐 마인드맵 데이터 전달
     updatemapdata() {
       this.$emit('send', this.mapData);
     },
     // 수정 완료 버튼[YJS]
-    checkHandler() {
+    checkHandler(no) {
       // 노드 수정 반영
-      this.updatemapdata;
+      this.updatemapdata();
+
       // 썸네일 반영
+      this.print(no);
     },
     // 뒤로 가기 버튼[YJS]
     backPage: function() {
       // 내 프로필 화면으로 이동
       this.$router.push('/main');
+    },
+
+    // 마인드맵 화면 캡처 로직
+    async print(no) {
+      let el = this.$refs.printMe;
+      // el.appendChild(document.getElementById('mind'));
+
+      let options = {
+        type: 'dataURL',
+      };
+      this.output = await this.$html2canvas(el, options);
+
+      var file = this.dataURLtoFile(this.output, 'capture.img');
+      console.log(file);
+
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', no);
+      form.append('files', file);
+
+      this.$store.dispatch('captureImage', form).then(() => {
+        // 응답 결과
+        this.message = this.$store.getters.message;
+        if (this.message === 'FAIL') console.log('실패');
+        else console.log('성공');
+      });
+    },
+    // 캡쳐한 이미지를 서버 전송을 위해 파일형식으로 변환 메소드
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
     },
   },
 };
