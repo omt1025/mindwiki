@@ -1,19 +1,15 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : MakeMind.vue 마인드 생성 페이지 변경
+    * 내용 : 팔로우 수정
     * 생성일자 : 2021-02-02
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-19
   -->
-  <v-card>
+  <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
-      <!-- 뒤로가기 버튼 -->
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
+      <v-toolbar-title class="flex text-left" font-family>팔로우 목록</v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- 닉네임 -->
-      <v-toolbar-title class="flex text-center">{{ nickName }}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <!-- 프로필 -->
       <template v-slot:extension>
         <v-tabs v-model="followTab" grow color="#a64bf4">
           <v-tabs-slider color="#a64bf4"></v-tabs-slider>
@@ -23,6 +19,7 @@
         </v-tabs>
       </template>
     </v-toolbar>
+
     <v-tabs-items v-model="followTab">
       <v-tab-item>
         <v-card flat>
@@ -69,14 +66,14 @@ export default {
     setTab(index) {
       this.followTab = index;
       this.$store.dispatch('setFollowTab', this.followTab);
-    }
+    },
   },
   // 새로고침 시 상단 탭(팔로워 / 팔로잉) 유지
   updated() {
     this.$nextTick(() => {
-      this.followTab = this.$store.getters.followTab
-    })
-  }
+      this.followTab = this.$store.getters.followTab;
+    });
+  },
 };
 </script>
 <style scoped>

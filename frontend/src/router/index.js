@@ -21,6 +21,8 @@ import MindMapUpdate from '../views/mindmap/MindMapUpdate.vue';
 // Profile Revise
 import ReviseProfile from '../components/main/profile/ReviseProfile.vue';
 import UserProfile from '@/components/main/profile/UserProfile.vue';
+// Follow
+import Follow from '../components/main/mylibrary/Follow.vue';
 
 import Test from '../views/mindmap/Test.vue';
 
@@ -107,6 +109,12 @@ const routes = [
     path: '/main/mindmap/test',
     name: 'Test',
     component: Test,
+  },
+  // Follow
+  {
+    path: '/main/mylibrary/follow',
+    name: 'Follow',
+    component: Follow,
   },
 ];
 
