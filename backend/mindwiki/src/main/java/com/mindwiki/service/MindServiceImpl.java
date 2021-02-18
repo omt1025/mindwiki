@@ -29,7 +29,7 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void make(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).make(mind);
-		
+
 	}
 
 	@Override
@@ -38,70 +38,68 @@ public class MindServiceImpl implements MindService {
 	}
 
 	@Override
-	public MindDto readByMindID(int no) throws SQLException { //여기가 service의 interface readbymindID
+	public MindDto readByMindID(int no) throws SQLException {
 		session.getMapper(MindDao.class).updateViewCnt(no);
-		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
-		
+		return session.getMapper(MindDao.class).readByMindID(no);
+
 	}
-	
+
 	@Override
-	public MindDto readByMindIDNoCount(int no) throws SQLException { //여기가 service의 interface readbymindID
-		return session.getMapper(MindDao.class).readByMindID(no);//여기가 dao클라스꺼고
-		
+	public MindDto readByMindIDNoCount(int no) throws SQLException {
+		return session.getMapper(MindDao.class).readByMindID(no);
+
 	}
 
 	@Override
 	public void update(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).updateByMindID(mind);
-		
+
 	}
 
 	@Override
 	public void delete(MindDto mind) throws SQLException {
 		session.getMapper(MindDao.class).deleteByMindID(mind);
 		session.getMapper(MindDao.class).deleteHashtagList(mind.getMindID());
-		//마인드삭제할때 리스트까지 다 날라가게
-		
-	}
+		// 마인드삭제할때 리스트까지 다 날라가게
 
+	}
 
 	@Override
 	public List<MindDto> readByEmail(String email) throws SQLException {
 		return session.getMapper(MindDao.class).readByEmail(email);
 	}
 
-
 	@Override
-	public void scrap(int no,String email) throws SQLException {
+	public void scrap(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).scrap(no, email);
 		session.getMapper(MindDao.class).scrapPlusCnt(no);
 	}
-	
+
 	@Override
 	public void like(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).like(no, email);
 		session.getMapper(MindDao.class).likePlusCnt(no);
-		
+
 	}
 
 	@Override
 	public List<MindDto> scrapRead(String email) throws SQLException {
-		
-		return session.getMapper(MindDao.class).scrapRead(email); 
+
+		return session.getMapper(MindDao.class).scrapRead(email);
 	}
 
 	@Override
 	public List<MindDto> likeRead(String email) throws SQLException {
-		
+
 		return session.getMapper(MindDao.class).likeRead(email);
-		
+
 	}
 
 	@Override
 	public void deleteLike(int no, String email) throws SQLException {
 		session.getMapper(MindDao.class).deleteLike(no, email);
 		session.getMapper(MindDao.class).likeMinusCnt(no);
-		
+
 	}
 
 	@Override
@@ -118,7 +116,7 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void makeHashtag(int MindID, String hashtag) throws SQLException {
 		session.getMapper(MindDao.class).makeHashtag(MindID, hashtag);
-		
+
 	}
 
 	@Override
@@ -130,19 +128,19 @@ public class MindServiceImpl implements MindService {
 	@Override
 	public void deleteHashtag(int MindID, String hashtag) throws SQLException {
 		session.getMapper(MindDao.class).deleteHashtag(MindID, hashtag);
-		
+
 	}
 
 	@Override
 	public void deleteHashtagList(int MindID) throws SQLException {
 		session.getMapper(MindDao.class).deleteHashtagList(MindID);
-		
+
 	}
 
 	@Override
 	public String getMindPorfilePic(int no) throws SQLException {
-		return session.getMapper(MindDao.class).getMindPorfilePic(no); 
-		
+		return session.getMapper(MindDao.class).getMindPorfilePic(no);
+
 	}
 
 	@Override
@@ -150,5 +148,4 @@ public class MindServiceImpl implements MindService {
 		return session.getMapper(MindDao.class).readActiveList(email);
 	}
 
-	
 }

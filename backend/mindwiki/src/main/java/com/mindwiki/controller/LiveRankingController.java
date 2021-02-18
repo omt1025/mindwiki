@@ -31,19 +31,15 @@ public class LiveRankingController {
 
 	@Autowired
 	private LiveRankingService liveRankingSvc;
-	
-	
+
 	@Autowired
 	private JwtService jwtSvc;
-	
+
 	@GetMapping("/list")
-	public ResponseEntity<List<MindDto>> follower_list(
-			@RequestParam(value="jwt", required=false) String jwt) throws SQLException, UnsupportedEncodingException{
-		
-		
-		
-		
-		return new ResponseEntity<List<MindDto>>(liveRankingSvc.liveRankingList(),HttpStatus.OK);
+	public ResponseEntity<List<MindDto>> follower_list(@RequestParam(value = "jwt", required = false) String jwt)
+			throws SQLException, UnsupportedEncodingException {
+
+		return new ResponseEntity<List<MindDto>>(liveRankingSvc.liveRankingList(), HttpStatus.OK);
 	}
-	
+
 }

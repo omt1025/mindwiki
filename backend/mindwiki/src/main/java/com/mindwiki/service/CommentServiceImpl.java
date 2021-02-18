@@ -30,7 +30,6 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<CommentDto> read(int MindID) throws SQLException {
-		// TODO Auto-generated method stub
 		return session.getMapper(CommentDao.class).read(MindID);
 	}
 
