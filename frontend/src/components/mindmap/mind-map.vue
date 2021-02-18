@@ -289,7 +289,7 @@ export default {
       MIN_RATIO: 0.25,
       MAX_RATIO: 1.5,
       ratioSelectorShowing: false,
-      inFullScreen: false,
+      inFullScreen: true,
       mapData: JSON.parse(JSON.stringify(this.data)),
       contextMenuVisible: false,
       contextMenuOffset: {
@@ -329,7 +329,12 @@ export default {
       this.$mapTree.style.transform = 'translate3d(0px, 0px, 0)';
     }
 
-    this.handleRelocation();
+    // this.handleRelocation();
+    // if (this.button === true) {
+    //   this.handleFullScreen();
+    // } else {
+    //   this.inFullScreen = false
+    // }
   },
   computed: {
     levelNodes() {
@@ -489,7 +494,9 @@ export default {
       );
     },
     handleNodeClick(data, node, component) {
-      this.open();
+      if (this.button === true) {
+        this.open();
+      }
       this.handleClearTela();
 
       this.inputContent = 'data.label';
@@ -843,7 +850,7 @@ div {
 
 .tools {
   position: absolute;
-  top: -40px;
+  top: -5%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1008,15 +1015,22 @@ div {
 }
 #saveBtn {
   position: fixed;
-  right: 3%;
+  left: 5%;
   top: 10%;
+  background-color: rgb(194, 7, 178);
+}
+#label {
+  background-color: #fff;
+}
+#nodeBtn {
+  margin: 10%;
 }
 ::v-deep .org-chart-node-label {
   margin: 0 $space;
 }
 
 ::v-deep .org-chart-node-label-inner {
-  background-color: #f8f1f8;
+  background-color: #fff;
   border-radius: 10px;
 }
 @media (min-width: 320px) and (max-width: 480px) {

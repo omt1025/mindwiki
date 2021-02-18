@@ -13,7 +13,7 @@
       :data="map"
       id="mind"
       width="360"
-      height="600px"
+      height="700"
       :show-reason="false"
       :data-template="{ label: ' ', reason: 0 }"
       :no="no"
@@ -49,7 +49,6 @@ export default {
       form.append('jwt', this.$store.getters.getJWT);
       form.append('MindID', this.no);
       form.append('data', JSON.stringify(mapData));
-
       this.$store.dispatch('updateMapData', form).then(() => {
         this.map = this.$store.getters.getMapData;
         // 저장 후 상세 마인드맵 페이지로 이동

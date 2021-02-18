@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.mindwiki.model.ActiveDto;
 import com.mindwiki.model.LikeDto;
