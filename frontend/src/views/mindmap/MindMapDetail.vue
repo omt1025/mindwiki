@@ -38,6 +38,7 @@
           height="500"
           :show-reason="false"
           :data-template="{ label: ' ', reason: 0 }"
+          :button="false"
         ></mind-map>
       </v-img>
       <v-card-text id="topExplanation">
@@ -327,7 +328,7 @@ export default {
       form.append('no', no);
 
       this.$store.dispatch('deleteMind', form).then(() => {
-        this.$router.push('/main/mindmap/mymindlist');
+        this.$router.push('/main');
       });
     },
     // 마인드맵 업데이트 페이지로 이동

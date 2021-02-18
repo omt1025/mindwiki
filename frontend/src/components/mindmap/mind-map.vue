@@ -6,11 +6,11 @@
     * 최종수정일자 : 2021-02-18
   -->
   <div ref="mind-map-item" class="mind-map-item">
-    <div id='saveBtn' v-if="button === true">
-      <v-btn @click="updatemapdata">저장</v-btn>
+    <div v-if="button === true">
+      <v-btn id='saveBtn' @click="updatemapdata">저장</v-btn>
     </div>
     
-    <div class="tools">
+    <div class="tools" v-if="button === true">
       <div v-tooltip.bottom="'화면 비율'" class="operation normal-icon" @click="toggleZoomSelector">
         <span>{{ Math.round(ratio * 100) }}%</span>
         <i
@@ -29,7 +29,6 @@
           </li>
         </ul>
       </div>
-
       <div v-tooltip.bottom="'확대'" class="operation" @click="handleZoomIn()">
         <i
           class="normal-icon icon simple-vue-mind-map icon_zoomin"
@@ -132,7 +131,7 @@
               <v-icon @click="close()">mdi-check</v-icon>
             </template>
           </v-text-field>
-          <v-btn @click="handleAppendChild">자식 노드 추가</v-btn>
+          <v-btn id="nodeBtn" @click="handleAppendChild">자식 노드 추가</v-btn>
         </v-col>
       </swipeable-bottom-sheet>
     </div>
@@ -182,7 +181,7 @@ export default {
       MIN_RATIO: 0.25,
       MAX_RATIO: 1.5,
       ratioSelectorShowing: false,
-      inFullScreen: false,
+      inFullScreen: true,
       mapData: JSON.parse(JSON.stringify(this.data)),
       contextMenuVisible: false,
       contextMenuOffset: {
@@ -222,7 +221,12 @@ export default {
       this.$mapTree.style.transform = 'translate3d(35px, 1340px, 0)';
     }
 
-    this.handleRelocation();
+    // this.handleRelocation();
+    // if (this.button === true) {
+    //   this.handleFullScreen();
+    // } else {
+    //   this.inFullScreen = false
+    // }
   },
   computed: {
     levelNodes() {
@@ -382,7 +386,9 @@ export default {
       );
     },
     handleNodeClick(data, node, component) {
-      this.open();
+      if (this.button === true) {
+        this.open();
+      }
       this.handleClearTela();
 
       this.inputContent = 'data.label';
@@ -725,7 +731,7 @@ div {
 
 .tools {
   position: absolute;
-  top: -40px;
+  top:-5%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -890,15 +896,22 @@ div {
 }
 #saveBtn {
   position: fixed;
-  right: 3%;
+  left: 5%;
   top: 10%;
+  background-color: rgb(194, 7, 178);
+}
+#label {
+  background-color: #fff;
+}
+#nodeBtn {
+  margin: 10%;
 }
 ::v-deep .org-chart-node-label {
   margin: 0 $space;
 }
 
 ::v-deep .org-chart-node-label-inner {
-  background-color: #f8f1f8;
+  background-color: #fff;
   border-radius: 10px;
 }
 </style>
