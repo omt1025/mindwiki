@@ -1,9 +1,9 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 회원탈퇴 변경 구현
+    * 내용 : 서버 응답 변경으로 fail 메세지 수정
     * 생성일자 : 2021-01-21
-    * 최종수정일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-19
  -->
   <div>
     <!-- 상단 Navi -->
@@ -104,7 +104,7 @@ export default {
           // 회원탈퇴 성공
           if (this.message === 'SUCCESS') {
             this.showAlert('그동안 MindWiki를 이용해주셔서 감사합니다.', '회원탈퇴 성공');
-          } else if (this.message === 'FAIL') {
+          } else if (this.message === 'WITHDRAWAL_FAIL_INCORRECT_PASSWORD') {
             // 현재 비밀번호와 일치하지 않음
             this.showAlert('현재 비밀번호가 일치하지 않습니다.', '회원탈퇴 실패');
           } else {

@@ -89,7 +89,7 @@ export default {
     },
     // 회원탈퇴로 이동
     goWithdraw() {
-      this.$router.push('/menu/withdraw');
+      this.$router.push('/main/menu/withdraw');
     },
   },
   // 새로고침 후 상단 탭 유지

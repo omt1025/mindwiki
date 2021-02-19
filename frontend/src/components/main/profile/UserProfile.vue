@@ -1,53 +1,57 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 다른 회원 프로필 구현
+    * 내용 : ui수정
     * 생성일자 : 2021-02-15
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-19
   -->
   <v-app>
     <v-toolbar id="navi_shadow">
       <!-- 뒤로가기 누르면 검색페이지로 이동 -->
       <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
-      <v-spacer></v-spacer>
-      <img src="@/assets/images/user/mindwiki_logo.png" alt="" height="23px" />
-      <v-spacer></v-spacer>
+      <v-toolbar-title class="flex text-left" font-family>사용자 조회</v-toolbar-title>
     </v-toolbar>
     <div class="profile_info">
+      <!-- 사용자 프로필 이미지 -->
       <div class="user_info">
+        <!-- 이미지 없을 때 -->
         <v-avatar class="user_avatar" size="120px">
-          <!-- 이미지 있을 때 -->
           <img
-            v-if="$route.query.profileDefaultPic !== null"
-            :src="$route.query.profileDefaultPic"
-            alt=""
+            v-if="$route.query.profileDefaultPic === null"
+            src="@/assets/images/mindwiki_logo-03.png"
+            alt="John"
           />
-          <!-- 이미지 없을 때 -->
-          <img v-else :src="creatorImage" @error="imageError = true" alt="" />
+          <!-- 이미지 있을 때 -->
+          <img v-else :src="$route.query.profileDefaultPic" alt="John" />
         </v-avatar>
-      </div>
-      <!-- 사용자 계정 정보 -->
-      <div class="user_nickname text-center p-t-22 p-b-3">
-        <span>{{ $route.query.nickName }}</span>
-      </div>
-      <div class="txt1 text-center p-t-2 p-b-20">
-        <span>{{ $route.query.email }}</span>
-      </div>
-      <!-- 팔로우 하기, 메시지 보내기 -->
-      <div class="user-num">
-        <w-card-description class="card-description"> </w-card-description>
-      </div>
-      <w-button v-if="this.show === false" class="profile_button" @click="userfollow()"
-        >팔로우</w-button
-      >
-      <w-button v-if="this.show === true" class="profile_button">팔로잉</w-button>
-      <v-divider></v-divider>
-      <!-- 내가 팔로우한 사람의 MIND목록 -->
-      <div class="mymind_list p-t-60 p-b-20">
-        <div class="txt2 p-t-15 p-b-15">
-          <span>{{ $route.query.nickName }}님의 MIND</span>
+
+        <!-- 사용자 계정 정보 -->
+        <div class="user_nickname text-center p-t-22 p-b-3">
+          <span>{{ $route.query.nickName }}</span>
         </div>
-        <mind-list :mindlist="minditems"> </mind-list>
+        <div class="txt1 text-center p-t-2 p-b-20">
+          <span>{{ $route.query.email }}</span>
+        </div>
+
+        <!-- 팔로우 하기 -->
+        <w-card>
+          <w-card-body>
+            <div class="user-num">
+              <w-button v-if="this.show === false" class="profile_button" @click="userfollow()"
+                >팔로우 하기</w-button
+              >
+              <w-button v-if="this.show === true" class="profile_button">팔로우 취소</w-button>
+            </div>
+          </w-card-body>
+        </w-card>
+
+        <!-- 내가 팔로우한 사람의 MIND목록 -->
+        <div class="mymind_list p-t-60 p-b-20">
+          <div class="txt2 p-t-15 p-b-15">
+            <span>{{ $route.query.nickName }}님의 MIND</span>
+          </div>
+          <mind-list :mindlist="minditems"> </mind-list>
+        </div>
       </div>
     </div>
   </v-app>
@@ -174,6 +178,7 @@ export default {
   display: inline-block;
   margin-left: 6px;
   margin-right: 12px;
+  /* margin-top: 20px; */
 }
 /* 게시물, 스크랩, 팔로워, 팔로잉 title */
 .card-title {
@@ -193,5 +198,91 @@ export default {
 }
 .card-body {
   padding: 1rem;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+    background-size: contain;
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile_info {
+    background-image: url(../../../assets/images/profile/hero_mini.svg);
+    background-size: contain;
+
+    min-height: auto;
+    min-width: 360px;
+    width: 100%;
+    /* height: 100%; */
+    position: relative;
+    /* object-position: bottom; */
+  }
+  .user_info {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
 }
 </style>

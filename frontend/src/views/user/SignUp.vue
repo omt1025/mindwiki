@@ -337,11 +337,13 @@ export default {
       form.append('realName', this.user.username);
       form.append('password', this.user.userpwd);
       // 소셜 로그인의 경우, 소셜 닉네임을 가져온다.
-      if (localStorage.getItem('user-nickname') !== undefined)
+      if (localStorage.getItem('user-nickname') !== null)
         form.append('nickName', localStorage.getItem('user-nickname'));
       // 초기 닉네임은 이메일 @앞 아이디
       else form.append('nickName', this.user.useremail.split('@')[0]); // 초기 닉네임은 이메일 @앞 아이디
       form.append('hashtag', hashtag);
+
+      console.log(this.user.useremail.split('@')[0]);
 
       this.$store
         .dispatch('signUp', form)

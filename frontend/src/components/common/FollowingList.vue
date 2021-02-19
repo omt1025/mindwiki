@@ -89,6 +89,7 @@ export default {
         this.items = this.$store.getters.followingData;
         this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
           this.items = this.$store.getters.followingData;
+          this.readfollowingimage();
         });
       });
     },
@@ -97,20 +98,6 @@ export default {
   created: function() {
     this.readfollowing();
     this.readfollowingimage();
-
-    // 프로필 정보 받아오기
-    let form = new FormData();
-    form.append('jwt', this.$store.getters.getJWT);
-    this.$store.dispatch('myProfile', form).then(() => {
-      // 응답 결과
-      this.message = this.$store.getters.message;
-      this.profile = this.$store.getters.profile;
-      if (this.message === 'FAIL')
-        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
-      else {
-        this.user.files = this.profile.profileDefaultPic;
-      }
-    });
   },
 };
 </script>

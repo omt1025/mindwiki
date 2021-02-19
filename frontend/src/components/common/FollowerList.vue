@@ -1,7 +1,7 @@
 <template>
   <!-- 
     * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : 반응형 수정
+    * 내용 : 반응형 수정, 닉네임 가져오기
     * 생성일자 : 2021-01-22
     * 최종수정일자 : 2021-02-19
   -->
@@ -23,7 +23,7 @@
         </v-list-item-avatar>
         <!-- 나를 팔로우한 사람의 이메일을 보여준다. -->
         <v-list-item-content>
-          <v-list-item-title v-html="follower.email.split('@')[0]"></v-list-item-title>
+          <v-list-item-title v-html="follower.nickName"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -56,6 +56,7 @@ export default {
       profile: '',
       message: '',
       profileDefaultPic: '',
+      members: '',
     };
   },
   methods: {
@@ -63,6 +64,7 @@ export default {
     readfollower() {
       this.$store.dispatch('readFollower', this.$store.getters.getJWT).then(() => {
         this.followers = this.$store.getters.followerData;
+        console.log(this.followers);
         this.$store.dispatch('readFollowerProfileImage', this.$store.getters.getJWT).then(() => {
           this.followersImage = this.$store.getters.followerProfileImage;
           for (var j = 0; j < this.$store.state.followerData.length; j++) {
@@ -72,37 +74,32 @@ export default {
             this.$set(form, 'email', this.followers[j]);
             this.$set(form, 'profileDefaultPic', this.followersImage[j]);
             this.items.push(form);
+            this.getNickName();
           }
         });
       });
     },
-    // 팔로워 사진 확인[HYH]
-    readfollowerprofileimage() {
-      this.$store.dispatch('readFollowerProfileImage', this.$store.getters.getJWT).then(() => {
-        this.followersImage = this.$store.getters.followerProfileImage;
-        for (var j = 0; j < this.$store.state.followerData.length; j++) {
-          // 현재 프로필 사진 순서와 팔로우 주인 순서가 같다.
-          // followingData에 items 순서대로 넣어주기
-          this.$set(this.followers[j], 'profileDefaultPic', this.followersImage[j]);
+    // 팔로워 닉네임 조회[YJS]
+    getNickName() {
+      for (var i = 0; i < this.items.length; i++) {
+        for (var j = 0; j < this.members.length; j++) {
+          if (this.items[i].email === this.members[j].email) {
+            this.$set(this.items[i], 'nickName', this.members[j].nickName);
+          }
         }
-      });
+      }
     },
   },
-  // 팔로워 확인
   created: function() {
+    // 팔로워 확인
     this.readfollower();
-    // 프로필 정보 받아오기
-    let form = new FormData();
-    form.append('jwt', this.$store.getters.getJWT);
-    this.$store.dispatch('myProfile', form).then(() => {
-      // 응답 결과
-      this.message = this.$store.getters.message;
-      this.profile = this.$store.getters.profile;
-      if (this.message === 'FAIL')
-        this.showAlert('세션이 만료되었습니다. 다시 로그인 해 주세요.', '프로필 수정');
-      else {
-        this.user.files = this.profile.profileDefaultPic;
-      }
+
+    // 회원 목록 가져오기
+    let form1 = new FormData();
+    form1.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('readMemberList', form1).then(() => {
+      this.members = this.$store.getters.memberList;
     });
   },
 };

@@ -59,6 +59,8 @@ public class ProfileController {
 		dto.setNickName(nickName);
 		dto.setHashtag(hashtag);
 		
+		System.out.println(dto);
+		
 		try {
 			serviceResult = profileService.register(dto);
 		}catch(SQLException e) {
