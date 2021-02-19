@@ -659,7 +659,6 @@ export default {
     // 수정 완료 버튼[YJS]
     checkHandler(no) {
       // 노드 수정 반영
-      // this.updatemapdata();
 
       // 현재 썸네일이 캡쳐된 썸네일 일때 새로 캡쳐 반영
       for (var i = 0; i < this.cards.length; i++) {
@@ -671,6 +670,7 @@ export default {
           ) {
             console.log('ssss');
             this.print(no);
+            this.updatemapdata();
           }
         }
       }
