@@ -659,14 +659,17 @@ export default {
     // 수정 완료 버튼[YJS]
     checkHandler(no) {
       // 노드 수정 반영
-      this.updatemapdata();
+      // this.updatemapdata();
 
       // 현재 썸네일이 캡쳐된 썸네일 일때 새로 캡쳐 반영
       for (var i = 0; i < this.cards.length; i++) {
         if (this.cards[i].mindID === no) {
-          if (this.cards[i].thumbnail.search('capture.img') === -1) {
-            break;
-          } else {
+          console.log(this.cards[i].thumbnail);
+          if (
+            this.cards[i].thumbnail == null ||
+            this.cards[i].thumbnail.indexOf('capture.img') != -1
+          ) {
+            console.log('ssss');
             this.print(no);
           }
         }
