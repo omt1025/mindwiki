@@ -7,7 +7,7 @@
  -->
   <v-card id="topnavi">
     <v-toolbar id="navi_shadow">
-      <v-icon @click="backPage">mdi-keyboard-backspace</v-icon>
+      <v-icon v-if="title !== '마인드맵 수정'" @click="backPage">mdi-keyboard-backspace</v-icon>
       <v-toolbar-title class="flex text-left" font-family>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon
