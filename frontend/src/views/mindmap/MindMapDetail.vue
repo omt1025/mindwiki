@@ -145,7 +145,7 @@
           <div v-if="profileImage === null">
             <v-img id="avatar" :src="defaultImage" alt=""></v-img>
           </div>
-          <div>
+          <div v-else>
             <v-img id="avatar" :src="profileImage" alt=""></v-img>
           </div>
           <p class="admin">{{ nickName }}</p>
