@@ -13,83 +13,7 @@
     <div class="mindmap_detail">
       <!-- 카드 타이틀 -->
       <v-card class="mx-auto" width="100%" flat outlined style="margin-top: 8px">
-        <!-- 작성자 -->
-        <v-card-title>
-          <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
-          <div v-if="profileImage === null">
-            <v-img id="avatar" :src="defaultImage" alt=""></v-img>
-          </div>
-          <div v-else>
-            <v-img id="avatar" :src="profileImage" alt=""></v-img>
-          </div>
-          <p class="admin">{{ nickName }}</p>
-        </v-card-title>
-
-        <!-- 게시물 설명 -->
-        <v-card-text id="topExplanation" style="padding-top:0px">
-          <div>{{ explanation }}</div>
-        </v-card-text>
-
-        <v-card-text id="num_card" style="padding-bottom:0px">
-          <!-- 누적된 좋아요 수 -->
-          <span class="subheading ma-2">좋아요 {{ mindmap.likeCnt }}개</span>
-          <!-- 누적된 스크랩 수 -->
-          <span class="subheading ma-2">스크랩 {{ mindmap.scrapCnt }}회</span>
-          <!-- 누적된 조회수 -->
-          <span class="subheading ma-2">조회 {{ mindmap.viewCnt }}회</span>
-        </v-card-text>
-        <v-divider></v-divider>
-        <!-- 댓글 / 좋아요 / 스크랩 하는 곳 -->
-        <v-card-actions id="cardAction">
-          <v-list-item class="grow">
-            <v-row id="cardbottom">
-              <!-- 좋아요 -->
-              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
-                <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)"
-                  >mdi-heart</v-icon
-                >
-                <v-icon class="mx-1" v-else @click="likemindmap(no, 0)">mdi-heart-outline</v-icon>
-                <span>좋아요</span>
-              </v-btn>
-              <!-- 댓글 쓰기 -->
-              <v-btn
-                id="no-background-hover"
-                :ripple="false"
-                depressed
-                color="white"
-                @click="goMindComment(no)"
-              >
-                <v-icon class="mr-2">mdi-comment-outline</v-icon>
-                <span>댓글 쓰기</span>
-              </v-btn>
-              <!-- 스크랩 -->
-              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
-                <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)"
-                  >mdi-bookmark</v-icon
-                >
-                <v-icon class="mx-1" v-else @click="scrapmindmap(no, 0)"
-                  >mdi-bookmark-outline</v-icon
-                >
-                <span>스크랩</span>
-              </v-btn>
-            </v-row>
-          </v-list-item>
-        </v-card-actions>
-      </v-card>
-
-      <div width="100%" height="100%">
-        <!-- 마인드맵 a -->
-        <mind-map
-          :data="map"
-          height="600px"
-          :show-reason="false"
-          :data-template="{ label: ' ', reason: 0 }"
-          :button="false"
-        ></mind-map>
-      </div>
-
-      <div class="text-center">
-        <v-menu offset-y>
+        <v-menu offset-y class="mmm" v-if="bottomNav === 'profile'">
           <template v-slot:activator="{ on, attrs }">
             <v-btn id="dropdown" v-bind="attrs" v-on="on" small>
               <v-icon>mdi-dots-horizontal</v-icon>
@@ -214,6 +138,80 @@
             </div>
           </v-list>
         </v-menu>
+
+        <!-- 작성자 -->
+        <v-card-title>
+          <!-- 프로필 사진이 없다면 기본 이미지 출력 -->
+          <div v-if="profileImage === null">
+            <v-img id="avatar" :src="defaultImage" alt=""></v-img>
+          </div>
+          <div v-else>
+            <v-img id="avatar" :src="profileImage" alt=""></v-img>
+          </div>
+          <p class="admin">{{ nickName }}</p>
+        </v-card-title>
+
+        <!-- 게시물 설명 -->
+        <v-card-text id="topExplanation" style="padding-top:0px">
+          <div>{{ explanation }}</div>
+        </v-card-text>
+
+        <v-card-text id="num_card" style="padding-bottom:0px">
+          <!-- 누적된 좋아요 수 -->
+          <span class="subheading ma-2">좋아요 {{ mindmap.likeCnt }}개</span>
+          <!-- 누적된 스크랩 수 -->
+          <span class="subheading ma-2">스크랩 {{ mindmap.scrapCnt }}회</span>
+          <!-- 누적된 조회수 -->
+          <span class="subheading ma-2">조회 {{ mindmap.viewCnt }}회</span>
+        </v-card-text>
+        <v-divider></v-divider>
+        <!-- 댓글 / 좋아요 / 스크랩 하는 곳 -->
+        <v-card-actions id="cardAction">
+          <v-list-item class="grow">
+            <v-row id="cardbottom">
+              <!-- 좋아요 -->
+              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+                <v-icon class="mx-1" v-if="this.like" color="purple" @click="likemindmap(no, 1)"
+                  >mdi-heart</v-icon
+                >
+                <v-icon class="mx-1" v-else @click="likemindmap(no, 0)">mdi-heart-outline</v-icon>
+                <span>좋아요</span>
+              </v-btn>
+              <!-- 댓글 쓰기 -->
+              <v-btn
+                id="no-background-hover"
+                :ripple="false"
+                depressed
+                color="white"
+                @click="goMindComment(no)"
+              >
+                <v-icon class="mr-2">mdi-comment-outline</v-icon>
+                <span>댓글 쓰기</span>
+              </v-btn>
+              <!-- 스크랩 -->
+              <v-btn id="no-background-hover" :ripple="false" depressed color="white">
+                <v-icon class="mx-1" v-if="this.scrap" color="purple" @click="scrapmindmap(no, 1)"
+                  >mdi-bookmark</v-icon
+                >
+                <v-icon class="mx-1" v-else @click="scrapmindmap(no, 0)"
+                  >mdi-bookmark-outline</v-icon
+                >
+                <span>스크랩</span>
+              </v-btn>
+            </v-row>
+          </v-list-item>
+        </v-card-actions>
+      </v-card>
+
+      <div width="100%" height="100%">
+        <!-- 마인드맵 a -->
+        <mind-map
+          :data="map"
+          height="600px"
+          :show-reason="false"
+          :data-template="{ label: ' ', reason: 0 }"
+          :button="false"
+        ></mind-map>
       </div>
     </div>
   </v-app>
@@ -227,7 +225,12 @@ export default {
   name: 'MindMapDetail',
   components: { mindMap, BackNavi },
   computed: {
-    ...mapGetters({ map: 'getMapData', likecheck: 'likeData', scrapcheck: 'scrapData' }),
+    ...mapGetters({
+      map: 'getMapData',
+      likecheck: 'likeData',
+      scrapcheck: 'scrapData',
+      bottomNav: 'bottomNav',
+    }),
   },
   data() {
     const no = Number(this.$route.params.no);
@@ -419,9 +422,8 @@ export default {
 }
 /* 마인드맵 수정 / 삭제 버튼 위치 */
 #dropdown {
-  position: fixed;
+  position: absolute;
   right: 3%;
-  top: 10%;
   background-color: #ffffff;
   border: none;
   box-shadow: none;

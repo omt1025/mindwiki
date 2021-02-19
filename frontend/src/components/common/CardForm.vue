@@ -9,15 +9,13 @@
     <!-- style="position:relative"  -->
     <w-card height="100%">
       <w-card-category>
-        <v-avatar
-          class="user_avatar"
-          size="30px"
-          @click="getUserEmail(card.admin, card.nickName, card.profileDefaultPic)"
-        >
-          <img v-if="card.profileDefaultPic == null" src="@/assets/images/user.png" alt="John" />
-          <img v-else :src="card.profileDefaultPic" alt="John" />
-        </v-avatar>
-        <p style="font-size: 1.1rem; color:black">{{ card.nickName }}</p>
+        <div @click="getUserEmail(card.admin, card.nickName, card.profileDefaultPic)">
+          <v-avatar class="user_avatar" size="30px">
+            <img v-if="card.profileDefaultPic == null" src="@/assets/images/user.png" alt="John" />
+            <img v-else :src="card.profileDefaultPic" alt="John" />
+          </v-avatar>
+          <p style="font-size: 1.1rem; color:black">{{ card.nickName }}</p>
+        </div>
         <p style="float:right; margin-right:10px">{{ card.initCreateTime.split(' ')[0] }}</p>
       </w-card-category>
       <!-- 썸네일 이미지 -->
