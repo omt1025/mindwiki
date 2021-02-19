@@ -665,10 +665,8 @@ export default {
       for (var i = 0; i < this.cards.length; i++) {
         if (this.cards[i].mindID === no) {
           if (this.cards[i].thumbnail.search('capture.img') === -1) {
-            // console.log('없어');
             break;
           } else {
-            // console.log('캡쳐');
             this.print(no);
           }
         }
@@ -691,7 +689,6 @@ export default {
       this.output = await this.$html2canvas(el, options);
 
       var file = this.dataURLtoFile(this.output, 'capture.img');
-      console.log(file);
 
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
@@ -701,8 +698,6 @@ export default {
       this.$store.dispatch('captureImage', form).then(() => {
         // 응답 결과
         this.message = this.$store.getters.message;
-        if (this.message === 'FAIL') console.log('실패');
-        else console.log('성공');
       });
     },
     // 캡쳐한 이미지를 서버 전송을 위해 파일형식으로 변환 메소드

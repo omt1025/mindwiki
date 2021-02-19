@@ -39,7 +39,7 @@ export default {
           if (this.items[i].admin === this.memberList[j].email) {
             this.$set(this.items[i], 'profileDefaultPic', this.memberList[j].profileDefaultPic);
             this.$set(this.items[i], 'nickName', this.memberList[j].nickName);
-            // console.log(this.items[i].profileDefaultPic);
+
             break;
           }
         }

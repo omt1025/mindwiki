@@ -56,10 +56,7 @@
                   @error="imageError = true"
                 ></v-img>
                 <!-- 프로필에서 사진 등록하면 이미지 변경 -->
-                <v-img
-                  v-else
-                  :src="item.profileDefaultPic"
-                ></v-img>
+                <v-img v-else :src="item.profileDefaultPic"></v-img>
               </v-list-item-avatar>
               <!-- 프로필 사진 옆 댓글 작성자의 이메일 출력 -->
               <v-list-item-subtitle
@@ -150,7 +147,6 @@ export default {
     readcomment() {
       this.$store.dispatch('readComment', this.no).then(() => {
         this.items = this.$store.getters.commentData;
-        console.log(this.items)
       });
     },
     // 댓글 삭제
@@ -174,7 +170,7 @@ export default {
     },
   },
   created: function() {
-    this.readcomment();  
+    this.readcomment();
 
     // 프로필 정보 받아오기
     let form = new FormData();

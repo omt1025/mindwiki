@@ -86,8 +86,6 @@ export default {
       this.map = data;
     },
     handleNodeDelete(nodeData, callback) {
-      console.log(nodeData);
-
       callback(true);
     },
     updatemapdata() {
@@ -112,26 +110,8 @@ export default {
         type: 'dataURL',
       };
       this.output = await this.$html2canvas(el, options);
-      // this.output = this.$html2canvas(document.getElementById('printMe'), options).then(function(
-      //   canvas
-      // ) {
-      //   document.body.appendChild(canvas);
-      // });
-
-      // const decodImg = atob(this.output.split(',')[1]);
-
-      // let array = [];
-      // for (let i = 0; i < decodImg.length; i++) {
-      //   array.push(decodImg.charCodeAt(i));
-      // }
-
-      // const file = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
-      // // const fileName = 'canvas_img_' + new Date().getMilliseconds() + '.jpg';
-
-      // console.log(file);
 
       var file = this.dataURLtoFile(this.output, 'capture.img');
-      console.log(file);
 
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
@@ -141,8 +121,6 @@ export default {
       this.$store.dispatch('captureImage', form).then(() => {
         // 응답 결과
         this.message = this.$store.getters.message;
-        if (this.message === 'FAIL') console.log('실패');
-        else console.log('성공');
       });
     },
     // 파일 변환 메소드
@@ -159,24 +137,6 @@ export default {
 
       return new File([u8arr], fileName, { type: mime });
     },
-    // const dataURLtoFile = (dataurl, fileName) => {
-
-    //     var arr = dataurl.split(','),
-    //         mime = arr[0].match(/:(.*?);/)[1],
-    //         bstr = atob(arr[1]),
-    //         n = bstr.length,
-    //         u8arr = new Uint8Array(n);
-
-    //     while(n--){
-    //         u8arr[n] = bstr.charCodeAt(n);
-    //     }
-
-    //     return new File([u8arr], fileName, {type:mime});
-    // }
-
-    // //Usage example:
-    // var file = dataURLtoFile('data:text/plain;base64,aGVsbG8gd29ybGQ=','hello.txt');
-    // console.log(file);
   },
 };
 </script>

@@ -64,7 +64,7 @@ export default {
     readfollower() {
       this.$store.dispatch('readFollower', this.$store.getters.getJWT).then(() => {
         this.followers = this.$store.getters.followerData;
-        console.log(this.followers);
+
         this.$store.dispatch('readFollowerProfileImage', this.$store.getters.getJWT).then(() => {
           this.followersImage = this.$store.getters.followerProfileImage;
           for (var j = 0; j < this.$store.state.followerData.length; j++) {

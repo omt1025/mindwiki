@@ -65,7 +65,6 @@ export default {
     readfollowing() {
       this.$store.dispatch('readFollowing', this.$store.getters.getJWT).then(() => {
         this.items = this.$store.getters.followingData;
-        console.log(this.items);
       });
     },
     // 팔로잉 사진 확인

@@ -143,7 +143,7 @@ export default {
     changeColor(event) {
       const incon_id = event.target.id + '_icon';
       var icon = document.getElementById(incon_id);
-      // console.log(icon);
+
       if (event.target.value) {
         icon.style.color = '#a64bf4';
       } else if (!event.target.value) {
@@ -166,7 +166,6 @@ export default {
     findPW() {
       let form = new FormData(); // form : axios통신 할 값을 넣어 전달
       form.append('email', this.user.useremail);
-      // console.log(this.user.useremail);
 
       // 서버와 통신(axios)을 해 토큰값을 얻어야 하므로 Actions를 호출.
       this.$store

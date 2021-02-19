@@ -524,8 +524,6 @@ export default new Vuex.Store({
           params: { no: no },
         })
         .then((response) => {
-          console.log('확인확인확인');
-          console.log(response.data);
           context.commit('setCommentData', response.data);
         });
     },
@@ -627,7 +625,6 @@ export default new Vuex.Store({
     // 내 프로필 정보 가져오기[YJS]
     myProfile(context, form) {
       return axios.post(`${SERVER_URL}/profile/getMyProfile`, form).then((response) => {
-        // console.log(response.data);
         context.commit('setProfile', response.data.info);
         context.commit('setMessage', response.data.message);
       });

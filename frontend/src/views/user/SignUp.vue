@@ -330,7 +330,6 @@ export default {
       // chips를 #로 구분하여 전달하기 위해
       var hashtag = '';
       for (var i = 0; i < this.chips.length; i++) hashtag += '#' + this.chips[i];
-      // console.log(hashtag);
 
       let form = new FormData();
       form.append('email', this.user.useremail);
@@ -342,8 +341,6 @@ export default {
       // 초기 닉네임은 이메일 @앞 아이디
       else form.append('nickName', this.user.useremail.split('@')[0]); // 초기 닉네임은 이메일 @앞 아이디
       form.append('hashtag', hashtag);
-
-      console.log(this.user.useremail.split('@')[0]);
 
       this.$store
         .dispatch('signUp', form)
