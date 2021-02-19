@@ -345,6 +345,7 @@ export default {
     // 전체 조회 페이지로 이동
     backPage: function() {
       this.$router.push('/main');
+      this.$store.state.mapData = null
     },
     // 마인드맵 댓글 페이지 이동
     goMindComment(no) {
