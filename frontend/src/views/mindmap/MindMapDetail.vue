@@ -319,7 +319,6 @@ export default {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
       form.append('no', no);
-
       this.$store.dispatch('deleteMind', form).then(() => {
         this.$router.push('/main');
       });

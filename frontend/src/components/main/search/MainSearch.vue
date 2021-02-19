@@ -171,14 +171,19 @@ export default {
     readmemberlist() {
       let form = new FormData();
       form.append('jwt', this.$store.getters.getJWT);
-
       this.$store.dispatch('readMemberList', form).then(() => {
         this.items = this.$store.getters.memberList;
       });
     },
     // 썸네일 클릭 시 상세 페이지로 이동[OMT]
     clickParams(no) {
-      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+      let form = new FormData();
+      form.append('jwt', this.$store.getters.getJWT);
+      form.append('MindID', no);
+      this.$store.dispatch('readMapData', form).then(() => {
+        this.map = Object(this.$store.getters.getMapData);
+        this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+      });
     },
     // 회원 이메일, 닉네임 가져옴
     // query : 새로고침 시 데이터 유지
@@ -191,7 +196,6 @@ export default {
   },
   created() {
     this.readmemberlist();
-
     this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
       this.minditems = this.$store.state.cards;
     });
@@ -199,7 +203,6 @@ export default {
     // 프로필 정보 받아오기
     let form = new FormData();
     form.append('jwt', this.$store.getters.getJWT);
-
     this.$store.dispatch('myProfile', form).then(() => {
       // 응답 결과
       this.message = this.$store.getters.message;
