@@ -1,11 +1,11 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 황윤호
-    * 내용 : 회원 프로필 검색 구현
+    * 작성자 : 서울2반 4팀 윤지선
+    * 내용 : UI고치기
     * 생성일자 : 2021-01-27
-    * 최종수정일자 : 2021-02-16
+    * 최종수정일자 : 2021-02-19
   -->
-  <v-app>
+  <div id="app">
     <!-- 검색 도구 -->
     <v-text-field
       type="search"
@@ -22,15 +22,15 @@
 
     <!-- 프로필 검색 -->
     <v-list-item-content>
-      <div class="caption purple--text">프로필 검색</div>
+      <div class="caption purple--text txt2">프로필 검색</div>
     </v-list-item-content>
 
     <!-- 프로필 검색결과 -->
     <template v-if="search.length != 0">
-      <v-sheet class="mx-auto" max-width="375">
+      <v-sheet class="mx-auto">
         <v-slide-group multiple>
           <v-slide-item v-for="item in searchProfileHandler" :key="item.email">
-            <v-list-item :key="item.email" id="v-list-item" v-bind:userId="userId">
+            <div :key="item.email" id="v-list-item" v-bind:userId="userId">
               <v-list-item-avatar>
                 <!-- 프로필 사진에서 이미지 없을 때 default 이미지 -->
                 <v-img
@@ -50,7 +50,7 @@
 
               <!-- 프로필 이메일 검색  -->
               <v-list-item-subtitle v-html="item.nickName" id="subtitle"></v-list-item-subtitle>
-            </v-list-item>
+            </div>
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
@@ -60,12 +60,12 @@
 
     <!-- 마인드맵 제목 검색 -->
     <v-list-item-content>
-      <div class="caption purple--text">제목 검색</div>
+      <div class="caption purple--text txt2">제목 검색</div>
     </v-list-item-content>
 
     <!-- 마인드맵 제목 검색 결과 -->
     <template v-if="search.length != 0">
-      <v-sheet class="mx-auto" max-width="375">
+      <v-sheet class="mx-auto">
         <v-slide-group multiple>
           <!-- Slide에 들어가는 card를 item만큼 만든다 -->
           <v-slide-item v-for="item in searchTitleHandler" :key="item.email">
@@ -90,15 +90,15 @@
 
     <!-- 마인드맵 해시태그 검색 -->
     <v-list-item-content>
-      <div class="caption purple--text">해시태그 검색</div>
+      <div class="caption purple--text txt2">해시태그 검색</div>
     </v-list-item-content>
 
     <!-- 마인드맵 해시태그 검색 결과 -->
     <template v-if="search.length != 0">
-      <v-sheet class="mx-auto" max-width="375">
+      <v-sheet class="mx-auto">
         <v-slide-group multiple>
           <!-- Slide에 들어가는 card를 item만큼 만든다 -->
-          <v-slide-item v-for="item in minditems" :key="item.email">
+          <v-slide-item v-for="item in searchHashtagHandler" :key="item.email">
             <v-list-item>
               <v-card class="mx-auto" max-width="400">
                 <v-img
@@ -116,7 +116,7 @@
         </v-slide-group>
       </v-sheet>
     </template>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -146,11 +146,11 @@ export default {
       });
     },
     // 해시태그 검색
-    // searchHashtagHandler() {
-    //   return this.minditems.filter(elem => {
-    //     return elem.hashtag.toLowerCase().includes(this.search.toLowerCase());
-    //   });
-    // },
+    searchHashtagHandler() {
+      return this.minditems.filter((elem) => {
+        return elem.hashtag.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
   data() {
     return {
@@ -215,6 +215,10 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 /* 검색 css */
 .search {
   height: 40px;
@@ -248,6 +252,54 @@ hr {
 #subtitle {
   position: fixed;
   bottom: 0%;
+}
+.txt2 {
+  text-align: left;
+  margin-left: 20px;
+  font-family: Poppins-Medium;
+  font-size: 1.1rem !important;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  #app {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  #app {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  #app {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+.v-slide-group__content {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.v-list-item__subtitle {
+  margin-top: 5px !important;
 }
 </style>
 
