@@ -1,77 +1,44 @@
 package com.mindwiki.model;
 
+import org.json.simple.JSONArray;
+
 public class NodeDto {
 	
 	private int NodeID;
-	private String title;
-	private int depth;
-	private String URL;
-	private String memo;
-	private int positiveCnt;
-	private int negativeCnt;
-	private float fx;
-	private float fy;
-	private int[] ConnectionList;
+	private int MindID;
+	private String nodeString;
+	private JSONArray nodeJson;
+	private Object nodeObject;
 	
+	public Object getNodeObject() {
+		return nodeObject;
+	}
+	public void setNodeObject(Object nodeObject) {
+		this.nodeObject = nodeObject;
+	}
+	public String getNodeString() {
+		return nodeString;
+	}
+	public void setNodeString(String nodeString) {
+		this.nodeString = nodeString;
+	}
 	public int getNodeID() {
 		return NodeID;
 	}
 	public void setNodeID(int nodeID) {
 		NodeID = nodeID;
 	}
-	public String getTitle() {
-		return title;
+	public JSONArray getNodeJson() {
+		return nodeJson;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNodeJson(JSONArray nodeJson) {
+		this.nodeJson = nodeJson;
 	}
-	public int getDepth() {
-		return depth;
+	public int getMindID() {
+		return MindID;
 	}
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	public String getURL() {
-		return URL;
-	}
-	public void setURL(String uRL) {
-		URL = uRL;
-	}
-	public String getMemo() {
-		return memo;
-	}
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-	public int getPositiveCnt() {
-		return positiveCnt;
-	}
-	public void setPositiveCnt(int positiveCnt) {
-		this.positiveCnt = positiveCnt;
-	}
-	public int getNegativeCnt() {
-		return negativeCnt;
-	}
-	public void setNegativeCnt(int negativeCnt) {
-		this.negativeCnt = negativeCnt;
-	}
-	public float getFx() {
-		return fx;
-	}
-	public void setFx(float fx) {
-		this.fx = fx;
-	}
-	public float getFy() {
-		return fy;
-	}
-	public void setFy(float fy) {
-		this.fy = fy;
-	}
-	public int[] getConnectionList() {
-		return ConnectionList;
-	}
-	public void setConnectionList(int[] connectionList) {
-		ConnectionList = connectionList;
+	public void setMindID(int mindID) {
+		MindID = mindID;
 	}
 
 }

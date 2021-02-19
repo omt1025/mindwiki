@@ -1,10 +1,11 @@
-package com.mindwiki.interceptor;
-
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : InterCeptor 관리
+* 기능 : 인터셉터설정
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.interceptor;
+
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableWebMvc
 public class InterCeptorConfig implements WebMvcConfigurer {
 	private static final String[] EXCLUDE_PATHS = { "/" , "/mindwiki/GoogleOAuth",
-			"/mindwiki/login","/mindwiki/oauth","/profile/register","/mindwiki/image","/mindwiki/image/**"
+			"/mindwiki/login","/mindwiki/oauth","/mindwiki/profile/register","/mindwiki/image","/mindwiki/image/**"
+			,"/mindwiki/mind/comment/read/{no}","/mindwiki/liveRanking/list","/mindwiki/profile/sendTempPassword",
+			"mindwiki/profile/image/", "mindwiki/profile/image/**", "/mindwiki/profile/getProfile"
 			
 			};
-	
 	
 	@Autowired
 	private InterceptorJWT jwtInterceptor;
@@ -27,12 +29,8 @@ public class InterCeptorConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		
 		registry.addInterceptor(jwtInterceptor).addPathPatterns("/**")// 기본 적용 경로
-				.excludePathPatterns(EXCLUDE_PATHS);
-
+				.excludePathPatterns(EXCLUDE_PATHS);// 적용 제외 경로
 	}
-
-	
-//  Interceptor
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {

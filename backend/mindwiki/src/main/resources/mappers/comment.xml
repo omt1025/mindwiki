@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-작성자 : 신충현
-기능 : comment mybatis
-수정 : 02. 05 
--->
+
 <mapper namespace="com.mindwiki.dao.CommentDao">
 	<insert id="make">
 	insert into comment (MindID, data, email, createTime) values (#{MindID},#{data},#{email}, now())
 	</insert>
 
 	<select id="read" resultType="com.mindwiki.model.CommentDto">
-		select * from comment where MindID=#{MindID}
+		select c.commentID, c.MindID, c.data, c.email, c.createTime, p.profileDefaultPic from comment c join profile p where c.MindID=#{MindID} and p.email = c.email and p.email in (select email from comment where MindID=#{MindID})
 	</select>
 	
 	<update id="updateByCommentID">

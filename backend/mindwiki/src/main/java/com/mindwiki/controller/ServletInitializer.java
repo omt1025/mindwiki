@@ -25,7 +25,6 @@ public class ServletInitializer extends SpringBootServletInitializer {
      
         super.onStartup(servletContext);
 
-        // This will set to use COOKIE only
         servletContext
             .setSessionTrackingModes(
                 Collections.singleton(SessionTrackingMode.COOKIE)

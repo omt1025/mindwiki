@@ -4,10 +4,9 @@
 
 <mapper namespace="com.mindwiki.dao.ProfileDao">
 
-	<!-- TODO: hashtag column 추가 후 nickName->hashtag -->
 	<insert id="register" parameterType="com.mindwiki.model.ProfileDto">
-		INSERT INTO profile (email, password, nickName, hashtag)
-					VALUES  (#{email}, #{password}, #{nickName}, #{hashtag} )
+		 INSERT INTO profile (email, password, realName, nickName, hashtag)
+                    VALUES  (#{email}, #{password}, #{realName}, #{nickName}, #{hashtag} ) 
 	</insert>
 	
 	<select id="sameEmailCnt" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
@@ -15,19 +14,13 @@
 	</select>
 	
 	<select id="checkPassword" parameterType="com.mindwiki.model.ProfileDto" resultType="int">
-		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email} AND password=#{password} ))
+		SELECT EXISTS (SELECT * FROM profile WHERE email=#{email} AND password=#{password} )
 	</select>
 	
 	<delete id="withdrawal" parameterType="com.mindwiki.model.ProfileDto">
 		DELETE FROM profile
 		WHERE email=#{email}
 	</delete>
-	
-<!-- 	<select id="getPassword" resultType="string" parameterType="com.mindwiki.model.ProfileDto"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM profile -->
-<!-- 		WHERE email=#{email} -->
-<!-- 	</select> -->
 	
 	<update id="updatePassword" parameterType="com.mindwiki.model.ProfileDto">
 		UPDATE profile
@@ -37,7 +30,25 @@
 	
 	<update id="updateProfile" parameterType="com.mindwiki.model.ProfileDto">
 		UPDATE profile
-		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}
+		SET phoneNumber=#{phoneNumber}, nickName=#{nickName}, profileDefaultPic=#{profileDefaultPic}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updateProfileDefaultPic" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET profileDefaultPic=#{profileDefaultPic}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updatePhonenumber" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET phoneNumber=#{phoneNumber}
+		WHERE email=#{email}
+	</update>
+	
+	<update id="updateNickname" parameterType="com.mindwiki.model.ProfileDto">
+		UPDATE profile
+		SET nickName=#{nickName}
 		WHERE email=#{email}
 	</update>
 	
@@ -47,6 +58,17 @@
 		WHERE email=#{email}
 	</select>
 	
+	<select id="memberList" resultType="com.mindwiki.model.ProfileDto">
+		SELECT email, nickName, profileDefaultPic FROM profile
+	</select>
+	
+	<select id="getProfilePic" resultType="String">
+		SELECT profileDefaultPic FROM profile where email=#{email}
+	</select>
+	
+	<select id="getMyProfile" resultType="com.mindwiki.model.ProfileDto">
+		SELECT email, realName, nickName, followerListID, phoneNumber, profileDefaultPic FROM profile where email=#{email}
+	</select>
 	
 		
 </mapper>

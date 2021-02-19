@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
-작성자 : 신충현
-기능 : login mybatis
-수정 : 02. 05 
--->
-
 <mapper namespace="com.mindwiki.dao.LoginDao">
 
 	<select id="login" resultType="com.mindwiki.model.ProfileDto">

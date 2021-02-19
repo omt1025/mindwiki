@@ -1,14 +1,10 @@
-package com.mindwiki.controller;
-
-//로그인을 하고 메인페이지로 리턴이 되면 리다이렉트 된 후이니까 created axios로 값을 확인하고, 서버쪽에서는 intercepter로 해도되고
-//확인을 하고 세션을 끊어줘도 되고 아예 flag 01로나눠서 1이면 토큰을 주고 0으로 만들어도된다.
-//리다이렉트시 값을 전달하면서 created로 받아서 세션이 존재하나 확인할 수 있도록함
-
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 댓글 CRUD
+* 기능 : kakao login
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.controller;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,120 +41,97 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindwiki.model.OauthDto;
 import com.mindwiki.service.JwtService;
-/******************************************************************************
-* 작성자 : 서울 2반 4팀 신충현
-* 기능 : kakao Oauth & jwt
-* 최종 수정일: 2021.02.04.
-*******************************************************************************/
-//여긴 rest controller 굳이 해줄 필요가 없다 하지만 , 세션같은 거를 넣어놔서 세션이 존재할때, 뷰의 첫 페이지에 이름이랑 메일을 띄워야함
-//It`s not a rest controller
 
-//@CrossOrigin("*")
 @Controller
 @RequestMapping("/mindwiki")
 public class KakaoLoginController {
 	private final static String REST_API_KEY = "0530ead261a6f23c9a61fdba73622fb7";
 	private final static String REDIRECT_URI = "http://localhost:8000/mindwiki/oauth";
-	
+
 	@Autowired
 	private JwtService jwtSvc;
+
 	@RequestMapping(value = "/oauth")
-	public RedirectView kakaoLogin(HttpSession hs,@RequestParam(value="code", required=false) String authorizationToken) throws MalformedURLException {
-		
-		
-		  final String RequestUrl = "https://kauth.kakao.com/oauth/token";
-	      final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-	      postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
-	      postParams.add(new BasicNameValuePair("client_id", REST_API_KEY)); // REST API KEY
-	      postParams.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI)); // 리다이렉트 URI                                                              
-	      postParams.add(new BasicNameValuePair("code", authorizationToken)); // 로그인 과정중 얻은 code 값
-	      final HttpClient client = HttpClientBuilder.create().build();
-	      final HttpPost post = new HttpPost(RequestUrl);
-	      JsonNode returnNode = null;
-	      try {
-	         post.setEntity(new UrlEncodedFormEntity(postParams));
-	         final HttpResponse response = client.execute(post);
-	         // JSON 형태 반환값 처리
-	         ObjectMapper mapper = new ObjectMapper();
-	         returnNode = mapper.readTree(response.getEntity().getContent());
-	      } catch (UnsupportedEncodingException e) {
-	         e.printStackTrace();
-	      } catch (ClientProtocolException e) {
-	         e.printStackTrace();
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      } finally {
-	         // clear resources
-	      }
-	      
-	      
+	public RedirectView kakaoLogin(HttpSession hs,
+			@RequestParam(value = "code", required = false) String authorizationToken) throws MalformedURLException {
 
-	      String jwt = getUserInfo(returnNode);//jwt를 리턴해주지 않아도 생성된것임
+		final String RequestUrl = "https://kauth.kakao.com/oauth/token";
+		final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+		postParams.add(new BasicNameValuePair("client_id", REST_API_KEY)); // REST API KEY
+		postParams.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI)); // 리다이렉트 URI
+		postParams.add(new BasicNameValuePair("code", authorizationToken)); // 로그인 과정중 얻은 code 값
+		final HttpClient client = HttpClientBuilder.create().build();
+		final HttpPost post = new HttpPost(RequestUrl);
+		JsonNode returnNode = null;
+		try {
+			post.setEntity(new UrlEncodedFormEntity(postParams));
+			final HttpResponse response = client.execute(post);
+			// JSON 형태 반환값 처리
+			ObjectMapper mapper = new ObjectMapper();
+			returnNode = mapper.readTree(response.getEntity().getContent());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			// clear resources
+		}
 
-	 
-	      
-	      return new RedirectView("http://localhost:8080/?jwt="+jwt);//만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
+		String jwt = getUserInfo(returnNode);// jwt를 리턴해주지 않아도 생성된것임
+
+		return new RedirectView("http://localhost:8080/?jwt=" + jwt);// 만약에 returnnode를 하면 개인정보가 누출되기때문에 안됨
 	}
-	
-	
-	
+
 	public String getUserInfo(JsonNode kakao_access_Json) {
-		String jwt=null;
-		
+		String jwt = null;
+
 		JsonNode accessToken = kakao_access_Json.get("access_token");
-	
-		
+
 		final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
-	      final HttpClient client = HttpClientBuilder.create().build();
-	      final HttpPost post = new HttpPost(RequestUrl);
-	      // add header
-	      post.addHeader("Authorization", "Bearer " + accessToken);
-	      JsonNode returnNode = null;
-	      try {
-	         final HttpResponse response = client.execute(post);
-	         // JSON 형태 반환값 처리
-	         ObjectMapper mapper = new ObjectMapper();
-	         returnNode = mapper.readTree(response.getEntity().getContent());
-	      } catch (ClientProtocolException e) {
-	         e.printStackTrace();
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      } finally {
-	        
-	      }
-	    
-	      
-	      
-	      
-	
+		final HttpClient client = HttpClientBuilder.create().build();
+		final HttpPost post = new HttpPost(RequestUrl);
+
+		post.addHeader("Authorization", "Bearer " + accessToken);
+		JsonNode returnNode = null;
+		try {
+			final HttpResponse response = client.execute(post);
+			// JSON 형태 반환값 처리
+			ObjectMapper mapper = new ObjectMapper();
+			returnNode = mapper.readTree(response.getEntity().getContent());
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+
+		}
+
+
 		String kakao_email = null;
 		String kakao_name = null;
-		
-	// 카카오에서, docs바탕으로 user info 얻어오기
+
 		JsonNode profile = returnNode.path("properties");
 		JsonNode kakao_account = returnNode.path("kakao_account");
 		kakao_email = kakao_account.path("email").asText();
 		kakao_name = profile.path("nickname").asText();
-		
-	  	System.out.println(kakao_email);
-	  	System.out.println(kakao_name);
-	  	
-	 
-	  	 if(kakao_email!=null) {
-	    	  
-		      jwt = jwtSvc.createToken("userInfo", kakao_email,kakao_name);
-		      //만들어주면 알아서 서버에저장됨
-		      
-		      }
-	  
-	  	
-	  	System.out.println(accessToken);
-	  	
+
+		System.out.println(kakao_email);
+		System.out.println(kakao_name);
+
+		if (kakao_email != null) {
+
+			jwt = jwtSvc.createToken("userInfo", kakao_email, kakao_name);
+			// 만들어주면 알아서 서버에저장됨
+
+		}
+
+		System.out.println(accessToken);
+
 		return jwt;
-		
+
 	}
 
-	
 }
-
-

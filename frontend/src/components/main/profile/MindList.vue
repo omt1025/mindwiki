@@ -1,21 +1,22 @@
 <template>
   <!-- 
-    * 작성자 : 서울2반 4팀 윤지선
-    * 내용 : UI생성
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : key값으로 인한 console 에러 수정
     * 생성일자 : 2021-02-05
-    * 최종수정일자 : 2021-02-05
- -->
-
+    * 최종수정일자 : 2021-02-16
+-->
   <div>
-    <v-sheet class="mx-auto" max-width="375">
+    <v-sheet class="mx-auto">
       <v-slide-group multiple>
         <!-- Slide에 들어가는 card를 item만큼 만든다 -->
-        <v-slide-item v-for="item in mindlist" :key="item.title">
+        <!-- key값이 중복되는 경우 에러가 나기 때문에 최대한 중복이 없는 마인드 생성시간으로 설정 -->
+        <v-slide-item v-for="item in mindlist" :key="item.initCreateTime">
           <v-list-item id="v-list-item">
             <!-- 게시글 -->
             <w-card class="card_item p-b-10">
               <!-- 게시글 썸네일 -->
-              <img :src="item.thumbnail" class="card_img" />
+              <!-- 썸네일 클릭 시 상세 페이지로 이동[OMT] -->
+              <v-img :src="item.thumbnail" class="card_img" @click="clickParams(item.mindID)" />
               <!-- 게시글 내용 -->
               <w-card-body class="body-rule">
                 <w-card-title class="card-title">{{ item.title }}</w-card-title>
@@ -38,12 +39,17 @@ export default {
   props: {
     mindlist: {}, // 내 MIND목록 건내준것 받아오기
   },
-
   data() {
     return {
       search: '',
       data: [],
     };
+  },
+  methods: {
+    // 썸네일 클릭 시 상세 페이지로 이동[OMT]
+    clickParams(no) {
+      this.$router.push({ name: 'MindMapDetail', params: { no: Number(no) } });
+    },
   },
 };
 </script>
@@ -96,5 +102,40 @@ export default {
 }
 .text {
   font-size: 0.88rem;
+}
+.v-list-item {
+  flex: none;
+}
+.v-image__image {
+  background-position: top !important;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .mx-auto {
+    max-width: 375px;
+  }
+}
+
+@media (min-width: 576px) {
+  .mx-auto {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mx-auto {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .mx-auto {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mx-auto {
+    max-width: 1140px;
+  }
 }
 </style>

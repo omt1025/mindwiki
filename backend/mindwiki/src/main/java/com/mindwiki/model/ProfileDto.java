@@ -4,18 +4,20 @@ package com.mindwiki.model;
 public class ProfileDto {
 
 	private int ProfileId;
-	String identification; // 추후 제거
-	String password;
-	String email;
-	String phoneNumber;
-	String follower;
-	String realName;
-	String nickName;
-	int BookShelfID;
-	int AchievementsID;
-	int ExpertID;
+	private String identification; // 추후 제거
+	private String password;
+	private String email;
+	private String phoneNumber;
+	private String follower;
+	private String realName;
+	private String nickName;
+	private int BookShelfID;
+	private int AchievementsID;
+	private int ExpertID;
 
-	String hashtag; // 추가.
+	private String hashtag; // 추가.
+	
+	private String profileDefaultPic;
 
 	public ProfileDto() {
 		super();
@@ -108,13 +110,21 @@ public class ProfileDto {
 	public void setExpertID(int expertID) {
 		ExpertID = expertID;
 	}
-
+	public String getProfileDefaultPic() {
+		return profileDefaultPic;
+	}
+	public void setProfileDefaultPic(String profileDefaultPic) {
+		this.profileDefaultPic = profileDefaultPic;
+	}
 
 	@Override
 	public String toString() {
-		return "memberDto [ProfileId=" + ProfileId + ", identification=" + identification + ", password=" + password
+		return "ProfileDto [ProfileId=" + ProfileId + ", identification=" + identification + ", password=" + password
 				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", follower=" + follower + ", realName="
 				+ realName + ", nickName=" + nickName + ", BookShelfID=" + BookShelfID + ", AchievementsID="
-				+ AchievementsID + ", ExpertID=" + ExpertID + "]";
+				+ AchievementsID + ", ExpertID=" + ExpertID + ", hashtag=" + hashtag + ", profileDefaultPic="
+				+ profileDefaultPic + "]";
 	}
+
+	
 }

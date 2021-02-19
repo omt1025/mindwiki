@@ -1,9 +1,11 @@
-package com.mindwiki.model;
+
 /******************************************************************************
 * 작성자 : 서울 2반 4팀 신충현
-* 기능 : 마인드 Dto
+* 기능 : 마인드
 * 최종 수정일: 2021.02.04.
 *******************************************************************************/
+package com.mindwiki.model;
+
 import java.util.Date;
 
 public class MindDto {
@@ -33,10 +35,18 @@ public class MindDto {
 	private String subject; //이거 추가됨 //db에는 alter table로 추가해줬음
 	private String explanation;//이거도 추가됨
 	
+	private String profileDefaultPic;
 	
-	
-	
-	
+	public String getProfileDefaultPic() {
+		return profileDefaultPic;
+	}
+
+
+	public void setProfileDefaultPic(String profileDefaultPic) {
+		this.profileDefaultPic = profileDefaultPic;
+	}
+
+
 	public String getSubject() {
 		return subject;
 	}
@@ -202,6 +212,8 @@ public class MindDto {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
+
+
 	@Override
 	public String toString() {
 		return "MindDto [MindID=" + MindID + ", admin=" + admin + ", initCreateTime=" + initCreateTime + ", title="
@@ -210,8 +222,10 @@ public class MindDto {
 				+ ", readAuthorityLevel=" + readAuthorityLevel + ", scrapAuthority=" + scrapAuthority
 				+ ", scrapAuthorityLevel=" + scrapAuthorityLevel + ", viewCnt=" + viewCnt + ", scrapCnt=" + scrapCnt
 				+ ", comment=" + comment + ", likeCnt=" + likeCnt + ", nodeCnt=" + nodeCnt + ", NodeListID="
-				+ NodeListID + ", TimeTagID=" + TimeTagID + ", thumbnail=" + thumbnail + "]";
+				+ NodeListID + ", TimeTagID=" + TimeTagID + ", thumbnail=" + thumbnail + ", subject=" + subject
+				+ ", explanation=" + explanation + ", profileDefaultPic=" + profileDefaultPic + "]";
 	}
+
 	
 	
 	

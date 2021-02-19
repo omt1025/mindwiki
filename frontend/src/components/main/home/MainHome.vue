@@ -1,5 +1,11 @@
 <template>
-  <v-app>
+  <!-- 
+    * 작성자 : 서울2반 4팀 오민택
+    * 내용 : 컴포넌트 사용
+    * 생성일자 : 2021-01-18
+    * 최종수정일자 : 2021-02-15
+  -->
+  <v-app id="mainhome">
     <div v-if="mainTab == 0">
       <v-card flat>
         <LivePopularMind />
@@ -16,46 +22,12 @@
       </v-card>
     </div>
   </v-app>
-
-  <!-- <v-card id="topnavi">
-    <v-toolbar id="navi_shadow">
-      <template>
-        <v-tabs v-model="tab" grow color="#a64bf4" id="topnavi">
-          <v-tabs-slider color="#a64bf4"></v-tabs-slider>
-
-          <v-tab v-for="item in items" :key="item">
-            {{ item }}
-          </v-tab>
-        </v-tabs>
-      </template>
-    </v-toolbar>
-    <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <v-card flat>
-          <LivePopularMind />
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <FavoriteMind />
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <MyWiki />
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card> -->
 </template>
 
 <script>
 import LivePopularMind from '@/components/main/home/LivePopularMind.vue';
 import FavoriteMind from '@/components/main/home/FavoriteMind.vue';
 import MyWiki from '@/components/main/home/MyWiki.vue';
-
 import { mapGetters } from 'vuex';
 
 export default {
@@ -67,6 +39,11 @@ export default {
   computed: {
     ...mapGetters(['mainTab']),
   },
+  created() {
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+    this.$store.dispatch('readMemberList', form).then(() => {});
+  },
   data() {
     return {
       tab: null,
@@ -76,4 +53,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.mainhome {
+  padding: 0 10px;
+}
+</style>

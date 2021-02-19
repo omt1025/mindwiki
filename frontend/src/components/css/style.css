@@ -1557,7 +1557,7 @@ p {
     margin: 0 auto;
     display: table;
     min-height: auto;
-    height: 100vh;
+    /* height: 100vh; */
   }
   .container .user-feed .user-feed-curation-list .wrapB {
     padding: 30px;
@@ -1868,6 +1868,17 @@ p {
   }
   .feed .scrab-feed-item .content .url {
     color: #ccc;
+  }
+}
+
+@media (min-width: 1264px) {
+  .container {
+    max-width: none !important;
+  }
+}
+@media (min-width: 960px) {
+  .container {
+    max-width: none !important;
   }
 }
 /*# sourceMappingURL=style.css.map */

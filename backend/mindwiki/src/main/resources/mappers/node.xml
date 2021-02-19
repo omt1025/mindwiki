@@ -3,5 +3,25 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mindwiki.dao.NodeDao">
+
+	<select id="existByMindID" parameterType="com.mindwiki.model.NodeDto" resultType="int">
+		SELECT EXISTS (SELECT * FROM mind WHERE MindID=#{MindID})
+	</select>
+	
+	<insert id="initNode" parameterType="object" >
+		INSERT INTO node
+					(MindID, nodeObject)
+			VALUES	(#{MindID}, #{nodeObject})
+	</insert>
+	
+	<update id="setNode" >
+		update node set nodeObject =#{nodeObject} WHERE MindID=#{MindID};    
+	</update>
+	
+	<select id="getNode" resultType="Object">
+		SELECT nodeObject 
+		FROM node 
+		WHERE MindID=#{MindID}
+	</select>
 		
 </mapper>

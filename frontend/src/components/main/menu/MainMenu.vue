@@ -1,14 +1,19 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 메인메뉴 수정하기
+    * 생성일자 : 2021-01-21
+    * 최종수정일자 : 2021-02-17
+ -->
   <v-app>
-    <MenuNavi />
-
+    <!-- <MenuNavi /> -->
+    <back-navi :title="title" v-on:backbtn="backPage"></back-navi>
     <v-row align="center">
       <v-col>
         <div class="my-5">
           <span></span>
           <v-spacer></v-spacer>
         </div>
-
         <!-- 비회원일 때 보여줌 -->
         <div v-bind:jwt="jwt" v-if="jwt == 'undefined'">
           <!-- <div v-if="getJWT!='undefined'"> -->
@@ -42,8 +47,6 @@
             </v-btn>
           </div>
         </div>
-        <!--  -->
-
         <!-- 회원일 때 보여줌 -->
         <div v-else>
           <div class="my-5">
@@ -65,7 +68,7 @@
             <v-btn
               x-large
               width="500px"
-              to="/main/menu/changepassword"
+              to="/main/menu/passwordchange"
               depressed
               color="white"
               id="no-background-hover"
@@ -74,98 +77,6 @@
               <v-icon>mdi-lock-reset</v-icon>
               <span id="sp">비밀번호 변경</span>
               <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-trophy</v-icon>
-              <span id="sp1">업적 관리</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon color="#E040FB" v-show="!accountClick">mdi-account</v-icon>
-
-              <v-icon v-show="accountClick">mdi-account</v-icon>
-
-              <span id="sp2">프로필 공개</span>
-              <v-spacer></v-spacer>
-              <v-switch v-on:click="accountClick = !accountClick" color="#E040FB"></v-switch>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon color="#E040FB" v-show="!bellClick">mdi-bell</v-icon>
-
-              <v-icon v-show="bellClick">mdi-bell-remove-outline</v-icon>
-
-              <span id="sp3">푸시 알림 설정</span>
-              <v-spacer></v-spacer>
-              <v-switch v-on:click="bellClick = !bellClick" color="#E040FB"></v-switch>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-saw-blade</v-icon>
-              <span id="sp4">MIND 관리 및 설정</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
-              <v-spacer></v-spacer>
-            </v-btn>
-          </div>
-
-          <div class="my-5">
-            <v-btn
-              x-large
-              width="500px"
-              depressed
-              color="white"
-              id="no-background-hover"
-              :ripple="false"
-            >
-              <v-icon>mdi-certificate</v-icon>
-              <span id="sp5">전문 자격 인증</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-arrow-right</v-icon>
               <v-spacer></v-spacer>
             </v-btn>
           </div>
@@ -176,6 +87,7 @@
               depressed
               color="white"
               id="no-background-hover"
+              to="menu/withdraw"
               :ripple="false"
             >
               <v-icon>mdi-account-remove</v-icon>
@@ -190,27 +102,34 @@
 </template>
 
 <script>
-import MenuNavi from '@/components/navi/MenuNavi.vue';
-// import axios from 'axios';
+import BackNavi from '../../navi/BackNavi.vue';
 
 export default {
   name: 'MainMenu',
   components: {
-    MenuNavi,
+    BackNavi,
   },
   data: () => ({
+    title: '설정',
     bellClick: true,
     accountClick: true,
     color: 'white',
     logoutcheck: '',
     jwt: localStorage.getItem('jwt'),
-    // jwt:getJWT,
   }),
   methods: {
     logout() {
+      // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setMainTab', 0);
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$store.dispatch('setMessage', null);
+      // 로그아웃 처리
       this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/').catch(() => {}));
-      // axios.post(`http://localhost:8000/mindwiki/mind/logout`);
-      // this.$router.push('/login');
+    },
+    backPage: function() {
+      this.$store.dispatch('setMainTab', 0); // 탭 초기화(재사용 위해)
+      this.$store.dispatch('setBottomNav', 'home');
+      this.$router.push('/main');
     },
   },
 };

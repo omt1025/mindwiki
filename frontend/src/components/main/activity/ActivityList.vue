@@ -1,22 +1,27 @@
 <template>
+  <!-- 
+    * 작성자 : 서울2반 4팀 황윤호
+    * 내용 : 메뉴 수정
+    * 생성일자 : 2021-02-15
+    * 최종수정일자 : 2021-02-17
+  -->
   <v-list two-line>
     <template v-for="(item, index) in items">
-      <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
-
-      <v-divider v-else-if="item.divider" :key="index"></v-divider>
-
-      <v-list-item v-else :key="item.title">
+      <v-list-item :key="index">
         <v-list-item-action></v-list-item-action>
-
         <v-list-item-icon>
-          <v-icon v-html="item.icon"></v-icon>
+          <v-icon v-if="item.what === '좋아요'">mdi-heart</v-icon>
+          <v-icon v-else>mdi-bookmark</v-icon>
         </v-list-item-icon>
-
         <v-list-item-action></v-list-item-action>
-
         <v-list-item-content>
-          <v-list-item-title v-html="item.title"></v-list-item-title>
-          <v-list-item-subtitle v-html="item.subtitle" class="subtitle"></v-list-item-subtitle>
+          <v-list-item-title
+            >'{{ item.nickName }}님이 {{ item.what }} 하셨습니다.</v-list-item-title
+          >
+          <v-list-item-subtitle class="subtitle">
+            <p style="float: left">제목 : {{ item.title }}</p>
+            <p style="float: right">{{ item.day }}</p>
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -28,40 +33,43 @@ export default {
   name: 'ActivityMessage',
 
   data: () => ({
-    items: [
-      { header: '오늘 알림' },
-      {
-        icon: 'mdi-heart',
-        title: 'giga님이 회원님의 게시물을 좋아합니다.',
-        subtitle: `52분 전`,
-      },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'popo님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 이렇게 생각할수도 있겠네요</span>',
-        subtitle: `10시간`,
-      },
-
-      { header: '이전 알림' },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'zolryu님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 퍼가요^^</span>',
-        subtitle: '2021-01-20',
-      },
-      {
-        icon: 'mdi-heart',
-        title: 'hei님이 회원님의 게시물을 좋아합니다',
-        subtitle: '2021-01-15',
-      },
-      {
-        icon: 'mdi-message-text',
-        title:
-          'mola님이 댓글을 남겼습니다 <span class="grey--text text--lighten">: 헉, 펜트하우스 넘나 존잼이죠!!</span>',
-        subtitle: '2021-01-04',
-      },
-    ],
+    items: null,
+    members: null,
   }),
+  created() {
+    // 회원 목록 가져오기
+    let form1 = new FormData();
+    form1.append('jwt', this.$store.getters.getJWT);
+
+    this.$store.dispatch('readMemberList', form1).then(() => {
+      this.members = this.$store.getters.memberList;
+    });
+
+    // 내 게시물을 좋아요, 스크랩한 목록 가져오기
+    let form = new FormData();
+    form.append('jwt', this.$store.getters.getJWT);
+    this.$store.dispatch('readActiveList', form).then(() => {
+      this.items = this.$store.getters.activeList;
+
+      this.getNickName();
+    });
+  },
+  methods: {
+    getNickName() {
+      for (var i = 0; i < this.items.length; i++) {
+        for (var j = 0; j < this.members.length; j++) {
+          if (this.items[i].email === this.members[j].email) {
+            if (this.members[j].nickName === null)
+              this.$set(this.items[i], 'nickName', '(탈퇴회원)');
+            else this.$set(this.items[i], 'nickName', this.members[j].nickName);
+
+            if (this.items[i].time !== null)
+              this.$set(this.items[i], 'day', this.items[i].time.split(' ')[0]);
+          }
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -78,7 +86,7 @@ export default {
   margin-right: 0px;
 }
 .subtitle {
-  text-align: left;
+  display: block;
   margin-top: 6px;
 }
 </style>

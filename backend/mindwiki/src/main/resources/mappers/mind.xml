@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-작성자 : 신충현
-기능 : mind mybatis
-수정 : 02. 05 
--->
+
 <mapper namespace="com.mindwiki.dao.MindDao">
 
 	<select id="read" resultType="com.mindwiki.model.MindDto">
 		select * from mind
 	</select>
 	
-	<select id="scrapRead" resultType="com.mindwiki.model.ScrapDto">
-		select * from scrapList
+	
+	<select id="getMindPorfilePic" resultType="String">
+		select profileDefaultPic from profile where email=(select admin from mind where MindID=#{MindID})
 	</select>
 	
-	<select id="likeRead" resultType="com.mindwiki.model.LikeDto">
-		select * from likeList
+	<select id="hashtagByMindID" resultType="String">
+		select hashtag from hashtagList where MindID=#{MindID}
 	</select>
 	
+	<select id="scrapRead" resultType="com.mindwiki.model.MindDto">
+		select * from mind where MindID in (select scrapedMindID from scrapList where email=#{email});
+	</select>
 	
-	
+	<select id="likeRead" resultType="com.mindwiki.model.MindDto">
+		select * from mind where MindID in (select likedMindID from likeList where email=#{email});
+	</select>
 	
 	<select id="readByEmail" resultType="com.mindwiki.model.MindDto">
 		select * from mind where admin=#{email}
@@ -40,11 +42,12 @@
 	
 	
 	<update id="updateByMindID">
-		update mind set title=#{title}, subject=#{subject}, hashtag=#{hashtag}, explanation=#{explanation} where MindID=#{MindID}
+		update mind set title=#{title}, subject=#{subject}, hashtag=#{hashtag}, explanation=#{explanation}, thumbnail=#{thumbnail} where MindID=#{MindID}
 	</update>
 	
 	<delete id="deleteByMindID">
-	delete from mind where MindID=#{MindID}
+	delete from mind where MindID=#{MindID};
+	delete from node where MindID=#{MindID};
 	</delete>
 	
 	<insert id="make">
@@ -52,17 +55,70 @@
 	insert into mind (admin, title, subject, hashtag, explanation,initCreateTime,thumbnail) values (#{admin}, #{title}, #{subject}, #{hashtag}, #{explanation},@time,#{thumbnail})
 	</insert>
 	
+	<insert id="makeHashtag">
+	insert into hashtagList(MindID, hashtag) values (#{MindID}, #{hashtag}) 
+	</insert>
+	
+	<select id="getMindID" resultType="Integer">
+	select MindID from mind where admin=#{email} and initCreateTime=@time;
+	</select>
+	
 	<!-- <update id="makeFollwerID">
 	
 	update mind set followerListID=(select MindID from mind where admin=#{admin} and initCreateTime=@time)
 	</update> -->
 	
 	<insert id="scrap">
-		insert into scrapList (email, scrapedMindID) values (#{email},#{no})
+		set @time := now();
+		insert into scrapList (email, scrapedMindID, time) values (#{email},#{no},@time)
 	</insert>
 	
 	<insert id="like">
-		insert into likeList (email, likedMindID) values (#{email},#{no})
+		set @time := now();
+		insert into likeList (email, likedMindID, time) values (#{email},#{no},@time)
 	</insert>
 	
+	<delete id="deleteScrap">
+		delete from scrapList where scrapedMindID=#{no} and email=#{email}
+	</delete>
+	
+	<delete id="deleteLike">
+		delete from likeList where likedMindID=#{no} and email=#{email}
+	</delete>
+	
+	<delete id="deleteHashtag">
+		delete from hashtagList where MindID=#{MindID} and hashtag=#{hashtag}
+	</delete>
+	
+	<delete id="deleteHashtagList">
+		delete from hashtagList where MindID=#{MindID}
+	</delete>
+	
+	
+	
+	<update id="likePlusCnt">
+	update mind set likeCnt = likeCnt+1 where MindID=#{no}
+	</update>
+	<update id="likeMinusCnt">
+	update mind set likeCnt = likeCnt-1 where MindID=#{no}
+	</update>
+	<update id="scrapPlusCnt">
+	update mind set scrapCnt = scrapCnt+1 where MindID=#{no}
+	</update>
+	<update id="scrapMinusCnt">
+	update mind set scrapCnt = scrapCnt-1 where MindID=#{no}
+	</update>
+		
+	<!-- 알림 :  내 게시물을 좋아요&스크랩한 목록 리턴 -->
+	<select id="readActiveList" resultType="com.mindwiki.model.ActiveDto">
+		(select l.email, l.time, m.title, m.MindID, '좋아요' as what from mind as m, likelist as l where m.MindID=l.likedMindID and m.admin=#{email} and l.email!=#{email})
+		union
+		(select s.email, s.time, m.title, m.MindID, '스크랩' as what from mind as m, scraplist as s where m.MindID=s.scrapedMindID and m.admin=#{email} and s.email!=#{email})
+		order by time desc limit 20;
+	</select>
+	
+	<update id="updateThumbNail">
+		update mind set thumbnail=#{thumbnail} where MindID=#{MindID}
+	</update>
+		
 </mapper>

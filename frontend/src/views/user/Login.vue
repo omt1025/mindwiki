@@ -64,8 +64,11 @@
 
             <!-- 비밀번호찾기 button -->
             <div class="text-right p-t-8 p-b-31">
-              <router-link to="/findpw">
+              <router-link to="/findpw" style="margin-right: 8px">
                 비밀번호 찾기
+              </router-link>
+              <router-link to="/signup">
+                회원가입
               </router-link>
             </div>
 
@@ -119,11 +122,31 @@
 </template>
 
 <style scoped>
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  /* Specific to this particular image */
+  .login_back {
+    background-image: url(../../assets/images/user/bg-01.jpg);
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 360px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+
 .login_back {
   background-image: url(../../assets/images/user/bg-01.jpg);
+  background-size: cover;
   /* Set rules to fill background */
   min-height: 100%;
-  min-width: 375px;
+  min-width: 360px;
 
   /* Set up proportionate scaling */
   width: 100%;
@@ -223,16 +246,16 @@ export default {
           if (this.message === 'SUCCESS') {
             this.$store.dispatch('setMessage', null); // message 재사용 위해
             this.$router.push(`/main`); // main페이지로 이동
-            this.$router.go(this.$router.currentRoute);
           } else {
             // 로그인 실패 : 다이얼로그 띄우기
+
             this.showAlert('이메일과 비밀번호를 다시 한 번 확인해주세요.');
           }
         })
         .catch(({ message }) => (this.msg = message));
 
       // 탭 초기화(재사용 위해)
-      this.message = '';
+      this.$store.dispatch('setMessage', null);
       this.$store.dispatch('setMainTab', 0);
       this.$store.dispatch('setBottomNav', 'home');
     },
@@ -249,9 +272,7 @@ export default {
     // https://vuejsexamples.com/slim-dialog-for-vuejs/
     showAlert(msg) {
       const options = { title: '로그인 실패', size: 'sm' };
-      this.$dialogs.alert(msg, options).then((res) => {
-        console.log(res); // {ok: true|false|undefined}
-      });
+      this.$dialogs.alert(msg, options).then(() => {});
     },
   },
 };
