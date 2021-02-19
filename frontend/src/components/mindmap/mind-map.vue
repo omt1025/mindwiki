@@ -253,8 +253,6 @@ import Vue from 'vue';
 import VTooltip from 'v-tooltip';
 import BackNavi from '../navi/BackNavi.vue';
 
-import { mapGetters } from 'vuex';
-
 Vue.use(VTooltip);
 
 export default {
@@ -304,7 +302,13 @@ export default {
       reasonCount: 0,
       output: null,
       message: '',
+      cards: '',
     };
+  },
+  created() {
+    this.$store.dispatch('readMindMap', this.$store.getters.getJWT).then(() => {
+      this.cards = this.$store.state.cards;
+    });
   },
   mounted() {
     this.$refs.swipeableBottomSheet.setState('close');
@@ -333,7 +337,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['cards']),
     levelNodes() {
       const levelNodes = [];
       let currentLevel = this.mapData;
@@ -670,10 +673,10 @@ export default {
           ) {
             console.log('ssss');
             this.print(no);
-            this.updatemapdata();
           }
         }
       }
+      this.updatemapdata();
     },
     // 뒤로 가기 버튼[YJS]
     backPage: function() {
@@ -701,6 +704,7 @@ export default {
       this.$store.dispatch('captureImage', form).then(() => {
         // 응답 결과
         this.message = this.$store.getters.message;
+        this.$router.push('/main');
       });
     },
     // 캡쳐한 이미지를 서버 전송을 위해 파일형식으로 변환 메소드

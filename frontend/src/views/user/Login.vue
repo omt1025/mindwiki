@@ -106,7 +106,7 @@
                     'access_type=online&' +
                     'include_granted_scopes=true&' +
                     'response_type=code&' +
-                    'redirect_uri=http%3A//i4a204.p.ssafy.io:8000/mindwiki/GoogleOAuth&' +
+                    'redirect_uri=http%3A//localhost:8000/mindwiki/GoogleOAuth&' +
                     'client_id=659791765906-faeludmkkn7l8vqlk37pqlhhisu4n1hb.apps.googleusercontent.com'
                 "
               >
@@ -263,7 +263,7 @@ export default {
     // 카카오 로그인[YJS]
     loginWithKakao() {
       const params = {
-        redirectUri: 'http://i4a204.p.ssafy.io:8000/mindwiki/oauth',
+        redirectUri: 'http://localhost:8000/mindwiki/oauth',
       };
       window.Kakao.Auth.authorize(params);
     },

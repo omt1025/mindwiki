@@ -55,7 +55,7 @@ export default {
 }
 @media (min-width: 320px) and (max-width: 480px) {
   #list {
-    max-width: 360px;
+    max-width: 375px;
     margin: 0 auto;
   }
 }

@@ -138,4 +138,7 @@ export default {
     max-width: 1140px;
   }
 }
+#col {
+  padding: none;
+}
 </style>
